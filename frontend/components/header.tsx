@@ -26,6 +26,28 @@ export default function Header() {
     setShowPrivacyBanner(false)
   }
 
+  const handleGetStarted = () => {
+    const domain = process.env.NEXT_PUBLIC_KINDE_DOMAIN
+    const clientId = process.env.NEXT_PUBLIC_KINDE_CLIENT_ID
+    const audience = process.env.NEXT_PUBLIC_KINDE_AUDIENCE || "api://default"
+    const redirect = process.env.NEXT_PUBLIC_KINDE_REDIRECT_URI ||
+      (typeof window !== "undefined" ? `${window.location.origin}/callback` : "")
+
+    if (!domain || !clientId || !redirect) {
+      console.warn("Kinde env vars missing. Please set NEXT_PUBLIC_KINDE_DOMAIN, NEXT_PUBLIC_KINDE_CLIENT_ID, NEXT_PUBLIC_KINDE_REDIRECT_URI")
+      return
+    }
+    const url = new URL(`https://${domain}/oauth2/auth`)
+    url.searchParams.set("client_id", clientId)
+    url.searchParams.set("redirect_uri", redirect)
+    url.searchParams.set("response_type", "code")
+    url.searchParams.set("scope", "openid profile email")
+    url.searchParams.set("audience", audience)
+    if (typeof window !== "undefined") {
+      window.location.href = url.toString()
+    }
+  }
+
   return (
     <>
       {/* Privacy Notice Banner */}
@@ -101,7 +123,7 @@ export default function Header() {
                   className="pl-10 w-48 bg-slate-800 border-slate-700 text-white"
                 />
               </div>
-              <Button className="bg-orange-500 hover:bg-orange-600">Get Started</Button>
+              <Button onClick={handleGetStarted} className="bg-orange-500 hover:bg-orange-600">Get Started</Button>
             </div>
           </div>
         </div>
