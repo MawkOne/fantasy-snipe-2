@@ -20,7 +20,10 @@ const badgeVariants = cva(
   },
 )
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {}
+// Explicitly expose the `variant` prop to avoid inference issues during some builds
+export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: "default" | "secondary" | "destructive" | "outline"
+}
 
 function Badge({ className, variant, ...props }: BadgeProps) {
   return <div className={cn(badgeVariants({ variant }), className)} {...props} />
