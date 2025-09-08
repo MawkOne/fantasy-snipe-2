@@ -351,6 +351,18 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
   const [benchSet, setBenchSet] = useState<Set<string>>(new Set())
   const [targets, setTargets] = useState<Record<string, { player: any | null; bid: string }>>({})
 
+  // Map seeded team ids to real team names from Stage1 data (when available)
+  const nameById = useMemo(() => {
+    const map: Record<string, string> = {}
+    const real = (stage1Teams || []).map((t: any) => (t?.team_name || t?.team || t?.name || "").toString())
+    if (real.length) {
+      for (let i = 0; i < teams.length; i++) {
+        if (real[i]) map[teams[i].id] = real[i]
+      }
+    }
+    return map
+  }, [stage1Teams, teams])
+
   function toggleBench(playerName: string) {
     const key = normalizeName(playerName)
     setBenchSet((prev) => {
@@ -923,9 +935,9 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                             isTie ? "bg-orange-400 text-white" : undefined,
                             hasAdv ? "ring-2 ring-orange-700" : undefined,
                           )}
-                          title={t.name}
+                          title={nameById[t.id] || t.name}
                         >
-                          {teamAbbr(t.name)}
+                          {teamAbbr(nameById[t.id] || t.name)}
                         </div>
                         {revealed && (
                           <div className="mt-1 text-[11px] text-slate-600 tabular-nums">{bid != null ? `$${bid}` : "—"}</div>
