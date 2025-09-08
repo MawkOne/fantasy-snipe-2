@@ -1,0 +1,164 @@
+
+
+
+
+
+Target: GOALS
+LassoCV R^2 (mean±std): 0.805 ± 0.002
+Selected combo (Lasso, top 10):
+  - shooting_efficiency            coef=+0.270
+  - shots                          coef=+0.100
+  - power_play_goals               coef=+0.071
+  - GF                             coef=+0.064
+  - game_winning_goals             coef=+0.039
+  - plus_minus                     coef=+0.029
+  - SF                             coef=-0.022
+  - PDO                            coef=-0.017
+  - shorthanded_goals              coef=+0.017
+  - shifts                         coef=-0.015
+
+RandomForest R^2 (mean±std): 0.997 ± 0.001
+Top features (RF, top 10):
+  - shooting_efficiency            importance=0.9327
+  - shots                          importance=0.0489
+  - power_play_goals               importance=0.0083
+  - plus_minus                     importance=0.0056
+  - shot_attempt_efficiency        importance=0.0005
+  - GF                             importance=0.0005
+  - PDO                            importance=0.0004
+  - toi_minutes                    importance=0.0003
+  - TOI_seconds                    importance=0.0002
+  - shifts                         importance=0.0002
+
+Target: ASSISTS
+LassoCV R^2 (mean±std): 0.444 ± 0.008
+Selected combo (Lasso, top 10):
+  - power_play_points              coef=+0.323
+  - plus_minus                     coef=+0.195
+  - power_play_goals               coef=-0.164
+  - GA                             coef=+0.085
+  - shorthanded_points             coef=+0.083
+  - GF                             coef=+0.072
+  - shooting_efficiency            coef=-0.071
+  - shorthanded_goals              coef=-0.065
+  - TOI_seconds                    coef=-0.055
+  - shifts                         coef=+0.050
+
+RandomForest R^2 (mean±std): 0.445 ± 0.012
+Top features (RF, top 10):
+  - power_play_points              importance=0.1994
+  - plus_minus                     importance=0.1709
+  - toi_minutes                    importance=0.1071
+  - power_play_goals               importance=0.0646
+  - shifts                         importance=0.0498
+  - shooting_efficiency            importance=0.0309
+  - shots                          importance=0.0241
+  - PDO                            importance=0.0239
+  - TOI_seconds                    importance=0.0206
+  - GF60                           importance=0.0196
+
+Target: POINTS
+LassoCV R^2 (mean±std): 0.638 ± 0.008
+Selected combo (Lasso, top 10):
+  - power_play_points              coef=+0.314
+  - plus_minus                     coef=+0.224
+  - shooting_efficiency            coef=+0.199
+  - GF                             coef=+0.131
+  - shots                          coef=+0.124
+  - power_play_goals               coef=-0.092
+  - GA                             coef=+0.082
+  - shorthanded_points             coef=+0.079
+  - TOI_seconds                    coef=-0.051
+  - shot_percentage                coef=-0.048
+
+RandomForest R^2 (mean±std): 0.663 ± 0.010
+Top features (RF, top 10):
+  - shooting_efficiency            importance=0.3709
+  - power_play_points              importance=0.1582
+  - plus_minus                     importance=0.1327
+  - toi_minutes                    importance=0.0653
+  - shifts                         importance=0.0311
+  - shots                          importance=0.0168
+  - PDO                            importance=0.0151
+  - shot_attempt_efficiency        importance=0.0125
+  - TOI_seconds                    importance=0.0117
+  - goals_per_60                   importance=0.0114
+
+
+
+
+  Target: GOALS
+  Lasso R^2: 0.764 ± 0.009
+  Lasso top features:
+    - finishing_index           +0.313
+    - shots_EV_est              +0.080
+    - GF                        +0.079
+    - shots_PP_est              +0.040
+    - PDO                       -0.030
+    - SF60                      -0.027
+    - shots_SH_est              +0.019
+    - GA                        -0.012
+    - TOI_seconds               -0.011
+    - SF                        -0.010
+  RF R^2: 0.990 ± 0.003
+  RF top features:
+    - finishing_index           0.9343
+    - shots_EV_est              0.0553
+    - shots_PP_est              0.0039
+    - shots_SH_est              0.0020
+    - GF                        0.0007
+    - toi_EV_min                0.0005
+    - ev_burden                 0.0005
+    - PDO                       0.0004
+    - teammates_on_ice_avg      0.0003
+    - toi_SH_min                0.0002
+Target: ASSISTS
+  Lasso R^2: 0.129 ± 0.007
+  Lasso top features:
+    - GF                        +0.240
+    - TOI_seconds               -0.190
+    - CF                        +0.129
+    - CF60                      -0.072
+    - teammate_variants         +0.065
+    - finishing_index           -0.059
+    - teammates_on_ice_avg      -0.040
+    - SF60                      -0.028
+    - CA                        -0.026
+    - shots_EV_est              +0.024
+  RF R^2: 0.149 ± 0.010
+  RF top features:
+    - GF60                      0.1058
+    - shots_EV_est              0.0628
+    - shots_PP_est              0.0600
+    - teammate_variants         0.0593
+    - toi_EV_min                0.0534
+    - ev_burden                 0.0526
+    - TOI_seconds               0.0512
+    - teammates_on_ice_avg      0.0495
+    - toi_SH_min                0.0493
+    - shots_SH_est              0.0383
+Target: POINTS
+  Lasso R^2: 0.434 ± 0.005
+  Lasso top features:
+    - GF                        +0.318
+    - finishing_index           +0.254
+    - TOI_seconds               -0.196
+    - shots_EV_est              +0.105
+    - CF                        +0.104
+    - shots_PP_est              +0.059
+    - SF60                      -0.058
+    - teammate_variants         +0.056
+    - PDO                       -0.050
+    - CF60                      -0.049
+  RF R^2: 0.488 ± 0.007
+  RF top features:
+    - finishing_index           0.3946
+    - GF60                      0.0642
+    - GF                        0.0456
+    - shots_EV_est              0.0453
+    - shots_PP_est              0.0383
+    - teammate_variants         0.0354
+    - ev_burden                 0.0314
+    - toi_EV_min                0.0312
+    - TOI_seconds               0.0301
+    - teammates_on_ice_avg      0.0297

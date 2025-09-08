@@ -1,0 +1,41 @@
+// components/header.tsx
+import Link from 'next/link';
+import { Button } from '@chakra-ui/react';
+
+const Header = () => {
+  return (
+    <header className="bg-white p-4">
+      <nav className="flex space-x-4">
+        <Link href="/draft-wizard" className="hover:text-orange-400 transition-colors">
+          Draft Wizard
+        </Link>
+        <Link href="/draft-wizard/mock-draft-simulator" className="hover:text-orange-400 transition-colors">
+          Mock Draft
+        </Link>
+        {/* rest of code here */}
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
+
+// components/draft-wizard-dashboard.tsx
+import Link from 'next/link';
+import { Button } from '@chakra-ui/react';
+
+const DraftWizardDashboard = () => {
+  return (
+    <div className="bg-gray-100 p-8">
+      <h1 className="text-2xl font-bold mb-4">Draft Wizard Dashboard</h1>
+      <Link href="/draft-wizard/mock-draft-simulator">
+        <Button variant="outline" className="w-full bg-transparent">
+          Start Mock
+        </Button>
+      </Link>
+      {/* rest of code here */}
+    </div>
+  );
+};
+
+export default DraftWizardDashboard;

@@ -1,0 +1,11 @@
+- do certain players create passes that lead to shots in better areas of the ice (HD scoring)
+- do coaches deploy ice time differently than others
+- how often do players seasons swing up and down. Is betting on a bounce back season a good idea
+- what are the clusters for age group performance
+- have age curves changed over time
+- do players in contract years perform better
+- are some players first half or second half performers
+- Is comparing historical players performance a better indicator of future performance for younger players, or are age curves better.
+- does junior performance translate into NHL performance - https://thibaudchatel.substack.com/p/nhle-numbers-updated-for-2025
+- does it make sense to have individual models for players based on their career inputs
+- could we monte carlo sim a players remaining career based on their stats to date.

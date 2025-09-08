@@ -1,0 +1,33 @@
+team_id,full_name,tri_code,ev_mae,ev_rmse,pp_mae,pp_rmse,pk_mae,pk_rmse
+1,New Jersey Devils,NJD,0.0,0.0,0.0,0.0,0.0,0.0
+2,New York Islanders,NYI,0.0,0.0,0.0,0.0,0.0,0.0
+3,New York Rangers,NYR,0.0,0.0,0.0,0.0,0.0,0.0
+4,Philadelphia Flyers,PHI,0.0,0.0,0.0,0.0,0.0,0.0
+5,Pittsburgh Penguins,PIT,0.0,0.0,0.0,0.0,0.0,0.0
+6,Boston Bruins,BOS,0.0,0.0,0.0,0.0,0.0,0.0
+7,Buffalo Sabres,BUF,0.0,0.0,0.0,0.0,0.0,0.0
+8,Montréal Canadiens,MTL,0.0,0.0,0.0,0.0,0.0,0.0
+9,Ottawa Senators,OTT,0.0,0.0,0.0,0.0,0.0,0.0
+10,Toronto Maple Leafs,TOR,0.0,0.0,0.0,0.0,0.0,0.0
+12,Carolina Hurricanes,CAR,0.0,0.0,0.0,0.0,0.0,0.0
+13,Florida Panthers,FLA,0.0,0.0,0.0,0.0,0.0,0.0
+14,Tampa Bay Lightning,TBL,0.0,0.0,0.0,0.0,0.0,0.0
+15,Washington Capitals,WSH,0.0,0.0,0.0,0.0,0.0,0.0
+16,Chicago Blackhawks,CHI,0.0,0.0,0.0,0.0,0.0,0.0
+17,Detroit Red Wings,DET,0.0,0.0,0.0,0.0,0.0,0.0
+18,Nashville Predators,NSH,0.0,0.0,0.0,0.0,0.0,0.0
+19,St. Louis Blues,STL,0.0,0.0,0.0,0.0,0.0,0.0
+20,Calgary Flames,CGY,0.0,0.0,0.0,0.0,0.0,0.0
+21,Colorado Avalanche,COL,0.0,0.0,0.0,0.0,0.0,0.0
+22,Edmonton Oilers,EDM,0.0,0.0,0.0,0.0,0.0,0.0
+23,Vancouver Canucks,VAN,0.0,0.0,0.0,0.0,0.0,0.0
+24,Anaheim Ducks,ANA,0.0,0.0,0.0,0.0,0.0,0.0
+25,Dallas Stars,DAL,0.0,0.0,0.0,0.0,0.0,0.0
+26,Los Angeles Kings,LAK,0.0,0.0,0.0,0.0,0.0,0.0
+28,San Jose Sharks,SJS,0.0,0.0,0.0,0.0,0.0,0.0
+29,Columbus Blue Jackets,CBJ,0.0,0.0,0.0,0.0,0.0,0.0
+30,Minnesota Wild,MIN,0.0,0.0,0.0,0.0,0.0,0.0
+52,Winnipeg Jets,WPG,0.0,0.0,0.0,0.0,0.0,0.0
+53,Arizona Coyotes,ARI,0.0,0.0,0.0,0.0,0.0,0.0
+54,Vegas Golden Knights,VGK,0.0,0.0,0.0,0.0,0.0,0.0
+55,Seattle Kraken,SEA,0.0,0.0,0.0,0.0,0.0,0.0
