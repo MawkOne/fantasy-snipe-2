@@ -10,12 +10,16 @@ const nextConfig = {
     unoptimized: true,
   },
   async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:8000/api/:path*',
-      },
-    ]
+    // Only proxy to local FastAPI when NEXT_PUBLIC_USE_LOCAL_API is 'true'
+    if (process.env.NEXT_PUBLIC_USE_LOCAL_API === 'true') {
+      return [
+        {
+          source: '/api/:path*',
+          destination: 'http://localhost:8000/api/:path*',
+        },
+      ]
+    }
+    return []
   },
 }
 
