@@ -2,15 +2,53 @@
 
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
+import { useAuth } from "@/lib/auth-context"
 
 export default function CallbackPage() {
   const router = useRouter()
+  const { login } = useAuth()
 
   useEffect(() => {
-    // For now, just redirect to draft room
-    // In a real implementation, you'd parse the auth code from the URL
-    // and exchange it for tokens
-    router.push("/draft-room-uhhp")
+    async function handle() {
+      try {
+        const params = new URLSearchParams(window.location.search)
+        const code = params.get("code") || ""
+        const state = params.get("state") || ""
+        const expected = (() => { try { return sessionStorage.getItem("kinde_oauth_state") || "" } catch { return "" } })()
+        if (!code) {
+          router.replace("/login")
+          return
+        }
+        // Optional: validate state
+        if (expected && state && expected !== state) {
+          router.replace("/login")
+          return
+        }
+        const redirectUri = `${window.location.origin}/callback`
+        const res = await fetch("/api/auth/token", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code, redirectUri }),
+          cache: "no-store",
+        })
+        if (!res.ok) {
+          router.replace("/login")
+          return
+        }
+        const data = await res.json()
+        const email = data?.profile?.email || data?.tokens?.user_info?.email || ""
+        const name = data?.profile?.name || data?.tokens?.user_info?.name || ""
+        if (email) {
+          login(email, name)
+          router.replace("/draft-room-uhhp")
+        } else {
+          router.replace("/login")
+        }
+      } catch {
+        router.replace("/login")
+      }
+    }
+    handle()
   }, [router])
 
   return (
