@@ -4,10 +4,14 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, X } from "lucide-react"
+import { Search, X, User, LogOut } from "lucide-react"
+import { useAuth } from "@/lib/auth-context"
+import LoginModal from "@/components/login-modal"
 
 export default function Header() {
   const [showPrivacyBanner, setShowPrivacyBanner] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const { user, teamMembership, logout } = useAuth()
 
   useEffect(() => {
     // Check if user has already accepted terms
@@ -26,26 +30,12 @@ export default function Header() {
     setShowPrivacyBanner(false)
   }
 
-  const handleGetStarted = () => {
-    const domain = process.env.NEXT_PUBLIC_KINDE_DOMAIN
-    const clientId = process.env.NEXT_PUBLIC_KINDE_CLIENT_ID
-    const audience = process.env.NEXT_PUBLIC_KINDE_AUDIENCE || "api://default"
-    const redirect = process.env.NEXT_PUBLIC_KINDE_REDIRECT_URI ||
-      (typeof window !== "undefined" ? `${window.location.origin}/callback` : "")
+  const handleLogin = () => {
+    setShowLoginModal(true)
+  }
 
-    if (!domain || !clientId || !redirect) {
-      console.warn("Kinde env vars missing. Please set NEXT_PUBLIC_KINDE_DOMAIN, NEXT_PUBLIC_KINDE_CLIENT_ID, NEXT_PUBLIC_KINDE_REDIRECT_URI")
-      return
-    }
-    const url = new URL(`https://${domain}/oauth2/auth`)
-    url.searchParams.set("client_id", clientId)
-    url.searchParams.set("redirect_uri", redirect)
-    url.searchParams.set("response_type", "code")
-    url.searchParams.set("scope", "openid profile email")
-    url.searchParams.set("audience", audience)
-    if (typeof window !== "undefined") {
-      window.location.href = url.toString()
-    }
+  const handleLogout = () => {
+    logout()
   }
 
   return (
@@ -123,11 +113,43 @@ export default function Header() {
                   className="pl-10 w-48 bg-slate-800 border-slate-700 text-white"
                 />
               </div>
-              <Button onClick={handleGetStarted} className="bg-orange-500 hover:bg-orange-600">Get Started</Button>
+              
+              {user ? (
+                <div className="flex items-center space-x-3">
+                  {teamMembership && (
+                    <div className="text-sm text-gray-300">
+                      <span className="text-orange-400">{teamMembership.team_name}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center space-x-2">
+                    <User className="w-4 h-4 text-gray-300" />
+                    <span className="text-sm text-gray-300">{user?.email}</span>
+                  </div>
+                  <Button 
+                    onClick={handleLogout} 
+                    variant="outline" 
+                    size="sm"
+                    className="border-gray-600 text-gray-300 hover:bg-gray-800"
+                  >
+                    <LogOut className="w-4 h-4 mr-1" />
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <Button onClick={handleLogin} className="bg-orange-500 hover:bg-orange-600">
+                  Get Started
+                </Button>
+              )}
             </div>
           </div>
         </div>
       </header>
+
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={showLoginModal} 
+        onClose={() => setShowLoginModal(false)} 
+      />
     </>
   )
 }

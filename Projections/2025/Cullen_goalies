@@ -1,0 +1,602 @@
+[
+    {
+        "player_id": 8476945,
+        "Goalie": "Connor Hellebuyck",
+        "Team_Abbreviation": "Winnipeg",
+        "Games_Played": 62,
+        "Wins_Goalie": 37,
+        "Goals_Against_Average": 2.29,
+        "Sv_Pct": 0.922,
+        "Shutouts_Goalie": 5
+    },
+    {
+        "player_id": 8476883,
+        "Goalie": "Andrei Vasilevskiy",
+        "Team_Abbreviation": "Tampa Bay",
+        "Games_Played": 60,
+        "Wins_Goalie": 35,
+        "Goals_Against_Average": 2.56,
+        "Sv_Pct": 0.913,
+        "Shutouts_Goalie": 4
+    },
+    {
+        "player_id": 8479979,
+        "Goalie": "Jake Oettinger",
+        "Team_Abbreviation": "Dallas",
+        "Games_Played": 58,
+        "Wins_Goalie": 35,
+        "Goals_Against_Average": 2.55,
+        "Sv_Pct": 0.911,
+        "Shutouts_Goalie": 3
+    },
+    {
+        "player_id": 8478048,
+        "Goalie": "Igor Shesterkin",
+        "Team_Abbreviation": "N.Y. Rangers",
+        "Games_Played": 58,
+        "Wins_Goalie": 31,
+        "Goals_Against_Average": 2.34,
+        "Sv_Pct": 0.911,
+        "Shutouts_Goalie": 4
+    },
+    {
+        "player_id": 8475683,
+        "Goalie": "Sergei Bobrovsky",
+        "Team_Abbreviation": "Florida",
+        "Games_Played": 55,
+        "Wins_Goalie": 32,
+        "Goals_Against_Average": 2.58,
+        "Sv_Pct": 0.907,
+        "Shutouts_Goalie": 4
+    },
+    {
+        "player_id": 8478406,
+        "Goalie": "Mackenzie Blackwood",
+        "Team_Abbreviation": "Colorado",
+        "Games_Played": 52,
+        "Wins_Goalie": 31,
+        "Goals_Against_Average": 2.7,
+        "Sv_Pct": 0.909,
+        "Shutouts_Goalie": 3
+    },
+    {
+        "player_id": 8476999,
+        "Goalie": "Linus Ullmark",
+        "Team_Abbreviation": "Ottawa",
+        "Games_Played": 50,
+        "Wins_Goalie": 29,
+        "Goals_Against_Average": 2.57,
+        "Sv_Pct": 0.916,
+        "Shutouts_Goalie": 3
+    },
+    {
+        "player_id": 8478009,
+        "Goalie": "Ilya Sorokin",
+        "Team_Abbreviation": "N.Y. Islanders",
+        "Games_Played": 60,
+        "Wins_Goalie": 29,
+        "Goals_Against_Average": 2.68,
+        "Sv_Pct": 0.913,
+        "Shutouts_Goalie": 4
+    },
+    {
+        "player_id": 8481692,
+        "Goalie": "Dustin Wolf",
+        "Team_Abbreviation": "Calgary",
+        "Games_Played": 55,
+        "Wins_Goalie": 30,
+        "Goals_Against_Average": 2.63,
+        "Sv_Pct": 0.908,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8479406,
+        "Goalie": "Filip Gustavsson",
+        "Team_Abbreviation": "Minnesota",
+        "Games_Played": 52,
+        "Wins_Goalie": 27,
+        "Goals_Against_Average": 2.59,
+        "Sv_Pct": 0.914,
+        "Shutouts_Goalie": 4
+    },
+    {
+        "player_id": 8480313,
+        "Goalie": "Logan Thompson",
+        "Team_Abbreviation": "Washington",
+        "Games_Played": 46,
+        "Wins_Goalie": 28,
+        "Goals_Against_Average": 2.61,
+        "Sv_Pct": 0.911,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8480280,
+        "Goalie": "Jeremy Swayman",
+        "Team_Abbreviation": "Boston",
+        "Games_Played": 55,
+        "Wins_Goalie": 27,
+        "Goals_Against_Average": 2.63,
+        "Sv_Pct": 0.908,
+        "Shutouts_Goalie": 4
+    },
+    {
+        "player_id": 8478499,
+        "Goalie": "Adin Hill",
+        "Team_Abbreviation": "Vegas",
+        "Games_Played": 50,
+        "Wins_Goalie": 28,
+        "Goals_Against_Average": 2.54,
+        "Sv_Pct": 0.909,
+        "Shutouts_Goalie": 3
+    },
+    {
+        "player_id": 8479973,
+        "Goalie": "Stuart Skinner",
+        "Team_Abbreviation": "Edmonton",
+        "Games_Played": 55,
+        "Wins_Goalie": 31,
+        "Goals_Against_Average": 2.72,
+        "Sv_Pct": 0.905,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8477424,
+        "Goalie": "Juuse Saros",
+        "Team_Abbreviation": "Nashville",
+        "Games_Played": 61,
+        "Wins_Goalie": 29,
+        "Goals_Against_Average": 2.88,
+        "Sv_Pct": 0.907,
+        "Shutouts_Goalie": 3
+    },
+    {
+        "player_id": 8476412,
+        "Goalie": "Jordan Binnington",
+        "Team_Abbreviation": "St. Louis",
+        "Games_Played": 58,
+        "Wins_Goalie": 28,
+        "Goals_Against_Average": 2.89,
+        "Sv_Pct": 0.903,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8481611,
+        "Goalie": "Pyotr Kochetkov",
+        "Team_Abbreviation": "Carolina",
+        "Games_Played": 46,
+        "Wins_Goalie": 26,
+        "Goals_Against_Average": 2.37,
+        "Sv_Pct": 0.907,
+        "Shutouts_Goalie": 4
+    },
+    {
+        "player_id": 8478916,
+        "Goalie": "Joey Daccord",
+        "Team_Abbreviation": "Seattle",
+        "Games_Played": 54,
+        "Wins_Goalie": 25,
+        "Goals_Against_Average": 2.61,
+        "Sv_Pct": 0.911,
+        "Shutouts_Goalie": 3
+    },
+    {
+        "player_id": 8475311,
+        "Goalie": "Darcy Kuemper",
+        "Team_Abbreviation": "Los Angeles",
+        "Games_Played": 50,
+        "Wins_Goalie": 25,
+        "Goals_Against_Average": 2.66,
+        "Sv_Pct": 0.908,
+        "Shutouts_Goalie": 3
+    },
+    {
+        "player_id": 8475883,
+        "Goalie": "Frederik Andersen",
+        "Team_Abbreviation": "Carolina",
+        "Games_Played": 36,
+        "Wins_Goalie": 23,
+        "Goals_Against_Average": 2.35,
+        "Sv_Pct": 0.909,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8477967,
+        "Goalie": "Thatcher Demko",
+        "Team_Abbreviation": "Vancouver",
+        "Games_Played": 44,
+        "Wins_Goalie": 23,
+        "Goals_Against_Average": 2.7,
+        "Sv_Pct": 0.91,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8476932,
+        "Goalie": "Anthony Stolarz",
+        "Team_Abbreviation": "Toronto",
+        "Games_Played": 41,
+        "Wins_Goalie": 22,
+        "Goals_Against_Average": 2.67,
+        "Sv_Pct": 0.913,
+        "Shutouts_Goalie": 3
+    },
+    {
+        "player_id": 8478872,
+        "Goalie": "Karel Vejmelka",
+        "Team_Abbreviation": "Utah",
+        "Games_Played": 48,
+        "Wins_Goalie": 22,
+        "Goals_Against_Average": 2.87,
+        "Sv_Pct": 0.902,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8479361,
+        "Goalie": "Joseph Woll",
+        "Team_Abbreviation": "Toronto",
+        "Games_Played": 41,
+        "Wins_Goalie": 21,
+        "Goals_Against_Average": 2.84,
+        "Sv_Pct": 0.908,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8478470,
+        "Goalie": "Sam Montembeault",
+        "Team_Abbreviation": "Montreal",
+        "Games_Played": 52,
+        "Wins_Goalie": 23,
+        "Goals_Against_Average": 3.11,
+        "Sv_Pct": 0.901,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8480843,
+        "Goalie": "Lukas Dostal",
+        "Team_Abbreviation": "Anaheim",
+        "Games_Played": 46,
+        "Wins_Goalie": 20,
+        "Goals_Against_Average": 3.09,
+        "Sv_Pct": 0.903,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8476434,
+        "Goalie": "John Gibson",
+        "Team_Abbreviation": "Detroit",
+        "Games_Played": 46,
+        "Wins_Goalie": 20,
+        "Goals_Against_Average": 2.94,
+        "Sv_Pct": 0.9,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8482982,
+        "Goalie": "Jet Greaves",
+        "Team_Abbreviation": "Columbus",
+        "Games_Played": 46,
+        "Wins_Goalie": 22,
+        "Goals_Against_Average": 2.87,
+        "Sv_Pct": 0.911,
+        "Shutouts_Goalie": 3
+    },
+    {
+        "player_id": 8481519,
+        "Goalie": "Spencer Knight",
+        "Team_Abbreviation": "Chicago",
+        "Games_Played": 48,
+        "Wins_Goalie": 20,
+        "Goals_Against_Average": 2.85,
+        "Sv_Pct": 0.903,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8480045,
+        "Goalie": "Ukko-Pekka Luukkonen",
+        "Team_Abbreviation": "Buffalo",
+        "Games_Played": 52,
+        "Wins_Goalie": 24,
+        "Goals_Against_Average": 3.06,
+        "Sv_Pct": 0.896,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8480947,
+        "Goalie": "Kevin Lankinen",
+        "Team_Abbreviation": "Vancouver",
+        "Games_Played": 40,
+        "Wins_Goalie": 19,
+        "Goals_Against_Average": 2.67,
+        "Sv_Pct": 0.909,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8482137,
+        "Goalie": "Yaroslav Askarov",
+        "Team_Abbreviation": "San Jose",
+        "Games_Played": 46,
+        "Wins_Goalie": 18,
+        "Goals_Against_Average": 2.91,
+        "Sv_Pct": 0.901,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8481668,
+        "Goalie": "Arturs Silovs",
+        "Team_Abbreviation": "Pittsburgh",
+        "Games_Played": 40,
+        "Wins_Goalie": 17,
+        "Goals_Against_Average": 2.88,
+        "Sv_Pct": 0.901,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8480981,
+        "Goalie": "Joel Hofer",
+        "Team_Abbreviation": "St. Louis",
+        "Games_Played": 30,
+        "Wins_Goalie": 15,
+        "Goals_Against_Average": 2.65,
+        "Sv_Pct": 0.908,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8475809,
+        "Goalie": "Scott Wedgewood",
+        "Team_Abbreviation": "Colorado",
+        "Games_Played": 29,
+        "Wins_Goalie": 15,
+        "Goals_Against_Average": 2.74,
+        "Sv_Pct": 0.907,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8479292,
+        "Goalie": "Charlie Lindgren",
+        "Team_Abbreviation": "Washington",
+        "Games_Played": 40,
+        "Wins_Goalie": 19,
+        "Goals_Against_Average": 2.78,
+        "Sv_Pct": 0.903,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8482447,
+        "Goalie": "Leevi Merilainen",
+        "Team_Abbreviation": "Ottawa",
+        "Games_Played": 31,
+        "Wins_Goalie": 16,
+        "Goals_Against_Average": 2.5,
+        "Sv_Pct": 0.909,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8477465,
+        "Goalie": "Tristan Jarry",
+        "Team_Abbreviation": "Pittsburgh",
+        "Games_Played": 42,
+        "Wins_Goalie": 19,
+        "Goals_Against_Average": 3.01,
+        "Sv_Pct": 0.899,
+        "Shutouts_Goalie": 3
+    },
+    {
+        "player_id": 8478435,
+        "Goalie": "Dan Vladar",
+        "Team_Abbreviation": "Philadelphia",
+        "Games_Played": 46,
+        "Wins_Goalie": 20,
+        "Goals_Against_Average": 2.87,
+        "Sv_Pct": 0.897,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8475660,
+        "Goalie": "Cam Talbot",
+        "Team_Abbreviation": "Detroit",
+        "Games_Played": 36,
+        "Wins_Goalie": 17,
+        "Goals_Against_Average": 2.76,
+        "Sv_Pct": 0.905,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8479193,
+        "Goalie": "Casey DeSmith",
+        "Team_Abbreviation": "Dallas",
+        "Games_Played": 27,
+        "Wins_Goalie": 13,
+        "Goals_Against_Average": 2.84,
+        "Sv_Pct": 0.907,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8482487,
+        "Goalie": "Jakub Dobes",
+        "Team_Abbreviation": "Montreal",
+        "Games_Played": 27,
+        "Wins_Goalie": 13,
+        "Goals_Against_Average": 2.94,
+        "Sv_Pct": 0.905,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8478971,
+        "Goalie": "Connor Ingram",
+        "Team_Abbreviation": "Utah",
+        "Games_Played": 30,
+        "Wins_Goalie": 13,
+        "Goals_Against_Average": 3.12,
+        "Sv_Pct": 0.902,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8480193,
+        "Goalie": "Daniil Tarasov",
+        "Team_Abbreviation": "Florida",
+        "Games_Played": 27,
+        "Wins_Goalie": 12,
+        "Goals_Against_Average": 2.84,
+        "Sv_Pct": 0.902,
+        "Shutouts_Goalie": 0
+    },
+    {
+        "player_id": 8481033,
+        "Goalie": "Akira Schmid",
+        "Team_Abbreviation": "Vegas",
+        "Games_Played": 34,
+        "Wins_Goalie": 11,
+        "Goals_Against_Average": 2.48,
+        "Sv_Pct": 0.911,
+        "Shutouts_Goalie": 0
+    },
+    {
+        "player_id": 8475717,
+        "Goalie": "Calvin Pickard",
+        "Team_Abbreviation": "Edmonton",
+        "Games_Played": 30,
+        "Wins_Goalie": 17,
+        "Goals_Against_Average": 2.61,
+        "Sv_Pct": 0.903,
+        "Shutouts_Goalie": 0
+    },
+    {
+        "player_id": 8481035,
+        "Goalie": "Samuel Ersson",
+        "Team_Abbreviation": "Philadelphia",
+        "Games_Played": 36,
+        "Wins_Goalie": 17,
+        "Goals_Against_Average": 2.88,
+        "Sv_Pct": 0.894,
+        "Shutouts_Goalie": 2
+    },
+    {
+        "player_id": 8477968,
+        "Goalie": "Alex Nedeljkovic",
+        "Team_Abbreviation": "San Jose",
+        "Games_Played": 36,
+        "Wins_Goalie": 15,
+        "Goals_Against_Average": 3.05,
+        "Sv_Pct": 0.898,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8476341,
+        "Goalie": "Anton Forsberg",
+        "Team_Abbreviation": "Los Angeles",
+        "Games_Played": 32,
+        "Wins_Goalie": 14,
+        "Goals_Against_Average": 2.8,
+        "Sv_Pct": 0.9,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8482661,
+        "Goalie": "Jesper Wallstedt",
+        "Team_Abbreviation": "Minnesota",
+        "Games_Played": 30,
+        "Wins_Goalie": 14,
+        "Goals_Against_Average": 3,
+        "Sv_Pct": 0.898,
+        "Shutouts_Goalie": 0
+    },
+    {
+        "player_id": 8478007,
+        "Goalie": "Elvis Merzlikins",
+        "Team_Abbreviation": "Columbus",
+        "Games_Played": 36,
+        "Wins_Goalie": 14,
+        "Goals_Against_Average": 3.4,
+        "Sv_Pct": 0.893,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8471734,
+        "Goalie": "Jonathan Quick",
+        "Team_Abbreviation": "N.Y. Rangers",
+        "Games_Played": 25,
+        "Wins_Goalie": 13,
+        "Goals_Against_Average": 2.89,
+        "Sv_Pct": 0.902,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8479496,
+        "Goalie": "David Rittich",
+        "Team_Abbreviation": "N.Y. Islanders",
+        "Games_Played": 26,
+        "Wins_Goalie": 13,
+        "Goals_Against_Average": 2.78,
+        "Sv_Pct": 0.901,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8479312,
+        "Goalie": "Alex Lyon",
+        "Team_Abbreviation": "Buffalo",
+        "Games_Played": 25,
+        "Wins_Goalie": 12,
+        "Goals_Against_Average": 2.94,
+        "Sv_Pct": 0.903,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8481020,
+        "Goalie": "Justus Annunen",
+        "Team_Abbreviation": "Nashville",
+        "Games_Played": 26,
+        "Wins_Goalie": 12,
+        "Goals_Against_Average": 2.89,
+        "Sv_Pct": 0.898,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8477480,
+        "Goalie": "Eric Comrie",
+        "Team_Abbreviation": "Winnipeg",
+        "Games_Played": 20,
+        "Wins_Goalie": 9,
+        "Goals_Against_Average": 2.99,
+        "Sv_Pct": 0.902,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8476914,
+        "Goalie": "Joonas Korpisalo",
+        "Team_Abbreviation": "Boston",
+        "Games_Played": 27,
+        "Wins_Goalie": 12,
+        "Goals_Against_Average": 3.22,
+        "Sv_Pct": 0.895,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8475831,
+        "Goalie": "Philipp Grubauer",
+        "Team_Abbreviation": "Seattle",
+        "Games_Played": 30,
+        "Wins_Goalie": 11,
+        "Goals_Against_Average": 2.97,
+        "Sv_Pct": 0.894,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8477992,
+        "Goalie": "Jonas Johansson",
+        "Team_Abbreviation": "Tampa Bay",
+        "Games_Played": 22,
+        "Wins_Goalie": 11,
+        "Goals_Against_Average": 3.18,
+        "Sv_Pct": 0.893,
+        "Shutouts_Goalie": 1
+    },
+    {
+        "player_id": 8482821,
+        "Goalie": "Arvid Soderblom",
+        "Team_Abbreviation": "Chicago",
+        "Games_Played": 34,
+        "Wins_Goalie": 10,
+        "Goals_Against_Average": 3.38,
+        "Sv_Pct": 0.893,
+        "Shutouts_Goalie": 0
+    }
+]

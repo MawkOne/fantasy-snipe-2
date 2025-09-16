@@ -3,6 +3,7 @@ import sys
 import requests
 import time
 from datetime import datetime
+import argparse
 from sqlalchemy.orm import sessionmaker
 
 # Add project root to the Python path
@@ -66,7 +67,7 @@ def populate_players_for_season(session, team, season_id):
     
     return new_players_count
 
-def populate_players(years_back=3):
+def populate_players(years_back=3, start_year=2024):
     """
     Fetches player roster data for each team for the last N seasons.
     """
@@ -89,9 +90,8 @@ def populate_players(years_back=3):
             return
 
         total_new_players = 0
-        # The user's current date is in 2025, so the last full season is 2024-2025.
-        # We go back from the 2024 season start year.
-        current_season_start_year = 2024 
+        # Go back from provided start year (e.g., 2025 for 2025-2026)
+        current_season_start_year = int(start_year)
         
         for i in range(years_back):
             season_start_year = current_season_start_year - i
@@ -121,5 +121,8 @@ def populate_players(years_back=3):
         print("Database session closed.")
 
 if __name__ == "__main__":
-    # Fetches players from the last 3 seasons (2024-25, 2023-24, 2022-23)
-    populate_players(years_back=3)
+    ap = argparse.ArgumentParser(description="Populate NHL players by team rosters for given seasons")
+    ap.add_argument("--start-year", type=int, default=2024, help="Season start year (e.g., 2025 for 2025-26)")
+    ap.add_argument("--years-back", type=int, default=3, help="How many seasons to include starting from start-year")
+    args = ap.parse_args()
+    populate_players(years_back=args.years_back, start_year=args.start_year)

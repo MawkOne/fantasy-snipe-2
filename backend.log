@@ -1,174 +1,124 @@
-INFO:     Will watch for changes in these directories: ['/Users/markhenderson/Cursor Projects/NHL-API']
+INFO:     Started server process [51114]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [71932] using StatReload
-🚀 Starting Fantasy Sports API Server
-📍 Host: 0.0.0.0
-🔌 Port: 8000
-🔄 Reload: True
-🌐 URL: http://0.0.0.0:8000
-📚 API Docs: http://0.0.0.0:8000/docs
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [71983]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:58725 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40 HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [71983]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [72172]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:58762 - "GET /api/rankings?season=20242025 HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [72172]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [72759]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:58840 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=5&method=quantile HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [72759]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [72962]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [72962]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [72987]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:58907 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=0&method=kmeans&value=points HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [72987]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [73197]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:59010 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=0&method=kmeans&value=points HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59012 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=0&method=kmeans&value=points HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [73197]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [73344]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:59162 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&method=gaps&tiers=0 HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [73344]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [73536]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [73536]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [73583]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:59267 - "GET /api/vorp_gaps?season=20242025&forwards_keep=25&defence_keep=15&value=points&gap_sigma=0.5 HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [73583]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [73785]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:59288 - "GET /api/rankings?season=20242025 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59289 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=0&method=kmeans&value=points HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59368 - "GET /api/rankings?season=20242025 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59369 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=10&method=kmeans&value=points HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [73785]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [73862]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [73862]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [73874]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:59495 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=10&method=gaps&value=points&gap_sigma=0.3 HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [73874]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [74020]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:59757 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=10&method=gaps&value=points&gap_sigma=0.3 HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [74020]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [74240]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:59780 - "GET /api/rankings?season=20242025 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59781 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=10&method=gaps&value=points&gap_sigma=0.3 HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [74240]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [74380]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:59937 - "GET /api/vorp?season=20242025&centers_keep=40&wings_keep=60&defence_keep=40&tiers=10&method=gaps&value=points&gap_sigma=0.3 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59947 - "GET /api/rankings?season=20242025 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59949 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=10&method=gaps&value=points&gap_sigma=0.3 HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'src/api/main.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [74380]
-Environment detection: IS_CLOUD_RUN=False, K_SERVICE=NOT_SET, K_REVISION=NOT_SET
-INFO:     Started server process [74629]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:60295 - "GET /api/rankings?season=20242025 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60296 - "GET /api/vorp?season=20242025&forwards_keep=100&defence_keep=40&tiers=10&method=gaps&value=points&gap_sigma=0.3 HTTP/1.1" 200 OK
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [74629]
-INFO:     Stopping reloader process [71932]
+INFO:     127.0.0.1:60722 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60722 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60722 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60722 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60722 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60722 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60722 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60744 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:60746 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60722 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60749 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60751 - "GET /api/public/cbs/league/uhhp/teams HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60752 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60755 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60757 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:60746 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60722 - "OPTIONS /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60749 - "OPTIONS /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60751 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60752 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60755 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60746 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60722 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60749 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60883 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60885 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:60887 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60891 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60892 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60894 - "GET /api/public/cbs/league/uhhp/teams HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60895 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60883 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60887 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60891 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60892 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60894 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60897 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:60895 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60883 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60887 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60891 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60918 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60918 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60918 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60918 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60918 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60918 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60918 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60918 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60918 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61121 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:61123 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61126 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61128 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61130 - "GET /api/public/cbs/league/uhhp/teams HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61132 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61133 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61123 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61126 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61128 - "OPTIONS /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61130 - "OPTIONS /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61132 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61133 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61123 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61126 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61136 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:61128 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61130 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61132 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61123 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61904 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:61906 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61909 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61911 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61912 - "GET /api/public/cbs/league/uhhp/teams HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61915 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61917 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61906 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61909 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61911 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61912 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61915 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61919 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:61917 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61906 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61909 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61976 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:61979 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61981 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61982 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61985 - "GET /api/public/cbs/league/uhhp/teams HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61986 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61989 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61979 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61981 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61982 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61985 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61986 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61989 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61979 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61981 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61991 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:61986 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61979 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62058 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62061 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62062 - "WebSocket /ws/cbs/league/uhhp" [accepted]
+INFO:     127.0.0.1:62066 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62068 - "GET /api/public/cbs/league/uhhp/teams HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62070 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62071 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62058 - "GET /api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62061 - "GET /api/public/cbs/league/uhhp/draft_state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62066 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62068 - "POST /api/public/cbs/league/uhhp/cap_hits HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62070 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62071 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62058 - "GET /api/public/cbs/league/uhhp/auction/state HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62061 - "GET /api/projections?season=2025&league_id=1&limit=10000&source=avg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62073 - "WebSocket /ws/cbs/league/uhhp" [accepted]

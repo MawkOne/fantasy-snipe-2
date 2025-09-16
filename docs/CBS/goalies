@@ -1,0 +1,2988 @@
+<table class="data pinHeader" style="width:100%;">
+    <thead>
+        <tr class="title">
+            <td colspan="12">Free Agent Goalies   Projections Standard Categories</td>
+        </tr>
+        <tr class="label superheader"></tr>
+        <tr class="label">
+            <th align="left">Action</th>
+            <th class="sortableColumn" align="left">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=2">Avail</a>
+            </th>
+            <th class="sortableColumn" align="left">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=3">Player</a>
+            </th>
+            <th class="sortableColumn" align="right">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=4">GGP</a>
+            </th>
+            <th class="sortableColumn" align="right">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=5">W</a>
+            </th>
+            <th class="sortableColumn" align="right">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=6">L</a>
+            </th>
+            <th class="sortableColumn" align="right">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=7">SO</a>
+            </th>
+            <th class="sortableColumn" align="right">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=8">GAA</a>
+            </th>
+            <th class="sortableColumn" align="right">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=9">GA</a>
+            </th>
+            <th class="sortableColumn" align="right">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=10">S</a>
+            </th>
+            <th class="sortableColumn" align="right">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=11">SPct</a>
+            </th>
+            <th class="bold sortableColumn" align="right">
+                <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?:sort_dir=1&:sort_col=12">FPTS</a>
+            </th>
+        </tr>
+    </thead>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2039464"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2039464: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2039464\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2039464\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2039464, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Frederik Andersen G CAR' href='/players/playerpage/2039464'>Frederik Andersen</a>
+            <span class="playerPositionAndTeam">G &#149;CAR</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">36.72</td>
+        <td align="right">24.28</td>
+        <td align="right">3.95</td>
+        <td align="right">2.60</td>
+        <td align="right">169.22</td>
+        <td align="right">1500.04</td>
+        <td align="right">.899</td>
+        <td align="right" class="bold">175.74</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2000680"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2000680: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2000680\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2000680\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2000680, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Andrei Vasilevskiy G TB' href='/players/playerpage/2000680'>Andrei Vasilevskiy</a>
+            <span class="playerPositionAndTeam">G &#149;TB</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">36.69</td>
+        <td align="right">24.31</td>
+        <td align="right">3.47</td>
+        <td align="right">2.74</td>
+        <td align="right">178.34</td>
+        <td align="right">1526.28</td>
+        <td align="right">.895</td>
+        <td align="right" class="bold">168.96</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2198423"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2198423: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2198423\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2198423\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2198423, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' MacKenzie Blackwood G COL' href='/players/playerpage/2198423'>MacKenzie Blackwood</a>
+            <span class="playerPositionAndTeam">G &#149;COL</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">35.99</td>
+        <td align="right">25.01</td>
+        <td align="right">3.55</td>
+        <td align="right">2.69</td>
+        <td align="right">175.14</td>
+        <td align="right">1516.27</td>
+        <td align="right">.896</td>
+        <td align="right" class="bold">168.40</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2269444"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2269444: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2269444\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2269444\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2269444, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Adin Hill G LV' href='/players/playerpage/2269444'>Adin Hill</a>
+            <span class="playerPositionAndTeam">G &#149;LV</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">34.49</td>
+        <td align="right">26.51</td>
+        <td align="right">3.37</td>
+        <td align="right">2.76</td>
+        <td align="right">179.34</td>
+        <td align="right">1536.02</td>
+        <td align="right">.895</td>
+        <td align="right" class="bold">161.25</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1707422"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1707422: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1707422\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1707422\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1707422, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Darcy Kuemper G LA' href='/players/playerpage/1707422'>Darcy Kuemper</a>
+            <span class="playerPositionAndTeam">G &#149;LA</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">32.96</td>
+        <td align="right">28.04</td>
+        <td align="right">3.5</td>
+        <td align="right">2.74</td>
+        <td align="right">178.02</td>
+        <td align="right">1537.67</td>
+        <td align="right">.896</td>
+        <td align="right" class="bold">158.37</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2093868"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2093868: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2093868\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2093868\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2093868, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Anthony Stolarz G TOR' href='/players/playerpage/2093868'>Anthony Stolarz</a>
+            <span class="playerPositionAndTeam">G &#149;TOR</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">33.55</td>
+        <td align="right">27.45</td>
+        <td align="right">3.29</td>
+        <td align="right">2.79</td>
+        <td align="right">181.52</td>
+        <td align="right">1550.17</td>
+        <td align="right">.895</td>
+        <td align="right" class="bold">157.99</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1771067"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1771067: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1771067\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1771067\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1771067, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Sergei Bobrovsky G FLA' href='/players/playerpage/1771067'>Sergei Bobrovsky</a>
+            <span class="playerPositionAndTeam">G &#149;FLA</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">34</td>
+        <td align="right">27</td>
+        <td align="right">3.25</td>
+        <td align="right">2.80</td>
+        <td align="right">182.15</td>
+        <td align="right">1527.99</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">154.58</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1897608"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1897608: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1897608\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1897608\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1897608, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Jordan Binnington G STL' href='/players/playerpage/1897608'>Jordan Binnington</a>
+            <span class="playerPositionAndTeam">G &#149;STL</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">32.21</td>
+        <td align="right">28.79</td>
+        <td align="right">3.26</td>
+        <td align="right">2.79</td>
+        <td align="right">181.48</td>
+        <td align="right">1549.52</td>
+        <td align="right">.895</td>
+        <td align="right" class="bold">153.23</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_3107125"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    3107125: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:3107125\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_3107125\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 3107125, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Elvis Merzlikins G CLB' href='/players/playerpage/3107125'>Elvis Merzlikins</a>
+            <span class="playerPositionAndTeam">G &#149;CLB</span>
+            <span class="playerIconsWrapper">
+                <span title="Concussion: Probable for start of season">
+                    <a href="/players/playerpage/3107125" subtab="Injury Report" class="playerLink" aria-label="Injury Report: Concussion: Probable for start of season">
+                        <span class="icon-red_cross"></span>
+                    </a>
+                </span>
+            </span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">31.9</td>
+        <td align="right">29.1</td>
+        <td align="right">2.94</td>
+        <td align="right">2.90</td>
+        <td align="right">188.22</td>
+        <td align="right">1549.09</td>
+        <td align="right">.892</td>
+        <td align="right" class="bold">144.16</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1899095"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1899095: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1899095\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1899095\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1899095, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' John Gibson G DET' href='/players/playerpage/1899095'>John Gibson</a>
+            <span class="playerPositionAndTeam">G &#149;DET</span>
+            <span class="playerIconsWrapper">
+                <span title="Lower Body: Probable for start of season">
+                    <a href="/players/playerpage/1899095" subtab="Injury Report" class="playerLink" aria-label="Injury Report: Lower Body: Probable for start of season">
+                        <span class="icon-red_cross"></span>
+                    </a>
+                </span>
+            </span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">29.13</td>
+        <td align="right">31.87</td>
+        <td align="right">3.23</td>
+        <td align="right">2.82</td>
+        <td align="right">183.03</td>
+        <td align="right">1558.48</td>
+        <td align="right">.895</td>
+        <td align="right" class="bold">142.27</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26799360"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26799360: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26799360\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26799360\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26799360, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Karel Vejmelka G UTA' href='/players/playerpage/26799360'>Karel Vejmelka</a>
+            <span class="playerPositionAndTeam">G &#149;UTA</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">29.87</td>
+        <td align="right">31.13</td>
+        <td align="right">3.12</td>
+        <td align="right">2.83</td>
+        <td align="right">183.92</td>
+        <td align="right">1549.01</td>
+        <td align="right">.894</td>
+        <td align="right" class="bold">141.71</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2094585"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2094585: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2094585\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2094585\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2094585, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Tristan Jarry G PIT' href='/players/playerpage/2094585'>Tristan Jarry</a>
+            <span class="playerPositionAndTeam">G &#149;PIT</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">30.34</td>
+        <td align="right">30.66</td>
+        <td align="right">2.96</td>
+        <td align="right">2.88</td>
+        <td align="right">187.26</td>
+        <td align="right">1558.02</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">140.71</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_3110690"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    3110690: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:3110690\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_3110690\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 3110690, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Joey Daccord G SEA' href='/players/playerpage/3110690'>Joey Daccord</a>
+            <span class="playerPositionAndTeam">G &#149;SEA</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">29.71</td>
+        <td align="right">31.29</td>
+        <td align="right">3.03</td>
+        <td align="right">2.87</td>
+        <td align="right">186.62</td>
+        <td align="right">1562.29</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">140.36</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2275417"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2275417: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2275417\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2275417\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2275417, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Sam Montembeault G MON' href='/players/playerpage/2275417'>Sam Montembeault</a>
+            <span class="playerPositionAndTeam">G &#149;MON</span>
+            <span class="playerIconsWrapper">
+                <span title="Groin: Probable for start of season">
+                    <a href="/players/playerpage/2275417" subtab="Injury Report" class="playerLink" aria-label="Injury Report: Groin: Probable for start of season">
+                        <span class="icon-red_cross"></span>
+                    </a>
+                </span>
+            </span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">29.27</td>
+        <td align="right">31.73</td>
+        <td align="right">3.03</td>
+        <td align="right">2.87</td>
+        <td align="right">186.55</td>
+        <td align="right">1550.42</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">136.39</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2271608"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2271608: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2271608\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2271608\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2271608, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Thatcher Demko G VAN' href='/players/playerpage/2271608'>Thatcher Demko</a>
+            <span class="playerPositionAndTeam">G &#149;VAN</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">27.97</td>
+        <td align="right">33.03</td>
+        <td align="right">3.02</td>
+        <td align="right">2.87</td>
+        <td align="right">186.6</td>
+        <td align="right">1569.07</td>
+        <td align="right">.894</td>
+        <td align="right" class="bold">135.74</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2831903"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2831903: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2831903\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2831903\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2831903, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Ilya Sorokin G NYI' href='/players/playerpage/2831903'>Ilya Sorokin</a>
+            <span class="playerPositionAndTeam">G &#149;NYI</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">27.98</td>
+        <td align="right">33.02</td>
+        <td align="right">3.06</td>
+        <td align="right">2.85</td>
+        <td align="right">184.93</td>
+        <td align="right">1546.07</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">133.24</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26799033"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26799033: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26799033\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26799033\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26799033, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Samuel Ersson G PHI' href='/players/playerpage/26799033'>Samuel Ersson</a>
+            <span class="playerPositionAndTeam">G &#149;PHI</span>
+        </td>
+        <td align="right">65</td>
+        <td align="right">27.67</td>
+        <td align="right">33.33</td>
+        <td align="right">2.91</td>
+        <td align="right">2.90</td>
+        <td align="right">188.27</td>
+        <td align="right">1548.72</td>
+        <td align="right">.892</td>
+        <td align="right" class="bold">128.36</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2269435"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2269435: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2269435\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2269435\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2269435, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Casey DeSmith G DAL' href='/players/playerpage/2269435'>Casey DeSmith</a>
+            <span class="playerPositionAndTeam">G &#149;DAL</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">12.37</td>
+        <td align="right">8.63</td>
+        <td align="right">1.23</td>
+        <td align="right">2.71</td>
+        <td align="right">59.66</td>
+        <td align="right">525.63</td>
+        <td align="right">.898</td>
+        <td align="right" class="bold">59.34</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2094775"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2094775: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2094775\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2094775\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2094775, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Eric Comrie G WPG' href='/players/playerpage/2094775'>Eric Comrie</a>
+            <span class="playerPositionAndTeam">G &#149;WPG</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">11.57</td>
+        <td align="right">9.43</td>
+        <td align="right">1.15</td>
+        <td align="right">2.83</td>
+        <td align="right">62.2</td>
+        <td align="right">538.13</td>
+        <td align="right">.896</td>
+        <td align="right" class="bold">55.71</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2879807"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2879807: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2879807\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2879807\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2879807, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Jonas Johansson G TB' href='/players/playerpage/2879807'>Jonas Johansson</a>
+            <span class="playerPositionAndTeam">G &#149;TB</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">12.07</td>
+        <td align="right">8.93</td>
+        <td align="right">1</td>
+        <td align="right">2.94</td>
+        <td align="right">64.62</td>
+        <td align="right">536.78</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">54.11</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2147149"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2147149: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2147149\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2147149\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2147149, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Anton Forsberg G LA' href='/players/playerpage/2147149'>Anton Forsberg</a>
+            <span class="playerPositionAndTeam">G &#149;LA</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">11.26</td>
+        <td align="right">9.74</td>
+        <td align="right">1.22</td>
+        <td align="right">2.81</td>
+        <td align="right">61.74</td>
+        <td align="right">528.74</td>
+        <td align="right">.895</td>
+        <td align="right" class="bold">53.46</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2095289"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2095289: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2095289\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2095289\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2095289, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Daniil Tarasov G FLA' href='/players/playerpage/2095289'>Daniil Tarasov</a>
+            <span class="playerPositionAndTeam">G &#149;FLA</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">11.55</td>
+        <td align="right">9.45</td>
+        <td align="right">1.11</td>
+        <td align="right">2.86</td>
+        <td align="right">62.82</td>
+        <td align="right">529.3</td>
+        <td align="right">.894</td>
+        <td align="right" class="bold">53.09</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29265357"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29265357: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29265357\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29265357\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29265357, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Jakub Dobes G MON' href='/players/playerpage/29265357'>Jakub Dobes</a>
+            <span class="playerPositionAndTeam">G &#149;MON</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">10.73</td>
+        <td align="right">10.27</td>
+        <td align="right">1.21</td>
+        <td align="right">2.79</td>
+        <td align="right">61.38</td>
+        <td align="right">533.7</td>
+        <td align="right">.897</td>
+        <td align="right" class="bold">52.93</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2147549"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2147549: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2147549\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2147549\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2147549, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Vitek Vanecek G UTA' href='/players/playerpage/2147549'>Vitek Vanecek</a>
+            <span class="playerPositionAndTeam">G &#149;UTA</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">10.81</td>
+        <td align="right">10.19</td>
+        <td align="right">1.18</td>
+        <td align="right">2.79</td>
+        <td align="right">61.29</td>
+        <td align="right">527.6</td>
+        <td align="right">.896</td>
+        <td align="right" class="bold">52.17</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2992028"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2992028: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2992028\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2992028\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2992028, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Akira Schmid G LV' href='/players/playerpage/2992028'>Akira Schmid</a>
+            <span class="playerPositionAndTeam">G &#149;LV</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">11.42</td>
+        <td align="right">9.58</td>
+        <td align="right">1.13</td>
+        <td align="right">2.84</td>
+        <td align="right">62.41</td>
+        <td align="right">523.83</td>
+        <td align="right">.894</td>
+        <td align="right" class="bold">52.10</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1771013"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1771013: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1771013\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1771013\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1771013, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Scott Wedgewood G COL' href='/players/playerpage/1771013'>Scott Wedgewood</a>
+            <span class="playerPositionAndTeam">G &#149;COL</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">11.39</td>
+        <td align="right">9.61</td>
+        <td align="right">1.05</td>
+        <td align="right">2.91</td>
+        <td align="right">64.05</td>
+        <td align="right">533.85</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">51.77</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1282223"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1282223: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1282223\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1282223\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1282223, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Jonathan Quick G NYR' href='/players/playerpage/1282223'>Jonathan Quick</a>
+            <span class="playerPositionAndTeam">G &#149;NYR</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">10.8</td>
+        <td align="right">10.2</td>
+        <td align="right">1.05</td>
+        <td align="right">2.92</td>
+        <td align="right">64.18</td>
+        <td align="right">538.39</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">50.48</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2271620"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2271620: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2271620\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2271620\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2271620, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Dan Vladar G PHI' href='/players/playerpage/2271620'>Dan Vladar</a>
+            <span class="playerPositionAndTeam">G &#149;PHI</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">10.02</td>
+        <td align="right">10.98</td>
+        <td align="right">1.12</td>
+        <td align="right">2.86</td>
+        <td align="right">62.82</td>
+        <td align="right">537.66</td>
+        <td align="right">.895</td>
+        <td align="right" class="bold">49.40</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26799126"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26799126: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26799126\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26799126\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26799126, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Jet Greaves G CLB' href='/players/playerpage/26799126'>Jet Greaves</a>
+            <span class="playerPositionAndTeam">G &#149;CLB</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">10.37</td>
+        <td align="right">10.63</td>
+        <td align="right">0.99</td>
+        <td align="right">2.96</td>
+        <td align="right">65.17</td>
+        <td align="right">542.79</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">48.76</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26799459"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26799459: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26799459\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26799459\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26799459, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Leevi Merilainen G OTT' href='/players/playerpage/26799459'>Leevi Merilainen</a>
+            <span class="playerPositionAndTeam">G &#149;OTT</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">10.23</td>
+        <td align="right">10.77</td>
+        <td align="right">1.12</td>
+        <td align="right">2.84</td>
+        <td align="right">62.53</td>
+        <td align="right">528.24</td>
+        <td align="right">.894</td>
+        <td align="right" class="bold">48.59</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2928071"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2928071: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2928071\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2928071\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2928071, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Kevin Lankinen G VAN' href='/players/playerpage/2928071'>Kevin Lankinen</a>
+            <span class="playerPositionAndTeam">G &#149;VAN</span>
+            <span class="playerIconsWrapper">
+                <span title="Undisclosed: Probable for start of season">
+                    <a href="/players/playerpage/2928071" subtab="Injury Report" class="playerLink" aria-label="Injury Report: Undisclosed: Probable for start of season">
+                        <span class="icon-red_cross"></span>
+                    </a>
+                </span>
+            </span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">10.28</td>
+        <td align="right">10.72</td>
+        <td align="right">1.17</td>
+        <td align="right">2.81</td>
+        <td align="right">61.84</td>
+        <td align="right">522.11</td>
+        <td align="right">.894</td>
+        <td align="right" class="bold">48.50</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1769722"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1769722: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1769722\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1769722\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1769722, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Calvin Pickard G EDM' href='/players/playerpage/1769722'>Calvin Pickard</a>
+            <span class="playerPositionAndTeam">G &#149;EDM</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">11.2</td>
+        <td align="right">9.8</td>
+        <td align="right">1</td>
+        <td align="right">2.93</td>
+        <td align="right">64.54</td>
+        <td align="right">523.07</td>
+        <td align="right">.890</td>
+        <td align="right" class="bold">48.31</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2228489"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2228489: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2228489\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2228489\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2228489, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Charlie Lindgren G WAS' href='/players/playerpage/2228489'>Charlie Lindgren</a>
+            <span class="playerPositionAndTeam">G &#149;WAS</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">11.04</td>
+        <td align="right">9.96</td>
+        <td align="right">0.96</td>
+        <td align="right">2.99</td>
+        <td align="right">65.83</td>
+        <td align="right">533.68</td>
+        <td align="right">.890</td>
+        <td align="right" class="bold">48.22</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1899099"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1899099: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1899099\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1899099\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1899099, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Philipp Grubauer G SEA' href='/players/playerpage/1899099'>Philipp Grubauer</a>
+            <span class="playerPositionAndTeam">G &#149;SEA</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">10.01</td>
+        <td align="right">10.99</td>
+        <td align="right">1.01</td>
+        <td align="right">2.94</td>
+        <td align="right">64.63</td>
+        <td align="right">537.32</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">46.91</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1804223"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1804223: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1804223\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1804223\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1804223, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Cam Talbot G DET' href='/players/playerpage/1804223'>Cam Talbot</a>
+            <span class="playerPositionAndTeam">G &#149;DET</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">10.1</td>
+        <td align="right">10.9</td>
+        <td align="right">1.06</td>
+        <td align="right">2.91</td>
+        <td align="right">64.03</td>
+        <td align="right">527.97</td>
+        <td align="right">.892</td>
+        <td align="right" class="bold">46.23</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1639336"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1639336: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1639336\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1639336\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1639336, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Jake Allen G NJ' href='/players/playerpage/1639336'>Jake Allen</a>
+            <span class="playerPositionAndTeam">G &#149;NJ</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">9.63</td>
+        <td align="right">11.37</td>
+        <td align="right">0.95</td>
+        <td align="right">2.99</td>
+        <td align="right">65.76</td>
+        <td align="right">543.74</td>
+        <td align="right">.892</td>
+        <td align="right" class="bold">45.40</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_3140624"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    3140624: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:3140624\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_3140624\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 3140624, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Arturs Silovs G PIT' href='/players/playerpage/3140624'>Arturs Silovs</a>
+            <span class="playerPositionAndTeam">G &#149;PIT</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">10</td>
+        <td align="right">11</td>
+        <td align="right">0.92</td>
+        <td align="right">3.00</td>
+        <td align="right">65.9</td>
+        <td align="right">536.75</td>
+        <td align="right">.891</td>
+        <td align="right" class="bold">45.10</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1282481"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1282481: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1282481\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1282481\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1282481, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Semyon Varlamov G NYI' href='/players/playerpage/1282481'>Semyon Varlamov</a>
+            <span class="playerPositionAndTeam">G &#149;NYI</span>
+            <span class="playerIconsWrapper">
+                <span title="Knee: Probable for start of season">
+                    <a href="/players/playerpage/1282481" subtab="Injury Report" class="playerLink" aria-label="Injury Report: Knee: Probable for start of season">
+                        <span class="icon-red_cross"></span>
+                    </a>
+                </span>
+            </span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">9.33</td>
+        <td align="right">11.67</td>
+        <td align="right">1.05</td>
+        <td align="right">2.93</td>
+        <td align="right">64.43</td>
+        <td align="right">534.69</td>
+        <td align="right">.892</td>
+        <td align="right" class="bold">44.32</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26802571"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26802571: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26802571\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26802571\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26802571, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Jesper Wallstedt G MIN' href='/players/playerpage/26802571'>Jesper Wallstedt</a>
+            <span class="playerPositionAndTeam">G &#149;MIN</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">9.42</td>
+        <td align="right">11.58</td>
+        <td align="right">1</td>
+        <td align="right">2.98</td>
+        <td align="right">65.62</td>
+        <td align="right">540.65</td>
+        <td align="right">.892</td>
+        <td align="right" class="bold">44.30</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2197838"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2197838: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2197838\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2197838\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2197838, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Joonas Korpisalo G BOS' href='/players/playerpage/2197838'>Joonas Korpisalo</a>
+            <span class="playerPositionAndTeam">G &#149;BOS</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">9.13</td>
+        <td align="right">11.87</td>
+        <td align="right">0.99</td>
+        <td align="right">2.95</td>
+        <td align="right">64.96</td>
+        <td align="right">537.73</td>
+        <td align="right">.892</td>
+        <td align="right" class="bold">43.56</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1769721"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1769721: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1769721\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1769721\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1769721, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Petr Mrazek G ANA' href='/players/playerpage/1769721'>Petr Mrazek</a>
+            <span class="playerPositionAndTeam">G &#149;ANA</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">9.14</td>
+        <td align="right">11.86</td>
+        <td align="right">0.99</td>
+        <td align="right">2.95</td>
+        <td align="right">64.8</td>
+        <td align="right">535.54</td>
+        <td align="right">.892</td>
+        <td align="right" class="bold">43.42</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2269101"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2269101: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2269101\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2269101\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2269101, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Alex Lyon G BUF' href='/players/playerpage/2269101'>Alex Lyon</a>
+            <span class="playerPositionAndTeam">G &#149;BUF</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">9.63</td>
+        <td align="right">11.37</td>
+        <td align="right">0.84</td>
+        <td align="right">3.14</td>
+        <td align="right">69.06</td>
+        <td align="right">550.13</td>
+        <td align="right">.888</td>
+        <td align="right" class="bold">42.37</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26798904"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26798904: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26798904\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26798904\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26798904, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Arvid Soderblom G CHI' href='/players/playerpage/26798904'>Arvid Soderblom</a>
+            <span class="playerPositionAndTeam">G &#149;CHI</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">8.52</td>
+        <td align="right">12.48</td>
+        <td align="right">0.93</td>
+        <td align="right">3.02</td>
+        <td align="right">66.48</td>
+        <td align="right">549.44</td>
+        <td align="right">.892</td>
+        <td align="right" class="bold">41.84</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2147452"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2147452: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2147452\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2147452\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2147452, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Alex Nedeljkovic G SJ' href='/players/playerpage/2147452'>Alex Nedeljkovic</a>
+            <span class="playerPositionAndTeam">G &#149;SJ</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">8.27</td>
+        <td align="right">12.73</td>
+        <td align="right">0.97</td>
+        <td align="right">2.97</td>
+        <td align="right">65.26</td>
+        <td align="right">543.33</td>
+        <td align="right">.893</td>
+        <td align="right" class="bold">41.32</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_3166641"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    3166641: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:3166641\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_3166641\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 3166641, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Justus Annunen G NSH' href='/players/playerpage/3166641'>Justus Annunen</a>
+            <span class="playerPositionAndTeam">G &#149;NSH</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">8.88</td>
+        <td align="right">12.12</td>
+        <td align="right">1.01</td>
+        <td align="right">2.91</td>
+        <td align="right">64.06</td>
+        <td align="right">521.55</td>
+        <td align="right">.891</td>
+        <td align="right" class="bold">40.72</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2991370"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2991370: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2991370\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2991370\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2991370, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Ivan Prosvetov G CGY' href='/players/playerpage/2991370'>Ivan Prosvetov</a>
+            <span class="playerPositionAndTeam">G &#149;CGY</span>
+        </td>
+        <td align="right">22</td>
+        <td align="right">8.85</td>
+        <td align="right">12.15</td>
+        <td align="right">0.89</td>
+        <td align="right">3.06</td>
+        <td align="right">67.23</td>
+        <td align="right">536.91</td>
+        <td align="right">.889</td>
+        <td align="right" class="bold">39.36</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_50003390"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    50003390: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:50003390\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_50003390\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 50003390, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Petteri Rimpinen G LA' href='/players/playerpage/50003390'>Petteri Rimpinen</a>
+            <span class="playerPositionAndTeam">G &#149;LA</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26632581"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26632581: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26632581\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26632581\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26632581, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Peyton Jones G COL' href='/players/playerpage/26632581'>Peyton Jones</a>
+            <span class="playerPositionAndTeam">G &#149;COL</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26799576"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26799576: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26799576\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26799576\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26799576, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Remi Poirier G DAL' href='/players/playerpage/26799576'>Remi Poirier</a>
+            <span class="playerPositionAndTeam">G &#149;DAL</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_50003397"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    50003397: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:50003397\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_50003397\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 50003397, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Burke Hood G NYI' href='/players/playerpage/50003397'>Burke Hood</a>
+            <span class="playerPositionAndTeam">G &#149;NYI</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26799600"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26799600: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26799600\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26799600\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26799600, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Jesper Vikman G LV' href='/players/playerpage/26799600'>Jesper Vikman</a>
+            <span class="playerPositionAndTeam">G &#149;LV</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26853501"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26853501: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26853501\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26853501\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26853501, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Kyle Konin G TB' href='/players/playerpage/26853501'>Kyle Konin</a>
+            <span class="playerPositionAndTeam">G &#149;TB</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1639470"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1639470: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1639470\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1639470\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1639470, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' James Reimer G BUF' href='/players/playerpage/1639470'>James Reimer</a>
+            <span class="playerPositionAndTeam">G &#149;BUF</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29240698"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29240698: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29240698\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29240698\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29240698, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Drew Commesso G CHI' href='/players/playerpage/29240698'>Drew Commesso</a>
+            <span class="playerPositionAndTeam">G &#149;CHI</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_26802490"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    26802490: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:26802490\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_26802490\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 26802490, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Aleksei Kolosov G PHI' href='/players/playerpage/26802490'>Aleksei Kolosov</a>
+            <span class="playerPositionAndTeam">G &#149;PHI</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2147136"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2147136: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2147136\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2147136\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2147136, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Aaron Dell G LA' href='/players/playerpage/2147136'>Aaron Dell</a>
+            <span class="playerPositionAndTeam">G &#149;LA</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2879960"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2879960: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2879960\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2879960\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2879960, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Pat Nagle G DET' href='/players/playerpage/2879960'>Pat Nagle</a>
+            <span class="playerPositionAndTeam">G &#149;DET</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29223687"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29223687: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29223687\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29223687\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29223687, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Yaniv Perets G CAR' href='/players/playerpage/29223687'>Yaniv Perets</a>
+            <span class="playerPositionAndTeam">G &#149;CAR</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29222952"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29222952: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29222952\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29222952\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29222952, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Calle Clang G ANA' href='/players/playerpage/29222952'>Calle Clang</a>
+            <span class="playerPositionAndTeam">G &#149;ANA</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2269093"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2269093: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2269093\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2269093\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2269093, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Ville Husso G ANA' href='/players/playerpage/2269093'>Ville Husso</a>
+            <span class="playerPositionAndTeam">G &#149;ANA</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_50003419"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    50003419: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:50003419\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_50003419\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 50003419, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Caleb Heil G TB' href='/players/playerpage/50003419'>Caleb Heil</a>
+            <span class="playerPositionAndTeam">G &#149;TB</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2094398"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2094398: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2094398\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2094398\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2094398, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Philippe Desrosiers G WPG' href='/players/playerpage/2094398'>Philippe Desrosiers</a>
+            <span class="playerPositionAndTeam">G &#149;WPG</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_3140305"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    3140305: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:3140305\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_3140305\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 3140305, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Colten Ellis G STL' href='/players/playerpage/3140305'>Colten Ellis</a>
+            <span class="playerPositionAndTeam">G &#149;STL</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2094042"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2094042: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2094042\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2094042\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2094042, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Chris Driedger G WPG' href='/players/playerpage/2094042'>Chris Driedger</a>
+            <span class="playerPositionAndTeam">G &#149;WPG</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_50003453"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    50003453: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:50003453\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_50003453\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 50003453, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Andrei Trofimov G OTT' href='/players/playerpage/50003453'>Andrei Trofimov</a>
+            <span class="playerPositionAndTeam">G &#149;OTT</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_50001160"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    50001160: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:50001160\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_50001160\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 50001160, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Samuel Meloche G BUF' href='/players/playerpage/50001160'>Samuel Meloche</a>
+            <span class="playerPositionAndTeam">G &#149;BUF</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1897685"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1897685: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1897685\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1897685\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1897685, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Michael Houser G BUF' href='/players/playerpage/1897685'>Michael Houser</a>
+            <span class="playerPositionAndTeam">G &#149;BUF</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1282436"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1282436: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1282436\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1282436\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1282436, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Anton Khudobin G DAL' href='/players/playerpage/1282436'>Anton Khudobin</a>
+            <span class="playerPositionAndTeam">G &#149;DAL</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2992317"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2992317: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2992317\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2992317\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2992317, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Zachary Emond G NJ' href='/players/playerpage/2992317'>Zachary Emond</a>
+            <span class="playerPositionAndTeam">G &#149;NJ</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29407603"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29407603: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29407603\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29407603\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29407603, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Evan Gardner G CLB' href='/players/playerpage/29407603'>Evan Gardner</a>
+            <span class="playerPositionAndTeam">G &#149;CLB</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29240706"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29240706: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29240706\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29240706\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29240706, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Erik Portillo G LA' href='/players/playerpage/29240706'>Erik Portillo</a>
+            <span class="playerPositionAndTeam">G &#149;LA</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2198318"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2198318: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2198318\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2198318\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2198318, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Zane McIntyre G MIN' href='/players/playerpage/2198318'>Zane McIntyre</a>
+            <span class="playerPositionAndTeam">G &#149;MIN</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29167204"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29167204: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29167204\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29167204\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29167204, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Adam Gajan G CHI' href='/players/playerpage/29167204'>Adam Gajan</a>
+            <span class="playerPositionAndTeam">G &#149;CHI</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_50001088"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    50001088: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:50001088\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_50001088\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 50001088, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Pyotr Andreyanov G CLB' href='/players/playerpage/50001088'>Pyotr Andreyanov</a>
+            <span class="playerPositionAndTeam">G &#149;CLB</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29079285"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29079285: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29079285\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29079285\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29079285, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Matt Berlin G EDM' href='/players/playerpage/29079285'>Matt Berlin</a>
+            <span class="playerPositionAndTeam">G &#149;EDM</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29102378"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29102378: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29102378\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29102378\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29102378, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Samuel Richard G TOR' href='/players/playerpage/29102378'>Samuel Richard</a>
+            <span class="playerPositionAndTeam">G &#149;TOR</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2879994"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2879994: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2879994\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2879994\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2879994, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Josef Korenar G UTA' href='/players/playerpage/2879994'>Josef Korenar</a>
+            <span class="playerPositionAndTeam">G &#149;UTA</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29374615"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29374615: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29374615\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29374615\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29374615, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Nikita Tolopilo G VAN' href='/players/playerpage/29374615'>Nikita Tolopilo</a>
+            <span class="playerPositionAndTeam">G &#149;VAN</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29167225"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29167225: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29167225\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29167225\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29167225, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Michael Hrabal G UTA' href='/players/playerpage/29167225'>Michael Hrabal</a>
+            <span class="playerPositionAndTeam">G &#149;UTA</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2881674"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2881674: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2881674\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2881674\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2881674, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Ivan Fedotov G PHI' href='/players/playerpage/2881674'>Ivan Fedotov</a>
+            <span class="playerPositionAndTeam">G &#149;PHI</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2879656"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2879656: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2879656\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2879656\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2879656, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Dylan Ferguson G MIN' href='/players/playerpage/2879656'>Dylan Ferguson</a>
+            <span class="playerPositionAndTeam">G &#149;MIN</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29222743"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29222743: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29222743\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29222743\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29222743, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Joel Blomqvist G PIT' href='/players/playerpage/29222743'>Joel Blomqvist</a>
+            <span class="playerPositionAndTeam">G &#149;PIT</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1899106"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1899106: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1899106\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1899106\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1899106, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Keith Kinkaid G NJ' href='/players/playerpage/1899106'>Keith Kinkaid</a>
+            <span class="playerPositionAndTeam">G &#149;NJ</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_3140841"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    3140841: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:3140841\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_3140841\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 3140841, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Mads Sogaard G OTT' href='/players/playerpage/3140841'>Mads Sogaard</a>
+            <span class="playerPositionAndTeam">G &#149;OTT</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1897667"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1897667: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1897667\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1897667\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1897667, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Christopher Gibson G DAL' href='/players/playerpage/1897667'>Christopher Gibson</a>
+            <span class="playerPositionAndTeam">G &#149;DAL</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_3101483"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    3101483: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:3101483\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_3101483\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 3101483, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Adam Huska G NYR' href='/players/playerpage/3101483'>Adam Huska</a>
+            <span class="playerPositionAndTeam">G &#149;NYR</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_3115521"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    3115521: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:3115521\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_3115521\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 3115521, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Gilles Senn G NJ' href='/players/playerpage/3115521'>Gilles Senn</a>
+            <span class="playerPositionAndTeam">G &#149;NJ</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_3117367"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    3117367: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:3117367\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_3117367\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 3117367, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Emil Larmi G PIT' href='/players/playerpage/3117367'>Emil Larmi</a>
+            <span class="playerPositionAndTeam">G &#149;PIT</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2879858"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2879858: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2879858\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2879858\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2879858, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Marcus Hogberg G NYI' href='/players/playerpage/2879858'>Marcus Hogberg</a>
+            <span class="playerPositionAndTeam">G &#149;NYI</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29086424"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29086424: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29086424\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29086424\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29086424, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Zachary Andrews G CHI' href='/players/playerpage/29086424'>Zachary Andrews</a>
+            <span class="playerPositionAndTeam">G &#149;CHI</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2879747"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2879747: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2879747\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2879747\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2879747, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Kyle Keyser G BOS' href='/players/playerpage/2879747'>Kyle Keyser</a>
+            <span class="playerPositionAndTeam">G &#149;BOS</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2879667"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2879667: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2879667\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2879667\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2879667, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Hunter Miska G COL' href='/players/playerpage/2879667'>Hunter Miska</a>
+            <span class="playerPositionAndTeam">G &#149;COL</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_1707564"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    1707564: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:1707564\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_1707564\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 1707564, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Robin Lehner G LV' href='/players/playerpage/1707564'>Robin Lehner</a>
+            <span class="playerPositionAndTeam">G &#149;LV</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29250835"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29250835: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29250835\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29250835\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29250835, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Ryan Fanti G EDM' href='/players/playerpage/29250835'>Ryan Fanti</a>
+            <span class="playerPositionAndTeam">G &#149;EDM</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_29223008"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    29223008: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:29223008\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_29223008\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 29223008, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Magnus Chrona G NSH' href='/players/playerpage/29223008'>Magnus Chrona</a>
+            <span class="playerPositionAndTeam">G &#149;NSH</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2094767"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2094767: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2094767\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2094767\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2094767, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Antoine Bibeau G OTT' href='/players/playerpage/2094767'>Antoine Bibeau</a>
+            <span class="playerPositionAndTeam">G &#149;OTT</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2094053"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2094053: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2094053\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2094053\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2094053, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Matt Murray G SEA' href='/players/playerpage/2094053'>Matt Murray</a>
+            <span class="playerPositionAndTeam">G &#149;SEA</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2879921"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2879921: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2879921\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2879921\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2879921, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Olle Eriksson Ek G ANA' href='/players/playerpage/2879921'>Olle Eriksson Ek</a>
+            <span class="playerPositionAndTeam">G &#149;ANA</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row1" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2879750"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2879750: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2879750\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2879750\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2879750, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Dereck Baribeau G MIN' href='/players/playerpage/2879750'>Dereck Baribeau</a>
+            <span class="playerPositionAndTeam">G &#149;MIN</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="row2" align="right" valign="top">
+        <td align="left">
+            <div id="actionButtons_2880002"></div>
+            <script type="text/javascript">
+                CBSi.app.Stats.ActionButtons.players.push({
+                    2880002: {
+                        "freeAgent": ["<a href=\"/stats/stats-main?default_add=G:2880002\" class=\"actionButtonSm addPlayerSm \" title=\"Pick Up This Player\" aria-label=\"Pick Up This Player\" ></a>", "<a href=\"#\" id=\"scoutButton_2880002\" class=\"actionButtonSm addScoutSm scoutButton\" title=\"Scout This Player\" aria-label=\"Scout This Player\" onclick=\"CBSi.app.Player.ScoutTeam.toggle(this, 2880002, 0, 'Sm');return false;\"></a>"],
+                        "freeagent": []
+                    }
+                });
+            </script>
+        </td>
+        <td align="left">
+            <span class="tooltip" title="On Waivers">W </span>
+        </td>
+        <td align="left">
+            <a class='playerLink' aria-label=' Connor Ingram G UTA' href='/players/playerpage/2880002'>Connor Ingram</a>
+            <span class="playerPositionAndTeam">G &#149;UTA</span>
+        </td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">0.00</td>
+        <td align="right">0</td>
+        <td align="right">0</td>
+        <td align="right">.000</td>
+        <td align="right" class="bold">0.00</td>
+    </tr>
+    <tr class="footer pagination">
+        <td colspan="12">
+            Pages: <a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?start_row=1" class="active">1</a>
+            &nbsp;<a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?start_row=101">2</a>
+            &nbsp;<a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?start_row=201">3</a>
+            &nbsp;<a href="/stats/data-stats-report/fa:G/restofseason:p/standard/projections?print_rows=9999">All</a>
+            <div class="tableLastUpdatedTimestamp">Report Updated as of 9/14/25 12:28 AM EST
+</table>
+</td></tr></table>
+<!-- Page build info: markhend6789 'ip-10-146-196-150' 39866 20250914 0:28:42  -->

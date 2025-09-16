@@ -23,6 +23,7 @@ const nextConfig = {
         { source: '/api/vorp', destination: `${apiBase}/api/vorp` },
         { source: '/api/vorp_gaps', destination: `${apiBase}/api/vorp_gaps` },
         { source: '/api/rankings', destination: `${apiBase}/api/rankings` },
+        { source: '/api/public/leagues/:leagueId/teams', destination: `${apiBase}/api/public/leagues/:leagueId/teams` },
       ]
     }
     return []

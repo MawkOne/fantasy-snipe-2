@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState, useEffect } from "react"
+import { useMemo, useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -12,6 +12,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Clock, Search, Settings, Stars, Star, X, Ellipsis, Pause, Play } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { toast } from "sonner"
+import MyTeamTab from "@/components/my-team-tab"
+import CapSummaryTab from "@/components/cap-summary-tab"
+import { useAuth } from "@/lib/auth-context"
+import LoginModal from "@/components/login-modal"
 
 type Player = {
   id: string
@@ -152,25 +156,39 @@ function abbreviatePlayerName(fullName: string | undefined | null): string {
   return `${initial} ${last}`.trim()
 }
 
-export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boolean }) {
-  // Teams (snake draft with 12 teams; you are team[9] e.g., pick 1.10)
-  const teams: Team[] = useMemo(
-    () => [
-      { id: "t1", name: "Pure Chaos", needs: ["C", "RW", "D"] },
-      { id: "t2", name: "South Calgary Cowboys", needs: ["LW", "D", "G"] },
-      { id: "t3", name: "Rodgers Belt", needs: ["C", "LW", "D"] },
-      { id: "t4", name: "Deep Ballz", needs: ["RW", "G", "D"] },
-      { id: "you", name: "TacoCorp", needs: ["C", "RW"] },
-      { id: "t6", name: "Harbaugh You Blow Me", needs: ["C", "RB", "WR", "TE"] },
-      { id: "t7", name: "Far East Invasion", needs: ["C", "RW", "D", "G"] },
-      { id: "t8", name: "Nordic Knights", needs: ["LW", "D"] },
-      { id: "t9", name: "Frozen Fury", needs: ["G", "D"] },
-      { id: "t10", name: "Icy Hot", needs: ["C", "LW"] },
-      { id: "t11", name: "Puck Wizards", needs: ["RW", "G"] },
-      { id: "t12", name: "Blue Line Bandits", needs: ["D", "C"] },
-    ],
-    [],
-  )
+export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUhhp?: boolean; poolId?: string }) {
+  const { user, teamMembership } = useAuth()
+  // Timer and core state are declared below; we define teams after capTeams is available
+  // capTeams must be declared before teams
+  const [capTeams, setCapTeams] = useState<any[] | null>(null)
+  // Resolve an actionable team_id for write actions (nominate/bid)
+  const actionTeamId: string | null = useMemo(() => {
+    try {
+      if (teamMembership?.team_id) return String(teamMembership.team_id)
+      // Fallback by team name when present
+      const tn = (teamMembership as any)?.team_name
+      if (tn && Array.isArray(capTeams)) {
+        const hit = capTeams.find((t: any) => (t?.team_name || '') === tn)
+        if (hit?.team_id != null) return String(hit.team_id)
+      }
+      // Fallback by user email against login/attached_email
+      const email = (user as any)?.email
+      if (email && Array.isArray(capTeams)) {
+        const hit = capTeams.find((t: any) => (t?.login === email) || (t?.attached_email === email))
+        if (hit?.team_id != null) return String(hit.team_id)
+      }
+    } catch {}
+    return null
+  }, [teamMembership?.team_id, (teamMembership as any)?.team_name, (user as any)?.email, capTeams])
+  // ... existing code ...
+
+  // Real league teams from draft_state capTeams
+  const teams: Team[] = useMemo(() => {
+    if (Array.isArray(capTeams) && capTeams.length) {
+      return capTeams.map((t: any) => ({ id: String(t.team_id), name: String(t.team_name) }))
+    }
+    return []
+  }, [capTeams])
 
   // Build round 1 order with some picks already made (1.06 - 1.09)
   const [picks, setPicks] = useState<Pick[]>(
@@ -197,7 +215,14 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
   // current pick index (0-based). You are 1.10 (index 9)
   const [currentIdx, setCurrentIdx] = useState(9)
   const currentPick = picks[currentIdx]
-  const yourTeamId = "you"
+  const yourTeamId = useMemo(() => {
+    // Use attached team if available
+    try {
+      // Lazy import auth to avoid re-ordering
+    } catch {}
+    // Fallback to first team
+    return teams[0]?.id || ""
+  }, [teams])
   const isYouOnClock = currentPick?.teamId === yourTeamId
 
   // Timer state (30s countdown with pause)
@@ -224,15 +249,15 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
   const [gmBids, setGmBids] = useState<Record<string, number>>({})
   const [revealTimer, setRevealTimer] = useState<number | null>(null)
   const [revealed, setRevealed] = useState<boolean>(false)
+  // Draft pick nomination order (team_id list)
   const [auctionOrder, setAuctionOrder] = useState<string[]>([])
+  // Separate tie-break order (independent from pick order)
+  const [tieOrder, setTieOrder] = useState<string[]>([])
   const [tieAudit, setTieAudit] = useState<Array<{ pick: number; winners: string[]; advantage: string | null }>>([])
 
   // 3s reveal countdown when all bids submitted
   const allSubmitted = useMemo(() => teams.every((t) => gmBids[t.id] !== undefined), [teams, gmBids])
-  useEffect(() => {
-    if (revealed) return
-    if (allSubmitted && revealTimer === null) setRevealTimer(3)
-  }, [allSubmitted, revealTimer, revealed])
+  // Do NOT auto-start reveal on load; start only when admin clicks Reveal
   useEffect(() => {
     if (revealTimer === null) return
     if (revealTimer <= 0) {
@@ -248,34 +273,70 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
         if (top != null && nominated) {
           const winners = teams.filter((t) => gmBids[t.id] === top)
           let finalWinnerId: string | null = winners[0]?.id || null
-          if (winners.length > 1 && (auctionOrder || []).length) {
-            const tiedNames = winners.map((t) => t.name)
-            // Decide by whoever is higher in current order
+          if (winners.length > 1 && (tieOrder || []).length) {
+            // Decide by whoever is higher (lower index) in current tie-break order by team_id
             let bestIdx = Infinity
-            let advName: string | null = null
+            let advId: string | null = null
             for (const t of winners) {
-              const nm = t.name
-              const idx = auctionOrder.findIndex((n) => n === nm)
-              if (idx >= 0 && idx < bestIdx) { bestIdx = idx; advName = nm }
+              const tid = t.id
+              const idx = tieOrder.indexOf(tid)
+              if (idx >= 0 && idx < bestIdx) { bestIdx = idx; advId = tid }
             }
-            if (advName) {
-              finalWinnerId = (teams.find((t) => t.name === advName)?.id) || finalWinnerId
+            if (advId) {
+              finalWinnerId = advId
               // Move the winner to the bottom of the order
-              setAuctionOrder((prev) => {
-                const i = prev.findIndex((n) => n === advName)
+              setTieOrder((prev) => {
+                const i = prev.indexOf(advId as string)
                 if (i < 0) return prev
                 const copy = [...prev]
                 const [moved] = copy.splice(i, 1)
                 copy.push(moved)
                 return copy
               })
-              // Audit log entry
-              setTieAudit((prev) => ([...prev, { pick: (uhhpPicks?.length || 0) + 1, winners: tiedNames, advantage: advName }]))
+              // Audit log entry (by names for display)
+              const idToName: Record<string, string> = {}
+              teams.forEach((t) => { idToName[t.id] = t.name })
+              const tiedNames = winners.map((t) => t.name)
+              const advName = idToName[advId]
+              setTieAudit((prev) => ([...prev, { pick: (uhhpPicks?.length || 0) + 1, winners: tiedNames, advantage: advName || null }]))
             }
           }
           if (finalWinnerId) {
             const newPick = { team: teamAbbr(teams.find((t) => t.id === finalWinnerId)?.name || ""), player: nominated.player, pos: (nominated.pos || "").toString().toUpperCase(), price: top }
             setUhhpPicks((prev) => ([...(prev || []), newPick]))
+            // Also add the won player to the winner's roster in My Team (local view)
+            try {
+              const winnerTeamName = (nameById[finalWinnerId] || teams.find((t) => t.id === finalWinnerId)?.name || "").toString()
+              setStage1Teams((prev) => {
+                const copy = Array.isArray(prev) ? [...prev] : []
+                for (let i = 0; i < copy.length; i++) {
+                  const row: any = copy[i]
+                  if ((row?.team_name || "") === winnerTeamName) {
+                    const players: any[] = Array.isArray(row.players) ? [...row.players] : []
+                    players.push({
+                      player: nominated.player,
+                      pos: (nominated.pos || "").toString().toUpperCase(),
+                      salary: Number(top || 0),
+                      price: Number(top || 0),
+                      years: 1,
+                      team: String(row?.team_id || ""),
+                      nhl_player_id: (nominated as any)?.nhl_player_id ?? undefined,
+                      status: (() => {
+                        try {
+                          const pid = (nominated as any)?.nhl_player_id
+                          return pid ? (statusById[Number(pid)] || undefined) : undefined
+                        } catch { return undefined }
+                      })(),
+                      team_abbr: (nominated as any)?.team_abbr || "",
+                      birthdate: (nominated as any)?.birthdate || null,
+                    })
+                    copy[i] = { ...row, players }
+                    break
+                  }
+                }
+                return copy
+              })
+            } catch {}
           }
         }
       } catch (e) {}
@@ -297,13 +358,11 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
   }, [revealed, topBid, teams, gmBids])
   const tieAdvantageTeamId = useMemo(() => {
     if (tieTeams.length <= 1) return null as string | null
-    if (auctionOrder && auctionOrder.length) {
+    if (tieOrder && tieOrder.length) {
       let best: string | null = null
       let bestIdx = Infinity
       for (const id of tieTeams) {
-        const team = teams.find((t) => t.id === id)
-        const name = team?.name ?? ""
-        const idx = auctionOrder.findIndex((n) => n === name)
+        const idx = tieOrder.indexOf(id)
         if (idx >= 0 && idx < bestIdx) {
           bestIdx = idx
           best = id
@@ -312,22 +371,11 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
       if (best) return best
     }
     return tieTeams[0] ?? null
-  }, [tieTeams, auctionOrder, teams])
+  }, [tieTeams, tieOrder, teams])
 
-  // Suggestions + rankings
-  const [suggestions] = useState<Player[]>([samplePlayers[0], samplePlayers[1], samplePlayers[5], samplePlayers[3]])
-  const [rankings] = useState<Player[]>(
-    Array.from({ length: 24 }, (_, i) => {
-      const base = samplePlayers[i % samplePlayers.length]
-      return {
-        ...base,
-        id: `${base.id}-${i}`,
-        overall: i + 1,
-        adp: i + 1,
-        expertPct: 99 - (i % 8) * 4,
-      }
-    }),
-  )
+  // Suggestions + rankings (derived from projections)
+  const [suggestions, setSuggestions] = useState<Player[]>([])
+  const [rankings, setRankings] = useState<Player[]>([])
 
   // Left rail tabs state
   const [leftTab, setLeftTab] = useState<"rankings" | "teams" | "queue">("rankings")
@@ -336,32 +384,672 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
   const [showAvailable, setShowAvailable] = useState(false)
   const [posFilter, setPosFilter] = useState<"All" | "C" | "W" | "D" | "G">("All")
   const [faFilter, setFaFilter] = useState<"All" | "UFA" | "RFA">("All")
-  const [bidAmount, setBidAmount] = useState<string>("2")
+  const [bidAmount, setBidAmount] = useState<string>("")
   const [nominated, setNominated] = useState<any | null>(null)
   const [bidSubmitted, setBidSubmitted] = useState<Record<string, boolean>>({})
   const [submittedHover, setSubmittedHover] = useState<boolean>(false)
-  const [currentPickNum, setCurrentPickNum] = useState<number>(6)
-  const [uhhpPicks, setUhhpPicks] = useState<any[] | null>(null)
+  const [currentPickNum, setCurrentPickNum] = useState<number>(1)
+  const [uhhpPicks, setUhhpPicks] = useState<any[]>([])
   const [fpMap, setFpMap] = useState<Record<string, number>>({})
   const [ageMap, setAgeMap] = useState<Record<string, number>>({})
   const [projections, setProjections] = useState<any[] | null>(null)
-  const [projectionSource, setProjectionSource] = useState<"avg_experts" | "clusters">("avg_experts")
+  const [projectionSource, setProjectionSource] = useState<string>("avg")
+  const [projectionSources, setProjectionSources] = useState<Array<{ slug: string; display_name: string }>>([])
+  const computedProjectionSources = useMemo(() => {
+    // Show Master list and VORP baselines
+    return [
+      { slug: 'avg', display_name: 'Master List' },
+      { slug: 'vorp_available', display_name: 'VORP $100' },
+      { slug: 'vorp_all', display_name: 'VORP $120' },
+      { slug: 'vorp_cap', display_name: 'VORP Cap' },
+    ]
+  }, [])
   const [stage1Teams, setStage1Teams] = useState<any[] | null>(null)
   const [selectedTeamName, setSelectedTeamName] = useState<string | null>(null)
   const [benchSet, setBenchSet] = useState<Set<string>>(new Set())
+  const [emptySlots, setEmptySlots] = useState<Set<string>>(new Set())
+  const [capHits, setCapHits] = useState<number>(0)
+  const [capHitsInput, setCapHitsInput] = useState<string>("0")
+  const [capHitsByTeam, setCapHitsByTeam] = useState<Record<string, number>>({})
+  const totalAvailableCap = useMemo(() => {
+    try {
+      if (!Array.isArray(stage1Teams)) return 0
+      // Compute spend (years 1-3) per team from stage1Teams
+      const spendByTeam: Record<string, number> = {}
+      for (const t of stage1Teams) {
+        const tid = String(t.team_id)
+        let spend = 0
+        for (const p of (t.players || [])) {
+          const yrs = Number(p?.years)
+          if (yrs === 1 || yrs === 2 || yrs === 3) {
+            const sal = Number(p?.salary || p?.price || 0)
+            if (Number.isFinite(sal)) spend += sal
+          }
+        }
+        spendByTeam[tid] = spend
+      }
+      let sumAvail = 0
+      for (const t of (stage1Teams || [])) {
+        const tid = String(t.team_id)
+        const spend = spendByTeam[tid] || 0
+        const hits = capHitsByTeam[tid] || 0
+        const avail = 100 - (spend + hits)
+        if (avail > 0) sumAvail += avail
+      }
+      return sumAvail
+    } catch { return 0 }
+  }, [stage1Teams, capHitsByTeam])
   const [targets, setTargets] = useState<Record<string, { player: any | null; bid: string }>>({})
+  const [projIdFP, setProjIdFP] = useState<Record<number, number>>({})
+  const [projPosById, setProjPosById] = useState<Record<number, string>>({})
+  const [projPosByName, setProjPosByName] = useState<Record<string, string>>({})
+  const [vorpById, setVorpById] = useState<Record<number, number>>({})
+  const [vorpSalaryById, setVorpSalaryById] = useState<Record<number, number>>({})
+  // Admin tools moved to Settings modal
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(false)
+  const [scoringRules, setScoringRules] = useState<any[] | null>(null)
+  const [auctionState, setAuctionState] = useState<any | null>(null)
+  const currentAuctionId = useMemo(() => (auctionState?.open_auctions?.[0]?.id ?? null), [auctionState])
+  const [wsConnected, setWsConnected] = useState<boolean>(false)
+  const wsRef = useRef<WebSocket | null>(null)
+  const [statusById, setStatusById] = useState<Record<number, "UFA" | "RFA">>({})
+  const [availableById, setAvailableById] = useState<Record<number, { status: "UFA" | "RFA"; controlling_team_id: string | null }>>({})
+  const [availableSet, setAvailableSet] = useState<Set<number>>(new Set())
+  const [availableReady, setAvailableReady] = useState<boolean>(false)
+  const availableLoadedRef = useRef(false)
+  const auctionInitRef = useRef(false)
+  const [contractLockedIds, setContractLockedIds] = useState<Set<number>>(new Set())
+  const [saveDirty, setSaveDirty] = useState<boolean>(false)
+  const [saveLoading, setSaveLoading] = useState<boolean>(false)
 
-  // Map seeded team ids to real team names from Stage1 data (when available)
+  const getApiBase = () => ((process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith("http")) ? (process.env.NEXT_PUBLIC_API_BASE as string) : "http://localhost:8000")
+
+  const auctionStateLoadingRef = useRef(false)
+  const auctionStateToastedRef = useRef(false)
+  const lastAuctionFetchRef = useRef<number>(0)
+  async function loadAuctionState() {
+    try {
+      if (auctionStateLoadingRef.current) return
+      const now = Date.now()
+      if (now - lastAuctionFetchRef.current < 750) return
+      auctionStateLoadingRef.current = true
+      const apiBase = getApiBase()
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/state`, { cache: "no-store" })
+      if (!res.ok) return
+      const json = await res.json()
+      setAuctionState(json)
+      // Seed GM bids/bidSubmitted from server top bid so reconnect shows live state
+      try {
+        const open = (json?.open_auctions || [])[0]
+        if (open && (open.top_team_id != null) && (open.top_amount != null)) {
+          const tid = String(open.top_team_id)
+          const amt = Number(open.top_amount)
+          setGmBids((prev) => ({ ...prev, [tid]: amt }))
+          setBidSubmitted((prev) => ({ ...prev, [tid]: true }))
+        }
+      } catch {}
+      // Only toast once on first successful load to avoid repeated messages
+      if (!auctionStateToastedRef.current) {
+        try { toast.success('Loaded UHHP draft state') } catch {}
+        auctionStateToastedRef.current = true
+      }
+    } catch {}
+    finally {
+      auctionStateLoadingRef.current = false
+      lastAuctionFetchRef.current = Date.now()
+    }
+  }
+
+  async function nominatePlayerByProjection(p: Player) {
+    try {
+      const apiBase = getApiBase()
+      const nhlId = parseInt(String(p.id), 10)
+      const body: any = { nhl_player_id: Number.isFinite(nhlId) ? nhlId : undefined, team_id: actionTeamId }
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/nominate`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      if (res.ok) {
+        toast.success('Nominated')
+        // Optimistically set banner so the UI reflects the nomination immediately
+        try {
+          const pid = Number.isFinite(nhlId) ? nhlId : NaN
+          const posRaw = (p.pos || '').toString().toUpperCase()
+          const pos = (posRaw === 'LW' || posRaw === 'RW') ? 'W' : posRaw
+          const type = Number.isFinite(pid) ? (statusById[pid] || '—') : '—'
+          setNominated({ player: p.name || (p as any)?.player || '', nhl_player_id: pid, pos, type })
+          // Also set current auction id immediately so bidding is enabled without waiting for state poll
+          try {
+            const json = await res.clone().json().catch(() => null)
+            const aid = json && typeof json.auction_id === 'number' ? json.auction_id : null
+            if (aid) {
+              setAuctionState((prev: any) => ({
+                ...(prev || {}),
+                open_auctions: [{ id: aid, nhl_player_id: pid }, ...((prev && prev.open_auctions) || [])],
+              }))
+            }
+          } catch {}
+        } catch {}
+        await loadAuctionState()
+      } else {
+        toast.error('Nomination failed')
+      }
+    } catch { toast.error('Nomination failed') }
+  }
+
+  async function submitBid(amount: number) {
+    if (!currentAuctionId || !actionTeamId) { toast.error('No auction or team'); return }
+    try {
+      const apiBase = getApiBase()
+      const amt = Math.max(0, Math.floor(Number(amount || 0)))
+      try { console.log('[BID]', { auctionId: currentAuctionId, teamId: actionTeamId, amt }) } catch {}
+      try { toast.message(`Submitting bid $${amt} (auction ${currentAuctionId}, team ${actionTeamId})`) } catch {}
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/bid`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auction_id: Number(currentAuctionId), team_id: String(actionTeamId), amount: amt }) })
+      if (res.ok) {
+        const js = await res.json().catch(() => ({} as any))
+        const top = js && js.top_bid ? js.top_bid : null
+        if (top && top.team_id) {
+          setGmBids((prev) => ({ ...prev, [String(top.team_id)]: Number(top.amount) }))
+          setBidSubmitted((prev) => ({ ...prev, [String(top.team_id)]: true }))
+        } else {
+          setGmBids((prev) => ({ ...prev, [String(actionTeamId)]: amt }))
+          setBidSubmitted((prev) => ({ ...prev, [String(actionTeamId)]: true }))
+        }
+        toast.success('Bid submitted')
+        await loadAuctionState()
+      } else {
+        const txt = await res.text().catch(() => '')
+        toast.error(`Bid failed ${txt ? `– ${txt}` : ''}`)
+        await loadAuctionState()
+      }
+    } catch { toast.error('Bid failed') }
+  }
+
+  async function matchRfa() {
+    if (!currentAuctionId || !teamMembership?.team_id) { toast.error('No auction or team'); return }
+    try {
+      const apiBase = getApiBase()
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/match`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auction_id: currentAuctionId, team_id: teamMembership.team_id }) })
+      if (res.ok) {
+        toast.success('Matched')
+        await loadAuctionState()
+      } else {
+        toast.error('Match failed')
+      }
+    } catch { toast.error('Match failed') }
+  }
+
+  // Persist the auction result server-side and refresh
+  async function finalizeAuction() {
+    try {
+      if (!currentAuctionId) { toast.error('No auction'); return }
+      const apiBase = getApiBase()
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/finalize`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auction_id: currentAuctionId })
+      })
+      if (!res.ok) { toast.error('Finalize failed'); return }
+      toast.success('Auction finalized')
+      // Reload state and draft data
+      await loadAuctionState()
+      try { await refreshCapSummary() } catch {}
+      try { await loadAuctionHistory() } catch {}
+      // Clear local bidding state
+      setGmBids({})
+      setBidSubmitted({})
+      setRevealed(false)
+      setNominated(null)
+    } catch { toast.error('Finalize failed') }
+  }
+
+  // Connect WebSocket for event-driven updates; fall back to polling if not connected
+  useEffect(() => {
+    function getWsUrl() {
+      const base = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith("http"))
+        ? (process.env.NEXT_PUBLIC_API_BASE as string)
+        : "http://localhost:8000"
+      try {
+        const u = new URL(base)
+        u.protocol = u.protocol === 'https:' ? 'wss:' : 'ws:'
+        u.pathname = `/ws/cbs/league/uhhp`
+        u.search = ''
+        return u.toString()
+      } catch {
+        return "ws://localhost:8000/ws/cbs/league/uhhp"
+      }
+    }
+    let ws: WebSocket | null = null
+    try {
+      const url = getWsUrl()
+      // Avoid multiple sockets
+      if (wsRef.current && (wsRef.current.readyState === WebSocket.OPEN || wsRef.current.readyState === WebSocket.CONNECTING)) {
+        return
+      }
+      ws = new WebSocket(url)
+      wsRef.current = ws
+      ws.onopen = () => { setWsConnected(true); try { loadAuctionState() } catch {} }
+      ws.onclose = () => { setWsConnected(false); try { loadAuctionState() } catch {} }
+      ws.onerror = () => setWsConnected(false)
+      ws.onmessage = () => {
+        // On any auction event, refresh state
+        loadAuctionState()
+      }
+    } catch {
+      setWsConnected(false)
+    }
+    return () => { try { wsRef.current?.close() } catch {} ; wsRef.current = null }
+  }, [])
+
+  // Derive/refresh the nominated banner from server state
+  useEffect(() => {
+    try {
+      const a = auctionState?.open_auctions?.[0] || null
+      if (!a) { setNominated(null); return }
+      const pid = Number(a?.nhl_player_id)
+      let name = ''
+      let pos = ''
+      if (Number.isFinite(pid)) {
+        // name/pos from projections by id
+        const ppos = (projPosById[pid] || '').toString().toUpperCase()
+        pos = (ppos === 'LW' || ppos === 'RW') ? 'W' : (ppos || '')
+        if (Array.isArray(rankings) && rankings.length) {
+          const hit = rankings.find((r: any) => Number(r?.id) === pid)
+          if (hit) name = String((hit as any)?.name || (hit as any)?.player || '')
+        }
+      }
+      // fallback by name key if present in state
+      if (!name) name = String(a?.player_name || a?.nhl_player_id || '')
+      const type = (Number.isFinite(pid) && statusById[pid]) ? statusById[pid] : '—'
+      setNominated({ player: name, nhl_player_id: Number.isFinite(pid) ? pid : undefined, pos, type })
+    } catch {}
+  }, [auctionState, rankings, projPosById, statusById])
+
+  useEffect(() => {
+    if (!auctionInitRef.current) {
+      loadAuctionState()
+      auctionInitRef.current = true
+    }
+    if (wsConnected) return
+    const id = setInterval(loadAuctionState, 5000)
+    return () => clearInterval(id)
+  }, [wsConnected])
+
+  // Admin-triggered reveal countdown (3s)
+  useEffect(() => {
+    function onReveal() {
+      setRevealTimer((v) => (v === null ? 3 : v))
+    }
+    window.addEventListener('uhhp:reveal', onReveal)
+    return () => window.removeEventListener('uhhp:reveal', onReveal)
+  }, [])
+
+  // Admin-triggered finalize
+  useEffect(() => {
+    function onFinalize() { finalizeAuction() }
+    window.addEventListener('uhhp:finalize', onFinalize)
+    return () => window.removeEventListener('uhhp:finalize', onFinalize)
+  }, [currentAuctionId])
+
+  // Hydrate picks list from backend auction history
+  async function loadAuctionHistory(limit: number = 50) {
+    try {
+      const apiBase = getApiBase()
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/history?limit=${limit}`, { cache: 'no-store' })
+      if (!res.ok) return
+      const js = await res.json()
+      let rows: any[] = Array.isArray(js?.results) ? js.results : []
+      // Sort by pick number asc (if available), otherwise by closed_at asc
+      try {
+        rows = [...rows].sort((a: any, b: any) => {
+          const pa = (a?.pick_num != null ? Number(a.pick_num) : Number.POSITIVE_INFINITY)
+          const pb = (b?.pick_num != null ? Number(b.pick_num) : Number.POSITIVE_INFINITY)
+          if (pa !== pb) return pa - pb
+          const da = a?.closed_at ? new Date(a.closed_at).getTime() : 0
+          const db = b?.closed_at ? new Date(b.closed_at).getTime() : 0
+          return da - db
+        })
+      } catch {}
+      // Build quick lookup for player names/positions from projections
+      const nameByNhlId: Record<number, string> = {}
+      const posByNhlId: Record<number, string> = {}
+      try {
+        if (Array.isArray(rankings)) {
+          for (const p of rankings) {
+            const pid = Number((p as any)?.id)
+            if (Number.isFinite(pid)) {
+              if ((p as any)?.name) nameByNhlId[pid] = String((p as any).name)
+              if ((p as any)?.pos) posByNhlId[pid] = String((p as any).pos)
+            }
+          }
+        }
+      } catch {}
+      const picks = rows.map((r: any, idx: number) => {
+        const tid = String((r?.winner_team_id ?? r?.team_id ?? ''))
+        const nm = nameById[tid] || String(r?.winner_team_name || '')
+        let playerName = String(r?.player_name || r?.name || '')
+        if (!playerName) {
+          try {
+            const pid = Number(r?.nhl_player_id)
+            if (Number.isFinite(pid) && nameByNhlId[pid]) playerName = nameByNhlId[pid]
+          } catch {}
+        }
+        let pos = String(r?.position || r?.pos || '').toUpperCase()
+        if (!pos) {
+          try {
+            const pid = Number(r?.nhl_player_id)
+            if (Number.isFinite(pid) && posByNhlId[pid]) pos = String(posByNhlId[pid]).toUpperCase()
+          } catch {}
+        }
+        const price = Number(r?.winning_amount ?? r?.amount ?? 0)
+        const pick = (r?.pick_num != null ? Number(r.pick_num) : (idx + 1))
+        const bids = Array.isArray(r?.bids) ? r.bids : []
+        return { team: teamAbbr(nm), team_id: tid, player: playerName, pos, price, pick, bids, nhl_player_id: r?.nhl_player_id }
+      })
+      setUhhpPicks(picks)
+    } catch {}
+  }
+
+  // Rehydrate picks with names/positions once projections arrive
+  useEffect(() => {
+    try {
+      if (!Array.isArray(rankings) || !Array.isArray(uhhpPicks) || uhhpPicks.length === 0) return
+      const nameByNhlId: Record<number, string> = {}
+      const posByNhlId: Record<number, string> = {}
+      for (const p of rankings) {
+        const pid = Number((p as any)?.id)
+        if (Number.isFinite(pid)) {
+          if ((p as any)?.name) nameByNhlId[pid] = String((p as any).name)
+          if ((p as any)?.pos) posByNhlId[pid] = String((p as any).pos)
+        }
+      }
+      const updated = uhhpPicks.map((r: any) => {
+        if (r?.player) return r
+        const pid = Number((r as any)?.nhl_player_id)
+        const player = Number.isFinite(pid) && nameByNhlId[pid] ? nameByNhlId[pid] : r.player
+        const pos = (!r?.pos && Number.isFinite(pid) && posByNhlId[pid]) ? String(posByNhlId[pid]).toUpperCase() : r.pos
+        return { ...r, player, pos }
+      })
+      setUhhpPicks(updated)
+    } catch {}
+  }, [rankings])
+
+  // Load on initial mount/reconnect
+  useEffect(() => {
+    loadAuctionHistory().catch(() => {})
+  }, [])
+
+  // Load saved cap hits for this team
+  useEffect(() => {
+    const loadCapHits = async () => {
+      try {
+        if (!teamMembership?.team_id) return
+        const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+        const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ team_id: String(teamMembership.team_id), cap_hits: capHits }) })
+        toast.success('Cap hits saved')
+      } catch { toast.error('Save failed') }
+    }
+    loadCapHits()
+  }, [teamMembership, capHits])
+  const leagueIdEnv = process.env.NEXT_PUBLIC_LEAGUE_ID || "1"
+  const draftStateLoadedRef = useRef(false)
+  const draftStateLoadingRef = useRef(false)
+  const projLoadedRef = useRef(false)
+  const triedCapFallbackRef = useRef(false)
+  // Prevent stale projection responses from overwriting current selection
+  const projFetchAbortRef = useRef<AbortController | null>(null)
+  const projReqSeqRef = useRef(0)
+  // Load all team cap hits for Cap Summary
+  useEffect(() => {
+    const loadAllCapHits = async () => {
+      try {
+        const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+        const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { method: 'GET', cache: 'no-store' })
+        if (!res.ok) return
+        const data = await res.json()
+        const map: Record<string, number> = {}
+        const arr: any[] = Array.isArray(data) ? data : (Array.isArray(data?.cap_hits) ? data.cap_hits : [])
+        for (const it of arr) {
+          const tid = String((it as any)?.team_id ?? '')
+          const v = Number((it as any)?.cap_hits ?? 0)
+          if (tid) map[tid] = Number.isFinite(v) ? v : 0
+        }
+        setCapHitsByTeam(map)
+      } catch {}
+    }
+    loadAllCapHits()
+  }, [])
+
+  // Draft state provides all rosters; no extra fetches per team
+  const loadRosterForMyTeam = async (_teamName: string) => { return }
+
+  // Optional: fetch projections only if draft_state did not provide ID-based FP
+  useEffect(() => {
+    const fetchProjFP = async () => {
+      try {
+        // Cancel previous in-flight request
+        if (projFetchAbortRef.current) {
+          try { projFetchAbortRef.current.abort() } catch {}
+        }
+        const controller = new AbortController()
+        projFetchAbortRef.current = controller
+        const reqId = ++projReqSeqRef.current
+        const srcAtStart = (projectionSource || '').trim().toLowerCase()
+        const apiBase = (process.env.NEXT_PUBLIC_API_BASE && process.env.NEXT_PUBLIC_API_BASE.startsWith("http"))
+          ? (process.env.NEXT_PUBLIC_API_BASE as string)
+          : "http://localhost:8000"
+        const src = (projectionSource || '').trim()
+        const qs = new URLSearchParams({ season: String(2025), league_id: String(leagueIdEnv), limit: String(10000) })
+        if (src) qs.set('source', src)
+        const res = await fetch(`${apiBase}/api/projections?${qs.toString()}`, { cache: "no-store", signal: controller.signal })
+        if (!res.ok) return
+        const json = await res.json()
+        // Combine projections if provided in separate lists (e.g., skaters/forwards and goalies)
+        let arr: any[] = []
+        if (Array.isArray(json?.results)) {
+          arr = json.results
+        } else if (Array.isArray(json)) {
+          arr = json
+        } else {
+          const containers: any[] = [json, (json && json.data) || null, (json && json.projections) || null].filter(Boolean)
+          const keys = [
+            'results','players','skaters','forwards','goalies','goalie','tenders','all','list','items'
+          ]
+          const collected: any[] = []
+          for (const c of containers) {
+            for (const k of keys) {
+              if (Array.isArray(c?.[k])) collected.push(...c[k])
+            }
+          }
+          arr = collected.length ? collected : []
+        }
+        // Sort by fantasy points desc
+        try {
+          arr = [...arr].sort((a: any, b: any) => Number(b?.fantasy_points || 0) - Number(a?.fantasy_points || 0))
+        } catch {}
+        const mapByName: Record<string, number> = {}
+        const mapById: Record<number, number> = {}
+        const posById: Record<number, string> = {}
+        const posByName: Record<string, string> = {}
+        for (const row of arr) {
+          const nm = ((row?.player_name || "").toString().trim().toLowerCase())
+          const fp = typeof row?.fantasy_points === 'number' ? row.fantasy_points : undefined
+          const pid = Number(row?.nhl_player_id)
+          const rawPos = String(row?.position || row?.pos || '').toUpperCase()
+          const primary = rawPos.split(/[\s,\/]+/)[0]
+          const pos = (primary === 'LW' || primary === 'RW') ? 'W' : primary
+          if (nm && fp != null) mapByName[nm] = fp
+          if (pid && fp != null) mapById[pid] = fp
+          if (pid) posById[pid] = pos
+          if (nm) posByName[nm] = pos
+        }
+        // Guard against stale response
+        if (projReqSeqRef.current !== reqId) return
+        if ((projectionSource || '').trim().toLowerCase() !== srcAtStart) return
+        if (Object.keys(mapByName).length) {
+          setFpMap((prev) => ({ ...prev, ...mapByName }))
+        }
+        if (Object.keys(mapById).length) setProjIdFP(mapById)
+        if (Object.keys(posById).length) setProjPosById(posById)
+        if (Object.keys(posByName).length) setProjPosByName(posByName)
+        // Build UI rankings list from projections
+        const toPlayer = (r: any, idx: number): Player => ({
+          id: String(r.nhl_player_id ?? r.player_name ?? idx),
+          name: String(r.player_name || ''),
+          team: String(r.team || r.nhl_team || r.nhl || ''),
+          pos: (() => { const raw = String(r.position || r.pos || '').toUpperCase(); const p = raw.split(/[\s,\/]+/)[0]; return (p === 'LW' || p === 'RW') ? 'W' : p })(),
+          bye: 0,
+          overall: idx + 1,
+          adp: idx + 1,
+          expertPct: 0,
+          headshot: undefined,
+        })
+        const players: Player[] = arr.map((r: any, idx: number) => toPlayer(r, idx))
+        if (projReqSeqRef.current !== reqId) return
+        if ((projectionSource || '').trim().toLowerCase() !== srcAtStart) return
+        setRankings(players)
+        setSuggestions(players.slice(0, 4))
+        // Capture VORP if present (vorp_* sources), otherwise clear
+        try {
+          const vmap: Record<number, number> = {}
+          const vsmap: Record<number, number> = {}
+          for (const r of arr) {
+            const pid = Number(r?.nhl_player_id)
+            if (!Number.isFinite(pid)) continue
+            if (typeof r?.vorp === 'number') vmap[pid] = r.vorp
+            if (typeof r?.vorp_salary === 'number') vsmap[pid] = r.vorp_salary
+          }
+          if (projReqSeqRef.current !== reqId) return
+          if ((projectionSource || '').trim().toLowerCase() !== srcAtStart) return
+          setVorpById(vmap)
+          setVorpSalaryById(vsmap)
+        } catch {}
+        // Build right panel projections list (proceeds even if available not loaded yet)
+        const projItems = arr
+          // If available list is present, only show those players
+          .filter((r: any) => {
+            const pid = Number(r?.nhl_player_id)
+            if (!availableSet || availableSet.size === 0) return true
+            return Number.isFinite(pid) ? availableSet.has(pid) : true
+          })
+          .map((r: any) => ({
+          nhl_player_id: Number(r.nhl_player_id),
+          player: String(r.player_name || ''),
+          pos: (() => { const raw = String(r.position || r.pos || '').toUpperCase(); const p = raw.split(/[\s,\/]+/)[0]; return (p === 'LW' || p === 'RW') ? 'W' : p })(),
+          team: String(r.team || r.nhl_team || r.nhl || ''),
+          fp: typeof r.fantasy_points === 'number' ? r.fantasy_points : undefined,
+          vorp: (typeof r?.vorp === 'number' ? r.vorp : undefined),
+          vorp_salary: (typeof r?.vorp_salary === 'number' ? r.vorp_salary : undefined),
+        }))
+        if (projReqSeqRef.current !== reqId) return
+        if ((projectionSource || '').trim().toLowerCase() !== srcAtStart) return
+        setProjections(projItems)
+      } catch {}
+    }
+    fetchProjFP()
+  }, [leagueIdEnv, projectionSource, availableReady, availableSet])
+
+  // Enrich status map using available endpoint so UFAs/RFAs appear for unrostered players
+  useEffect(() => {
+    if (availableLoadedRef.current) return
+    const loadAvailable = async () => {
+      try {
+        const apiBase = (process.env.NEXT_PUBLIC_API_BASE && process.env.NEXT_PUBLIC_API_BASE.startsWith("http"))
+          ? (process.env.NEXT_PUBLIC_API_BASE as string)
+          : "http://localhost:8000"
+        const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000`, { cache: "no-store" })
+        if (!res.ok) return
+        const json = await res.json()
+        const items = Array.isArray(json?.available) ? json.available : []
+        if (!items.length) return
+        setStatusById((prev) => {
+          const copy = { ...prev }
+          for (const it of items) {
+            const pid = Number(it?.nhl_player_id)
+            const st = (it?.status || '').toString().toUpperCase()
+            if (Number.isFinite(pid) && (st === 'UFA' || st === 'RFA')) copy[pid] = st
+          }
+          return copy
+        })
+        setAvailableById(() => {
+          const map: Record<number, { status: "UFA" | "RFA"; controlling_team_id: string | null }> = {}
+          for (const it of items) {
+            const pid = Number(it?.nhl_player_id)
+            const st = (it?.status || '').toString().toUpperCase()
+            if (Number.isFinite(pid) && (st === 'UFA' || st === 'RFA')) {
+              map[pid] = { status: st as any, controlling_team_id: it?.controlling_team_id || null }
+            }
+          }
+          return map
+        })
+        setAvailableSet(() => {
+          const s = new Set<number>()
+          for (const it of items) {
+            const pid = Number(it?.nhl_player_id)
+            if (Number.isFinite(pid)) s.add(pid)
+          }
+          return s
+        })
+        setAvailableReady(true)
+        availableLoadedRef.current = true
+      } catch {}
+    }
+    loadAvailable()
+  }, [])
+
+  // Load league-wide cap totals for all 12 teams (fallback only; draft_state already sets capTeams)
+  useEffect(() => {
+    if (draftStateLoadedRef.current) return
+    if (triedCapFallbackRef.current) return
+    if (Array.isArray(capTeams) && capTeams.length > 0) return
+    const loadCap = async () => {
+      try {
+        const apiBase = (process.env.NEXT_PUBLIC_API_BASE && process.env.NEXT_PUBLIC_API_BASE.startsWith("http"))
+          ? (process.env.NEXT_PUBLIC_API_BASE as string)
+          : "http://localhost:8000"
+        const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/teams`, { cache: "no-store" })
+        if (!res.ok) return
+        const json = await res.json()
+        setCapTeams(Array.isArray(json?.teams) ? json.teams : [])
+      } catch {}
+    }
+    triedCapFallbackRef.current = true
+    loadCap()
+  }, [leagueIdEnv, capTeams])
+
+  // Map team_id -> team_name from CBS teams list (authoritative)
   const nameById = useMemo(() => {
     const map: Record<string, string> = {}
-    const real = (stage1Teams || []).map((t: any) => (t?.team_name || t?.team || t?.name || "").toString())
-    if (real.length) {
-      for (let i = 0; i < teams.length; i++) {
-        if (real[i]) map[teams[i].id] = real[i]
+    for (const t of (capTeams || [])) {
+      const id = String((t?.team_id ?? ''))
+      const nm = (t?.team_name || '').toString()
+      if (id && nm) map[id] = nm
+    }
+    return map
+  }, [capTeams])
+
+  // Map real team name -> logo URL from CBS league teams
+  const logoByTeamName = useMemo(() => {
+    const map: Record<string, string> = {}
+    for (const t of (capTeams || [])) {
+      const nm = (t?.team_name || "").toString().trim().toLowerCase()
+      const url = (t?.logo_url || "").toString()
+      if (nm && url) map[nm] = url
+    }
+    return map
+  }, [capTeams])
+
+  // Map team abbreviation -> logo URL (use CBS-provided abbrev when available; fallback to derived)
+  const logoByAbbr = useMemo(() => {
+    const map: Record<string, string> = {}
+    for (const t of (capTeams || [])) {
+      const url = (t?.logo_url || "").toString()
+      if (!url) continue
+      const abbrRaw = (t?.abbrev || "").toString().trim().toUpperCase()
+      if (abbrRaw) {
+        map[abbrRaw] = url
+      } else {
+        const derived = teamAbbr((t?.team_name || "").toString())
+        if (derived) map[derived] = url
       }
     }
     return map
-  }, [stage1Teams, teams])
+  }, [capTeams])
 
   function toggleBench(playerName: string) {
     const key = normalizeName(playerName)
@@ -372,37 +1060,281 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
       return next
     })
   }
+  const effectivePoolId = useMemo(() => (poolId || process.env.NEXT_PUBLIC_POOL_ID || "1"), [poolId])
+
   async function loadUhhp() {
     try {
-      const url = projectionSource === "avg_experts" ? "/api/uhhp/state?mock=1" : "/api/uhhp/state"
+      if (draftStateLoadedRef.current || draftStateLoadingRef.current) return
+      draftStateLoadingRef.current = true
+      const apiBase = (process.env.NEXT_PUBLIC_API_BASE && process.env.NEXT_PUBLIC_API_BASE.startsWith("http"))
+        ? (process.env.NEXT_PUBLIC_API_BASE as string)
+        : "http://localhost:8000"
+      // Use consolidated draft_state endpoint
+      const url = `${apiBase}/api/public/cbs/league/uhhp/draft_state`
       const res = await fetch(url, { cache: "no-store" })
+      if (!res.ok) throw new Error("draft_state failed")
       const data = await res.json()
-      setUhhpPicks((data?.auction?.results as any[]) || [])
-      setAuctionOrder((data?.auction?.order as string[]) || [])
-      setFpMap((data?.fpMap as Record<string, number>) || {})
-      setAgeMap((data?.ageMap as Record<string, number>) || {})
-      setProjections((data?.projections as any[]) || null)
-      setStage1Teams((data?.stage1Teams as any[]) || null)
-      if (Array.isArray(data?.stage1Teams) && data.stage1Teams.length > 0) {
-        const prefer = (data.stage1Teams as any[]).find((t: any) => (t?.team_name || "") === "New Oilers Nation")
-        const pickName = (prefer?.team_name as string) || (data.stage1Teams[0]?.team_name as string) || "New Oilers Nation"
-        setSelectedTeamName(String(pickName))
-      } else if (!selectedTeamName) {
-        setSelectedTeamName("New Oilers Nation")
+      // Cap Summary teams (merge in attached_email/login from /teams)
+      const teamsArr = Array.isArray(data?.teams) ? data.teams : []
+      try {
+        const teamsRes = await fetch(`${apiBase}/api/public/cbs/league/uhhp/teams`, { cache: 'no-store' })
+        if (teamsRes.ok) {
+          const tdata = await teamsRes.json()
+          const enrich: Record<string, any> = {}
+          for (const t of (Array.isArray(tdata?.teams) ? tdata.teams : [])) {
+            const tid = String((t?.team_id ?? ''))
+            if (tid) enrich[tid] = t
+          }
+          const merged = teamsArr.map((t: any) => {
+            const tid = String((t?.team_id ?? ''))
+            const more = enrich[tid]
+            return more ? { ...t, attached_email: more.attached_email, login: more.login, is_admin: more.is_admin } : t
+          })
+          setCapTeams(merged)
+        } else {
+          setCapTeams(teamsArr)
+        }
+      } catch {
+        setCapTeams(teamsArr)
       }
+      setScoringRules(Array.isArray(data?.scoring_rules) ? data.scoring_rules : [])
+      setProjectionSources(Array.isArray(data?.projection_sources) ? data.projection_sources : [])
+      // Always hydrate auction order directly from cbs_auction_order
+      try {
+        const apiBase = (process.env.NEXT_PUBLIC_API_BASE && process.env.NEXT_PUBLIC_API_BASE.startsWith("http"))
+          ? (process.env.NEXT_PUBLIC_API_BASE as string)
+          : "http://localhost:8000"
+        const ordRes = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/order`, { cache: 'no-store' })
+        let orderIds: string[] = []
+        if (ordRes.ok) {
+          const ord = await ordRes.json()
+          const arr: Array<{ pos: number; team_id: string }> = Array.isArray(ord?.order) ? ord.order : []
+          if (arr.length) orderIds = arr.sort((a,b)=>Number(a.pos)-Number(b.pos)).map((o) => String(o.team_id))
+        }
+        if (orderIds.length === 0 && teamsArr.length) {
+          orderIds = teamsArr.map((t: any) => String(t?.team_id || '')).filter(Boolean)
+        }
+        if (orderIds.length) {
+          if (!auctionOrder.length) setAuctionOrder(orderIds)
+          if (!(tieOrder && tieOrder.length)) setTieOrder(orderIds)
+        }
+      } catch {}
+      // Build stage1Teams from roster payload for My Team
+      const rosters = Array.isArray(data?.rosters) ? data.rosters as any[] : []
+      const byTeam: Record<string, any[]> = {}
+      const nextStatus: Record<number, "UFA" | "RFA"> = {}
+      const locked = new Set<number>()
+      for (const r of rosters) {
+        const t = String(r.team_id)
+        if (!byTeam[t]) byTeam[t] = []
+        const salaryNum = r?.salary ? Number(r.salary) : 0
+        // Skip non-player cap-hit placeholders
+        const nameNorm = (r?.player_name || "").toString().trim().toLowerCase()
+        if (nameNorm.startsWith("z-caphit") || nameNorm.includes("draft pick")) {
+          continue
+        }
+        if (typeof r?.nhl_player_id === 'number') {
+          const st = (r?.status || '').toString().toUpperCase()
+          if (st === 'UFA' || st === 'RFA') nextStatus[Number(r.nhl_player_id)] = st
+          const yrs = Number(r?.years)
+          if (yrs === 1 || yrs === 2) locked.add(Number(r.nhl_player_id))
+        }
+        byTeam[t].push({
+          player: (r?.player_name || String(r?.cbs_player_id) || String(r?.nhl_player_id)),
+          pos: ((r?.position || "").toString().toUpperCase()),
+          salary: salaryNum,
+          price: salaryNum,
+          years: r?.years,
+          team: String(r?.team_id),
+          nhl_player_id: (typeof r?.nhl_player_id === 'number' ? r.nhl_player_id : undefined),
+          status: r?.status,
+          team_abbr: (r as any)?.nhl_team_abbr || '',
+          birthdate: (r as any)?.birthdate || null,
+        })
+      }
+      setStatusById(nextStatus)
+      setContractLockedIds(locked)
+      const stageTeams = (Array.isArray(data?.teams) ? data.teams as any[] : []).map((t) => ({
+        team_id: t.team_id,
+        team_name: t.team_name,
+        players: byTeam[String(t.team_id)] || [],
+      }))
+      setStage1Teams(stageTeams)
+      // Default selected
+      const prefer = stageTeams.find((t: any) => (t?.team_name || "") === "New Oilers Nation")
+      setSelectedTeamName(prefer ? String(prefer.team_name) : (stageTeams[0]?.team_name || "New Oilers Nation"))
+      // Build projection FP map by nhl id
+      const projMap: Record<number, number> = {}
+      for (const r of rosters) {
+        if (typeof r?.nhl_player_id === 'number' && typeof r?.fantasy_points === 'number') {
+          projMap[Number(r.nhl_player_id)] = Number(r.fantasy_points)
+        }
+      }
+      setProjIdFP(projMap)
+      draftStateLoadedRef.current = true
       toast.success("Loaded UHHP draft state")
     } catch (e) {
       toast.error("Failed to load UHHP state")
+    } finally {
+      draftStateLoadingRef.current = false
     }
   }
 
-  const uhhpTop50 = useMemo(() => (uhhpPicks ? uhhpPicks.slice(0, 50) : null), [uhhpPicks])
+  // Refresh Cap Summary data on-demand (cap hits + latest rosters/teams)
+  async function refreshCapSummary() {
+    try {
+      const apiBase = (process.env.NEXT_PUBLIC_API_BASE && process.env.NEXT_PUBLIC_API_BASE.startsWith("http"))
+        ? (process.env.NEXT_PUBLIC_API_BASE as string)
+        : "http://localhost:8000"
+      // Fetch cap hits and draft_state in parallel
+      const [capRes, dsRes, teamsRes] = await Promise.all([
+        fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { method: 'GET', cache: 'no-store' }),
+        fetch(`${apiBase}/api/public/cbs/league/uhhp/draft_state`, { cache: 'no-store' }),
+        fetch(`${apiBase}/api/public/cbs/league/uhhp/teams`, { cache: 'no-store' }),
+      ])
+      if (capRes.ok) {
+        const data = await capRes.json()
+        const map: Record<string, number> = {}
+        const arr: any[] = Array.isArray(data) ? data : (Array.isArray(data?.cap_hits) ? data.cap_hits : [])
+        for (const it of arr) {
+          const tid = String((it as any)?.team_id ?? '')
+          const v = Number((it as any)?.cap_hits ?? 0)
+          if (tid) map[tid] = Number.isFinite(v) ? v : 0
+        }
+        setCapHitsByTeam(map)
+      }
+      if (dsRes.ok) {
+        const data = await dsRes.json()
+        const teamsArr = Array.isArray(data?.teams) ? data.teams : []
+        if (teamsRes.ok) {
+          try {
+            const tdata = await teamsRes.json()
+            const enrich: Record<string, any> = {}
+            for (const t of (Array.isArray(tdata?.teams) ? tdata.teams : [])) {
+              const tid = String((t?.team_id ?? ''))
+              if (tid) enrich[tid] = t
+            }
+            const merged = teamsArr.map((t: any) => {
+              const tid = String((t?.team_id ?? ''))
+              const more = enrich[tid]
+              return more ? { ...t, attached_email: more.attached_email, login: more.login, is_admin: more.is_admin } : t
+            })
+            setCapTeams(merged)
+          } catch { setCapTeams(teamsArr) }
+        } else {
+          setCapTeams(teamsArr)
+        }
+        const rosters = Array.isArray(data?.rosters) ? data.rosters as any[] : []
+        const byTeam: Record<string, any[]> = {}
+        for (const r of rosters) {
+          const t = String(r.team_id)
+          if (!byTeam[t]) byTeam[t] = []
+          const salaryNum = r?.salary ? Number(r.salary) : 0
+          const nameNorm = (r?.player_name || "").toString().trim().toLowerCase()
+          if (nameNorm.startsWith("z-caphit") || nameNorm.includes("draft pick")) continue
+          byTeam[t].push({
+            player: (r?.player_name || String(r?.cbs_player_id) || String(r?.nhl_player_id)),
+            pos: ((r?.position || "").toString().toUpperCase()),
+            salary: salaryNum,
+            price: salaryNum,
+            years: r?.years,
+            future_fa: (r as any)?.future_fa,
+            team: String(r?.team_id),
+            nhl_player_id: (typeof r?.nhl_player_id === 'number' ? r.nhl_player_id : undefined),
+            status: (r as any)?.status,
+            type: (r as any)?.status,
+            team_abbr: (r as any)?.nhl_team_abbr || '',
+            birthdate: (r as any)?.birthdate || null,
+          })
+        }
+        const stageTeams = (Array.isArray(data?.teams) ? data.teams as any[] : []).map((t) => ({
+          team_id: t.team_id,
+          team_name: t.team_name,
+          players: byTeam[String(t.team_id)] || [],
+        }))
+        setStage1Teams(stageTeams)
+      }
+    } catch {}
+  }
+
+  // When switching viewed team, load that team's local roster layout and cap hit
+  useEffect(() => {
+    try {
+      if (!selectedTeamName || !Array.isArray(stage1Teams)) return
+      const team = (stage1Teams || []).find((t: any) => (t?.team_name || '') === selectedTeamName)
+      const tid = team && team.team_id ? String(team.team_id) : ''
+      if (!tid) return
+      // Load saved layout for this team
+      const key = `uhhp_layout_${tid}`
+      const raw = localStorage.getItem(key)
+      let loadedLocalCap = false
+      if (raw) {
+        try {
+          const data = JSON.parse(raw)
+          if (Array.isArray(data.bench)) setBenchSet(new Set<string>(data.bench))
+          if (Array.isArray(data.empty)) setEmptySlots(new Set<string>(data.empty))
+          if (data.targets && typeof data.targets === 'object') setTargets(data.targets)
+          if (typeof data.capHits === 'number') {
+            setCapHits(data.capHits)
+            setCapHitsInput(String(data.capHits))
+            loadedLocalCap = true
+          }
+        } catch {}
+      }
+      // Apply cap hits from server snapshot map if available
+      const serverCap = capHitsByTeam[tid]
+      if (!loadedLocalCap && serverCap != null && Number.isFinite(Number(serverCap))) {
+        setCapHits(Number(serverCap))
+        setCapHitsInput(String(serverCap))
+      }
+    } catch {}
+  }, [selectedTeamName, stage1Teams, capHitsByTeam])
+
+  const uhhpTop50 = useMemo(() => (uhhpPicks.length ? uhhpPicks.slice(0, 50) : null), [uhhpPicks])
+  // Compute client-side VORP salary using Cap Summary
+  const clientVorpSalaryById = useMemo(() => {
+    try {
+      if (!Array.isArray(rankings) || rankings.length === 0) return {}
+      // Build available pool for ranking view
+      const pool: Array<{ id: number; vorp: number }> = []
+      for (const pl of rankings) {
+        const pid = Number(pl?.id)
+        if (!Number.isFinite(pid)) continue
+        const v = vorpById[pid]
+        if (typeof v === 'number' && v > 0) pool.push({ id: pid, vorp: v })
+      }
+      // Market size based on roster requirements as if no players were signed
+      const numTeams = Array.isArray(stage1Teams) ? stage1Teams.length : 12
+      const rosterSize = 15 // 2C,3W,4D,2G,4F → 15 total
+      const openSlots = Math.max(1, numTeams * rosterSize)
+      pool.sort((a, b) => b.vorp - a.vorp)
+      const market = pool.slice(0, openSlots)
+      const sumVorp = market.reduce((s, x) => s + (x.vorp > 0 ? x.vorp : 0), 0)
+      // Assume fresh budgets: $120 per team, no spend/cap hits
+      const totalCap = numTeams * 120
+      if (sumVorp <= 0 || totalCap <= 0) return {}
+      // Price = totalCap * (vorp / sumVorp), clamped 2..30
+      const out: Record<number, number> = {}
+      for (const x of market) {
+        const raw = totalCap * (x.vorp / sumVorp)
+        const clamped = Math.max(2, Math.min(30, Math.round(raw)))
+        out[x.id] = clamped
+      }
+      return out
+    } catch {
+      return {}
+    }
+  }, [rankings, vorpById, stage1Teams])
   const uhhpFilled50 = useMemo(() => {
-    if (!uhhpPicks) return null
+    // Build 50 slots; associate each slot's team from auctionOrder
     const list: Array<{ kind: "taken" | "pending" | "nominated"; data?: any; team?: string }> = []
     const total = 50
     const takenCount = Math.min(uhhpPicks.length, total)
-    for (let i = 0; i < takenCount; i++) list.push({ kind: "taken", data: uhhpPicks[i] })
+    for (let i = 0; i < takenCount; i++) {
+      const taken = uhhpPicks[i]
+      const team = taken?.team_id || (auctionOrder.length ? auctionOrder[i % auctionOrder.length] : undefined)
+      list.push({ kind: "taken", data: taken, team })
+    }
     for (let i = takenCount; i < total; i++) {
       const nomTeam = auctionOrder.length ? auctionOrder[i % auctionOrder.length] : "Nomination"
       if (i === takenCount && nominated) {
@@ -413,6 +1345,15 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
     }
     return list
   }, [uhhpPicks, auctionOrder, nominated])
+
+  // Keep the highlighted pick in sync with the current draft progress
+  useEffect(() => {
+    try {
+      const taken = Array.isArray(uhhpPicks) ? uhhpPicks.length : 0
+      const idx = Math.max(1, Math.min(50, taken + 1))
+      setCurrentPickNum(idx)
+    } catch {}
+  }, [uhhpPicks, nominated])
 
   function openPlayer(p: Player) {
     setModalPlayer(p)
@@ -431,11 +1372,78 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
   }
 
   useEffect(() => {
-    if (autoLoadUhhp) {
+    if (!autoLoadUhhp) return
+    // Only load once
+    if (draftStateLoadedRef.current) return
       loadUhhp()
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoLoadUhhp, projectionSource])
+  }, [autoLoadUhhp])
+
+  // Listen for pick order updates from settings modal
+  useEffect(() => {
+    function onSetPickOrder(e: any) {
+      try {
+        const incoming = Array.isArray(e?.detail?.order) ? e.detail.order : []
+        if (!incoming.length) return
+        // Accept either ids or names; convert names to ids if needed
+        const haveIds = incoming.every((x) => teams.some((t) => t.id === String(x)))
+        if (haveIds) {
+          const ids = incoming.map((x) => String(x))
+          setAuctionOrder(ids)
+          setTieOrder(ids)
+        } else {
+          const nameToId: Record<string, string> = {}
+          teams.forEach((t) => { nameToId[t.name] = t.id })
+          const ids = incoming.map((n) => nameToId[String(n)]).filter(Boolean)
+          if (ids.length) { setAuctionOrder(ids); setTieOrder(ids) }
+        }
+      } catch {}
+    }
+    window.addEventListener('uhhp:set-pick-order', onSetPickOrder as any)
+    return () => window.removeEventListener('uhhp:set-pick-order', onSetPickOrder as any)
+  }, [])
+
+  // Persist and restore My Team layout: bench, empty slots, targets, cap hits
+  useEffect(() => {
+    try {
+      const key = `uhhp_layout_${teamMembership?.team_id || 'anon'}`
+      const raw = localStorage.getItem(key)
+      if (!raw) return
+      const data = JSON.parse(raw)
+      if (Array.isArray(data.bench)) setBenchSet(new Set<string>(data.bench))
+      if (Array.isArray(data.empty)) setEmptySlots(new Set<string>(data.empty))
+      if (data.targets && typeof data.targets === 'object') setTargets(data.targets)
+      if (typeof data.capHits === 'number') { setCapHits(data.capHits); setCapHitsInput(String(data.capHits)) }
+      setSaveDirty(false)
+    } catch {}
+  }, [teamMembership?.team_id])
+  const markDirty = () => setSaveDirty(true)
+  const saveLayout = async () => {
+    try {
+      setSaveLoading(true)
+      const key = `uhhp_layout_${teamMembership?.team_id || 'anon'}`
+      const payload = {
+        bench: Array.from(benchSet),
+        empty: Array.from(emptySlots),
+        targets,
+        capHits,
+      }
+      localStorage.setItem(key, JSON.stringify(payload))
+      // Also persist cap hits to backend
+      try {
+        if (teamMembership?.team_id) {
+          const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+          await fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ team_id: String(teamMembership.team_id), cap_hits: capHits }) })
+        }
+      } catch {}
+      toast.success('Layout saved')
+      setSaveDirty(false)
+    } catch {
+      toast.error('Save failed')
+    } finally {
+      setSaveLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white grid grid-rows-[56px_1fr]">
@@ -449,42 +1457,14 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
               </div>
               <div className="font-semibold">Draft Simulator</div>
             </div>
-            <button className="ml-3 inline-flex items-center gap-2 rounded bg-slate-800 px-3 py-1.5 text-sm hover:bg-slate-700">
-              <Stars className="w-4 h-4" />
-              Auto Draft
-            </button>
-            <button className="p-2 hover:bg-slate-800 rounded">
+            <button className="p-2 hover:bg-slate-800 rounded" onClick={() => setSettingsOpen(true)}>
               <Settings className="w-4 h-4" />
             </button>
-            <button onClick={loadUhhp} className="p-2 hover:bg-slate-800 rounded">
-              <Clock className="w-4 h-4" />
-            </button>
           </div>
 
-          <div className="flex-1 max-w-xl mx-6">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <Input
-                placeholder="Search players"
-                className="pl-9 bg-slate-800 border-slate-700 text-white placeholder:text-slate-400"
-              />
-            </div>
-          </div>
+          <div className="flex-1 max-w-xl mx-6"></div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={toggleTimer}
-              className="inline-flex items-center gap-2 px-3 py-2 text-sm rounded bg-slate-800 hover:bg-slate-700"
-              aria-label={timerRunning ? "Pause" : "Resume"}
-            >
-              {timerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-              <span>{timerRunning ? "Pause" : "Resume"}</span>
-            </button>
-            <div className="hidden md:flex items-center gap-2 text-sm">
-              <span className="font-semibold">{phase}</span>
-            </div>
-            <div className="text-sm font-semibold tabular-nums">{formatTime(timeLeft)}</div>
-          </div>
+          <DraftTopbarAuth />
         </div>
       </div>
 
@@ -492,8 +1472,8 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
       <div className="w-full grid grid-cols-1 md:grid-cols-[280px_minmax(0,1fr)_340px] gap-4 px-0 py-4 h-full items-stretch">
         {/* Left: Rankings rail with tabs */}
         <aside className="rounded-none border-r bg-white h-full flex flex-col min-h-0">
-          {/* Tabs header (Rankings | Teams | Queue) */}
-          <div className="px-3 pt-2">
+          {/* Tabs header (Auction | Tie Break) */}
+          <div className="p-3 border-b">
             <div className="flex items-center gap-2">
               {(["rankings", "queue"] as const).map((t) => {
                 const labels: Record<typeof t, string> = {
@@ -517,39 +1497,20 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                   </button>
                 )
               })}
+              <div className="ml-auto" />
             </div>
           </div>
 
-          {/* Section header row */}
-          <div className="px-3 py-2.5 border-b">
-            <div className="flex items-center justify-between">
-              <div className="text-base md:text-lg font-semibold"></div>
-              {leftTab === "rankings" && !uhhpTop50 && (
-                <label className="text-sm inline-flex items-center gap-2">
-                  <input type="checkbox" />
-                  <span>Show Drafted</span>
-                </label>
-              )}
-            </div>
+          {/* Removed section header spacer */}
 
-            {leftTab === "rankings" && null}
-          </div>
+          {/* Pick Order block removed per request */}
+
+          {/* Admin controls removed from left rail */}
 
           {/* Content area */}
-          <div className="h-[calc(100vh-56px-32px)] overflow-auto">
+          <div className="h-[calc(100vh-56px-32px)] overflow-auto p-3">
             {leftTab === "rankings" && (
               <>
-                {/* Detached sticky header for rankings list */}
-                <div className="sticky top-0 z-10 bg-white border-y">
-                  <div className="grid grid-cols-[28px_1fr_60px] items-center px-3 py-2">
-                    <div className="text-[12px] font-semibold text-slate-500">{uhhpTop50 ? "Pick" : "Rank"}</div>
-                    <div className="text-[12px] font-semibold text-slate-500">Player</div>
-                    <div className="text-[12px] font-semibold text-slate-500 text-right inline-flex items-center justify-end gap-1">
-                      {uhhpTop50 ? "Won" : "Pick Predictor"}
-                    </div>
-                  </div>
-                </div>
-
                 {/* Rows */}
                 <div className="h-[calc(100vh-56px-32px-90px)] overflow-auto">
                   {uhhpFilled50
@@ -577,7 +1538,7 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                       <button
                                         type="button"
                                         onClick={() => openPlayer({
-                                          id: r.player,
+                                          id: r.nhl_player_id || r.player,
                                           name: r.player,
                                           team: "",
                                           pos: r.pos || "",
@@ -588,7 +1549,7 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                         })}
                                         className="font-semibold leading-snug text-[13px] break-words text-left hover:underline focus:outline-none focus:underline"
                                       >
-                                        {r.player}
+                                        {r.player || `#${r.pick || (idx + 1)}`}
                                       </button>
                                       <div className="mt-1 flex items-center gap-2">
                                         <span
@@ -599,7 +1560,10 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                         >
                                           {r.pos || ""}
                                         </span>
-                                        <div className="text-[12px] text-slate-600 break-words">{r.team}</div>
+                                        <div className="text-[12px] text-slate-600 break-words">{nameById[String(entry.team || "")] || nameById[String(r.team_id || "")] || ""}</div>
+                                        {r.pick ? (
+                                          <div className="text-[12px] text-slate-500">Pick {r.pick}</div>
+                                        ) : null}
                                       </div>
                                     </>
                                   )
@@ -619,12 +1583,12 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                   >
                                     {entry.data?.pos || ""}
                                   </span>
-                                  <div className="text-[12px] text-slate-600 break-words">{entry.team}</div>
+                                  <div className="text-[12px] text-slate-600 break-words">{nameById[String(entry.team || "")] || ""}</div>
                                 </div>
                               </>
                             ) : (
                               <>
-                                <div className="text-[12px] text-slate-600 break-words">{entry.team}</div>
+                                <div className="text-[12px] text-slate-600 break-words">{nameById[String(entry.team || "")] || ""}</div>
                               </>
                             )}
                           </div>
@@ -678,14 +1642,18 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                           >
                             {p.pos}
                           </span>
-                          <div className="text-[12px] text-slate-600 break-words">
-                            {p.team} <span className="text-slate-400">(Bye {p.bye})</span>
-                          </div>
+                          <div className="text-[12px] text-slate-600 break-words">{p.team}</div>
                         </div>
                       </div>
 
-                      {/* Pick % */}
-                      <div className="text-right text-[13px] font-bold text-rose-600 pr-1">{p.expertPct}%</div>
+                      {/* FP display from projections */}
+                      <div className="text-right text-[13px] font-bold text-rose-600 pr-1">
+                        {(() => {
+                          const key = (p.name || '').toString().trim().toLowerCase()
+                          const fp = fpMap[key]
+                          return typeof fp === 'number' ? fp.toFixed(1) : '—'
+                        })()}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -797,30 +1765,13 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                         <Button
                           size="sm"
                           variant="outline"
-                          className={cn("ml-1", (!nominated || (revealed && !tieTeams.includes(yourTeamId))) ? "opacity-50 cursor-not-allowed" : undefined)}
-                          disabled={!nominated || (revealed && !tieTeams.includes(yourTeamId))}
+                          className={cn("ml-1", (!currentAuctionId) ? "opacity-50 text-slate-400 cursor-not-allowed" : undefined)}
+                          disabled={!currentAuctionId}
                           onClick={() => {
-                            if (!nominated) { toast.message("Nominate a player first"); return }
+                            if (!currentAuctionId) { toast.message("No open auction"); return }
                             if (revealed && !tieTeams.includes(yourTeamId)) return
                             setBidAmount("0")
-                            const key = (nominated.player || "").toString().trim().toLowerCase()
-                            const fp = typeof (nominated as any).fp === "number" ? (nominated as any).fp : fpMap[key]
-                            const base = typeof fp === "number" ? Math.max(2, Math.min(60, Math.round(fp / 20))) : 8
-                            const nextBids: Record<string, number> = { [yourTeamId]: 0 }
-                            for (const t of teams) {
-                              if (t.id === yourTeamId) continue
-                              const jitter = Math.floor((Math.random() * 7) - 3)
-                              const b = Math.max(2, Math.min(100, base + jitter))
-                              nextBids[t.id] = b
-                            }
-                            setGmBids(nextBids)
-                            const all: Record<string, boolean> = {}
-                            for (const t of teams) all[t.id] = true
-                            setBidSubmitted(all)
-                            // start reveal countdown explicitly in case effect timing misses
-                            setRevealed(false)
-                            setRevealTimer(3)
-                            toast.message("Passed (bid $0)")
+                            submitBid(0)
                           }}
                         >
                           Pass
@@ -834,7 +1785,7 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                       type="text"
                       inputMode="numeric"
                       pattern="[0-9]*"
-                      className="w-12 h-8 pl-4 text-center"
+                      className="w-12 h-8 pl-4 text-center bg-white"
                       value={bidAmount}
                       onChange={(e) => {
                         const raw = e.target.value
@@ -842,72 +1793,41 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                         setBidAmount(cleaned)
                       }}
                       onBlur={() => {
-                        const n = Math.floor(Number(bidAmount || "0"))
-                        setBidAmount(String(Math.max(2, Number.isFinite(n) ? n : 2)))
+                        if (bidAmount === "") return
+                        const n = Math.floor(Number(bidAmount))
+                        if (Number.isFinite(n)) {
+                          setBidAmount(String(Math.max(2, n)))
+                        }
                       }}
-                      placeholder="2"
+                      placeholder=""
                     />
                   </div>
                   {(() => {
                     const isSubmitted = !!bidSubmitted[yourTeamId]
                     const youInTie = revealed && tieTeams.includes(yourTeamId)
-                    const disabled = !nominated || (revealed && !youInTie)
-                    const showCancelHover = !revealed && isSubmitted
-                    const label = youInTie ? "Re-Bid" : (isSubmitted ? (showCancelHover ? "Cancel" : "Submitted") : "Submit Bid")
+                    const disabled = !currentAuctionId
+                    const label = (isSubmitted && !revealed) ? "Cancel" : (youInTie ? "Re-Bid" : "Submit Bid")
                     const baseCls = "ml-2"
                     const stateCls = youInTie
                       ? "bg-orange-500 hover:bg-orange-600 text-white"
-                      : isSubmitted
-                        ? (showCancelHover
+                      : (isSubmitted && !revealed)
                             ? "bg-rose-600 hover:bg-rose-700 text-white"
-                            : "bg-emerald-600/10 text-emerald-700 border border-emerald-300 hover:bg-emerald-600/20")
                         : undefined
                     return (
                       <Button
                         className={cn(baseCls, stateCls, disabled ? "opacity-50 cursor-not-allowed" : undefined)}
                         disabled={disabled}
-                        onMouseEnter={() => { if (!revealed) setSubmittedHover(true) }}
-                        onMouseLeave={() => { if (!revealed) setSubmittedHover(false) }}
                         onClick={() => {
-                          if (!nominated) return
-                          if (revealed) {
-                            if (!youInTie) return
-                            // Re-bid submission for tie-break
-                            const amt = Math.max(2, Math.floor(Number(bidAmount || "0")))
-                            setGmBids((prev) => ({ ...prev, [yourTeamId]: amt }))
-                            const all: Record<string, boolean> = {}
-                            for (const t of teams) all[t.id] = true
-                            setBidSubmitted(all)
-                            setRevealed(false)
-                            setRevealTimer(3)
-                            toast.success(`Re-bid $${amt}`)
-                            return
-                          }
+                          if (!currentAuctionId) return
                           const isSub = !!bidSubmitted[yourTeamId]
-                          if (isSub) {
+                          if (isSub && !revealed) {
                             setBidSubmitted((prev) => ({ ...prev, [yourTeamId]: false }))
                             setGmBids((prev) => { const cp = { ...prev }; delete cp[yourTeamId]; return cp })
                             toast.message("Bid cancelled")
-                          } else {
-                            const amt = Math.max(2, Math.floor(Number(bidAmount || "0")))
-                            toast.success(`Bid $${amt} on ${nominated?.player || ""}`)
-                            setBidSubmitted((prev) => ({ ...prev, [yourTeamId]: true }))
-                            // generate bids for all GMs this round
-                            const key = (nominated.player || "").toString().trim().toLowerCase()
-                            const fp = typeof (nominated as any).fp === "number" ? (nominated as any).fp : fpMap[key]
-                            const base = typeof fp === "number" ? Math.max(2, Math.min(60, Math.round(fp / 20))) : 8
-                            const nextBids: Record<string, number> = { [yourTeamId]: amt }
-                            for (const t of teams) {
-                              if (t.id === yourTeamId) continue
-                              const jitter = Math.floor((Math.random() * 7) - 3)
-                              const b = Math.max(2, Math.min(100, base + jitter))
-                              nextBids[t.id] = b
-                            }
-                            setGmBids(nextBids)
-                            const all: Record<string, boolean> = {}
-                            for (const t of teams) all[t.id] = true
-                            setBidSubmitted(all)
+                            return
                           }
+                          const amt = Math.floor(Number(bidAmount || "0"))
+                          submitBid(amt)
                         }}
                       >
                         {label}
@@ -919,15 +1839,30 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
               </div>
               {/* GM bid status */}
               <div className="mt-3">
-                <div className="text-xs text-slate-500 mb-1">GM Bids {revealTimer !== null ? `(revealing in ${revealTimer}s)` : revealed ? "(revealed)" : ""}</div>
+                <div className="text-xs text-slate-500 mb-1">GM Bids {revealed ? "(revealed)" : (revealTimer !== null ? `(revealing in ${revealTimer}s)` : "(hidden until all submit)")}</div>
                 <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap py-1">
                   {teams.map((t) => {
                     const submitted = !!bidSubmitted[t.id]
                     const bid = gmBids[t.id]
                     const isTie = revealed && tieTeams.includes(t.id)
                     const hasAdv = revealed && tieAdvantageTeamId === t.id && isTie
+                    const displayName = nameById[t.id] || t.name
+                    const normName = (displayName || "").toString().trim().toLowerCase()
+                    const logoUrl = logoByTeamName[normName] || logoByAbbr[teamAbbr(displayName)]
                     return (
                       <div key={t.id} className="inline-flex items-center flex-col">
+                        {logoUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={logoUrl}
+                            alt={displayName}
+                            title={displayName}
+                            className={cn(
+                              "w-12 h-12 rounded-full object-cover border border-slate-200",
+                              hasAdv ? "ring-2 ring-orange-700" : undefined,
+                            )}
+                          />
+                        ) : (
                         <div
                           className={cn(
                             "w-12 h-12 rounded-full flex items-center justify-center text-[12px] font-bold",
@@ -935,10 +1870,14 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                             isTie ? "bg-orange-400 text-white" : undefined,
                             hasAdv ? "ring-2 ring-orange-700" : undefined,
                           )}
-                          title={nameById[t.id] || t.name}
+                            title={displayName}
                         >
-                          {teamAbbr(nameById[t.id] || t.name)}
+                            {teamAbbr(displayName)}
                         </div>
+                        )}
+                        {!revealed && (
+                          <div className="mt-1 h-[14px] text-[11px] text-slate-500">{submitted ? "●" : "–"}</div>
+                        )}
                         {revealed && (
                           <div className="mt-1 text-[11px] text-slate-600 tabular-nums">{bid != null ? `$${bid}` : "—"}</div>
                         )}
@@ -950,7 +1889,7 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
             </div>
           </div>
           <div className="border-b">
-            <Tabs defaultValue="myteam">
+            <Tabs defaultValue="myteam" onValueChange={(v)=>{ if(v==='cap'){ refreshCapSummary() } }}>
               <div className="flex items-center justify-between">
                 <TabsList className="bg-transparent p-0">
                   {[
@@ -992,20 +1931,13 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                             <td className="px-3 py-2 text-slate-700">{r.team || "—"}</td>
                             <td className="px-3 py-2 font-semibold">{r.player ? `${r.player} $${r.price}` : "—"}</td>
                             {teams.map((t) => {
-                              // show placeholder bids for already completed rows
-                              let bid: number | undefined
-                              if (i === 0 && revealed) {
-                                bid = gmBids[t.id]
-                              } else if (i > 0 && r.player) {
-                                // generate deterministic pseudo-bids based on row/team for testing
-                                const seed = (i + 1) * (t.id.charCodeAt(0))
-                                const base = Math.max(2, Math.min(30, 6 + ((seed % 9))))
-                                // ensure winner has highest in that row
-                                const isWinner = teamAbbr(r.team) === teamAbbr(t.name)
-                                bid = isWinner ? r.price : base
-                              }
+                              // Render actual bids ledger when available
+                              const cellBid = Array.isArray(r?.bids)
+                                ? r.bids.find((b: any) => String(b?.team_id || '') === String(t.id))
+                                : undefined
+                              const bidVal = cellBid ? Number(cellBid.amount) : undefined
                               return (
-                                <td key={t.id} className="px-2 py-2 text-right tabular-nums text-slate-600">{bid != null ? `$${bid}` : "—"}</td>
+                                <td key={t.id} className="px-2 py-2 text-right tabular-nums text-slate-600">{bidVal != null ? `$${bidVal}` : "—"}</td>
                               )
                             })}
                           </tr>
@@ -1015,6 +1947,10 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                   </div>
                 </div>
               </TabsContent>
+
+              
+
+              
 
               <TabsContent value="myteam" className="p-4">
                 {(() => {
@@ -1027,6 +1963,13 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                     { label: "G", count: 2 },
                   ]
                   const myTeamName = selectedTeamName || "New Oilers Nation"
+                  const myTeamInfo = (() => {
+                    try {
+                      const list = Array.isArray(capTeams) ? capTeams : []
+                      return list.find((t: any) => (t?.team_name || '') === myTeamName) || null
+                    } catch { return null }
+                  })()
+                  const myTeamEmail = (myTeamInfo as any)?.attached_email || null
                   const youAbbr = teamAbbr(myTeamName)
                   const stage1Roster = (() => {
                     const t = (stage1Teams || []).find((tt: any) => (tt?.team_name || "") === myTeamName)
@@ -1035,28 +1978,86 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                   })()
                   const wonPlayers = (uhhpPicks || []).filter((r: any) => teamAbbr(r.team || "") === youAbbr && r.player)
                   const myPicks = wonPlayers.length ? wonPlayers : stage1Roster.map((p: any) => ({
-                    player: p?.player || p?.player_full_name || p?.display_name,
-                    pos: p?.pos,
+                    player: p?.player || p?.player_name || p?.player_full_name || p?.display_name,
+                    pos: p?.pos || p?.position,
                     price: p?.salary || 0,
                     years: p?.years,
                     future_fa: p?.future_fa,
                     team: myTeamName,
+                    nhl_player_id: p?.nhl_player_id,
+                    status: p?.status || p?.type,
+                    type: p?.status || p?.type,
+                    team_abbr: p?.team_abbr || p?.nhl_team_abbr || '',
+                    birthdate: p?.birthdate || null,
                   }))
                   const byPos: Record<string, any[]> = { C: [], W: [], F: [], D: [], G: [] }
                   const reserves: any[] = []
+                  const normalizeRosterPos = (p: any): 'C'|'W'|'D'|'G'|'F' => {
+                    const raw = (p || '').toString().trim().toUpperCase()
+                    if (raw === 'LW' || raw === 'RW') return 'W'
+                    if (raw === 'D' || raw === 'DEF' || raw === 'DEFENSE' || raw === 'DEFENCE') return 'D'
+                    if (raw === 'C' || raw === 'CTR' || raw === 'CENTER' || raw === 'CENTRE') return 'C'
+                    if (raw === 'G' || raw === 'GK' || raw === 'GL' || raw === 'GOALIE' || raw === 'GOALTENDER') return 'G'
+                    if (raw === 'W') return 'W'
+                    if (raw === 'FWD' || raw === 'F') return 'F'
+                    return (byPos[raw] ? (raw as any) : 'F')
+                  }
+                  const resolveRosterPos = (rec: any): 'C'|'W'|'D'|'G'|'F' => {
+                    // Prefer explicit/normalized roster pos if clearly typed
+                    const norm = normalizeRosterPos(rec?.pos)
+                    if (norm === 'C' || norm === 'W' || norm === 'D' || norm === 'G') return norm
+                    // Fallback: use projections by id or name
+                    try {
+                      const pid = Number((rec as any)?.nhl_player_id)
+                      if (Number.isFinite(pid) && projPosById[pid]) {
+                        const ppos = (projPosById[pid] || '').toString().toUpperCase()
+                        if (ppos === 'C' || ppos === 'W' || ppos === 'D' || ppos === 'G') return ppos as any
+                      }
+                      const key = normalizeName((rec?.player || rec?.player_name || rec?.player_full_name || rec?.display_name || '').toString())
+                      if (key && projPosByName[key]) {
+                        const ppos = (projPosByName[key] || '').toString().toUpperCase()
+                        if (ppos === 'C' || ppos === 'W' || ppos === 'D' || ppos === 'G') return ppos as any
+                      }
+                    } catch {}
+                    // If explicit roster pos is missing/ambiguous, infer from listable positions for forwards
+                    return 'F'
+                  }
                   for (const r of myPicks) {
                     const nameKey = normalizeName(r.player)
                     if (benchSet.has(nameKey)) {
                       reserves.push(r)
                       continue
                     }
-                    const posRaw = (r.pos || "").toString().toUpperCase()
-                    const key = posRaw === "LW" || posRaw === "RW" ? "W" : (byPos[posRaw] ? posRaw : "F")
+                    const posRaw = resolveRosterPos(r)
+                    const key = posRaw
                     byPos[key].push(r)
                   }
-                  function take(pos: string) {
-                    const pl = byPos[pos].shift() || null
-                    return pl
+                  const getStatusFor = (rec: any) => {
+                    const pid = Number((rec as any)?.nhl_player_id)
+                    const mapped = Number.isFinite(pid) ? statusById[pid] : undefined
+                    if (mapped === 'UFA' || mapped === 'RFA') return mapped
+                    const raw = ((rec as any).status || (rec as any).type || (rec as any).fa_type || (rec as any).future_fa || "").toString().toUpperCase()
+                    return raw === 'UFA' || raw === 'RFA' ? raw : '—'
+                  }
+                  const adjustedPrice = (rec: any) => {
+                    const st = getStatusFor(rec)
+                    const yrs = Number((rec as any)?.years)
+                    // If player has a signed contract (1-3 years), always show real salary
+                    if (yrs === 1 || yrs === 2 || yrs === 3) {
+                      const s = Number((rec as any)?.price)
+                      return Number.isFinite(s) ? s : 0
+                    }
+                    if (st === 'RFA') return 0
+                    const val = Number((rec as any)?.price)
+                    return Number.isFinite(val) ? val : 0
+                  }
+                  function take(pos: string, slotId: string) {
+                    if (emptySlots.has(slotId)) return null
+                    // For flexible forward slot 'F', allow W first, then C, then any F
+                    if (pos === "F") {
+                      return byPos.W.shift() || byPos.C.shift() || byPos.F.shift() || null
+                    }
+                    return byPos[pos].shift() || null
                   }
                   // Compute totals for header metrics
                   const byPosForTotals: Record<string, any[]> = {
@@ -1066,15 +2067,22 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                     D: [...byPos.D],
                     G: [...byPos.G],
                   }
+                  function takeForTotals(pos: string, slotId: string) {
+                    if (emptySlots.has(slotId)) return null
+                    if (pos === "F") {
+                      return byPosForTotals.W.shift() || byPosForTotals.C.shift() || byPosForTotals.F.shift() || null
+                    }
+                    return (byPosForTotals[pos] || []).shift() || null
+                  }
                   let totalSalary = 0
                   let budgetBids = 0
                   for (const row of REQUIRED_ROWS) {
                     for (let i = 0; i < row.count; i++) {
-                      const sim = (byPosForTotals[row.label] || []).shift() || null
+                      const slotId = `${row.label}-${i}`
+                      const sim = takeForTotals(row.label, slotId)
                       if (sim) {
-                        totalSalary += sim?.price ? Number(sim.price) : 0
+                        totalSalary += adjustedPrice(sim)
                       } else {
-                        const slotId = `${row.label}-${i}`
                         const bid = parseInt((targets[slotId]?.bid || "0") as string, 10) || 0
                         budgetBids += bid
                       }
@@ -1090,38 +2098,88 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                     ...byPosForTotals.G,
                   ]
                   for (const r of reservesForTotals) {
-                    totalSalary += r?.price ? Number(r.price) : 0
+                    totalSalary += adjustedPrice(r)
                   }
                   const totalBudgeted = totalSalary + budgetBids
                   return (
                     <>
-                      <div className="mb-3 flex items-center justify-end gap-6">
+                      <div className="mb-3 flex items-center justify-between gap-6">
+                        <div className="flex items-center gap-3">
+                          <Button size="sm" variant="outline" disabled={!saveDirty || saveLoading} onClick={saveLayout}>
+                            {saveLoading ? 'Saving...' : 'Save'}
+                          </Button>
+                          {/* Team selector to view another team's My Team roster */}
+                          <select
+                            className="h-8 px-2 rounded border border-slate-300 bg-white text-slate-800"
+                            value={myTeamName || ''}
+                            onChange={(e) => {
+                              const nextName = e.target.value
+                              try {
+                                // Find team by name from stage1Teams and update selection name
+                                const t = (stage1Teams || []).find((tt: any) => (tt?.team_name || '') === nextName)
+                                if (t && t.team_id) {
+                                  setSelectedTeamName(String(nextName))
+                                }
+                              } catch {}
+                            }}
+                          >
+                            <option value="">Select team…</option>
+                            {Array.isArray(stage1Teams) && stage1Teams.map((t: any) => (
+                              <option key={String(t.team_id)} value={String(t.team_name || '')}>{String(t.team_name || t.team_id)}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-slate-500">Cap Hits:</span>
+                          <div className="relative">
+                            <span className="absolute left-1.5 top-1/2 -translate-y-1/2 text-xs text-slate-500">$</span>
+                            <Input
+                              inputMode="numeric"
+                              pattern="[0-9]*"
+                              className="h-8 w-[84px] pl-4 text-center"
+                              value={capHitsInput}
+                              onChange={(e) => {
+                                const v = (e.target.value || '').replace(/[^0-9]/g, '')
+                                setCapHitsInput(v)
+                                setCapHits(Number(v || 0))
+                                markDirty()
+                              }}
+                            />
+                          </div>
+                        </div>
                         <div className="text-sm">
                           <span className="text-slate-500">Salary: </span>
                           <span className="font-semibold tabular-nums">{`$${totalSalary}`}</span>
                         </div>
                         <div className="text-sm">
+                          <span className="text-slate-500">Total: </span>
+                          <span className="font-semibold tabular-nums">{`$${totalSalary + capHits}`}</span>
+                        </div>
+                        <div className="text-sm">
                           <span className="text-slate-500">Budgeted: </span>
-                          <span className="font-semibold tabular-nums">{`$${totalBudgeted}`}</span>
+                          <span className="font-semibold tabular-nums">{`$${totalBudgeted + capHits}`}</span>
+                        </div>
                         </div>
                       </div>
                       <div className="rounded-lg border">
-                        <div className="grid grid-cols-[60px_minmax(0,1fr)_70px_100px_100px_110px] items-stretch border-b bg-slate-50 text-xs font-semibold text-slate-600">
+                        <div className="grid grid-cols-[60px_minmax(0,1fr)_70px_100px_100px_100px_110px] items-stretch border-b bg-slate-50 text-xs font-semibold text-slate-600">
                           <div className="px-3 py-2">Pos</div>
                           <div className="px-3 py-2">Player</div>
                           <div className="px-3 py-2 text-center">Status</div>
                           <div className="px-3 py-2 text-center">Pro FTPS</div>
                           <div className="px-3 py-2 text-center">Contract</div>
+                          <div className="px-3 py-2 text-center">VORP</div>
                           <div className="px-3 py-2 text-center">Salary</div>
                         </div>
                         <div>
                           {REQUIRED_ROWS.flatMap((row) =>
                             Array.from({ length: row.count }, (_, i) => (
-                              <div key={`${row.label}-${i}`} className="grid grid-cols-[60px_minmax(0,1fr)_70px_100px_100px_110px] items-center border-b">
+                              <div key={`${row.label}-${i}`} className="grid grid-cols-[60px_minmax(0,1fr)_70px_100px_100px_100px_110px] items-center border-b">
                                 <div className="px-3 py-2 text-xs font-semibold text-slate-600">{row.label}</div>
                                 {(() => {
-                                  const pl = take(row.label)
                                   const slotId = `${row.label}-${i}`
+                                  const pl = take(row.label, slotId)
                                   if (!pl) {
                                     const eligiblePositions = row.label === "F" ? ["C", "W"] : [row.label]
                                     const takenSet = new Set<string>()
@@ -1152,7 +2210,11 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                         .filter((p: any) => !selectedNames.has(normalizeName(p.player)))
                                         .map((p: any) => {
                                           const fpv = typeof p.fp === "number" ? p.fp : (fpMap[normalizeName(p.player)] || 0)
-                                          const price = Math.max(2, Math.min(30, Math.round((fpv || 0) / 18)))
+                                          const pid = Number(p?.nhl_player_id)
+                                          const vorpPrice = Number.isFinite(pid) ? clientVorpSalaryById[pid] : undefined
+                                          const price = (typeof vorpPrice === 'number' && vorpPrice > 0)
+                                            ? vorpPrice
+                                            : Math.max(2, Math.min(30, Math.round((fpv || 0) / 18)))
                                           return { p, fp: fpv, price }
                                         })
                                       const pool = budget > 0 ? withPrices.filter((x) => x.price <= budget) : withPrices
@@ -1162,7 +2224,6 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                         ...prev,
                                         [slotId]: {
                                           player: best.p,
-                                          // Never override a user's entered number; keep whatever is there
                                           bid: prev[slotId]?.bid || "",
                                         },
                                       }))
@@ -1223,11 +2284,9 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                             </div>
                                           )}
                                         </div>
-                                        <div className="px-3 py-2 text-sm text-center">{(() => {
-                                          const raw = ((tgt?.player?.type || "").toString().toUpperCase())
-                                          return raw === "UFA" || raw === "RFA" ? raw : "—"
-                                        })()}</div>
+                                        <div className="px-3 py-2 text-sm text-center">—</div>
                                         <div className="px-3 py-2 text-sm tabular-nums text-center">{fp}</div>
+                                        <div className="px-3 py-2 text-sm text-slate-400 text-center">—</div>
                                         <div className="px-3 py-2 text-sm text-slate-400 text-center">—</div>
                                         <div className="px-3 py-2 flex justify-center">
                                           <div className="relative">
@@ -1250,7 +2309,7 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                     )
                                   }
                                   const playerName = pl.player
-                                  const price = pl.price ?? 0
+                                  const price = adjustedPrice(pl)
                                   const contractStr = (() => {
                                     const years = pl.years || pl.contractYears
                                     const fa = pl.future_fa
@@ -1259,7 +2318,14 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                     return "—"
                                   })()
                                   const fpKey = (playerName || "").toString().trim().toLowerCase()
-                                  let fpVal = typeof fpMap[fpKey] === "number" ? fpMap[fpKey] : undefined
+                                  let fpVal = undefined as number | undefined
+                                  // Prefer ID-based FP when available
+                                  if (typeof pl?.nhl_player_id === 'number' && projIdFP[Number(pl.nhl_player_id)] != null) {
+                                    fpVal = projIdFP[Number(pl.nhl_player_id)]
+                                  }
+                                  if (fpVal == null && typeof fpMap[fpKey] === "number") {
+                                    fpVal = fpMap[fpKey]
+                                  }
                                   if (fpVal == null) {
                                     const proj = (projections || []).find((p: any) => ((p.player || "").toString().trim().toLowerCase()) === fpKey)
                                     if (proj && typeof (proj as any).fp === "number") {
@@ -1268,10 +2334,30 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                   }
                                   const fpStr = fpVal != null ? fpVal.toFixed(1) : "—"
                                   const statusStr = (() => {
-                                    const raw = ((pl as any).type || (pl as any).fa_type || (pl as any).future_fa || "").toString().toUpperCase()
-                                    return raw === "UFA" || raw === "RFA" ? raw : "—"
+                                    const raw = ((pl as any).status || "").toString().toUpperCase()
+                                    if (raw === 'UFA' || raw === 'RFA') return raw
+                                    const pid = Number((pl as any)?.nhl_player_id)
+                                    const mapped = Number.isFinite(pid) ? statusById[pid] : undefined
+                                    return (mapped === 'UFA' || mapped === 'RFA') ? mapped : '—'
                                   })()
-                                  const posDisp = (pl.pos || "").toString().toUpperCase()
+                                  const posDisp = resolveRosterPos(pl)
+                                  const abbr = (pl as any)?.team_abbr ? String((pl as any).team_abbr).toUpperCase() : ''
+                                  const ageStr = (() => {
+                                    const bd = (pl as any)?.birthdate
+                                    if (!bd) return ''
+                                    try {
+                                      const [y, m, d] = String(bd).split('-').map((x: string) => parseInt(x, 10))
+                                      if (!y || !m || !d) return ''
+                                      const cutoff = new Date(2025, 6, 1)
+                                      const bdate = new Date(y, m - 1, d)
+                                      let age = cutoff.getFullYear() - bdate.getFullYear()
+                                      const md = (cutoff.getMonth() + 1) * 100 + cutoff.getDate()
+                                      const bdmd = m * 100 + d
+                                      if (md < bdmd) age -= 1
+                                      return `Age: ${age}`
+                                    } catch { return '' }
+                                  })()
+                                  const posMeta = [posDisp, abbr, ageStr].filter(Boolean).join(' · ')
                                   return (
                                     <>
                                       <div className="px-3 py-2">
@@ -1279,17 +2365,25 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                                           <div className="font-medium text-sm truncate">{playerName}</div>
                                           <button
                                             className="h-6 px-2 text-[11px] rounded border hover:bg-slate-50"
-                                            onClick={() => toggleBench(playerName)}
+                                            onClick={() => { toggleBench(playerName); setEmptySlots((prev)=>{ const s=new Set(prev); s.add(slotId); return s }); markDirty() }}
                                             title="Move to Reserves"
                                           >
                                             Sit
                   </button>
-                                          <span className="ml-2 text-xs text-slate-500">{posDisp}</span>
+                                          <span className="ml-2 text-xs text-slate-500">{posMeta}</span>
                                         </div>
                                       </div>
                                       <div className="px-3 py-2 text-sm text-center">{statusStr}</div>
                                       <div className="px-3 py-2 text-sm tabular-nums text-center">{fpStr}</div>
                                       <div className="px-3 py-2 text-sm text-center">{contractStr}</div>
+                                      {(() => {
+                                        const pid = Number((pl as any)?.nhl_player_id)
+                                        const vRaw = Number.isFinite(pid) ? (clientVorpSalaryById[pid] ?? (vorpSalaryById as any)?.[pid]) : undefined
+                                        const vPrice = (typeof vRaw === 'number' && Number.isFinite(vRaw) && vRaw > 0) ? Math.round(vRaw) : null
+                                        return (
+                                          <div className="px-3 py-2 text-sm font-semibold tabular-nums text-center">{vPrice != null ? `$${vPrice}` : '—'}</div>
+                                        )
+                                      })()}
                                       <div className="px-3 py-2 text-sm font-semibold tabular-nums text-center">{`$${price}`}</div>
                                     </>
                                   )
@@ -1301,9 +2395,10 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                             reserves.push(...byPos.C, ...byPos.W, ...byPos.F, ...byPos.D, ...byPos.G)
                             if (!reserves.length) {
                               return (
-                                <div className="grid grid-cols-[60px_minmax(0,1fr)_70px_100px_100px_110px] items-center">
+                                <div className="grid grid-cols-[60px_minmax(0,1fr)_70px_100px_100px_100px_110px] items-center">
                                   <div className="px-3 py-2 text-xs font-semibold text-slate-600">Res</div>
                                   <div className="px-3 py-2 text-sm text-slate-400">None</div>
+                                  <div className="px-3 py-2" />
                                   <div className="px-3 py-2" />
                                   <div className="px-3 py-2" />
                                   <div className="px-3 py-2" />
@@ -1313,7 +2408,7 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                             }
                             return reserves.map((r, i) => {
                               const playerName = r.player
-                              const price = r.price ?? 0
+                              const price = adjustedPrice(r)
                               const contractStr = (() => {
                                 const years = r.years || r.contractYears
                                 const fa = r.future_fa
@@ -1331,29 +2426,84 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                               }
                               const fpStr = fpVal != null ? fpVal.toFixed(1) : "—"
                               const statusStr = (() => {
-                                const raw = ((r as any).type || (r as any).fa_type || (r as any).future_fa || "").toString().toUpperCase()
-                                return raw === "UFA" || raw === "RFA" ? raw : "—"
+                                const raw = ((r as any).status || "").toString().toUpperCase()
+                                if (raw === 'UFA' || raw === 'RFA') return raw
+                                const pid = Number((r as any)?.nhl_player_id)
+                                const mapped = Number.isFinite(pid) ? statusById[pid] : undefined
+                                return (mapped === 'UFA' || mapped === 'RFA') ? mapped : '—'
                               })()
-                              const posDisp = (r.pos || "").toString().toUpperCase()
+                              const posDisp = resolveRosterPos(r)
+                              const abbr = (r as any)?.team_abbr ? String((r as any).team_abbr).toUpperCase() : ''
+                              const ageStr = (() => {
+                                const bd = (r as any)?.birthdate
+                                if (!bd) return ''
+                                try {
+                                  const [y, m, d] = String(bd).split('-').map((x: string) => parseInt(x, 10))
+                                  if (!y || !m || !d) return ''
+                                  const cutoff = new Date(2025, 6, 1)
+                                  const bdate = new Date(y, m - 1, d)
+                                  let age = cutoff.getFullYear() - bdate.getFullYear()
+                                  const md = (cutoff.getMonth() + 1) * 100 + cutoff.getDate()
+                                  const bdmd = m * 100 + d
+                                  if (md < bdmd) age -= 1
+                                  return `Age: ${age}`
+                                } catch { return '' }
+                              })()
+                              const posMeta = [posDisp, abbr, ageStr].filter(Boolean).join(' · ')
+                              const hasOpenFor = (p: string) => {
+                                const pref = resolveRosterPos({ pos: p, player: r.player, nhl_player_id: r.nhl_player_id })
+                                const anySlot = (prefix: string) => Array.from(emptySlots).some((id) => id.startsWith(prefix + '-'))
+                                if (pref === 'C' || pref === 'W') return anySlot(pref) || anySlot('F')
+                                return anySlot(pref)
+                              }
                               return (
-                                <div key={i} className="grid grid-cols-[60px_minmax(0,1fr)_70px_100px_100px_110px] items-center border-b">
+                                <div key={i} className="grid grid-cols-[60px_minmax(0,1fr)_70px_100px_100px_100px_110px] items-center border-b">
                                   <div className="px-3 py-2 text-xs font-semibold text-slate-600">Res</div>
                                   <div className="px-3 py-2">
                                     <div className="flex items-center gap-2 min-w-0">
                                       <button
-                                        className="h-6 px-2 text-[11px] rounded border hover:bg-slate-50"
-                                        onClick={() => toggleBench(playerName)}
-                                        title="Move to Active"
+                                        disabled={!hasOpenFor(r.pos || '')}
+                                        className="h-6 px-2 text-[11px] rounded border hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        onClick={() => {
+                                          toggleBench(playerName)
+                                          // Free one suitable empty slot so this player can be placed
+                                          setEmptySlots((prev) => {
+                                            const next = new Set(prev)
+                                            const p = resolveRosterPos(r)
+                                            const tryRemove = (prefix: string) => {
+                                              for (const id of Array.from(next)) {
+                                                if (id.startsWith(prefix + "-")) { next.delete(id); return true }
+                                              }
+                                              return false
+                                            }
+                                            // Prefer exact position first
+                                            if (!tryRemove(p)) {
+                                              // For C/W also try freeing an F slot
+                                              if (p === 'C' || p === 'W') tryRemove('F')
+                                            }
+                                            return next
+                                          })
+                                          markDirty()
+                                        }}
+                                        title="Dress (move to active)"
                                       >
-                                        Res
+                                        Dress
                   </button>
                                       <div className="font-medium text-sm truncate">{playerName}</div>
-                                      <span className="ml-2 text-xs text-slate-500">{posDisp}</span>
+                                      <span className="ml-2 text-xs text-slate-500">{posMeta}</span>
                 </div>
               </div>
                                   <div className="px-3 py-2 text-sm text-center">{statusStr}</div>
                                   <div className="px-3 py-2 text-sm tabular-nums text-center">{fpStr}</div>
                                   <div className="px-3 py-2 text-sm text-center">{contractStr}</div>
+                                  {(() => {
+                                    const pid = Number((r as any)?.nhl_player_id)
+                                    const vRaw = Number.isFinite(pid) ? (clientVorpSalaryById[pid] ?? (vorpSalaryById as any)?.[pid]) : undefined
+                                    const vPrice = (typeof vRaw === 'number' && Number.isFinite(vRaw) && vRaw > 0) ? Math.round(vRaw) : null
+                                    return (
+                                      <div className="px-3 py-2 text-sm font-semibold tabular-nums text-center">{vPrice != null ? `$${vPrice}` : '—'}</div>
+                                    )
+                                  })()}
                                   <div className="px-3 py-2 text-sm font-semibold tabular-nums text-center">{`$${price}`}</div>
                                 </div>
                               )
@@ -1368,99 +2518,85 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
 
               <TabsContent value="cap" className="p-4">
                 {(() => {
-                  const teamsList = (stage1Teams || []).map((t: any) => ({
-                    name: t?.team_name || t?.team || t?.name,
-                    players: (t?.players as any[]) || [],
-                  }))
-                  const REQUIRED: Record<string, number> = { C: 2, W: 3, F: 4, D: 4, G: 2 }
-                  const tiles = teamsList.map((t) => {
-                    const counts: Record<string, number> = { C: 0, W: 0, F: 0, D: 0, G: 0 }
-                    let salary = 0
-                    let unsignedRfas = 0
-                    for (const p of t.players) {
-                      const pos = (p?.pos || "").toString().toUpperCase()
-                      if (pos in counts) counts[pos] += 1
-                      const pay = Number(p?.salary || 0)
-                      salary += pay
-                      const typeStr = (p?.type || p?.status || p?.fa_status || p?.future_fa || "").toString().toUpperCase()
-                      const isRfa = typeStr === "RFA"
-                      const isUnsigned = pay === 0
-                      if (isRfa && isUnsigned) unsignedRfas += 1
+                  const list = (() => {
+                    const base = Array.isArray(capTeams) ? capTeams : []
+                    const logoById: Record<string, string | null> = {}
+                    for (const t of base) {
+                      const id = String((t as any)?.team_id ?? '')
+                      if (id) logoById[id] = (t as any)?.logo_url ?? null
                     }
-                    // Contracted per slot (cap to required)
-                    const contractedC = Math.min(counts.C, REQUIRED.C)
-                    const contractedW = Math.min(counts.W, REQUIRED.W)
-                    const contractedD = Math.min(counts.D, REQUIRED.D)
-                    const contractedG = Math.min(counts.G, REQUIRED.G)
-                    const forwardEligible = counts.C + counts.W
-                    const extraForF = Math.max(0, forwardEligible - REQUIRED.C - REQUIRED.W)
-                    const contractedF = Math.min(REQUIRED.F, extraForF)
-                    const contracted: Record<string, number> = {
-                      C: contractedC,
-                      W: contractedW,
-                      F: contractedF,
-                      D: contractedD,
-                      G: contractedG,
+                    if (!Array.isArray(stage1Teams) || !stage1Teams.length) return base
+                    const rows: any[] = []
+                    for (const t of stage1Teams) {
+                      const teamId = String((t as any)?.team_id ?? '')
+                      const teamName = (t as any)?.team_name
+                      const players: any[] = Array.isArray((t as any)?.players) ? (t as any).players : []
+                      let total = 0
+                      let count = players.length
+                      let rfaCount = 0
+                      for (const r of players) {
+                        const pid = Number((r as any)?.nhl_player_id)
+                        const mapped = Number.isFinite(pid) ? statusById[pid] : undefined
+                        const raw = ((r as any)?.status || (r as any)?.type || '').toString().toUpperCase()
+                        const status = (mapped === 'UFA' || mapped === 'RFA') ? mapped : (raw === 'UFA' || raw === 'RFA' ? raw : undefined)
+                        const yrs = Number((r as any)?.years)
+                        if (status === 'RFA' && (yrs === 0 || Number.isNaN(yrs))) {
+                          rfaCount += 1
+                        }
+                        // Use same salary logic as My Team row rendering
+                        let price = 0
+                        if (yrs === 1 || yrs === 2 || yrs === 3) {
+                          const s = Number((r as any)?.salary ?? (r as any)?.price ?? 0)
+                          price = Number.isFinite(s) ? s : 0
+                        } else if (status === 'RFA') {
+                          price = 0
+                        } else {
+                          const s = Number((r as any)?.salary ?? (r as any)?.price ?? 0)
+                          price = Number.isFinite(s) ? s : 0
+                        }
+                        total += price
+                      }
+                      const capHitVal = capHitsByTeam[teamId] ?? 0
+                      rows.push({
+                        team_id: teamId,
+                        team_name: teamName,
+                        total_players: count,
+                        total_salary: total,
+                        rfas: rfaCount,
+                        cap_hits: capHitVal,
+                        logo_url: logoById[teamId] ?? null,
+                      })
                     }
-                    const requiredNeeded =
-                      (REQUIRED.C - contractedC) +
-                      (REQUIRED.W - contractedW) +
-                      (REQUIRED.F - contractedF) +
-                      (REQUIRED.D - contractedD) +
-                      (REQUIRED.G - contractedG)
-                    const capSpace = Math.max(0, 100 - salary)
-                    return { ...t, counts, contracted, salary, capSpace, unsignedRfas, requiredNeeded }
-                  })
-                  return (
-                    <div className="grid gap-3 grid-cols-1 md:grid-cols-3">
-                      {tiles.map((t) => {
-                        const MAX_NAME = 16
-                        const displayName = (() => {
-                          const full = (t.name || "").toString()
-                          if (full.length <= MAX_NAME) return full
-                          const words = full.split(/\s+/).filter(Boolean)
-                          let out = ""
-                          for (const w of words) {
-                            const candidate = out ? `${out} ${w}` : w
-                            if (candidate.length > MAX_NAME) break
-                            out = candidate
-                          }
-                          if (!out) out = full.slice(0, MAX_NAME)
-                          return `${out}...`
+                    return rows
                         })()
                         return (
-                          <div key={t.name} className="rounded-lg border p-2 relative">
-                            <div className="text-sm font-semibold mb-1 pr-12 whitespace-nowrap">{displayName}</div>
-                          <div className="absolute right-2 top-2 text-sm text-slate-700">{`$${t.salary} / $100`}</div>
-                          <div className="text-xs text-slate-600 grid grid-cols-5 gap-1 text-center">
-                            <div className="flex flex-col items-center gap-0.5">
-                              <div className="font-semibold">C</div>
-                              <div className="tabular-nums">{t.contracted.C}/{REQUIRED.C}</div>
+                    <div className="rounded border">
+                      <div className="grid grid-cols-[minmax(0,1fr)_100px_120px_110px_140px] items-center bg-slate-50 border-b text-xs font-semibold text-slate-600">
+                        <div className="px-3 py-2">Team</div>
+                        <div className="px-3 py-2 text-right">RFA</div>
+                        <div className="px-3 py-2 text-right">Cap Hits</div>
+                        <div className="px-3 py-2 text-right">Free Space</div>
+                        <div className="px-3 py-2 text-right">Total Salary</div>
                             </div>
-                            <div className="flex flex-col items-center gap-0.5">
-                              <div className="font-semibold">W</div>
-                              <div className="tabular-nums">{t.contracted.W}/{REQUIRED.W}</div>
+                      <div>
+                        {(list.length ? list : Array.from({ length: 12 }).map((_,i)=>({ team_id:`ph-${i}`, team_name:"", rfas:null, cap_hits:null, total_salary:null, logo_url:null }))).map((t: any, i: number) => (
+                          <div key={t.team_id || i} className="grid grid-cols-[minmax(0,1fr)_100px_120px_110px_140px] items-center border-b">
+                            <div className="px-3 py-2 flex items-center gap-2">
+                              {t.logo_url ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={t.logo_url} alt={t.team_name} className="h-5 w-5 rounded object-cover" />
+                              ) : (
+                                <div className="h-5 w-5 rounded bg-gray-200" />
+                              )}
+                              <div className="truncate">{t.team_name || <span className="h-3 w-32 bg-gray-200 rounded inline-block" />}</div>
                             </div>
-                            <div className="flex flex-col items-center gap-0.5">
-                              <div className="font-semibold">F</div>
-                              <div className="tabular-nums">{t.contracted.F}/{REQUIRED.F}</div>
+                            <div className="px-3 py-2 text-right text-sm tabular-nums">{t.rfas != null ? `${t.rfas}` : <span className="inline-block h-3 w-8 bg-gray-200 rounded" />}</div>
+                            <div className="px-3 py-2 text-right text-sm tabular-nums">{t.cap_hits != null ? `$${Number(t.cap_hits || 0).toLocaleString()}` : <span className="inline-block h-3 w-12 bg-gray-200 rounded" />}</div>
+                            <div className="px-3 py-2 text-right text-sm tabular-nums">{(t.total_salary != null || t.cap_hits != null) ? `$${Math.max(0, (100 - (Number(t.total_salary || 0) + Number(t.cap_hits || 0)))).toLocaleString()}` : <span className="inline-block h-3 w-12 bg-gray-200 rounded" />}</div>
+                            <div className="px-3 py-2 text-right text-sm font-medium tabular-nums">{t.total_salary != null ? `$${Number((Number(t.total_salary || 0) + Number(t.cap_hits || 0)) || 0).toLocaleString()}` : <span className="inline-block h-3 w-16 bg-gray-200 rounded" />}</div>
                             </div>
-                            <div className="flex flex-col items-center gap-0.5">
-                              <div className="font-semibold">D</div>
-                              <div className="tabular-nums">{t.contracted.D}/{REQUIRED.D}</div>
+                        ))}
                             </div>
-                            <div className="flex flex-col items-center gap-0.5">
-                              <div className="font-semibold">G</div>
-                              <div className="tabular-nums">{t.contracted.G}/{REQUIRED.G}</div>
-                            </div>
-                            <div className="mt-1 text-xs text-slate-600 flex flex-col gap-0.5 w-full">
-                              <span className="whitespace-nowrap">Unsigned RFAs: {t.unsignedRfas}</span>
-                              <span className="whitespace-nowrap text-right">Players Req: {t.requiredNeeded}</span>
-                            </div>
-                          </div>
-                        </div>
-                        )
-                      })}
                     </div>
                   )
                 })()}
@@ -1498,7 +2634,7 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
               </TabsContent>
               
               <TabsContent value="cheatsheets" className="p-4 text-sm text-slate-600">
-                {projections ? (
+                {Array.isArray(projections) && projections.length > 0 ? (
                   (() => {
                     const takenSet = new Set<string>()
                     ;(uhhpPicks || []).forEach((r: any) => {
@@ -1542,7 +2678,22 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                     )
                   })()
                 ) : (
-                  <div className="text-slate-500">No projections loaded.</div>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    {(["C","W","D","G"] as const).map((pos) => (
+                      <div key={`empty-${pos}`} className="rounded-lg border bg-white">
+                        <div className="px-3 py-2 border-b font-semibold text-slate-700">{pos}</div>
+                        <ol className="max-h-[60vh] overflow-auto divide-y">
+                          {Array.from({ length: 12 }).map((_, i) => (
+                            <li key={`empty-${pos}-${i}`} className="px-3 py-1.5 flex items-center gap-2">
+                              <span className="w-6 text-right text-slate-300">{i + 1}.</span>
+                              <span className="flex-1 h-3 bg-gray-200 rounded" />
+                              <span className="w-8 h-3 bg-gray-200 rounded" />
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </TabsContent>
               
@@ -1558,11 +2709,12 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                 <div className="text-sm font-semibold">Projections</div>
                 <Select value={projectionSource} onValueChange={(v) => setProjectionSource(v as any)}>
                   <SelectTrigger className="h-7 px-2 py-1 text-xs w-auto min-w-[120px]">
-                    <SelectValue placeholder="Avg Experts" />
+                    <SelectValue placeholder="Select source" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="avg_experts">Avg Experts</SelectItem>
-                    <SelectItem value="clusters">Clusters</SelectItem>
+                    {(computedProjectionSources || []).map((s) => (
+                      <SelectItem key={s.slug} value={s.slug}>{s.display_name || s.slug}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
           </div>
@@ -1612,14 +2764,28 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                   return (
                     projections
                       .filter((p) => (posFilter === "All" ? true : ((p.pos || "").toString().toUpperCase() === posFilter)))
-                      .filter((p) => (faFilter === "All" ? true : ((p.type || "").toString().toUpperCase() === faFilter)))
+                      .filter((p) => {
+                        if (faFilter === "All") return true
+                        const pid = Number((p as any)?.nhl_player_id)
+                        const st = Number.isFinite(pid) ? (availableById[pid]?.status || statusById[pid]) : undefined
+                        return (st || "").toString().toUpperCase() === faFilter
+                      })
                       .filter((p) => (showAvailable ? !takenSet.has(((p.player || "").toString().trim().toLowerCase())) : true))
+                      .filter((p) => {
+                        const pid = Number((p as any)?.nhl_player_id)
+                        return !(Number.isFinite(pid) && contractLockedIds.has(pid))
+                      })
                       .map((p, i) => (
                   <div key={i} className="rounded-lg border p-3">
                     <div className="text-[11px] text-slate-500">
                       {(() => {
                         const key = (p.player || "").toString().trim().toLowerCase()
-                        const faStr = (p.type || "").toString().toUpperCase() || "—"
+                        const pid = Number((p as any)?.nhl_player_id)
+                        const faStr = (() => {
+                          if (Number.isFinite(pid) && availableById[pid]?.status) return availableById[pid].status.toUpperCase()
+                          if (Number.isFinite(pid) && statusById[pid]) return String(statusById[pid]).toUpperCase()
+                          return (p.type || "").toString().toUpperCase() || "—"
+                        })()
                         if (faStr === "RFA") {
                           // Find owning team from stage1Teams
                           const ownerTeam = (() => {
@@ -1653,12 +2819,20 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                           const key = (p.player || "").toString().trim().toLowerCase()
                           const fp = typeof p.fp === "number" ? p.fp : fpMap[key]
                           const fpStr = typeof fp === "number" ? fp.toFixed(1) : "—"
-                          const projPrice = typeof fp === "number" ? Math.max(2, Math.min(22, Math.round(fp / 20))) : null
+                          // Prefer VORP-calibrated price when available
+                          const pid = Number((p as any)?.nhl_player_id)
+                          const vorpCalced = Number.isFinite(pid) ? (clientVorpSalaryById[pid] ?? (vorpSalaryById as any)?.[pid]) : undefined
+                          const projPrice = (typeof vorpCalced === 'number' && vorpCalced > 0)
+                            ? Math.round(vorpCalced)
+                            : (typeof fp === 'number' ? Math.max(2, Math.min(22, Math.round(fp / 20))) : null)
                           const priceStr = projPrice !== null ? `$${projPrice}` : "$—"
+                          const showPrice = (projectionSource || '').toLowerCase() !== 'avg'
                           return (
                             <div className="flex flex-col items-end mr-1 leading-tight">
                               <div className="text-sm font-semibold text-slate-700">{fpStr}</div>
+                              {showPrice ? (
                               <div className="text-sm font-semibold text-slate-700">{priceStr}</div>
+                              ) : null}
                             </div>
                           )
                         })()}
@@ -1695,23 +2869,17 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                             }
                           }
                           return (
+                            <div className="flex items-center gap-2">
                             <Button
                               size="sm"
                               variant="outline"
                               className="h-7 transition-colors hover:bg-blue-600 hover:text-white"
-                              onClick={() => {
-                                setNominated(p)
-                                setBidSubmitted({})
-                                setGmBids({})
-                                setRevealed(false)
-                                setRevealTimer(null)
-                                setSubmittedHover(false)
-                                setPhase("Submit Bid")
-                                toast.success(`Picked ${p.player}`)
-                              }}
-                            >
-                              Pick
+                                onClick={() => nominatePlayerByProjection({ ...p, id: String((p as any).nhl_player_id || p.player || p.name || '') } as any)}
+                              >
+                                Nominate
                             </Button>
+                              {/* Quick Bid removed per requirements */}
+                            </div>
                           )
                         })()}
                       </div>
@@ -1721,76 +2889,7 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
                   )
                 })()}
               </div>
-            ) : (
-              <>
-            {picks.map((pk, i) => {
-              const team = teams.find((t) => t.id === pk.teamId)!
-              const isCurrent = i === currentIdx
-              return (
-                <div
-                  key={pk.overall}
-                  className={cn("rounded-lg border p-3", isCurrent ? "bg-blue-600/10 border-blue-600" : "bg-white")}
-                >
-                  <div className="text-[11px] text-slate-500">{team.name}</div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      {pk.player ? (
-                        <div className="w-8 h-8 rounded-full bg-slate-200 overflow-hidden">
-                          <Image
-                            src={
-                              pk.player.headshot ||
-                              "/placeholder.svg?height=64&width=64&query=hockey%20player%20headshot" ||
-                              "/placeholder.svg" ||
-                              "/placeholder.svg" ||
-                              "/placeholder.svg" ||
-                              "/placeholder.svg"
-                            }
-                            alt={pk.player.name}
-                            width={32}
-                            height={32}
-                          />
-                        </div>
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
-                          <Clock className="w-4 h-4 text-slate-400" />
-                        </div>
-                      )}
-                      <div>
-                        <div className="font-medium text-sm">
-                          {isCurrent && team.id === yourTeamId ? (
-                            <span className="inline-flex items-center gap-2">
-                              Your Pick! <Clock className="w-4 h-4 text-blue-600" />
-                            </span>
-                          ) : pk.player ? (
-                            pk.player.name
-                          ) : (
-                            "Waiting..."
-                          )}
-                        </div>
-                        <div className="text-xs text-slate-500">
-                          {pk.player ? (
-                            <>
-                              {pk.player.pos} • {pk.player.team}
-                            </>
-                          ) : (
-                            <>
-                                  Pick {pk.overall} • {team.needs?.length ? `Team needs ${team.needs.join(" ")}` : "On clock"}
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="text-xs text-slate-500">1.{String(pk.pickInRound).padStart(2, "0")}</div>
-                  </div>
-                </div>
-              )
-            })}
-
-            <div className="text-xs uppercase tracking-wide text-slate-500 px-2 pt-2">Rd 2</div>
-            <div className="rounded-lg border p-3 text-sm text-slate-500">Round 2 picks will appear here…</div>
-              </>
-            )}
+            ) : null}
           </div>
         </aside>
       </div>
@@ -1800,7 +2899,15 @@ export default function DraftRoom({ autoLoadUhhp = false }: { autoLoadUhhp?: boo
         open={modalOpen}
         onOpenChange={setModalOpen}
         player={modalPlayer}
-        players={[samplePlayers[0], samplePlayers[1], samplePlayers[2], samplePlayers[3]]}
+        players={rankings}
+      />
+
+      <LeagueSettingsModal
+        open={settingsOpen}
+        onOpenChange={setSettingsOpen}
+        teams={Array.isArray(capTeams) ? capTeams : []}
+        scoringRules={Array.isArray(scoringRules) ? scoringRules : []}
+        onRefreshCaps={refreshCapSummary}
       />
     </div>
   )
@@ -2081,6 +3188,404 @@ function PlayerInfoModal({
   )
 }
 
+function LeagueSettingsModal({
+  open,
+  onOpenChange,
+  teams,
+  scoringRules,
+  onRefreshCaps,
+}: {
+  open: boolean
+  onOpenChange: (o: boolean) => void
+  teams: Array<{ team_id: string; team_name: string; owner_id?: string | null; owner_name?: string | null }>
+  scoringRules: any[]
+  onRefreshCaps: () => Promise<void>
+}) {
+  const [tab, setTab] = useState<'teams' | 'scoring' | 'history' | 'caps'>('teams')
+  const [history, setHistory] = useState<any[]>([])
+  const [teamsLocal, setTeamsLocal] = useState<any[]>([])
+  const [knownUsers, setKnownUsers] = useState<Array<{ email: string; subject: string; display_name?: string }>>([])
+  useEffect(() => {
+    try {
+      // Seed login with existing login or attached email (so Save persists it)
+      setTeamsLocal(Array.isArray(teams)
+        ? teams.map((t: any) => {
+            const hasLogin = typeof t?.login === 'string' && t.login.trim().length > 0
+            return { ...t, login: hasLogin ? t.login : (t?.attached_email || t?.login || null) }
+          })
+        : [])
+    } catch { setTeamsLocal([]) }
+  }, [teams, open])
+
+  // Load saved GM credentials (login, is_admin) when modal opens on Teams tab
+  useEffect(() => {
+    let ignore = false
+    async function loadCreds() {
+      if (!open || tab !== 'teams') return
+      try {
+        const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+        const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/gm_credentials`)
+        if (!res.ok) return
+        const data = await res.json()
+        const creds = Array.isArray(data?.credentials) ? data.credentials : []
+        const byId: Record<string, any> = {}
+        for (const c of creds) {
+          if (c && c.team_id != null) byId[String(c.team_id)] = c
+        }
+        if (ignore) return
+        setTeamsLocal((prev: any[]) => (prev || []).map((row: any) => {
+          const cid = String(row?.team_id)
+          const c = byId[cid]
+          if (!c) return row
+          const credLogin = (typeof c.login === 'string' && c.login.trim().length > 0) ? c.login : null
+          return { ...row, login: credLogin ?? row.login, is_admin: !!c.is_admin }
+        }))
+        // Also fetch known users for assignment picker
+        try {
+          const usersRes = await fetch(`${apiBase}/api/public/cbs/league/uhhp/admin/users`)
+          if (usersRes.ok) {
+            const udata = await usersRes.json()
+            const arr = Array.isArray(udata?.users) ? udata.users : []
+            setKnownUsers(arr)
+          }
+        } catch {}
+      } catch {}
+    }
+    loadCreds()
+    return () => { ignore = true }
+  }, [open, tab])
+
+  // Hydrate cap hits when opening the Cap Hits tab
+  useEffect(() => {
+    let ignore = false
+    async function loadCaps() {
+      if (!open || tab !== 'caps') return
+      try {
+        const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+        const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { cache: 'no-store' })
+        if (!res.ok) return
+        const data = await res.json()
+        const arr: any[] = Array.isArray(data) ? data : (Array.isArray(data?.cap_hits) ? data.cap_hits : [])
+        const byId: Record<string, number> = {}
+        for (const it of arr) {
+          const tid = String((it as any)?.team_id ?? '')
+          const v = Number((it as any)?.cap_hits ?? 0)
+          if (tid) byId[tid] = Number.isFinite(v) ? v : 0
+        }
+        if (ignore) return
+        setTeamsLocal((prev) => (prev || []).map((row: any) => {
+          const tid = String(row?.team_id ?? '')
+          return tid ? { ...row, cap_hits: byId[tid] ?? row.cap_hits } : row
+        }))
+      } catch {}
+    }
+    loadCaps()
+    return () => { ignore = true }
+  }, [open, tab])
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-[98vw] sm:max-w-none w-[2200px] max-h-[85vh] overflow-auto" style={{ maxWidth: '98vw', width: '2200px' }}>
+        <div className="flex items-center justify-between">
+          <div className="text-lg font-semibold">League Settings</div>
+        </div>
+        <div className="mt-3">
+          <div className="flex items-center gap-2 border-b">
+            {(["teams","scoring","history","caps"] as const).map((t) => (
+              <button key={t} onClick={() => setTab(t)} className={cn("px-3 py-2 text-sm",
+                tab===t ? "border-b-2 border-blue-600 text-blue-700 font-semibold" : "text-slate-600 hover:bg-slate-50")}>{t === 'teams' ? 'Teams & GMs' : t==='scoring' ? 'Scoring' : t==='caps' ? 'Cap Hits' : 'Bid History'}</button>
+            ))}
+          </div>
+          
+          {tab === 'teams' && (
+            <div className="mt-3 rounded border">
+              <div className="grid grid-cols-[minmax(0,1fr)_220px_280px_240px_110px_140px] gap-3 items-center bg-slate-50 border-b text-xs font-semibold text-slate-600">
+                <div className="px-3 py-2">Team (drag to reorder = Pick Order)</div>
+                <div className="px-3 py-2">Assign</div>
+                <div className="px-3 py-2">Login</div>
+                <div className="px-3 py-2">Password</div>
+                <div className="px-3 py-2">Admin</div>
+                <div className="px-3 py-2 text-right">Action</div>
+              </div>
+              <div>
+                {(teamsLocal || []).map((t: any, i: number) => (
+                  <div
+                    key={`${t.team_id}-${i}`}
+                    className="grid grid-cols-[minmax(0,1fr)_220px_280px_240px_110px_140px] gap-3 items-center border-b"
+                    draggable
+                    onDragStart={(e) => { e.dataTransfer.setData('text/plain', String(i)) }}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault()
+                      try {
+                        const from = parseInt(e.dataTransfer.getData('text/plain') || '-1', 10)
+                        const to = i
+                        if (Number.isFinite(from) && from >= 0 && from < (teamsLocal || []).length && to !== from) {
+                          const copy = [...(teamsLocal || [])]
+                          const [moved] = copy.splice(from, 1)
+                          copy.splice(to, 0, moved)
+                          setTeamsLocal(copy)
+                        }
+                      } catch {}
+                    }}
+                    title="Drag to reorder pick order"
+                  >
+                    <div className="px-3 py-2 cursor-move">{t.team_name}</div>
+                    {/* Assign */}
+                    <div className="px-3 py-2">
+                      <select
+                        className="h-8 px-2 border rounded text-sm bg-white w-[220px]"
+                        value={''}
+                        onChange={async (e) => {
+                          const sel = e.target.value
+                          if (!sel) return
+                          const [email, subject] = sel.split('|')
+                          try {
+                            const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+                            const body: any = { email, team_id: String(t.team_id), role: 'owner' }
+                            if (subject) body.subject = subject
+                            const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/admin/attach`, {
+                              method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+                            })
+                            if (res.ok) {
+                              setTeamsLocal((prev) => prev.map((row, idx) => idx===i ? { ...row, attached_email: email, login: email } : row))
+                              alert('User attached to team')
+                            } else {
+                              alert('Failed to attach user')
+                            }
+                          } catch { alert('Failed to attach user') }
+                        }}
+                      >
+                        <option value="">Assign existing user…</option>
+                        {knownUsers.map((u, idx2) => (
+                          <option key={`${u.email}-${idx2}`} value={`${u.email}|${u.subject}`}>{u.display_name ? `${u.display_name} — ` : ''}{u.email}</option>
+                        ))}
+                      </select>
+                    </div>
+                    {/* Login */}
+                    <div className="px-3 py-2">
+                      <input
+                        className="w-full h-8 px-2 border rounded text-sm"
+                        placeholder="email or username"
+                        value={t.login || t.attached_email || ''}
+                        onChange={(e) => {
+                          const v = e.target.value
+                          setTeamsLocal((prev) => prev.map((row, idx) => idx===i ? { ...row, login: v } : row))
+                        }}
+                      />
+                    </div>
+                    <div className="px-3 py-2">
+                      <input
+                        className="w-full h-8 px-2 border rounded text-sm"
+                        placeholder="set password"
+                        type="password"
+                        value={t._pwd || ''}
+                        onChange={(e) => {
+                          const v = e.target.value
+                          setTeamsLocal((prev) => prev.map((row, idx) => idx===i ? { ...row, _pwd: v } : row))
+                        }}
+                      />
+                    </div>
+                    <div className="px-3 py-2">
+                      <input
+                        type="checkbox"
+                        className="h-4 w-4"
+                        checked={!!t.is_admin}
+                        onChange={(e) => setTeamsLocal((prev) => prev.map((row, idx) => idx===i ? { ...row, is_admin: e.target.checked } : row))}
+                      />
+                    </div>
+                    <div className="px-3 py-2 text-right">
+                      <Button size="sm" variant="outline" onClick={() => {
+                        const url = '/callback'
+                        try { navigator.clipboard?.writeText(window.location.origin + url) } catch {}
+                        alert(`Send this link to invite the GM to login: ${window.location.origin + url}`)
+                      }}>Invite</Button>
+                    </div>
+                  </div>
+                ))}
+                {(!teamsLocal || teamsLocal.length === 0) && (
+                  Array.from({ length: 12 }).map((_, i) => (
+                    <div key={`ph-${i}`} className="grid grid-cols-[minmax(0,1fr)_120px] items-center border-b">
+                      <div className="px-3 py-2"><div className="h-3 w-40 bg-gray-200 rounded" /></div>
+                      <div className="px-3 py-2 text-right"><div className="h-7 w-16 bg-gray-200 rounded" /></div>
+                    </div>
+                  ))
+                )}
+              </div>
+              <div className="flex items-center justify-end gap-2 p-2">
+                <Button size="sm" variant="secondary" onClick={async () => {
+                  // Persist GM credentials
+                  try {
+                    const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+                    const creds = (teamsLocal || []).map((x: any) => ({
+                      team_id: String(x?.team_id),
+                      login: (x?.login || null),
+                      password: (x?._pwd || ''),
+                      is_admin: !!x?.is_admin,
+                    }))
+                    await fetch(`${apiBase}/api/public/cbs/league/uhhp/gm_credentials`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ creds }) })
+                    alert('GM credentials saved')
+                  } catch {}
+                }}>Save GM Settings</Button>
+                <Button size="sm" onClick={async () => {
+                  try {
+                    const orderNames = (teamsLocal || []).map((x: any) => (x?.team_name || '').toString()).filter(Boolean)
+                    window.dispatchEvent(new CustomEvent('uhhp:set-pick-order', { detail: { order: orderNames } }))
+                    // Persist to backend using team_id list
+                    const ids = (teamsLocal || []).map((x: any) => String(x?.team_id)).filter(Boolean)
+                    const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+                    await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/order`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ order: ids }) })
+                    alert('Pick order saved')
+                  } catch {}
+                }}>Save Order</Button>
+              </div>
+            </div>
+          )}
+          {tab === 'scoring' && (
+            <div className="mt-3">
+              <div className="rounded border overflow-auto max-h-64">
+                <table className="min-w-full text-sm">
+                  <thead className="bg-slate-50 text-slate-600">
+                    <tr>
+                      <th className="text-left px-3 py-2">Stat</th>
+                      <th className="text-left px-3 py-2">Code</th>
+                      <th className="text-right px-3 py-2">Weight</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(scoringRules || []).map((r: any, i: number) => (
+                      <tr key={`sr-${i}`} className="border-t">
+                        <td className="px-3 py-2">{r?.name || '—'}</td>
+                        <td className="px-3 py-2">{r?.code || '—'}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">{Number(r?.w || 0).toFixed(2)}</td>
+                      </tr>
+                    ))}
+                    {(!scoringRules || scoringRules.length === 0) && (
+                      <tr><td className="px-3 py-2 text-slate-500" colSpan={3}>No scoring rules loaded.</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+          {tab === 'history' && (
+            <div className="mt-3">
+              <div className="mb-2 flex items-center gap-2">
+                <Button size="sm" variant="outline" onClick={async () => {
+                  try {
+                    const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+                    const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/history?limit=50`)
+                    const data = await res.json()
+                    setHistory(Array.isArray(data?.results) ? data.results : [])
+                  } catch {}
+                }}>Refresh</Button>
+              </div>
+              <div className="rounded border overflow-auto max-h-80">
+                <table className="min-w-full text-sm">
+                  <thead className="bg-slate-50 text-slate-600">
+                    <tr>
+                      <th className="text-left px-3 py-2">Closed At</th>
+                      <th className="text-left px-3 py-2">Winner</th>
+                      <th className="text-right px-3 py-2">Winning Bid</th>
+                      <th className="text-right px-3 py-2">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(history || []).map((h: any, i: number) => (
+                      <tr key={`h-${i}`} className="border-t">
+                        <td className="px-3 py-2">{h.closed_at || '—'}</td>
+                        <td className="px-3 py-2">{h.winner_team_id || '—'}</td>
+                        <td className="px-3 py-2 text-right tabular-nums">{h.winning_amount != null ? `$${Number(h.winning_amount)}` : '—'}</td>
+                        <td className="px-3 py-2 text-right">
+                          <div className="flex items-center gap-2 justify-end">
+                            <Button size="sm" variant="outline" onClick={async () => {
+                              const pid = prompt('Enter new NHL player id to set for this nomination:')
+                              if (!pid) return
+                              try {
+                                const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+                                await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/admin/change_nomination`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auction_id: h.id, nhl_player_id: Number(pid) }) })
+                                alert('Nomination updated')
+                              } catch {}
+                            }}>Change Nomination</Button>
+                            <Button size="sm" variant="outline" onClick={async () => {
+                              const amt = prompt('Enter new winning bid $ amount:')
+                              if (!amt) return
+                              try {
+                                const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+                                await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/admin/update_salary`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auction_id: h.id, amount: Number(amt) }) })
+                                alert('Winning bid updated')
+                              } catch {}
+                            }}>Change Winning Bid</Button>
+                            <Button size="sm" variant="destructive" onClick={async () => {
+                              if (!confirm('Reset this nomination? This will undo the win.')) return
+                              try {
+                                const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+                                await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/admin/reset`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auction_id: h.id }) })
+                                alert('Nomination reset')
+                              } catch {}
+                            }}>Reset Nomination</Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                    {(!history || history.length === 0) && (
+                      <tr><td className="px-3 py-6 text-slate-500" colSpan={4}>No history yet.</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+          {tab === 'caps' && (
+            <div className="mt-3">
+              <div className="rounded border overflow-auto">
+                <table className="min-w-full text-sm">
+                  <thead className="bg-slate-50 text-slate-600">
+                    <tr>
+                      <th className="text-left px-3 py-2">Team</th>
+                      <th className="text-right px-3 py-2">Cap Hits ($)</th>
+                      <th className="text-right px-3 py-2">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(teamsLocal || []).map((t: any, i: number) => (
+                      <tr key={`cap-${t.team_id}`} className="border-t">
+                        <td className="px-3 py-2">{t.team_name}</td>
+                        <td className="px-3 py-2 text-right">
+                          <input
+                            className="h-8 w-28 px-2 border rounded text-right"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            value={String(t._cap_hits ?? t.cap_hits ?? '')}
+                            onChange={(e) => {
+                              const v = (e.target.value || '').replace(/[^0-9]/g, '')
+                              setTeamsLocal((prev) => prev.map((row, idx) => idx===i ? { ...row, _cap_hits: v } : row))
+                            }}
+                          />
+                        </td>
+                        <td className="px-3 py-2 text-right">
+                          <Button size="sm" variant="outline" onClick={async () => {
+                            try {
+                              const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+                              const val = Number((teamsLocal[i]?._cap_hits ?? teamsLocal[i]?.cap_hits ?? 0) || 0)
+                              await fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ team_id: String(t.team_id), cap_hits: val }) })
+                              setTeamsLocal((prev) => prev.map((row, idx) => idx===i ? { ...row, cap_hits: val, _cap_hits: undefined } : row))
+                              try { await onRefreshCaps() } catch {}
+                            } catch { alert('Save failed') }
+                          }}>Save</Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-md bg-white/10 backdrop-blur px-3 py-2">
@@ -2095,6 +3600,74 @@ function Stat({ title, value }: { title: string; value: string }) {
     <div>
       <div className="text-xs text-slate-500">{title}</div>
       <div className="text-lg font-semibold">{value}</div>
+    </div>
+  )
+}
+
+function DraftTopbarAuth() {
+  const { user, teamMembership, logout } = useAuth()
+  const [open, setOpen] = useState(false)
+  const [impersonate, setImpersonate] = useState<string>("")
+  const [teamsForImpersonate, setTeamsForImpersonate] = useState<Array<{ team_id: string; team_name: string }>>([])
+  useEffect(() => {
+    async function loadTeams() {
+      try {
+        const apiBase = (process.env.NEXT_PUBLIC_API_BASE && process.env.NEXT_PUBLIC_API_BASE.startsWith("http")) ? (process.env.NEXT_PUBLIC_API_BASE as string) : "http://localhost:8000"
+        const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/teams`, { cache: 'no-store' })
+        if (!res.ok) return
+        const data = await res.json()
+        const arr = Array.isArray(data?.teams) ? data.teams : []
+        setTeamsForImpersonate(arr.map((t: any) => ({ team_id: String(t.team_id), team_name: String(t.team_name) })))
+      } catch {}
+    }
+    loadTeams()
+  }, [])
+  return (
+    <div className="flex items-center gap-3">
+      {user ? (
+        <div className="hidden md:flex items-center gap-3 text-sm">
+          {teamMembership?.team_name && (
+            <span className="text-orange-400">{teamMembership.team_name}</span>
+          )}
+          <span className="text-gray-300">{user?.email}</span>
+          {/* Admin-only Reveal button */}
+          {teamMembership?.is_admin && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="mx-4 border-amber-400 text-amber-300 hover:bg-amber-900"
+              onClick={() => {
+                try {
+                  const evt = new CustomEvent('uhhp:reveal', {})
+                  window.dispatchEvent(evt)
+                } catch {}
+              }}
+            >
+              Reveal
+            </Button>
+          )}
+          {teamMembership?.is_admin && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-emerald-400 text-emerald-300 hover:bg-emerald-900"
+              onClick={() => {
+                try { window.dispatchEvent(new CustomEvent('uhhp:finalize', {})) } catch {}
+              }}
+            >
+              Finalize
+            </Button>
+          )}
+          <Button onClick={() => logout()} variant="outline" size="sm" className="border-gray-600 text-gray-300 hover:bg-gray-800">
+            Logout
+          </Button>
+        </div>
+      ) : (
+        <>
+          <Button onClick={() => setOpen(true)} size="sm" className="bg-orange-500 hover:bg-orange-600">Login</Button>
+          <LoginModal isOpen={open} onClose={() => setOpen(false)} />
+        </>
+      )}
     </div>
   )
 }
