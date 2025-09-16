@@ -24,10 +24,24 @@ export default function DraftWizardLogin() {
       console.error("Kinde env vars missing: NEXT_PUBLIC_KINDE_DOMAIN / NEXT_PUBLIC_KINDE_CLIENT_ID")
       return
     }
+    // Generate a strong state value (>= 8 chars) and persist for optional validation on callback
+    let state = ""
+    try {
+      if (typeof crypto !== "undefined" && (crypto as any).getRandomValues) {
+        const bytes = new Uint8Array(16)
+        ;(crypto as any).getRandomValues(bytes)
+        state = Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("")
+      } else {
+        state = Math.random().toString(36).slice(2) + Date.now().toString(36)
+      }
+      if (state.length < 8) state = state.padEnd(8, "0")
+      try { sessionStorage.setItem("kinde_oauth_state", state) } catch {}
+    } catch {}
     const url = `https://${domain}/oauth2/auth?client_id=${encodeURIComponent(String(clientId))}`
       + `&redirect_uri=${encodeURIComponent(String(redirectUri))}`
       + `&response_type=code&scope=openid%20profile%20email`
       + (audience ? `&audience=${encodeURIComponent(String(audience))}` : "")
+      + `&state=${encodeURIComponent(state)}`
     window.location.href = url
   }
 
