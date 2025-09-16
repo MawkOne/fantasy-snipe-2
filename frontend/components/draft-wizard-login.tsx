@@ -15,20 +15,33 @@ export default function DraftWizardLogin() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  const beginKindeLogin = () => {
+    const domain = process.env.NEXT_PUBLIC_KINDE_DOMAIN
+    const clientId = process.env.NEXT_PUBLIC_KINDE_CLIENT_ID
+    const audience = process.env.NEXT_PUBLIC_KINDE_AUDIENCE
+    const redirectUri = process.env.NEXT_PUBLIC_KINDE_REDIRECT_URI || `${window.location.origin}/callback`
+    if (!domain || !clientId) {
+      console.error("Kinde env vars missing: NEXT_PUBLIC_KINDE_DOMAIN / NEXT_PUBLIC_KINDE_CLIENT_ID")
+      return
+    }
+    const url = `https://${domain}/oauth2/auth?client_id=${encodeURIComponent(String(clientId))}`
+      + `&redirect_uri=${encodeURIComponent(String(redirectUri))}`
+      + `&response_type=code&scope=openid%20profile%20email`
+      + (audience ? `&audience=${encodeURIComponent(String(audience))}` : "")
+    window.location.href = url
+  }
+
   const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle sign in logic here
-    console.log("Sign in with:", { email, password })
+    beginKindeLogin()
   }
 
   const handleGoogleSignIn = () => {
-    // Handle Google sign in
-    console.log("Sign in with Google")
+    beginKindeLogin()
   }
 
   const handleAppleSignIn = () => {
-    // Handle Apple sign in
-    console.log("Sign in with Apple")
+    beginKindeLogin()
   }
 
   return (

@@ -1,5 +1,5 @@
-import DraftWizardLogin from "@/components/draft-wizard-login"
+import { redirect } from "next/navigation"
 
 export default function DraftWizardPage() {
-  return <DraftWizardLogin />
+  redirect("/login")
 }

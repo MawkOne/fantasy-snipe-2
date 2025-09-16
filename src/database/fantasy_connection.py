@@ -30,9 +30,44 @@ class FantasyDatabaseManager:
     
     def _get_database_url(self) -> str:
         """Get database URL from environment variables"""
-        # Check for Railway-style environment variables
-        if os.getenv('DATABASE_URL'):
-            return os.getenv('DATABASE_URL')
+        def _sanitize_db_url(raw: str | None) -> str | None:
+            if not raw:
+                return None
+            value = raw.strip().strip('\"').strip("'")
+            # Handle mistaken 'KEY=postgresql://...' values (e.g., 'NHL_DATABASE_URL=postgresql://...')
+            if '://' not in value and '=' in value:
+                maybe = value.split('=')[-1].strip()
+                if '://' in maybe:
+                    value = maybe
+            # Normalize deprecated scheme
+            if value.startswith('postgres://'):
+                value = 'postgresql://' + value[len('postgres://'):]
+            # Trim whitespace/newlines again after normalization
+            value = value.strip()
+            return value if '://' in value else None
+
+        # Prefer DATABASE_URL when valid (Railway sets this)
+        db_url = _sanitize_db_url(os.getenv('DATABASE_URL'))
+        if db_url:
+            return db_url
+
+        # Accept FANTASY_DATABASE_URL if present and valid
+        db_url = _sanitize_db_url(os.getenv('FANTASY_DATABASE_URL'))
+        if db_url:
+            return db_url
+
+        # Compose from PG* envs if available (Railway exposes these too)
+        pg_host = os.getenv('PGHOST')
+        pg_port = os.getenv('PGPORT', '5432')
+        pg_db = os.getenv('PGDATABASE') or os.getenv('POSTGRES_DB')
+        pg_user = os.getenv('PGUSER') or os.getenv('POSTGRES_USER')
+        pg_pass = os.getenv('PGPASSWORD') or os.getenv('POSTGRES_PASSWORD')
+        if pg_host and pg_user and pg_pass and pg_db:
+            base = f"postgresql://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}"
+            sslmode = os.getenv('PGSSLMODE') or os.getenv('SSL_MODE')
+            if sslmode and 'sslmode=' not in base:
+                return f"{base}?sslmode={sslmode}"
+            return base
         
         # Check for Google Cloud SQL
         if os.getenv('FANTASY_DB_HOST'):

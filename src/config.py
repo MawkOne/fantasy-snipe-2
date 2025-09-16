@@ -14,6 +14,9 @@ DB_NAME_SECRET_ID = "db-name"
 # Check if we're in a Cloud Run environment (either service or job)
 # Google Cloud Run services set K_SERVICE, Cloud Run Jobs set K_REVISION
 IS_CLOUD_RUN = 'K_SERVICE' in os.environ or 'K_REVISION' in os.environ
+# Detect if a database URL is provided (e.g., Railway). If present, prefer it and
+# avoid failing on missing discrete DB_* env variables.
+HAS_DATABASE_URL = bool(os.environ.get("NHL_DATABASE_URL") or os.environ.get("DATABASE_URL"))
 print(f"Environment detection: IS_CLOUD_RUN={IS_CLOUD_RUN}, K_SERVICE={os.environ.get('K_SERVICE', 'NOT_SET')}, K_REVISION={os.environ.get('K_REVISION', 'NOT_SET')}", file=sys.stderr)
 
 def get_secret(secret_id):
@@ -21,7 +24,7 @@ def get_secret(secret_id):
     Fetches a secret from Google Secret Manager if in Cloud Run environment,
     otherwise falls back to environment variables for local development.
     """
-    if IS_CLOUD_RUN:
+    if IS_CLOUD_RUN and not HAS_DATABASE_URL:
         try:
             from google.cloud import secretmanager
             client = secretmanager.SecretManagerServiceClient()
@@ -56,11 +59,15 @@ def get_secret(secret_id):
             sys.exit(1)
             
         value = os.environ.get(env_var)
-        if not value:
-            print(f"{env_var} environment variable not found.", file=sys.stderr)
-            print("Please ensure you have a .env file with the correct credentials for local development.", file=sys.stderr)
-            sys.exit(1)
-        return value
+        # If a DATABASE_URL is present, the discrete credentials may be intentionally absent.
+        if value:
+            return value
+        if HAS_DATABASE_URL:
+            # Return an empty string to allow callers that don't need discrete creds to proceed.
+            return ""
+        print(f"{env_var} environment variable not found.", file=sys.stderr)
+        print("Please ensure you have a .env file with the correct credentials for local development, or set DATABASE_URL.", file=sys.stderr)
+        sys.exit(1)
 
 def get_db_password():
     """Fetches the database password."""
@@ -75,10 +82,17 @@ def get_db_name():
     return get_secret(DB_NAME_SECRET_ID)
 
 # --- Load Credentials ---
-# Load credentials from the appropriate source when the module is imported.
-# Note: For local development, INSTANCE_CONNECTION_NAME still comes from .env
+# Load environment variables
 load_dotenv()
 INSTANCE_CONNECTION_NAME = os.environ.get("INSTANCE_CONNECTION_NAME")
-DB_USER = get_db_user()
-DB_NAME = get_db_name()
-DB_PASS = get_db_password()
+
+# If a DATABASE_URL is present (Railway or explicit), avoid fetching secrets at import time.
+if IS_CLOUD_RUN and not HAS_DATABASE_URL:
+    DB_USER = get_db_user()
+    DB_NAME = get_db_name()
+    DB_PASS = get_db_password()
+else:
+    # Prefer direct env variables if provided; may be empty if only DATABASE_URL is used
+    DB_USER = os.environ.get("DB_USER", "")
+    DB_NAME = os.environ.get("DB_NAME", "")
+    DB_PASS = os.environ.get("DB_PASS", "")

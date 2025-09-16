@@ -14,6 +14,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application's code into the container at /app
 COPY . .
 
-# Default command to run when the container starts.
-# This will be overridden by the arguments provided to the Cloud Run Job.
-CMD ["echo", "Container built successfully. Specify a script to run via Cloud Run Job arguments."]
+# Install Cloud SQL Auth Proxy
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/* \
+    && curl -L -o /usr/local/bin/cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.13.0/cloud-sql-proxy.linux.amd64 \
+    && chmod +x /usr/local/bin/cloud-sql-proxy
+
+# Ensure entrypoint script is executable
+RUN chmod +x ./serve.sh
+
+# Default command: run FastAPI with PORT expansion (Railway/Cloud)
+CMD ["./serve.sh"]

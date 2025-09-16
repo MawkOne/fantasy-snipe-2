@@ -112,6 +112,22 @@ class KindeAuth:
 
 # Initialize Kinde auth
 kinde_auth = KindeAuth()
+# Helper: create NHL DB engine with short connect timeout so production doesn't stall
+def _get_nhl_engine(timeout_seconds: int = 3):
+    try:
+        nhl_url = os.getenv("NHL_DATABASE_URL")
+        if nhl_url:
+            return create_engine(
+                nhl_url,
+                pool_pre_ping=True,
+                connect_args={"connect_timeout": int(os.getenv("NHL_DB_CONNECT_TIMEOUT", str(timeout_seconds)))}
+            )
+        # Fallback to cloud connector (used only in environments that can reach it)
+        from src.database.connection import connect_with_connector  # type: ignore
+        return connect_with_connector()
+    except Exception as e:
+        logger.warning(f"NHL DB engine init failed: {e}")
+        raise
 # Archetype mapping cache
 ARCHETYPE_MAPS_CACHE: dict[int, dict[int, str]] = {}
 
@@ -613,12 +629,11 @@ async def get_vorp(
                 }
             # Composite score path
             if value == 'composite':
-                nhl_url = os.getenv("NHL_DATABASE_URL")
-                if nhl_url:
-                    engine = create_engine(nhl_url, pool_pre_ping=True)
-                else:
-                    from src.database.connection import connect_with_connector  # type: ignore
-                    engine = connect_with_connector()
+                try:
+                    engine = _get_nhl_engine()
+                except Exception as _e:
+                    logger.warning(f"Auction birthdate enrichment failed early: {_e}")
+                    engine = None
                 season_val = int(season)
                 core_sql = text(
                     """
@@ -2509,12 +2524,11 @@ async def get_auction_state(slug: str) -> Dict[str, Any]:
         try:
             nhl_ids = [int(a.get("nhl_player_id")) for a in auctions_list if a.get("nhl_player_id") is not None]
             if nhl_ids:
-                nhl_url = os.getenv("NHL_DATABASE_URL")
-                if nhl_url:
-                    engine = create_engine(nhl_url, pool_pre_ping=True)
-                else:
-                    from src.database.connection import connect_with_connector  # type: ignore
-                    engine = connect_with_connector()
+                try:
+                    engine = _get_nhl_engine()
+                except Exception as _e:
+                    logger.warning(f"Available birthdate enrichment failed early: {_e}")
+                    engine = None
                 ids_csv = ",".join(str(i) for i in sorted(set(nhl_ids)))
                 sql_bd = sa_text(
                     f"""
@@ -2524,8 +2538,10 @@ async def get_auction_state(slug: str) -> Dict[str, Any]:
                      WHERE p.id = ANY(string_to_array(:ids_csv, ',')::int[])
                     """
                 )
-                with engine.connect() as conn:
-                    bd_rows = conn.execute(sql_bd, {"ids_csv": ids_csv}).fetchall()
+                bd_rows = []
+                if engine is not None:
+                    with engine.connect() as conn:
+                        bd_rows = conn.execute(sql_bd, {"ids_csv": ids_csv}).fetchall()
                 bd_map = {int(r.player_id): (str(r.birth_date) if r.birth_date is not None else None) for r in bd_rows}
                 for a in auctions_list:
                     pid = a.get("nhl_player_id")
@@ -2784,12 +2800,11 @@ async def get_auction_available(slug: str, season: int = 2025, limit: int = 200)
         try:
             need_bd = [int(it.get("nhl_player_id")) for it in rights_items if it.get("nhl_player_id") is not None and not it.get("birthdate")]
             if need_bd:
-                nhl_url = os.getenv("NHL_DATABASE_URL")
-                if nhl_url:
-                    engine = create_engine(nhl_url, pool_pre_ping=True)
-                else:
-                    from src.database.connection import connect_with_connector  # type: ignore
-                    engine = connect_with_connector()
+                try:
+                    engine = _get_nhl_engine()
+                except Exception as _e:
+                    logger.warning(f"Projections birthdate enrichment failed early: {_e}")
+                    engine = None
                 ids_csv = ",".join(str(i) for i in sorted(set(need_bd)))
                 sql_bd = sa_text(
                     f"""
@@ -2799,8 +2814,10 @@ async def get_auction_available(slug: str, season: int = 2025, limit: int = 200)
                      WHERE p.id = ANY(string_to_array(:ids_csv, ',')::int[])
                     """
                 )
-                with engine.connect() as conn:
-                    bd_rows = conn.execute(sql_bd, {"ids_csv": ids_csv}).fetchall()
+                bd_rows = []
+                if engine is not None:
+                    with engine.connect() as conn:
+                        bd_rows = conn.execute(sql_bd, {"ids_csv": ids_csv}).fetchall()
                 bd_map = {int(r.player_id): (str(r.birth_date) if r.birth_date is not None else None) for r in bd_rows}
                 for it in rights_items:
                     if it.get("nhl_player_id") is not None and not it.get("birthdate"):
@@ -2870,8 +2887,10 @@ async def get_auction_available(slug: str, season: int = 2025, limit: int = 200)
                      WHERE p.id = ANY(string_to_array(:ids_csv, ',')::int[])
                     """
                 )
-                with engine.connect() as conn:
-                    bd_rows = conn.execute(sql_bd, {"ids_csv": ids_csv}).fetchall()
+                bd_rows = []
+                if engine is not None:
+                    with engine.connect() as conn:
+                        bd_rows = conn.execute(sql_bd, {"ids_csv": ids_csv}).fetchall()
                 bd_map = {int(r.player_id): (str(r.birth_date) if r.birth_date is not None else None) for r in bd_rows}
                 for it in unrostered_items:
                     pid = it.get("nhl_player_id")

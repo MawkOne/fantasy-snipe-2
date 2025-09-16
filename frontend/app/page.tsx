@@ -4,10 +4,12 @@ import HomeHeroMockCard from "@/components/home-hero-mock-card"
 import LatestArticles from "@/components/latest-articles"
 import FeaturedLinks from "@/components/featured-links"
 import WhoShouldIDraftCard from "@/components/who-should-i-draft-card"
+import HomeLoginRedirect from "@/components/home-login-redirect"
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50">
+      <HomeLoginRedirect />
       <Header />
       {/* Dismissible sync banner */}
       <HeroSection />
