@@ -2937,15 +2937,73 @@ async def get_auction_available(slug: str, season: int = 2025, limit: int = 200)
         return {"league_id": lid, "season": season, "available": items}
 
 @app.post("/api/public/cbs/league/{slug}/auction/nominate", response_model=dict)
-async def post_auction_nominate(slug: str, payload: Dict[str, Any]) -> Dict[str, Any]:
+async def post_auction_nominate(slug: str, payload: Dict[str, Any], credentials: HTTPAuthorizationCredentials = Depends(security)) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         lid = _get_league_id_by_slug(session, slug)
+        # Authenticate requester
+        try:
+            token_payload = kinde_auth.verify_token(credentials.credentials)
+            user_subject = token_payload.get("sub")
+            user_email = (token_payload.get("email") or "").strip().lower()
+            if not user_subject:
+                raise HTTPException(status_code=401, detail="Authentication required")
+        except HTTPException:
+            raise
+        except Exception:
+            raise HTTPException(status_code=401, detail="Authentication failed")
+
+        # Determine admin
+        is_admin = False
+        try:
+            row_admin = session.execute(sa_text(
+                "SELECT 1 FROM cbs_gm_credentials WHERE league_id=:lid AND is_admin=TRUE AND LOWER(COALESCE(login,''))=:em LIMIT 1"
+            ), {"lid": lid, "em": user_email}).fetchone()
+            if row_admin:
+                is_admin = True
+        except Exception:
+            pass
+        if not is_admin:
+            try:
+                row_role = session.execute(sa_text(
+                    "SELECT role FROM cbs_user_memberships WHERE league_id=:lid AND user_subject=:sub LIMIT 1"
+                ), {"lid": lid, "sub": user_subject}).fetchone()
+                if row_role and str(getattr(row_role, 'role', '')).lower() in ("admin", "commissioner"):
+                    is_admin = True
+            except Exception:
+                pass
         nhl_player_id = int(payload.get("nhl_player_id"))
         cbs_player_id = (payload.get("cbs_player_id") or None)
         team_id = str(payload.get("team_id") or '')
         if not team_id:
             raise HTTPException(status_code=400, detail="team_id required")
+        # If not admin, enforce user's own team and turn order
+        if not is_admin:
+            # must nominate for own team
+            mem = session.execute(sa_text(
+                "SELECT team_id FROM cbs_user_memberships WHERE league_id=:lid AND user_subject=:sub LIMIT 1"
+            ), {"lid": lid, "sub": user_subject}).fetchone()
+            user_team_id = str(getattr(mem, 'team_id', '') or '') if mem else ''
+            if not user_team_id or user_team_id != team_id:
+                raise HTTPException(status_code=403, detail="Cannot nominate for another team")
+            # compute expected team turn from order
+            order_rows = session.execute(sa_text(
+                "SELECT team_id FROM cbs_auction_order WHERE league_id=:lid ORDER BY pos"
+            ), {"lid": lid}).fetchall()
+            ordered = [str(r.team_id) for r in order_rows] if order_rows else []
+            if not ordered:
+                trows = session.execute(sa_text(
+                    "SELECT team_id FROM cbs_teams WHERE league_id=:lid ORDER BY team_name"
+                ), {"lid": lid}).fetchall()
+                ordered = [str(r.team_id) for r in trows]
+            if ordered:
+                closed_cnt_row = session.execute(sa_text(
+                    "SELECT COUNT(*) AS c FROM cbs_auctions WHERE league_id=:lid AND status='closed'"
+                ), {"lid": lid}).fetchone()
+                closed_cnt = int(getattr(closed_cnt_row, 'c', 0) or 0)
+                expected = ordered[closed_cnt % len(ordered)]
+                if team_id != expected:
+                    raise HTTPException(status_code=403, detail="Not your turn to nominate")
         # Ensure not already rostered
         already = session.execute(sa_text(
             "SELECT 1 FROM cbs_rosters WHERE league_id=:lid AND (nhl_player_id=:pid OR cbs_player_id=:cid) LIMIT 1"
