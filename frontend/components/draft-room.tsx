@@ -567,9 +567,13 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     try {
       const apiBase = getApiBase()
       const amt = Math.max(0, Math.floor(Number(amount || 0)))
-      try { console.log('[BID]', { auctionId: currentAuctionId, teamId: actionTeamId, amt }) } catch {}
-      try { toast.message(`Submitting bid $${amt} (auction ${currentAuctionId}, team ${actionTeamId})`) } catch {}
-      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/bid`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auction_id: Number(currentAuctionId), team_id: String(actionTeamId), amount: amt }) })
+      const yourTeamKey = String(actionTeamId)
+      const isRebid = !!bidSubmitted[yourTeamKey] || !!revealed
+      const body: any = { auction_id: Number(currentAuctionId), team_id: yourTeamKey, amount: amt }
+      if (isRebid) { body.rebid = true; if (revealed) body.tiebreak = true }
+      try { console.log('[BID]', { auctionId: currentAuctionId, teamId: yourTeamKey, amt, isRebid, revealed }) } catch {}
+      try { toast.message(`Submitting bid $${amt} (auction ${currentAuctionId}, team ${yourTeamKey})`) } catch {}
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/bid`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       if (res.ok) {
         const js = await res.json().catch(() => ({} as any))
         const top = js && js.top_bid ? js.top_bid : null
@@ -577,8 +581,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           setGmBids((prev) => ({ ...prev, [String(top.team_id)]: Number(top.amount) }))
           setBidSubmitted((prev) => ({ ...prev, [String(top.team_id)]: true }))
         } else {
-          setGmBids((prev) => ({ ...prev, [String(actionTeamId)]: amt }))
-          setBidSubmitted((prev) => ({ ...prev, [String(actionTeamId)]: true }))
+          setGmBids((prev) => ({ ...prev, [yourTeamKey]: amt }))
+          setBidSubmitted((prev) => ({ ...prev, [yourTeamKey]: true }))
         }
         toast.success('Bid submitted')
         await loadAuctionState()
