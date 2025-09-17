@@ -2977,12 +2977,7 @@ async def post_auction_bid(slug: str, payload: Dict[str, Any]) -> Dict[str, Any]
         st = session.execute(sa_text("SELECT status FROM cbs_auctions WHERE id=:id AND league_id=:lid"), {"id": auction_id, "lid": lid}).fetchone()
         if not st or st.status != 'open':
             raise HTTPException(status_code=400, detail="Auction not open")
-        # Prevent duplicate initial bids by same team (allow only if rebid/tiebreak explicitly requested)
-        prev = session.execute(sa_text(
-            "SELECT 1 FROM cbs_auction_bids WHERE auction_id=:aid AND team_id=:tid LIMIT 1"
-        ), {"aid": auction_id, "tid": team_id}).fetchone()
-        if prev and not is_rebid:
-            raise HTTPException(status_code=409, detail="Team already submitted a bid for this auction")
+        # Allow multiple bids from the same team; mark kind accordingly
         # Ensure optional columns exist for kind and pick number
         try:
             session.execute(sa_text(
