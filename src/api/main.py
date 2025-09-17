@@ -3488,9 +3488,10 @@ async def admin_list_known_users(slug: str) -> Dict[str, Any]:
       - fantasy_users (optional; if present)
     """
     from sqlalchemy import text as sa_text
-    with get_fantasy_session() as session:
-        lid = _get_league_id_by_slug(session, slug)
-        out: List[Dict[str, Any]] = []
+    try:
+        with get_fantasy_session() as session:
+            lid = _get_league_id_by_slug(session, slug)
+            out: List[Dict[str, Any]] = []
 
         def _table_exists(name: str) -> bool:
             try:
@@ -3530,30 +3531,33 @@ async def admin_list_known_users(slug: str) -> Dict[str, Any]:
                 if em:
                     out.append({"email": em, "subject": "", "display_name": ""})
 
-        # Optional fantasy_users
-        if _table_exists('fantasy_users'):
-            rows_f = session.execute(sa_text(
-                """
-                SELECT DISTINCT COALESCE(email,'') AS email,
-                                COALESCE(external_auth_id,'') AS subject,
-                                COALESCE(display_name,'') AS display_name
-                  FROM fantasy_users
-                """
-            )).fetchall()
-            for r in rows_f:
-                em = (getattr(r, 'email', '') or '').strip()
-                sub = (getattr(r, 'subject', '') or '').strip()
-                if em or sub:
-                    out.append({"email": em, "subject": sub, "display_name": (getattr(r, 'display_name', '') or '')})
+            # Optional fantasy_users
+            if _table_exists('fantasy_users'):
+                rows_f = session.execute(sa_text(
+                    """
+                    SELECT DISTINCT COALESCE(email,'') AS email,
+                                    COALESCE(external_auth_id,'') AS subject,
+                                    COALESCE(display_name,'') AS display_name
+                      FROM fantasy_users
+                    """
+                )).fetchall()
+                for r in rows_f:
+                    em = (getattr(r, 'email', '') or '').strip()
+                    sub = (getattr(r, 'subject', '') or '').strip()
+                    if em or sub:
+                        out.append({"email": em, "subject": sub, "display_name": (getattr(r, 'display_name', '') or '')})
 
-        # Deduplicate by (email, subject)
-        dedup: Dict[Tuple[str, str], Dict[str, Any]] = {}
-        for u in out:
-            key = (u.get('email') or '', u.get('subject') or '')
-            if key not in dedup:
-                dedup[key] = u
-        users = sorted(dedup.values(), key=lambda x: (x.get('email') or '', x.get('subject') or ''))
-        return {"league_id": lid, "users": users}
+            # Deduplicate by (email, subject)
+            dedup: Dict[tuple, Dict[str, Any]] = {}
+            for u in out:
+                key = (u.get('email') or '', u.get('subject') or '')
+                if key not in dedup:
+                    dedup[key] = u
+            users = sorted(dedup.values(), key=lambda x: (x.get('email') or '', x.get('subject') or ''))
+            return {"league_id": lid, "users": users}
+    except Exception as e:
+        logger.error(f"/admin/users failed: {e}")
+        return {"league_id": None, "users": []}
 @app.get("/api/pools/{pool_id}/state", response_model=dict)
 async def get_pool_state(pool_id: str) -> Dict[str, Any]:
     """Minimal UHHP draft state for frontend draft room. Pulls CBS order and teams if available."""
