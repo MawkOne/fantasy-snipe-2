@@ -24,6 +24,7 @@ export default function CallbackPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ code, redirectUri }),
           cache: "no-store",
+          credentials: "omit",
         })
         if (!res.ok) {
           router.replace("/login")
