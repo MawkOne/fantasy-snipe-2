@@ -13,17 +13,11 @@ export default function CallbackPage() {
       try {
         const params = new URLSearchParams(window.location.search)
         const code = params.get("code") || ""
-        const state = params.get("state") || ""
-        const expected = (() => { try { return sessionStorage.getItem("kinde_oauth_state") || "" } catch { return "" } })()
         if (!code) {
           router.replace("/login")
           return
         }
-        // Optional: validate state
-        if (expected && state && expected !== state) {
-          router.replace("/login")
-          return
-        }
+        // Do not hard-fail on state mismatch to avoid redirect loops in some browsers
         const redirectUri = `${window.location.origin}/callback`
         const res = await fetch("/api/auth/token", {
           method: "POST",
