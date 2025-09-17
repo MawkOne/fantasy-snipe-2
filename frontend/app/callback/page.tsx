@@ -31,8 +31,8 @@ export default function CallbackPage() {
           return
         }
         const data = await res.json()
-        const email = data?.profile?.email || data?.tokens?.user_info?.email || ""
-        const name = data?.profile?.name || data?.tokens?.user_info?.name || ""
+        const email = data?.profile?.email || data?.claims?.email || data?.tokens?.user_info?.email || ""
+        const name = data?.profile?.name || data?.claims?.name || data?.tokens?.user_info?.name || ""
         if (email) {
           login(email, name)
           router.replace("/draft-room-uhhp")

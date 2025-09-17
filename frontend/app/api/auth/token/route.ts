@@ -31,6 +31,17 @@ export async function POST(req: Request) {
       return new Response(JSON.stringify({ error: "token_exchange_failed", detail: err }), { status: 502 })
     }
     const tokens = await tokenRes.json()
+    // Try to decode id_token claims for email/name without extra network call
+    let claims: any = null
+    try {
+      const idt = tokens?.id_token as string | undefined
+      if (idt && typeof idt === 'string' && idt.split('.').length >= 2) {
+        const payload = idt.split('.')[1]
+        const b64 = payload.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(payload.length / 4) * 4, '=')
+        const json = Buffer.from(b64, 'base64').toString('utf8')
+        claims = JSON.parse(json)
+      }
+    } catch {}
     const accessToken = tokens?.access_token as string | undefined
     // Try userinfo endpoint for profile
     let profile: any = null
@@ -45,7 +56,7 @@ export async function POST(req: Request) {
         }
       } catch {}
     }
-    return new Response(JSON.stringify({ tokens, profile }), { status: 200 })
+    return new Response(JSON.stringify({ tokens, profile, claims }), { status: 200 })
   } catch (e: any) {
     return new Response(JSON.stringify({ error: "server_error", detail: String(e?.message || e) }), { status: 500 })
   }
