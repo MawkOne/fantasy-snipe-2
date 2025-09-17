@@ -101,21 +101,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(newUser)
     localStorage.setItem('fantasy_user', JSON.stringify(newUser))
 
-    // Dev shortcut: if Mark's credentials, set membership to New Oilers Nation (team_id 1)
-    if (email === 'mark@getacquired.com' && password === 'Utop8a09!') {
-      const membership: TeamMembership = {
-        id: 1,
-        team_id: '1',
-        team_name: 'New Oilers Nation',
-        role: 'member',
-        league_id: 1,
-        league_name: 'UHHP League',
-        is_admin: true
-      }
-      setTeamMembership(membership)
-      localStorage.setItem('fantasy_membership', JSON.stringify(membership))
-    }
-
     // Always try to hydrate membership (and is_admin) from backend
     if (email) {
       hydrateMembershipFromBackend(email)
