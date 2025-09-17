@@ -1,4 +1,5 @@
 "use client"
+export const dynamic = 'force-dynamic'
 
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -33,8 +34,10 @@ export default function CallbackPage() {
         const data = await res.json()
         const email = data?.profile?.email || data?.claims?.email || data?.tokens?.user_info?.email || ""
         const name = data?.profile?.name || data?.claims?.name || data?.tokens?.user_info?.name || ""
-        if (email) {
-          login(email, name)
+        const subject = data?.claims?.sub || data?.tokens?.user_info?.sub || ""
+        const fallbackEmail = email || (subject ? `${subject}@user.local` : "")
+        if (fallbackEmail) {
+          login(fallbackEmail, name || subject)
           router.replace("/draft-room-uhhp")
         } else {
           router.replace("/login")
