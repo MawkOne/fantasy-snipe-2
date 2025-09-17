@@ -261,10 +261,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
             
     except Exception as e:
         logger.error(f"Error getting current user: {e}")
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication failed"
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication failed")
 
 # Health check endpoint
 @app.get("/health")

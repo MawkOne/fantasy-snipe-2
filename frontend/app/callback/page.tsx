@@ -32,6 +32,7 @@ export default function CallbackPage() {
           return
         }
         const data = await res.json()
+        try { localStorage.setItem('kinde_tokens', JSON.stringify(data?.tokens || {})) } catch {}
         const email = data?.profile?.email || data?.claims?.email || data?.tokens?.user_info?.email || ""
         const name = data?.profile?.name || data?.claims?.name || data?.tokens?.user_info?.name || ""
         const subject = data?.claims?.sub || data?.tokens?.user_info?.sub || ""

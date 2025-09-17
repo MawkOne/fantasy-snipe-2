@@ -42,12 +42,13 @@ export default function DraftWizardLogin() {
       + `&response_type=code&scope=openid%20profile%20email`
       + (audience ? `&audience=${encodeURIComponent(String(audience))}` : "")
       + `&state=${encodeURIComponent(state)}`
-    window.location.href = url
+    // Public mode: skip Kinde and go straight to draft room
+    window.location.href = "/draft-room-uhhp"
   }
 
   const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault()
-    beginKindeLogin()
+    window.location.href = "/draft-room-uhhp"
   }
 
   const handleGoogleSignIn = () => {

@@ -505,7 +505,14 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       const apiBase = getApiBase()
       const nhlId = parseInt(String(p.id), 10)
       const body: any = { nhl_player_id: Number.isFinite(nhlId) ? nhlId : undefined, team_id: actionTeamId }
-      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/nominate`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      const tokensStr = (typeof window !== 'undefined') ? localStorage.getItem('kinde_tokens') : null
+      let authHeader: Record<string,string> = { 'Content-Type': 'application/json' }
+      try {
+        const tk = tokensStr ? JSON.parse(tokensStr) : null
+        const at = tk && typeof tk.access_token === 'string' ? tk.access_token : null
+        if (at) authHeader = { ...authHeader, Authorization: `Bearer ${at}` }
+      } catch {}
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/nominate`, { method: 'POST', headers: authHeader, body: JSON.stringify(body) })
       if (res.ok) {
         toast.success('Nominated')
         // Optimistically set banner so the UI reflects the nomination immediately
