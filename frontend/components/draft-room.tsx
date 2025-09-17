@@ -161,9 +161,23 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   // Timer and core state are declared below; we define teams after capTeams is available
   // capTeams must be declared before teams
   const [capTeams, setCapTeams] = useState<any[] | null>(null)
+  // Public mode: allow a visitor to select which team they control for writes
+  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null)
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem('uhhp_action_team_id')
+      if (v) setSelectedTeamId(v)
+    } catch {}
+  }, [])
+  useEffect(() => {
+    try {
+      if (selectedTeamId) localStorage.setItem('uhhp_action_team_id', selectedTeamId)
+    } catch {}
+  }, [selectedTeamId])
   // Resolve an actionable team_id for write actions (nominate/bid)
   const actionTeamId: string | null = useMemo(() => {
     try {
+      if (selectedTeamId) return String(selectedTeamId)
       if (teamMembership?.team_id) return String(teamMembership.team_id)
       // Fallback by team name when present
       const tn = (teamMembership as any)?.team_name
@@ -179,7 +193,14 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       }
     } catch {}
     return null
-  }, [teamMembership?.team_id, (teamMembership as any)?.team_name, (user as any)?.email, capTeams])
+  }, [selectedTeamId, teamMembership?.team_id, (teamMembership as any)?.team_name, (user as any)?.email, capTeams])
+
+  // If no selection yet and teams are loaded, default to the first team
+  useEffect(() => {
+    if (!selectedTeamId && Array.isArray(capTeams) && capTeams.length) {
+      setSelectedTeamId(String(capTeams[0].team_id))
+    }
+  }, [capTeams, selectedTeamId])
   // ... existing code ...
 
   // Real league teams from draft_state capTeams
@@ -1438,9 +1459,10 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       localStorage.setItem(key, JSON.stringify(payload))
       // Also persist cap hits to backend
       try {
-        if (teamMembership?.team_id) {
+        const tid = actionTeamId
+        if (tid) {
           const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
-          await fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ team_id: String(teamMembership.team_id), cap_hits: capHits }) })
+          await fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ team_id: String(tid), cap_hits: capHits }) })
         }
       } catch {}
       toast.success('Layout saved')
@@ -1469,7 +1491,20 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             </button>
           </div>
 
-          <div className="flex-1 max-w-xl mx-6"></div>
+          <div className="flex-1 max-w-xl mx-6">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-slate-300">Controlling team</span>
+              <select
+                className="h-8 bg-slate-800 border border-slate-700 text-white text-sm rounded px-2"
+                value={selectedTeamId || ''}
+                onChange={(e) => setSelectedTeamId(e.target.value || null)}
+              >
+                {(Array.isArray(capTeams) ? capTeams : []).map((t: any) => (
+                  <option key={String(t.team_id)} value={String(t.team_id)}>{String(t.team_name)}</option>
+                ))}
+              </select>
+            </div>
+          </div>
 
           <DraftTopbarAuth />
         </div>
