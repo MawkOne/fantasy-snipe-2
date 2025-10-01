@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 type RosterRow = {
   position: string
@@ -16,6 +16,7 @@ export default function MyTeamContent() {
   const [rows, setRows] = useState<RosterRow[] | null>(null)
   const [teamName] = useState<string>("New Oilers Nation")
   const [loading, setLoading] = useState<boolean>(false)
+  const [rosterPositions, setRosterPositions] = useState<Record<string, number>>({})
 
   useEffect(() => {
     const load = async () => {
@@ -24,6 +25,21 @@ export default function MyTeamContent() {
         const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith("http"))
           ? (process.env.NEXT_PUBLIC_API_BASE as string)
           : "http://localhost:8000"
+        // Fetch league state to get roster position rules
+        try {
+          const st = await fetch(`${apiBase}/api/public/cbs/league/uhhp/state`, { cache: "no-store" })
+          if (st.ok) {
+            const stateJson = await st.json()
+            const rp = (stateJson?.rules?.roster_positions) || (stateJson?.roster_positions) || null
+            if (rp) {
+              if (typeof rp === 'string') {
+                try { setRosterPositions(JSON.parse(rp)) } catch { /* ignore */ }
+              } else if (typeof rp === 'object') {
+                setRosterPositions(rp as Record<string, number>)
+              }
+            }
+          }
+        } catch {}
         const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/draft_state`, { cache: "no-store" })
         if (!res.ok) { setRows([]); return }
         const data = await res.json()
@@ -50,6 +66,26 @@ export default function MyTeamContent() {
     }
     load()
   }, [teamName])
+
+  const sortedRows = useMemo(() => {
+    const base = rows || []
+    if (!base.length) return base
+    // Position order based on roster rules (fallback order)
+    const orderList = ['C','W','F','D','G']
+    const activePositions = orderList.filter((p) => rosterPositions && Object.prototype.hasOwnProperty.call(rosterPositions, p))
+    const finalOrder = activePositions.length ? activePositions : orderList
+    const pri: Record<string, number> = {}
+    finalOrder.forEach((p, i) => { pri[p] = i })
+    return [...base].sort((a, b) => {
+      const pa = pri[(a.position || '').toUpperCase()] ?? 999
+      const pb = pri[(b.position || '').toUpperCase()] ?? 999
+      if (pa !== pb) return pa - pb
+      // Secondary: salary desc (numbers first)
+      const sa = typeof a.salary === 'number' ? a.salary : -1
+      const sb = typeof b.salary === 'number' ? b.salary : -1
+      return sb - sa
+    })
+  }, [rows, rosterPositions])
 
   return (
     <div className="p-6">
@@ -86,7 +122,7 @@ export default function MyTeamContent() {
                   </tr>
                 ))
               )}
-              {!loading && (rows || []).map((r, index) => (
+              {!loading && (sortedRows || []).map((r, index) => (
                 <tr key={index} className="hover:bg-gray-50">
                   <td className="px-4 py-4">
                     <span className="text-sm font-medium text-gray-900">{r.position}</span>
