@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body { font: 13px system-ui, sans-serif; margin: 12px; width: 320px; }
+      .row { margin-bottom: 8px; }
+      button { padding: 6px 10px; margin-right: 6px; }
+      #log { white-space: pre-wrap; font-family: ui-monospace, monospace; font-size: 12px; margin-top: 8px; color: #555; }
+    </style>
+  </head>
+  <body>
+    <h3>FirstOfficer CBS Export</h3>
+
+    <div class="row"><strong>Current tab:</strong></div>
+    <div class="row">
+      <button id="thisJson">Export This (JSON)</button>
+    </div>
+
+    <div class="row"><strong>Sequential (all pages):</strong></div>
+    <div class="row">
+      <button id="allJson">Export All (JSON)</button>
+    </div>
+
+    <div id="log"></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

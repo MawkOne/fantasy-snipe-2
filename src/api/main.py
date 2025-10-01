@@ -21,9 +21,11 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from src.database.fantasy_connection import get_fantasy_session
+from src.database.fantasy_connection import fantasy_db
 from src.database.fantasy_models_v2 import (
     FantasyUser, FantasyLeague, FantasyTeam, FantasyPlayer,
-    FantasyUserLeague, FantasyAPIKey, FantasySeasonRanking
+    FantasyUserLeague, FantasyAPIKey, FantasySeasonRanking,
+    FantasyLeagueSettings, FantasyScoringRule
 )
 # Avoid importing NHL DB connector and models at import time to prevent local env requirements
 # We'll import NHL connectors lazily inside endpoints that need them.
@@ -272,6 +274,120 @@ async def health_check():
         "timestamp": datetime.now().isoformat(),
         "version": "1.0.0"
     }
+
+@app.post("/api/admin/db/init_v2")
+async def init_v2_tables():
+    try:
+        fantasy_db.create_v2_tables()
+        return {"ok": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/inseason/cbs/import", response_model=dict)
+async def import_cbs_extraction(payload: Dict[str, Any]) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    import json as _json
+    raw = payload
+    if not isinstance(raw, dict) or 'pages' not in raw:
+        raise HTTPException(status_code=400, detail="Invalid payload")
+    with get_fantasy_session() as session:
+        session.execute(sa_text(
+            """
+            CREATE TABLE IF NOT EXISTS cbs_extractions (
+              id SERIAL PRIMARY KEY,
+              created_at TIMESTAMP DEFAULT NOW(),
+              source TEXT,
+              raw JSONB
+            )
+            """
+        ))
+        session.execute(sa_text("INSERT INTO cbs_extractions(source, raw) VALUES(:src, CAST(:raw AS JSONB))"), {"src": "chrome_extension", "raw": _json.dumps(raw)})
+
+        league_name = None
+        scoring_rules: List[Dict[str, Any]] = []
+        roster_positions: Dict[str, int] = {}
+        try:
+            import re
+            for page in (raw.get('pages') or []):
+                for tbl in (page.get('tables') or []):
+                    headers = tbl.get('headers') or []
+                    rows = tbl.get('rows') or []
+                    if 'description' in [str(h).lower() for h in headers] and 'setting' in [str(h).lower() for h in headers]:
+                        for r in rows:
+                            if (str(r.get('DESCRIPTION') or '').strip().lower()) == 'league name':
+                                league_name = r.get('SETTING')
+                    if set(headers) >= { 'STATS', 'NAME', 'SETTINGS' }:
+                        for r in rows:
+                            settings = str(r.get('SETTINGS') or '').lower()
+                            m = re.search(r"(-?\d+(?:\.\d+)?)\s*points?", settings)
+                            if m:
+                                scoring_rules.append({
+                                    'stat_code': r.get('STATS'),
+                                    'stat_name': r.get('NAME'),
+                                    'points': float(m.group(1)),
+                                })
+                    if set(str(h).lower() for h in headers) >= {'status','min','max'}:
+                        for r in rows:
+                            status = str(r.get('STATUS') or '').strip().upper()
+                            if status in ('C','W','F','D','G'):
+                                try:
+                                    roster_positions[status] = int(str(r.get('MIN') or '0').split()[0])
+                                except Exception:
+                                    pass
+        except Exception:
+            pass
+
+        # Persist normalized league, settings, scoring
+        saved_league_id = None
+        if league_name:
+            # Create a minimal FantasyLeague if not exists
+            try:
+                # Find or create owner placeholder
+                owner = session.query(FantasyUser).filter(FantasyUser.email == 'importer@fantasy.local').first()
+                if not owner:
+                    owner = FantasyUser(email='importer@fantasy.local', display_name='Importer')
+                    session.add(owner)
+                    session.flush()
+                league = session.query(FantasyLeague).filter(FantasyLeague.name == league_name).first()
+                if not league:
+                    league = FantasyLeague(
+                        league_id='uhhp',
+                        sport='hockey',
+                        name=league_name,
+                        platform='cbs',
+                        owner_id=owner.id,
+                        is_public=False,
+                        is_active=True,
+                    )
+                    session.add(league)
+                    session.flush()
+                saved_league_id = league.id
+                # Upsert settings
+                settings = session.query(FantasyLeagueSettings).filter(FantasyLeagueSettings.league_id == league.id).first()
+                if not settings:
+                    settings = FantasyLeagueSettings(
+                        league_id=league.id,
+                        roster_positions=roster_positions or {},
+                        raw_settings_json=payload,
+                    )
+                    session.add(settings)
+                else:
+                    settings.roster_positions = roster_positions or {}
+                    settings.raw_settings_json = payload
+                # Replace scoring rules
+                if scoring_rules:
+                    session.query(FantasyScoringRule).filter(FantasyScoringRule.league_id == league.id).delete()
+                    for r in scoring_rules:
+                        session.add(FantasyScoringRule(
+                            league_id=league.id,
+                            stat_name=str(r.get('stat_code') or ''),
+                            stat_description=str(r.get('stat_name') or ''),
+                            points=float(r.get('points') or 0.0),
+                        ))
+            except Exception as e:
+                logger.warning(f"Import persist failed: {e}")
+
+        return {"ok": True, "league_name": league_name, "league_id": saved_league_id, "roster_positions": roster_positions, "scoring_rules": scoring_rules}
 
 # Rankings endpoint (public)
 @app.get("/api/rankings")

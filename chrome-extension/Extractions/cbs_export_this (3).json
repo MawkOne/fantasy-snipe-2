@@ -1,0 +1,443 @@
+{
+  "exportedAt": "2025-10-01T04:26:52.362Z",
+  "pages": [
+    {
+      "ok": true,
+      "url": "https://uhhp.hockey.cbssports.com/rules",
+      "title": "Ultimate Hardcore Hockey Pool - CBSSports.com",
+      "tables": [
+        {
+          "name": "table_1",
+          "headers": [
+            "DESCRIPTION",
+            "SETTING"
+          ],
+          "rows": [
+            {
+              "DESCRIPTION": "League Name",
+              "SETTING": "Ultimate Hardcore Hockey Pool"
+            },
+            {
+              "DESCRIPTION": "League Password",
+              "SETTING": "master"
+            },
+            {
+              "DESCRIPTION": "League URL",
+              "SETTING": "https://uhhp.hockey.cbssports.com"
+            },
+            {
+              "DESCRIPTION": "League E-mail Address",
+              "SETTING": "uhhp@hockey.cbssports.com"
+            },
+            {
+              "DESCRIPTION": "Teams",
+              "SETTING": "12"
+            },
+            {
+              "DESCRIPTION": "League Entry Fee",
+              "SETTING": "$100"
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_2",
+          "headers": [
+            "STATUS",
+            "MIN",
+            "MAX",
+            ""
+          ],
+          "rows": [
+            {
+              "STATUS": "Active Players",
+              "MIN": "15",
+              "MAX": "15",
+              "col_4": ""
+            },
+            {
+              "STATUS": "Reserve Players",
+              "MIN": "0",
+              "MAX": "No Limit",
+              "col_4": ""
+            },
+            {
+              "STATUS": "Injured Players",
+              "MIN": "0",
+              "MAX": "No Limit",
+              "col_4": ""
+            },
+            {
+              "STATUS": "Total Players",
+              "MIN": "15",
+              "MAX": "No Limit",
+              "col_4": ""
+            },
+            {
+              "STATUS": "C",
+              "MIN": "2",
+              "MAX": "2",
+              "col_4": "No Limit"
+            },
+            {
+              "STATUS": "W",
+              "MIN": "3",
+              "MAX": "3",
+              "col_4": "No Limit"
+            },
+            {
+              "STATUS": "F",
+              "MIN": "4",
+              "MAX": "4",
+              "col_4": "No Limit"
+            },
+            {
+              "STATUS": "D",
+              "MIN": "4",
+              "MAX": "4",
+              "col_4": "No Limit"
+            },
+            {
+              "STATUS": "G",
+              "MIN": "2",
+              "MAX": "2",
+              "col_4": "No Limit"
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_3",
+          "headers": [
+            "DESCRIPTION",
+            "SETTING"
+          ],
+          "rows": [
+            {
+              "DESCRIPTION": "Lineup Policy",
+              "SETTING": "Managers may set lineups and change players' positions from a list of their eligible positions."
+            },
+            {
+              "DESCRIPTION": "Lineup Deadline",
+              "SETTING": "Lineups are set for each period. Deadline for each player is 5 minutes before gametime on the first game of the period for that player."
+            },
+            {
+              "DESCRIPTION": "IR Options",
+              "SETTING": "All players are eligible."
+            },
+            {
+              "DESCRIPTION": "Add/Drop Policy",
+              "SETTING": "Add/Drops are handled by a waivers process."
+            },
+            {
+              "DESCRIPTION": "Waivers Run",
+              "SETTING": "The waiver process runs on Sunday, Monday, Tuesday, Wednesday, Thursday, Friday and Saturday night."
+            },
+            {
+              "DESCRIPTION": "Waiver Reset",
+              "SETTING": "The waiver order resets after each weeks' games."
+            },
+            {
+              "DESCRIPTION": "Waiver Period",
+              "SETTING": "Dropped players remain on waivers for at least 1 day(s)."
+            },
+            {
+              "DESCRIPTION": "FAB Budget",
+              "SETTING": "Each team will have a starting budget of $100."
+            },
+            {
+              "DESCRIPTION": "Winning Offers",
+              "SETTING": "Save Winning $Bids_text as salary"
+            },
+            {
+              "DESCRIPTION": "Zero Offers",
+              "SETTING": "Zero offers are not allowed."
+            },
+            {
+              "DESCRIPTION": "Trade Policy",
+              "SETTING": "Trades must be approved by the commissioner."
+            },
+            {
+              "DESCRIPTION": "Trade Deadline",
+              "SETTING": "No trades can be made after the trade deadline of 11:59 pm et 3/1/26."
+            },
+            {
+              "DESCRIPTION": "Offseason Trades",
+              "SETTING": "Managers may not make trades during the offseason."
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_4",
+          "headers": [
+            "DESCRIPTION",
+            "SETTING"
+          ],
+          "rows": [
+            {
+              "DESCRIPTION": "Player Eligibility",
+              "SETTING": "Players are eligible at their primary position."
+            },
+            {
+              "DESCRIPTION": "Player Pool",
+              "SETTING": "All Players."
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_5",
+          "headers": [
+            "DESCRIPTION",
+            "SETTING"
+          ],
+          "rows": [
+            {
+              "DESCRIPTION": "League Entry Fee",
+              "SETTING": "100"
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_6",
+          "headers": [
+            "DESCRIPTION",
+            "SETTING"
+          ],
+          "rows": [
+            {
+              "DESCRIPTION": "Draft Format",
+              "SETTING": "Offline Draft"
+            },
+            {
+              "DESCRIPTION": "Draft Order Type",
+              "SETTING": "Snake"
+            },
+            {
+              "DESCRIPTION": "Draft Rounds",
+              "SETTING": "15 Rounds."
+            },
+            {
+              "DESCRIPTION": "Draft Robot",
+              "SETTING": "not enabled - no time limit between picks."
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_7",
+          "headers": [
+            "STATS",
+            "NAME",
+            "SETTINGS"
+          ],
+          "rows": [
+            {
+              "STATS": "+/-",
+              "NAME": "Plus Minus",
+              "SETTINGS": ".25 points"
+            },
+            {
+              "STATS": "A",
+              "NAME": "Assists",
+              "SETTINGS": "2 points"
+            },
+            {
+              "STATS": "DA",
+              "NAME": "Defenseman Assists",
+              "SETTINGS": "1 point"
+            },
+            {
+              "STATS": "DG",
+              "NAME": "Defenseman Goals",
+              "SETTINGS": "2 points"
+            },
+            {
+              "STATS": "G",
+              "NAME": "Goals",
+              "SETTINGS": "3 points"
+            },
+            {
+              "STATS": "GA",
+              "NAME": "Goals Against",
+              "SETTINGS": "-1.25 points"
+            },
+            {
+              "STATS": "OL",
+              "NAME": "Overtime Losses",
+              "SETTINGS": "1 point"
+            },
+            {
+              "STATS": "PIM",
+              "NAME": "Penalty Minutes",
+              "SETTINGS": "0 points"
+            },
+            {
+              "STATS": "S",
+              "NAME": "Saves",
+              "SETTINGS": "0.2 points"
+            },
+            {
+              "STATS": "SHG",
+              "NAME": "Short Handed Goals",
+              "SETTINGS": "2 points"
+            },
+            {
+              "STATS": "SHOG",
+              "NAME": "Shootout Goals",
+              "SETTINGS": "1 point"
+            },
+            {
+              "STATS": "SHOL",
+              "NAME": "Shootout Losses",
+              "SETTINGS": "1 point"
+            },
+            {
+              "STATS": "SO",
+              "NAME": "Shut Outs",
+              "SETTINGS": "1 point"
+            },
+            {
+              "STATS": "W",
+              "NAME": "Wins",
+              "SETTINGS": "2 points"
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_8",
+          "headers": [
+            "DESCRIPTION",
+            "SETTING"
+          ],
+          "rows": [
+            {
+              "DESCRIPTION": "Scoring System",
+              "SETTING": "Head-to-Head, Points"
+            },
+            {
+              "DESCRIPTION": "Scoring per Period",
+              "SETTING": "Scoring based on total stats each period."
+            },
+            {
+              "DESCRIPTION": "Matchup Tiebreaker",
+              "SETTING": "No tiebreaker. Ties are allowed."
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_9",
+          "headers": [
+            "DESCRIPTION",
+            "SETTING"
+          ],
+          "rows": [
+            {
+              "DESCRIPTION": "Period Length",
+              "SETTING": "Custom scoring periods"
+            },
+            {
+              "DESCRIPTION": "Matchups Per Period",
+              "SETTING": "1"
+            },
+            {
+              "DESCRIPTION": "Playoffs Start",
+              "SETTING": "Period 23"
+            },
+            {
+              "DESCRIPTION": "Playoffs Last",
+              "SETTING": "4 Periods"
+            },
+            {
+              "DESCRIPTION": "Automatic Playoffs",
+              "SETTING": "No"
+            },
+            {
+              "DESCRIPTION": "Archive Standings",
+              "SETTING": "Yes"
+            },
+            {
+              "DESCRIPTION": "Standings Tiebreaker",
+              "SETTING": "Ties in the standings are resolved in this order: Winning Percentage, Head to Head Record, Total Points."
+            },
+            {
+              "DESCRIPTION": "Division Winner Tiebreaker",
+              "SETTING": "Ties for division winner are resolved using standings tiebreakers"
+            },
+            {
+              "DESCRIPTION": "Playoffs Matchup Tiebreaker",
+              "SETTING": "Playoff ties go to the team with better G."
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_10",
+          "headers": [],
+          "rows": [],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_11",
+          "headers": [
+            "Constitution"
+          ],
+          "rows": [
+            {
+              "Constitution": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        }
+      ]
+    }
+  ]
+}

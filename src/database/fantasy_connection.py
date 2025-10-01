@@ -131,6 +131,16 @@ class FantasyDatabaseManager:
         except Exception as e:
             logger.error(f"Failed to create fantasy database tables: {e}")
             raise
+
+    def create_v2_tables(self):
+        """Create Fantasy v2 (clear, multi-user) tables"""
+        try:
+            from .fantasy_models_v2 import Base as V2Base
+            V2Base.metadata.create_all(bind=self.engine)
+            logger.info("Fantasy v2 tables created successfully")
+        except Exception as e:
+            logger.error(f"Failed to create fantasy v2 tables: {e}")
+            raise
     
     def drop_tables(self):
         """Drop all fantasy database tables (use with caution!)"""

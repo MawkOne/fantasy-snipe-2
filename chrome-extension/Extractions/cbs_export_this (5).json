@@ -1,0 +1,1364 @@
+{
+  "exportedAt": "2025-10-01T04:27:40.889Z",
+  "pages": [
+    {
+      "ok": true,
+      "url": "https://uhhp.hockey.cbssports.com/schedule/full",
+      "title": "Ultimate Hardcore Hockey Pool - CBSSports.com",
+      "tables": [
+        {
+          "name": "table_1",
+          "headers": [
+            "PERIOD 1: 10/7/25 - 10/12/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 1: 10/7/25 - 10/12/25 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 1: 10/7/25 - 10/12/25 MATCHUPS": "Shazam!!!",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 1: 10/7/25 - 10/12/25 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 1: 10/7/25 - 10/12/25 MATCHUPS": "G' Stars",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 1: 10/7/25 - 10/12/25 MATCHUPS": "CinStars",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 1: 10/7/25 - 10/12/25 MATCHUPS": "The Pylons",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_2",
+          "headers": [
+            "PERIOD 2: 10/13/25 - 10/19/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 2: 10/13/25 - 10/19/25 MATCHUPS": "The Dook of Sook",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 2: 10/13/25 - 10/19/25 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 2: 10/13/25 - 10/19/25 MATCHUPS": "re-degeneration X 2.0",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 2: 10/13/25 - 10/19/25 MATCHUPS": "South Calgary Oilers",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 2: 10/13/25 - 10/19/25 MATCHUPS": "HawtSawwce",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 2: 10/13/25 - 10/19/25 MATCHUPS": "G' Stars",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_3",
+          "headers": [
+            "PERIOD 3: 10/20/25 - 10/26/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 3: 10/20/25 - 10/26/25 MATCHUPS": "New Oilers Nation",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 3: 10/20/25 - 10/26/25 MATCHUPS": "LIP's Lasers",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 3: 10/20/25 - 10/26/25 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 3: 10/20/25 - 10/26/25 MATCHUPS": "The Dook of Sook",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 3: 10/20/25 - 10/26/25 MATCHUPS": "The Pylons",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 3: 10/20/25 - 10/26/25 MATCHUPS": "HawtSawwce",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_4",
+          "headers": [
+            "PERIOD 4: 10/27/25 - 11/2/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 4: 10/27/25 - 11/2/25 MATCHUPS": "New Oilers Nation",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 4: 10/27/25 - 11/2/25 MATCHUPS": "re-degeneration X 2.0",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 4: 10/27/25 - 11/2/25 MATCHUPS": "The Dook of Sook",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 4: 10/27/25 - 11/2/25 MATCHUPS": "G' Stars",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 4: 10/27/25 - 11/2/25 MATCHUPS": "The Pylons",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 4: 10/27/25 - 11/2/25 MATCHUPS": "South Calgary Oilers",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_5",
+          "headers": [
+            "PERIOD 5: 11/3/25 - 11/9/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 5: 11/3/25 - 11/9/25 MATCHUPS": "South Calgary Oilers",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 5: 11/3/25 - 11/9/25 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 5: 11/3/25 - 11/9/25 MATCHUPS": "G' Stars",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 5: 11/3/25 - 11/9/25 MATCHUPS": "CinStars",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 5: 11/3/25 - 11/9/25 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 5: 11/3/25 - 11/9/25 MATCHUPS": "Shazam!!!",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_6",
+          "headers": [
+            "PERIOD 6: 11/10/25 - 11/16/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 6: 11/10/25 - 11/16/25 MATCHUPS": "The Pylons",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 6: 11/10/25 - 11/16/25 MATCHUPS": "Shazam!!!",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 6: 11/10/25 - 11/16/25 MATCHUPS": "re-degeneration X 2.0",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 6: 11/10/25 - 11/16/25 MATCHUPS": "HawtSawwce",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 6: 11/10/25 - 11/16/25 MATCHUPS": "LIP's Lasers",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 6: 11/10/25 - 11/16/25 MATCHUPS": "G' Stars",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_7",
+          "headers": [
+            "PERIOD 7: 11/17/25 - 11/23/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 7: 11/17/25 - 11/23/25 MATCHUPS": "New Oilers Nation",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 7: 11/17/25 - 11/23/25 MATCHUPS": "CinStars",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 7: 11/17/25 - 11/23/25 MATCHUPS": "The Dook of Sook",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 7: 11/17/25 - 11/23/25 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 7: 11/17/25 - 11/23/25 MATCHUPS": "South Calgary Oilers",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 7: 11/17/25 - 11/23/25 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_8",
+          "headers": [
+            "PERIOD 8: 11/24/25 - 11/30/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 8: 11/24/25 - 11/30/25 MATCHUPS": "LIP's Lasers",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 8: 11/24/25 - 11/30/25 MATCHUPS": "CinStars",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 8: 11/24/25 - 11/30/25 MATCHUPS": "South Calgary Oilers",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 8: 11/24/25 - 11/30/25 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 8: 11/24/25 - 11/30/25 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 8: 11/24/25 - 11/30/25 MATCHUPS": "The Pylons",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_9",
+          "headers": [
+            "PERIOD 9: 12/1/25 - 12/7/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 9: 12/1/25 - 12/7/25 MATCHUPS": "New Oilers Nation",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 9: 12/1/25 - 12/7/25 MATCHUPS": "CinStars",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 9: 12/1/25 - 12/7/25 MATCHUPS": "Shazam!!!",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 9: 12/1/25 - 12/7/25 MATCHUPS": "LIP's Lasers",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 9: 12/1/25 - 12/7/25 MATCHUPS": "HawtSawwce",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 9: 12/1/25 - 12/7/25 MATCHUPS": "The Pylons",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_10",
+          "headers": [
+            "PERIOD 10: 12/8/25 - 12/14/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 10: 12/8/25 - 12/14/25 MATCHUPS": "HawtSawwce",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 10: 12/8/25 - 12/14/25 MATCHUPS": "CinStars",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 10: 12/8/25 - 12/14/25 MATCHUPS": "G' Stars",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 10: 12/8/25 - 12/14/25 MATCHUPS": "LIP's Lasers",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 10: 12/8/25 - 12/14/25 MATCHUPS": "Shazam!!!",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 10: 12/8/25 - 12/14/25 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_11",
+          "headers": [
+            "PERIOD 11: 12/15/25 - 12/21/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 11: 12/15/25 - 12/21/25 MATCHUPS": "Shazam!!!",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 11: 12/15/25 - 12/21/25 MATCHUPS": "South Calgary Oilers",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 11: 12/15/25 - 12/21/25 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 11: 12/15/25 - 12/21/25 MATCHUPS": "LIP's Lasers",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 11: 12/15/25 - 12/21/25 MATCHUPS": "re-degeneration X 2.0",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 11: 12/15/25 - 12/21/25 MATCHUPS": "HawtSawwce",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_12",
+          "headers": [
+            "PERIOD 12: 12/22/25 - 12/28/25 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 12: 12/22/25 - 12/28/25 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 12: 12/22/25 - 12/28/25 MATCHUPS": "HawtSawwce",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 12: 12/22/25 - 12/28/25 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 12: 12/22/25 - 12/28/25 MATCHUPS": "G' Stars",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 12: 12/22/25 - 12/28/25 MATCHUPS": "South Calgary Oilers",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 12: 12/22/25 - 12/28/25 MATCHUPS": "re-degeneration X 2.0",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_13",
+          "headers": [
+            "PERIOD 13: 12/29/25 - 1/4/26 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 13: 12/29/25 - 1/4/26 MATCHUPS": "The Dook of Sook",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 13: 12/29/25 - 1/4/26 MATCHUPS": "CinStars",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 13: 12/29/25 - 1/4/26 MATCHUPS": "re-degeneration X 2.0",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 13: 12/29/25 - 1/4/26 MATCHUPS": "South Calgary Oilers",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 13: 12/29/25 - 1/4/26 MATCHUPS": "LIP's Lasers",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 13: 12/29/25 - 1/4/26 MATCHUPS": "Shazam!!!",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_14",
+          "headers": [
+            "PERIOD 14: 1/5/26 - 1/11/26 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 14: 1/5/26 - 1/11/26 MATCHUPS": "New Oilers Nation",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 14: 1/5/26 - 1/11/26 MATCHUPS": "Shazam!!!",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 14: 1/5/26 - 1/11/26 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 14: 1/5/26 - 1/11/26 MATCHUPS": "South Calgary Oilers",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 14: 1/5/26 - 1/11/26 MATCHUPS": "The Pylons",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 14: 1/5/26 - 1/11/26 MATCHUPS": "re-degeneration X 2.0",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_15",
+          "headers": [
+            "PERIOD 15: 1/12/26 - 1/18/26 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 15: 1/12/26 - 1/18/26 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 15: 1/12/26 - 1/18/26 MATCHUPS": "Shazam!!!",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 15: 1/12/26 - 1/18/26 MATCHUPS": "The Dook of Sook",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 15: 1/12/26 - 1/18/26 MATCHUPS": "G' Stars",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 15: 1/12/26 - 1/18/26 MATCHUPS": "The Pylons",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 15: 1/12/26 - 1/18/26 MATCHUPS": "South Calgary Oilers",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_16",
+          "headers": [
+            "PERIOD 16: 1/19/26 - 1/25/26 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 16: 1/19/26 - 1/25/26 MATCHUPS": "New Oilers Nation",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 16: 1/19/26 - 1/25/26 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 16: 1/19/26 - 1/25/26 MATCHUPS": "The Dook of Sook",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 16: 1/19/26 - 1/25/26 MATCHUPS": "HawtSawwce",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 16: 1/19/26 - 1/25/26 MATCHUPS": "re-degeneration X 2.0",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 16: 1/19/26 - 1/25/26 MATCHUPS": "The Pylons",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_17",
+          "headers": [
+            "PERIOD 17: 1/26/26 - 2/1/26 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 17: 1/26/26 - 2/1/26 MATCHUPS": "New Oilers Nation",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 17: 1/26/26 - 2/1/26 MATCHUPS": "CinStars",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 17: 1/26/26 - 2/1/26 MATCHUPS": "re-degeneration X 2.0",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 17: 1/26/26 - 2/1/26 MATCHUPS": "The Dook of Sook",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 17: 1/26/26 - 2/1/26 MATCHUPS": "LIP's Lasers",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 17: 1/26/26 - 2/1/26 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_18",
+          "headers": [
+            "PERIOD 18: 2/2/26 - 2/22/26 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 18: 2/2/26 - 2/22/26 MATCHUPS": "New Oilers Nation",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 18: 2/2/26 - 2/22/26 MATCHUPS": "The Pylons",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 18: 2/2/26 - 2/22/26 MATCHUPS": "The Dook of Sook",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 18: 2/2/26 - 2/22/26 MATCHUPS": "G' Stars",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 18: 2/2/26 - 2/22/26 MATCHUPS": "LIP's Lasers",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 18: 2/2/26 - 2/22/26 MATCHUPS": "HawtSawwce",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_19",
+          "headers": [
+            "PERIOD 19: 2/23/26 - 3/1/26 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 19: 2/23/26 - 3/1/26 MATCHUPS": "New Oilers Nation",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 19: 2/23/26 - 3/1/26 MATCHUPS": "CinStars",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 19: 2/23/26 - 3/1/26 MATCHUPS": "G' Stars",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 19: 2/23/26 - 3/1/26 MATCHUPS": "HawtSawwce",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 19: 2/23/26 - 3/1/26 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 19: 2/23/26 - 3/1/26 MATCHUPS": "The Dook of Sook",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_20",
+          "headers": [
+            "PERIOD 20: 3/2/26 - 3/8/26 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 20: 3/2/26 - 3/8/26 MATCHUPS": "New Oilers Nation",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 20: 3/2/26 - 3/8/26 MATCHUPS": "CinStars",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 20: 3/2/26 - 3/8/26 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "Shazam!!!",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 20: 3/2/26 - 3/8/26 MATCHUPS": "LIP's Lasers",
+              "@": "re-degeneration X 2.0",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 20: 3/2/26 - 3/8/26 MATCHUPS": "HawtSawwce",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 20: 3/2/26 - 3/8/26 MATCHUPS": "The Pylons",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_21",
+          "headers": [
+            "PERIOD 21: 3/9/26 - 3/15/26 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 21: 3/9/26 - 3/15/26 MATCHUPS": "New Oilers Nation",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 21: 3/9/26 - 3/15/26 MATCHUPS": "The Inglorious Basteeerds",
+              "@": "CinStars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 21: 3/9/26 - 3/15/26 MATCHUPS": "re-degeneration X 2.0",
+              "@": "G' Stars",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 21: 3/9/26 - 3/15/26 MATCHUPS": "LIP's Lasers",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 21: 3/9/26 - 3/15/26 MATCHUPS": "Shazam!!!",
+              "@": "South Calgary Oilers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 21: 3/9/26 - 3/15/26 MATCHUPS": "The Dook of Sook",
+              "@": "3sheets Sports Entertainment",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_22",
+          "headers": [
+            "PERIOD 22: 3/16/26 - 3/22/26 MATCHUPS",
+            "@",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 22: 3/16/26 - 3/22/26 MATCHUPS": "Shazam!!!",
+              "@": "New Oilers Nation",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 22: 3/16/26 - 3/22/26 MATCHUPS": "South Calgary Oilers",
+              "@": "The Inglorious Basteeerds",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 22: 3/16/26 - 3/22/26 MATCHUPS": "3sheets Sports Entertainment",
+              "@": "The Pylons",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 22: 3/16/26 - 3/22/26 MATCHUPS": "CinStars",
+              "@": "LIP's Lasers",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 22: 3/16/26 - 3/22/26 MATCHUPS": "re-degeneration X 2.0",
+              "@": "The Dook of Sook",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 22: 3/16/26 - 3/22/26 MATCHUPS": "G' Stars",
+              "@": "HawtSawwce",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_23",
+          "headers": [
+            "PERIOD 23: 3/23/26 - 3/29/26 MATCHUPS",
+            "PLAYOFF MATCH @",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 23: 3/23/26 - 3/29/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 23: 3/23/26 - 3/29/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 23: 3/23/26 - 3/29/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 23: 3/23/26 - 3/29/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 23: 3/23/26 - 3/29/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 23: 3/23/26 - 3/29/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_24",
+          "headers": [
+            "PERIOD 24: 3/30/26 - 4/5/26 MATCHUPS",
+            "PLAYOFF MATCH @",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 24: 3/30/26 - 4/5/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 24: 3/30/26 - 4/5/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 24: 3/30/26 - 4/5/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 24: 3/30/26 - 4/5/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 24: 3/30/26 - 4/5/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 24: 3/30/26 - 4/5/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_25",
+          "headers": [
+            "PERIOD 25: 4/6/26 - 4/12/26 MATCHUPS",
+            "PLAYOFF MATCH @",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 25: 4/6/26 - 4/12/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 25: 4/6/26 - 4/12/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 25: 4/6/26 - 4/12/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 25: 4/6/26 - 4/12/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 25: 4/6/26 - 4/12/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 25: 4/6/26 - 4/12/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        },
+        {
+          "name": "table_26",
+          "headers": [
+            "PERIOD 26: 4/13/26 - 4/16/26 MATCHUPS",
+            "PLAYOFF MATCH @",
+            "RESULTS",
+            ""
+          ],
+          "rows": [
+            {
+              "PERIOD 26: 4/13/26 - 4/16/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 26: 4/13/26 - 4/16/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 26: 4/13/26 - 4/16/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 26: 4/13/26 - 4/16/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 26: 4/13/26 - 4/16/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            },
+            {
+              "PERIOD 26: 4/13/26 - 4/16/26 MATCHUPS": "TBA",
+              "PLAYOFF MATCH @": "TBA",
+              "RESULTS": "",
+              "col_4": ""
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        }
+      ]
+    }
+  ]
+}

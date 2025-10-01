@@ -1,0 +1,31 @@
+{
+    "manifest_version": 3,
+    "name": "FirstOfficer CBS Export",
+    "version": "0.6.0",
+    "description": "Export CBSSports league pages (post-login) to JSON.",
+    "permissions": ["storage", "scripting", "activeTab", "downloads", "tabs", "webNavigation"],
+    "host_permissions": [
+      "https://*.cbssports.com/*",
+      "https://uhhp.hockey.cbssports.com/*"
+    ],
+    "background": {
+      "service_worker": "bg.js"
+    },
+    "action": {
+      "default_popup": "popup.html",
+      "default_title": "CBS Export"
+    },
+    "content_scripts": [
+      {
+        "matches": [
+          "https://*.cbssports.com/*",
+          "https://uhhp.hockey.cbssports.com/*"
+        ],
+        "js": ["content.js"],
+        "run_at": "document_idle",
+        "all_frames": true,
+        "match_about_blank": true
+      }
+    ]
+  }
+  

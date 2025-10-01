@@ -1,0 +1,1397 @@
+{
+  "season": "2025-26",
+  "description": "Projected rosters extracted from Dobber, FantasyPros, and DtZ forecasts",
+  "teams": {
+    "EDM": {
+      "team_name": "edmonton-oilers",
+      "forwards": [
+        "Adam Henrique",
+        "Andrew Mangiapane",
+        "Connor Brown",
+        "Connor McDavid",
+        "Corey Perry",
+        "Derek Ryan",
+        "Evander Kane",
+        "Jeff Skinner",
+        "Kasperi Kapanen",
+        "Leon Draisaitl",
+        "Matt Savoie",
+        "Mattias Janmark",
+        "Max Jones",
+        "Ryan Nugent-Hopkins",
+        "Trent Frederic",
+        "Vasily Podkolzin",
+        "Viktor Arvidsson",
+        "Zach Hyman"
+      ],
+      "defensemen": [
+        "Brett Kulak",
+        "Darnell Nurse",
+        "Evan Bouchard",
+        "Jake Walman",
+        "John Klingberg",
+        "Mattias Ekholm",
+        "Travis Dermott",
+        "Troy Stecher",
+        "Ty Emberson"
+      ],
+      "goalies": [
+        "Calvin Pickard",
+        "Stuart Skinner"
+      ],
+      "total_players": 29
+    },
+    "TBL": {
+      "team_name": "tampa-bay-lightning",
+      "forwards": [
+        "Anthony Cirelli",
+        "Brandon Hagel",
+        "Brayden Point",
+        "Cam Atkinson",
+        "Conor Geekie",
+        "Conor Sheary",
+        "Gage Goncalves",
+        "Jake Guentzel",
+        "Jakob Pelletier",
+        "Jesse Ylonen",
+        "Luke Glendening",
+        "Mitchell Chaffee",
+        "Nick Paul",
+        "Nikita Kucherov",
+        "Oliver Bjorkstrand",
+        "Yanni Gourde",
+        "Zemgus Girgensons"
+      ],
+      "defensemen": [
+        "Darren Raddysh",
+        "Emil Lilleberg",
+        "Erik Cernak",
+        "J.J. Moser",
+        "Maxwell Crozier",
+        "Nick Perbix",
+        "Ryan McDonagh",
+        "Victor Hedman"
+      ],
+      "goalies": [
+        "Andrei Vasilevskiy",
+        "Jonas Johansson",
+        "Matt Tomkins"
+      ],
+      "total_players": 28
+    },
+    "COL": {
+      "team_name": "colorado-avalanche",
+      "forwards": [
+        "Artturi Lehkonen",
+        "Brock Nelson",
+        "Charlie Coyle",
+        "Chris Wagner",
+        "Gabriel Landeskog",
+        "Ivan Ivan",
+        "Jack Drury",
+        "Jimmy Vesey",
+        "Joel Kiviranta",
+        "Jonathan Drouin",
+        "Logan O'Connor",
+        "Martin Necas",
+        "Matthew Phillips",
+        "Miles Wood",
+        "Nathan MacKinnon",
+        "Parker Kelly",
+        "Ross Colton",
+        "Valeri Nichushkin"
+      ],
+      "defensemen": [
+        "Brent Burns",
+        "Cale Makar",
+        "Devon Toews",
+        "Erik Brannstrom",
+        "Erik Johnson",
+        "Jacob MacDonald",
+        "Josh Manson",
+        "Keaton Middleton",
+        "Ryan Lindgren",
+        "Sam Malinski",
+        "Samuel Girard"
+      ],
+      "goalies": [
+        "Ivan Prosvetov",
+        "Mackenzie Blackwood"
+      ],
+      "total_players": 31
+    },
+    "VGK": {
+      "team_name": "vegas-golden-knights",
+      "forwards": [
+        "Alexander Holtz",
+        "Brandon Saad",
+        "Brendan Brisson",
+        "Brett Howden",
+        "Cole Schwindt",
+        "Grigori Denisenko",
+        "Ivan Barbashev",
+        "Jack Eichel",
+        "Jonas Rondbjerg",
+        "Keegan Kolesar",
+        "Mark Stone",
+        "Mitch Marner",
+        "Nicolas Roy",
+        "Pavel Dorofeyev",
+        "Reilly Smith",
+        "Tanner Pearson",
+        "Tomas Hertl",
+        "Victor Olofsson",
+        "William Karlsson"
+      ],
+      "defensemen": [
+        "Alex Pietrangelo",
+        "Ben Hutton",
+        "Brayden McNabb",
+        "Jeremy Lauzon",
+        "Kaedan Korczak",
+        "Nicolas Hague",
+        "Noah Hanifin",
+        "Shea Theodore",
+        "Zach Whitecloud"
+      ],
+      "goalies": [
+        "Adin Hill"
+      ],
+      "total_players": 29
+    },
+    "BOS": {
+      "team_name": "boston-bruins",
+      "forwards": [
+        "Casey Mittelstadt",
+        "Cole Koepke",
+        "David Pastrnak",
+        "Elias Lindholm",
+        "Jakub Lauko",
+        "James Hagens",
+        "John Beecher",
+        "Marat Khusnutdinov",
+        "Mark Kastelic",
+        "Matthew Poitras",
+        "Morgan Geekie",
+        "Patrick Brown",
+        "Pavel Zacha",
+        "Tyler Johnson",
+        "Viktor Arvidsson",
+        "Vinni Lettieri"
+      ],
+      "defensemen": [
+        "Andrew Peeke",
+        "Charlie McAvoy",
+        "Hampus Lindholm",
+        "Henri Jokiharju",
+        "Ian Mitchell",
+        "Mason Lohrei",
+        "Michael Callahan",
+        "Nikita Zadorov",
+        "Parker Wotherspoon",
+        "Victor Soderstrom"
+      ],
+      "goalies": [
+        "Jeremy Swayman",
+        "Joonas Korpisalo"
+      ],
+      "total_players": 28
+    },
+    "NJD": {
+      "team_name": "new-jersey-devils",
+      "forwards": [
+        "Arseniy Gritsyuk",
+        "Cody Glass",
+        "Curtis Lazar",
+        "Daniel Sprong",
+        "Dawson Mercer",
+        "Erik Haula",
+        "Jack Hughes",
+        "Jesper Bratt",
+        "Justin Dowling",
+        "Nathan Bastian",
+        "Nico Hischier",
+        "Ondrej Palat",
+        "Paul Cotter",
+        "Stefan Noesen",
+        "Timo Meier",
+        "Tomas Tatar"
+      ],
+      "defensemen": [
+        "Brenden Dillon",
+        "Brett Pesce",
+        "Brian Dumoulin",
+        "Dennis Cholowski",
+        "Dougie Hamilton",
+        "Johnathan Kovacevic",
+        "Jonas Siegenthaler",
+        "Kurtis MacDermid",
+        "Luke Hughes",
+        "Santeri Hatakka",
+        "Seamus Casey",
+        "Simon Nemec"
+      ],
+      "goalies": [
+        "Akira Schmid",
+        "Jacob Markstrom",
+        "Jake Allen",
+        "Nico Daws"
+      ],
+      "total_players": 32
+    },
+    "TOR": {
+      "team_name": "toronto-maple-leafs",
+      "forwards": [
+        "Auston Matthews",
+        "Bobby McMann",
+        "Calle Jarnkrok",
+        "David Kampf",
+        "Fraser Minten",
+        "John Tavares",
+        "Matias Maccelli",
+        "Matthew Knies",
+        "Max Domi",
+        "Max Pacioretty",
+        "Mitch Marner",
+        "Nicholas Robertson",
+        "Nicolas Roy",
+        "Pontus Holmberg",
+        "Ryan Reaves",
+        "Scott Laughton",
+        "Steven Lorentz",
+        "William Nylander"
+      ],
+      "defensemen": [
+        "Brandon Carlo",
+        "Chris Tanev",
+        "Dakota Mermis",
+        "Jake McCabe",
+        "Jani Hakanpaa",
+        "Morgan Rielly",
+        "Oliver Ekman-Larsson",
+        "Philippe Myers",
+        "Simon Benoit"
+      ],
+      "goalies": [
+        "Anthony Stolarz",
+        "Dennis Hildeby",
+        "Joseph Woll",
+        "Martin Jones"
+      ],
+      "total_players": 31
+    },
+    "CHI": {
+      "team_name": "chicago-blackhawks",
+      "forwards": [
+        "Andre Burakovsky",
+        "Andreas Athanasiou",
+        "Colton Dach",
+        "Connor Bedard",
+        "Frank Nazar",
+        "Ilya Mikheyev",
+        "Jason Dickinson",
+        "Joe Veleno",
+        "Joey Anderson",
+        "Landon Slaggert",
+        "Lukas Reichel",
+        "Nick Foligno",
+        "Oliver Moore",
+        "Philipp Kurashev",
+        "Ryan Donato",
+        "Teuvo Teravainen",
+        "Tyler Bertuzzi"
+      ],
+      "defensemen": [
+        "Alec Martinez",
+        "Alex Vlasic",
+        "Artyom Levshunov",
+        "Ethan Del Mastro",
+        "Isaak Phillips",
+        "Kevin Korchinski",
+        "Louis Crevier",
+        "Nolan Allan",
+        "TJ Brodie",
+        "Wyatt Kaiser"
+      ],
+      "goalies": [
+        "Arvid Soderblom"
+      ],
+      "total_players": 28
+    },
+    "DAL": {
+      "team_name": "dallas-stars",
+      "forwards": [
+        "Colin Blackwell",
+        "Evgenii Dadonov",
+        "Jamie Benn",
+        "Jason Robertson",
+        "Mason Marchment",
+        "Matt Duchene",
+        "Mavrik Bourque",
+        "Mikael Granlund",
+        "Mikko Rantanen",
+        "Oskar Back",
+        "Roope Hintz",
+        "Sam Steel",
+        "Tyler Seguin",
+        "Wyatt Johnston"
+      ],
+      "defensemen": [
+        "Brendan Smith",
+        "Cody Ceci",
+        "Esa Lindell",
+        "Ilya Lyubushkin",
+        "Lian Bichsel",
+        "Mathew Dumba",
+        "Miro Heiskanen",
+        "Nils Lundkvist",
+        "Thomas Harley"
+      ],
+      "goalies": [
+        "Casey DeSmith",
+        "Jake Oettinger"
+      ],
+      "total_players": 25
+    },
+    "MIN": {
+      "team_name": "minnesota-wild",
+      "forwards": [
+        "Ben Jones",
+        "Brendan Gaunce",
+        "Danila Yurov",
+        "Devin Shore",
+        "Frederick Gaudreau",
+        "Gustav Nyquist",
+        "Joel Eriksson Ek",
+        "Justin Brazeau",
+        "Kirill Kaprizov",
+        "Liam Ohgren",
+        "Marco Rossi",
+        "Marcus Foligno",
+        "Marcus Johansson",
+        "Mats Zuccarello",
+        "Matt Boldy",
+        "Reese Johnson",
+        "Ryan Hartman",
+        "Travis Boyd",
+        "Vladimir Tarasenko",
+        "Yakov Trenin"
+      ],
+      "defensemen": [
+        "Brock Faber",
+        "Declan Chisholm",
+        "Jake Middleton",
+        "Jared Spurgeon",
+        "Jon Merrill",
+        "Jonas Brodin",
+        "Zach Bogosian",
+        "Zeev Buium"
+      ],
+      "goalies": [
+        "Filip Gustavsson"
+      ],
+      "total_players": 29
+    },
+    "NYR": {
+      "team_name": "new-york-rangers",
+      "forwards": [
+        "Adam Edstrom",
+        "Alexis Lafreniere",
+        "Artemi Panarin",
+        "Arthur Kaliyev",
+        "Blake Wheeler",
+        "Bo Groulx",
+        "Brennan Othmann",
+        "Brett Berard",
+        "Chris Kreider",
+        "Gabe Perreault",
+        "J.T. Miller",
+        "Jonny Brodzinski",
+        "Juuso Parssinen",
+        "Matt Rempe",
+        "Mika Zibanejad",
+        "Nicolas Aube-Kubel",
+        "Sam Carrick",
+        "Tyler Pitlick",
+        "Vincent Trocheck",
+        "Will Cuylle"
+      ],
+      "defensemen": [
+        "Adam Fox",
+        "Braden Schneider",
+        "Calvin de Haan",
+        "Carson Soucy",
+        "Chad Ruhwedel",
+        "K'Andre Miller",
+        "Urho Vaakanainen",
+        "Victor Mancini",
+        "Will Borgen",
+        "Zac Jones"
+      ],
+      "goalies": [
+        "Igor Shesterkin",
+        "Jonathan Quick"
+      ],
+      "total_players": 32
+    },
+    "OTT": {
+      "team_name": "ottawa-senators",
+      "forwards": [
+        "Adam Gaudette",
+        "Brady Tkachuk",
+        "Claude Giroux",
+        "David Perron",
+        "Dominik Kubalik",
+        "Drake Batherson",
+        "Dylan Cozens",
+        "Fabian Zetterlund",
+        "Matthew Highmore",
+        "Michael Amadio",
+        "Nick Cousins",
+        "Ridly Greig",
+        "Shane Pinto",
+        "Tim Stutzle",
+        "Zack MacEwen"
+      ],
+      "defensemen": [
+        "Artem Zub",
+        "Dennis Gilbert",
+        "Jake Sanderson",
+        "Nick Jensen",
+        "Nikolas Matinpalo",
+        "Thomas Chabot",
+        "Travis Hamonic",
+        "Tyler Kleven"
+      ],
+      "goalies": [
+        "Anton Forsberg",
+        "Leevi Merilainen",
+        "Linus Ullmark"
+      ],
+      "total_players": 26
+    },
+    "UTA": {
+      "team_name": "utah-hockey-club",
+      "forwards": [
+        "Alexander Kerfoot",
+        "Barrett Hayton",
+        "Caleb Desnoyers",
+        "Clayton Keller",
+        "Dylan Guenther",
+        "JJ Peterka",
+        "Jack McBain",
+        "Josh Doan",
+        "Kailer Yamamoto",
+        "Kevin Stenlund",
+        "Lawson Crouse",
+        "Liam O'Brien",
+        "Logan Cooley",
+        "Matias Maccelli",
+        "Michael Carcone",
+        "Nick Bjugstad",
+        "Nick Schmaltz",
+        "Tij Iginla"
+      ],
+      "defensemen": [
+        "Ian Cole",
+        "John Marino",
+        "Juuso Valimaki",
+        "Maveric Lamoureux",
+        "Michael Kesselring",
+        "Mikhail Sergachev",
+        "Nick DeSimone",
+        "Olli Maatta",
+        "Robert Bortuzzo",
+        "Sean Durzi"
+      ],
+      "goalies": [
+        "Connor Ingram",
+        "Karel Vejmelka"
+      ],
+      "total_players": 30
+    },
+    "VAN": {
+      "team_name": "vancouver-canucks",
+      "forwards": [
+        "Aatu Raty",
+        "Brock Boeser",
+        "Conor Garland",
+        "Dakota Joshua",
+        "Drew O'Connor",
+        "Elias Pettersson",
+        "Elias Pettersson (F)",
+        "Evander Kane",
+        "Filip Chytil",
+        "Jake DeBrusk",
+        "Jonathan Lekkerimaki",
+        "Kiefer Sherwood",
+        "Linus Karlsson",
+        "Max Sasson",
+        "Nils Aman",
+        "Nils Hoglander",
+        "Phillip Di Giuseppe",
+        "Pius Suter",
+        "Sammy Blais",
+        "Teddy Blueger",
+        "Vitali Kravtsov"
+      ],
+      "defensemen": [
+        "Derek Forbort",
+        "Elias Pettersson",
+        "Elias Pettersson (D)",
+        "Filip Hronek",
+        "Marcus Pettersson",
+        "Mark Friedman",
+        "Noah Juulsen",
+        "Quinn Hughes",
+        "Tyler Myers"
+      ],
+      "goalies": [
+        "Arturs Silovs",
+        "Kevin Lankinen",
+        "Thatcher Demko"
+      ],
+      "total_players": 33
+    },
+    "STL": {
+      "team_name": "st-louis-blues",
+      "forwards": [
+        "Alexandre Texier",
+        "Alexey Toropchenko",
+        "Brayden Schenn",
+        "Dylan Holloway",
+        "Jake Neighbours",
+        "Jimmy Snuggerud",
+        "Jordan Kyrou",
+        "Mathieu Joseph",
+        "Nathan Walker",
+        "Nikita Alexandrov",
+        "Oskar Sundqvist",
+        "Pavel Buchnevich",
+        "Pius Suter",
+        "Radek Faksa",
+        "Robert Thomas",
+        "Zack Bolduc"
+      ],
+      "defensemen": [
+        "Cam Fowler",
+        "Colton Parayko",
+        "Justin Faulk",
+        "Matthew Kessel",
+        "Nick Leddy",
+        "Philip Broberg",
+        "Ryan Suter",
+        "Torey Krug",
+        "Tyler Tucker"
+      ],
+      "goalies": [
+        "Joel Hofer",
+        "Jordan Binnington"
+      ],
+      "total_players": 27
+    },
+    "WPG": {
+      "team_name": "winnipeg-jets",
+      "forwards": [
+        "Adam Lowry",
+        "Alex Iafallo",
+        "Axel Jonsson-Fjallby",
+        "Brandon Tanev",
+        "Cole Perfetti",
+        "David Gustafsson",
+        "Dominic Toninato",
+        "Gabriel Vilardi",
+        "Gustav Nyquist",
+        "Jaret Anderson-Dolan",
+        "Jonathan Toews",
+        "Kyle Connor",
+        "Mark Scheifele",
+        "Mason Appleton",
+        "Mason Shaw",
+        "Morgan Barron",
+        "Nikolaj Ehlers",
+        "Nino Niederreiter",
+        "Rasmus Kupari",
+        "Vladislav Namestnikov"
+      ],
+      "defensemen": [
+        "Dylan DeMelo",
+        "Dylan Samberg",
+        "Haydn Fleury",
+        "Josh Morrissey",
+        "Logan Stanley",
+        "Luke Schenn",
+        "Neal Pionk",
+        "Ville Heinola"
+      ],
+      "goalies": [
+        "Connor Hellebuyck",
+        "Eric Comrie",
+        "Laurent Brossoit"
+      ],
+      "total_players": 31
+    },
+    "FLA": {
+      "team_name": "florida-panthers",
+      "forwards": [
+        "A.J. Greer",
+        "Aleksander Barkov",
+        "Aleksander Barkov Jr.",
+        "Anton Lundell",
+        "Brad Marchand",
+        "Carter Verhaeghe",
+        "Eetu Luostarinen",
+        "Evan Rodrigues",
+        "Jesper Boqvist",
+        "Jonah Gadjovich",
+        "MacKenzie Entwistle",
+        "Mackie Samoskevich",
+        "Matthew Tkachuk",
+        "Nico Sturm",
+        "Sam Bennett",
+        "Sam Reinhart",
+        "Tomas Nosek",
+        "William Lockwood"
+      ],
+      "defensemen": [
+        "Aaron Ekblad",
+        "Dmitry Kulikov",
+        "Gustav Forsling",
+        "Jaycob Megna",
+        "Jeff Petry",
+        "Nate Schmidt",
+        "Niko Mikkola",
+        "Seth Jones",
+        "Tobias Bjornfot",
+        "Uvis Balinskis"
+      ],
+      "goalies": [
+        "Sergei Bobrovsky"
+      ],
+      "total_players": 29
+    },
+    "CAR": {
+      "team_name": "carolina-hurricanes",
+      "forwards": [
+        "Andrei Svechnikov",
+        "Brendan Lemieux",
+        "Eric Robinson",
+        "Jack Roslovic",
+        "Jackson Blake",
+        "Jesper Fast",
+        "Jesperi Kotkaniemi",
+        "Jordan Martinook",
+        "Jordan Staal",
+        "Juha Jaaska",
+        "Logan Stankoven",
+        "Mark Jankowski",
+        "Nikolaj Ehlers",
+        "Sebastian Aho",
+        "Sebastian Aho (F)",
+        "Seth Jarvis",
+        "Taylor Hall",
+        "Tyson Jost",
+        "William Carrier"
+      ],
+      "defensemen": [
+        "Alexander Nikishin",
+        "Brent Burns",
+        "Dmitry Orlov",
+        "Jaccob Slavin",
+        "Jalen Chatfield",
+        "K'Andre Miller",
+        "Scott Morrow",
+        "Sean Walker",
+        "Shayne Gostisbehere"
+      ],
+      "goalies": [
+        "Antti Raanta",
+        "Dustin Tokarski",
+        "Frederik Andersen",
+        "Pyotr Kochetkov",
+        "Spencer Martin"
+      ],
+      "total_players": 33
+    },
+    "MON": {
+      "team_name": "mon",
+      "forwards": [
+        "Alex Newhook",
+        "Cole Caufield",
+        "Ivan Demidov",
+        "Juraj Slafkovsky",
+        "Kirby Dach",
+        "Nick Suzuki",
+        "Patrik Laine",
+        "Zack Bolduc"
+      ],
+      "defensemen": [
+        "Lane Hutson",
+        "Noah Dobson"
+      ],
+      "goalies": [],
+      "total_players": 10
+    },
+    "DET": {
+      "team_name": "detroit-red-wings",
+      "forwards": [
+        "Alex DeBrincat",
+        "Andrew Copp",
+        "Austin Watson",
+        "Craig Smith",
+        "Dylan Larkin",
+        "Elmer Soderblom",
+        "J.T. Compher",
+        "Jonatan Berggren",
+        "Lucas Raymond",
+        "Marco Kasper",
+        "Michael Rasmussen",
+        "Patrick Kane",
+        "Tyler Motte",
+        "Vladimir Tarasenko"
+      ],
+      "defensemen": [
+        "Albert Johansson",
+        "Axel Sandin Pellikka",
+        "Ben Chiarot",
+        "Erik Gustafsson",
+        "Jeff Petry",
+        "Justin Holl",
+        "Moritz Seider",
+        "Simon Edvinsson",
+        "William Lagesson"
+      ],
+      "goalies": [
+        "Alex Lyon",
+        "Cam Talbot",
+        "Cameron Talbot",
+        "John Gibson"
+      ],
+      "total_players": 27
+    },
+    "BUF": {
+      "team_name": "buffalo-sabres",
+      "forwards": [
+        "Alex Tuch",
+        "Beck Malenstyn",
+        "JJ Peterka",
+        "Jack Quinn",
+        "Jason Zucker",
+        "Jiri Kulich",
+        "Jordan Greenway",
+        "Josh Doan",
+        "Josh Norris",
+        "Konsta Helenius",
+        "Kyle Okposo",
+        "Noah Ostlund",
+        "Peyton Krebs",
+        "Ryan McLeod",
+        "Sam Lafferty",
+        "Tage Thompson",
+        "Tyson Kozak",
+        "Zach Benson"
+      ],
+      "defensemen": [
+        "Bowen Byram",
+        "Connor Clifton",
+        "Jacob Bernard-Docker",
+        "Jacob Bryson",
+        "Mattias Samuelsson",
+        "Owen Power",
+        "Rasmus Dahlin",
+        "Ryan Johnson"
+      ],
+      "goalies": [
+        "Devon Levi",
+        "Ukko-Pekka Luukkonen"
+      ],
+      "total_players": 28
+    },
+    "SJS": {
+      "team_name": "san-jose-sharks",
+      "forwards": [
+        "Alexander Wennberg",
+        "Barclay Goodrow",
+        "Carl Grundstrom",
+        "Colin White",
+        "Collin Graf",
+        "Filip Zadina",
+        "Givani Smith",
+        "Justin Bailey",
+        "Klim Kostin",
+        "Logan Couture",
+        "Macklin Celebrini",
+        "Michael Misa",
+        "Nikolai Kovalenko",
+        "Noah Gregor",
+        "Philipp Kurashev",
+        "Thomas Bordeleau",
+        "Ty Dellandrea",
+        "Tyler Toffoli",
+        "Will Smith",
+        "William Eklund",
+        "Zack Ostapchuk"
+      ],
+      "defensemen": [
+        "Dmitry Orlov",
+        "Henry Thrun",
+        "Jack Thompson",
+        "Jan Rutta",
+        "Lucas Carlsson",
+        "Marc-Edouard Vlasic",
+        "Mario Ferraro",
+        "Matthew Benning",
+        "Nikita Okhotiuk",
+        "Shakir Mukhamadullin",
+        "Timothy Liljegren",
+        "Vincent Desharnais"
+      ],
+      "goalies": [
+        "Devin Cooley",
+        "Georgi Romanov",
+        "Magnus Chrona",
+        "Yaroslav Askarov"
+      ],
+      "total_players": 37
+    },
+    "PIT": {
+      "team_name": "pittsburgh-penguins",
+      "forwards": [
+        "Blake Lizotte",
+        "Bryan Rust",
+        "Connor Dewar",
+        "Danton Heinen",
+        "Emil Bemstrom",
+        "Evgeni Malkin",
+        "Jesse Puljujarvi",
+        "Kevin Hayes",
+        "Matt Nieto",
+        "Noel Acciari",
+        "Philip Tomasino",
+        "Rickard Rakell",
+        "Rutger McGroarty",
+        "Sidney Crosby",
+        "Tommy Novak",
+        "Valtteri Puustinen"
+      ],
+      "defensemen": [
+        "Conor Timmins",
+        "Erik Karlsson",
+        "John Ludvig",
+        "Kris Letang",
+        "Matt Grzelcyk",
+        "Owen Pickering",
+        "P.O. Joseph",
+        "Ryan Graves",
+        "Ryan Shea",
+        "Sebastian Aho (D)",
+        "Vladislav Kolyachonok"
+      ],
+      "goalies": [
+        "Alex Nedeljkovic",
+        "Joel Blomqvist",
+        "Tristan Jarry"
+      ],
+      "total_players": 30
+    },
+    "PHI": {
+      "team_name": "philadelphia-flyers",
+      "forwards": [
+        "Anthony Richard",
+        "Bobby Brink",
+        "Garnet Hathaway",
+        "Jakob Pelletier",
+        "Matvei Michkov",
+        "Nicolas Deslauriers",
+        "Noah Cates",
+        "Olle Lycksell",
+        "Owen Tippett",
+        "Porter Martone",
+        "Rodrigo Abols",
+        "Ryan Poehling",
+        "Sean Couturier",
+        "Travis Konecny",
+        "Trevor Zegras",
+        "Tyson Foerster"
+      ],
+      "defensemen": [
+        "Cam York",
+        "Egor Zamula",
+        "Emil Andrae",
+        "Jamie Drysdale",
+        "Nick Seeler",
+        "Rasmus Ristolainen",
+        "Ronnie Attard",
+        "Travis Sanheim"
+      ],
+      "goalies": [
+        "Aleksei Kolosov",
+        "Carter Hart",
+        "Ivan Fedotov",
+        "Samuel Ersson"
+      ],
+      "total_players": 28
+    },
+    "WAS": {
+      "team_name": "was",
+      "forwards": [
+        "Alex Ovechkin",
+        "Aliaksei Protas",
+        "Andrew Cristall",
+        "Connor McMichael",
+        "Dylan Strome",
+        "Ivan Miroshnichenko",
+        "Pierre-Luc Dubois",
+        "Ryan Leonard",
+        "Tom Wilson"
+      ],
+      "defensemen": [
+        "Cole Hutson",
+        "Jakob Chychrun",
+        "John Carlson"
+      ],
+      "goalies": [],
+      "total_players": 12
+    },
+    "CBJ": {
+      "team_name": "columbus-blue-jackets",
+      "forwards": [
+        "Adam Fantilli",
+        "Boone Jenner",
+        "Cayden Lindstrom",
+        "Charlie Coyle",
+        "Christian Fischer",
+        "Cole Sillinger",
+        "Dmitri Voronkov",
+        "James van Riemsdyk",
+        "Justin Danforth",
+        "Kent Johnson",
+        "Kevin Labanc",
+        "Kirill Marchenko",
+        "Luca Del Bel Belluz",
+        "Luke Kunin",
+        "Mathieu Olivier",
+        "Mikael Pyyhtia",
+        "Sean Kuraly",
+        "Sean Monahan",
+        "Yegor Chinakhov",
+        "Zach Aston-Reese"
+      ],
+      "defensemen": [
+        "Damon Severson",
+        "Dante Fabbro",
+        "David Jiricek",
+        "Denton Mateychuk",
+        "Erik Gudbranson",
+        "Ivan Provorov",
+        "Jack Johnson",
+        "Jake Christiansen",
+        "Jordan Harris",
+        "Zach Werenski"
+      ],
+      "goalies": [
+        "Daniil Tarasov",
+        "Elvis Merzlikins",
+        "Jet Greaves"
+      ],
+      "total_players": 33
+    },
+    "NSH": {
+      "team_name": "nashville-predators",
+      "forwards": [
+        "Cole Smith",
+        "Colton Sissons",
+        "Egor Afanasyev",
+        "Fedor Svechkov",
+        "Filip Forsberg",
+        "Jakub Vrana",
+        "Jonathan Marchessault",
+        "Kieffer Bellows",
+        "Luke Evangelista",
+        "Michael Bunting",
+        "Michael McCarron",
+        "Ryan O'Reilly",
+        "Ryan O\u2019Reilly",
+        "Steven Stamkos",
+        "Zachary L'Heureux"
+      ],
+      "defensemen": [
+        "Adam Wilsby",
+        "Andreas Englund",
+        "Brady Skjei",
+        "Jeremy Lauzon",
+        "Jordan Oesterle",
+        "Justin Barron",
+        "Marc Del Gaizo",
+        "Nick Blankenburg",
+        "Roman Josi",
+        "Spencer Stastney"
+      ],
+      "goalies": [
+        "Juuse Saros"
+      ],
+      "total_players": 26
+    },
+    "LAK": {
+      "team_name": "los-angeles-kings",
+      "forwards": [
+        "Adrian Kempe",
+        "Alex Laferriere",
+        "Andrei Kuzmenko",
+        "Anze Kopitar",
+        "Kevin Fiala",
+        "Liam Greentree",
+        "Phillip Danault",
+        "Quinton Byfield",
+        "Trevor Moore",
+        "Warren Foegele"
+      ],
+      "defensemen": [
+        "Brandt Clarke",
+        "Drew Doughty"
+      ],
+      "goalies": [
+        "Darcy Kuemper",
+        "David Rittich",
+        "Pheonix Copley"
+      ],
+      "total_players": 15
+    },
+    "NYI": {
+      "team_name": "new-york-islanders",
+      "forwards": [
+        "Anders Lee",
+        "Anthony Duclair",
+        "Bo Horvat",
+        "Cal Clutterbuck",
+        "Casey Cizikas",
+        "Cole Eiserman",
+        "Hudson Fasching",
+        "Jean-Gabriel Pageau",
+        "Jonathan Drouin",
+        "Julien Gauthier",
+        "Kyle MacLean",
+        "Kyle Palmieri",
+        "Liam Foudy",
+        "Marc Gatcomb",
+        "Mathew Barzal",
+        "Matt Martin",
+        "Maxim Shabanov",
+        "Maxim Tsyplakov",
+        "Oliver Wahlstrom",
+        "Pierre Engvall",
+        "Simon Holmstrom"
+      ],
+      "defensemen": [
+        "Adam Boqvist",
+        "Adam Pelech",
+        "Alexander Romanov",
+        "Anthony DeAngelo",
+        "Grant Hutton",
+        "Isaiah George",
+        "Matthew Schaefer",
+        "Mike Reilly",
+        "Noah Dobson",
+        "Ryan Pulock",
+        "Samuel Bolduc",
+        "Scott Mayfield",
+        "Scott Perunovich"
+      ],
+      "goalies": [
+        "Ilya Sorokin",
+        "Marcus Hogberg",
+        "Semyon Varlamov"
+      ],
+      "total_players": 37
+    },
+    "CGY": {
+      "team_name": "calgary-flames",
+      "forwards": [
+        "Adam Klapka",
+        "Anthony Mantha",
+        "Blake Coleman",
+        "Connor Zary",
+        "Dryden Hunt",
+        "Joel Farabee",
+        "Jonathan Huberdeau",
+        "Justin Kirkland",
+        "Kevin Rooney",
+        "Martin Pospisil",
+        "Matt Coronato",
+        "Mikael Backlund",
+        "Morgan Frost",
+        "Nazem Kadri",
+        "Ryan Lomberg",
+        "Walker Duehr",
+        "Yegor Sharangovich"
+      ],
+      "defensemen": [
+        "Brayden Pachal",
+        "Daniil Miromanov",
+        "Jake Bean",
+        "Jarred Tinordi",
+        "Joel Hanley",
+        "Kevin Bahl",
+        "MacKenzie Weegar",
+        "Mackenzie Weegar",
+        "Rasmus Andersson",
+        "Tyson Barrie",
+        "Zayne Parekh"
+      ],
+      "goalies": [
+        "Daniel Vladar",
+        "Dustin Wolf"
+      ],
+      "total_players": 30
+    },
+    "ANA": {
+      "team_name": "ana",
+      "forwards": [
+        "Alex Killorn",
+        "Beckett Sennecke",
+        "Boris Katchouk",
+        "Brett Leason",
+        "Brock McGinn",
+        "Chris Kreider",
+        "Cutter Gauthier",
+        "Frank Vatrano",
+        "Isac Lundestrom",
+        "Jansen Harkins",
+        "Leo Carlsson",
+        "Mason McTavish",
+        "Mikael Granlund",
+        "Nikita Nesterenko",
+        "Robby Fabbri",
+        "Roger McQueen",
+        "Ross Johnston",
+        "Ryan Strome",
+        "Sam Colangelo",
+        "Trevor Zegras",
+        "Troy Terry"
+      ],
+      "defensemen": [
+        "Drew Helleson",
+        "Gustav Lindstrom",
+        "Jackson LaCombe",
+        "Jackson Lacombe",
+        "Jacob Trouba",
+        "Olen Zellweger",
+        "Oliver Kylington",
+        "Pavel Mintyukov",
+        "Radko Gudas"
+      ],
+      "goalies": [
+        "John Gibson",
+        "Lukas Dostal"
+      ],
+      "total_players": 32
+    },
+    "SEA": {
+      "team_name": "seattle-kraken",
+      "forwards": [
+        "Andre Burakovsky",
+        "Ben Meyers",
+        "Berkly Catton",
+        "Chandler Stephenson",
+        "Eeli Tolvanen",
+        "Jaden Schwartz",
+        "Jared McCann",
+        "John Hayden",
+        "Jordan Eberle",
+        "Kaapo Kakko",
+        "Mason Marchment",
+        "Matty Beniers",
+        "Michael Eyssimont",
+        "Mitchell Stephens",
+        "Shane Wright",
+        "Tye Kartye"
+      ],
+      "defensemen": [
+        "Adam Larsson",
+        "Brandon Montour",
+        "Cale Fleury",
+        "Jamie Oleksiak",
+        "Josh Mahura",
+        "Justin Schultz",
+        "Ryker Evans",
+        "Vince Dunn"
+      ],
+      "goalies": [
+        "Joey Daccord",
+        "Philipp Grubauer"
+      ],
+      "total_players": 26
+    },
+    "WSH": {
+      "team_name": "washington-capitals",
+      "forwards": [
+        "Alex Ovechkin",
+        "Aliaksei Protas",
+        "Andrew Mangiapane",
+        "Anthony Beauvillier",
+        "Brandon Duhaime",
+        "Connor McMichael",
+        "Dylan Strome",
+        "Ethen Frank",
+        "Evgeny Kuznetsov",
+        "Hendrix Lapierre",
+        "Ivan Miroshnichenko",
+        "Lars Eller",
+        "Michael Sgarbossa",
+        "Nic Dowd",
+        "Pierre-Luc Dubois",
+        "Ryan Leonard",
+        "Sonny Milano",
+        "Taylor Raddysh",
+        "Tom Wilson"
+      ],
+      "defensemen": [
+        "Alexander Alexeyev",
+        "Dylan McIlrath",
+        "Ethan Bear",
+        "Jakob Chychrun",
+        "John Carlson",
+        "Martin Fehervary",
+        "Matt Roy",
+        "Rasmus Sandin",
+        "Trevor van Riemsdyk"
+      ],
+      "goalies": [
+        "Charlie Lindgren",
+        "Logan Thompson"
+      ],
+      "total_players": 30
+    },
+    "MTL": {
+      "team_name": "montreal-canadiens",
+      "forwards": [
+        "Alex Barre-Boulet",
+        "Alex Newhook",
+        "Brendan Gallagher",
+        "Christian Dvorak",
+        "Cole Caufield",
+        "Emil Heineman",
+        "Ivan Demidov",
+        "Jake Evans",
+        "Joel Armia",
+        "Josh Anderson",
+        "Joshua Roy",
+        "Juraj Slafkovsky",
+        "Kirby Dach",
+        "Michael Pezzetta",
+        "Nick Suzuki",
+        "Oliver Kapanen",
+        "Patrik Laine",
+        "Rafael Harvey-Pinard",
+        "Zack Bolduc"
+      ],
+      "defensemen": [
+        "Alexandre Carrier",
+        "Arber Xhekaj",
+        "David Savard",
+        "Jayden Struble",
+        "Kaiden Guhle",
+        "Lane Hutson",
+        "Mike Matheson",
+        "Noah Dobson"
+      ],
+      "goalies": [
+        "Cayden Primeau",
+        "Jakub Dobes",
+        "Sam Montembeault"
+      ],
+      "total_players": 30
+    },
+    "LA": {
+      "team_name": "la",
+      "forwards": [
+        "Adrian Kempe",
+        "Akil Thomas",
+        "Alex Laferriere",
+        "Alex Turcotte",
+        "Andre Lee",
+        "Andrei Kuzmenko",
+        "Anze Kopitar",
+        "Jack Studnicka",
+        "Kevin Fiala",
+        "Phillip Danault",
+        "Quinton Byfield",
+        "Samuel Helenius",
+        "Tanner Jeannot",
+        "Trevor Lewis",
+        "Trevor Moore",
+        "Warren Foegele"
+      ],
+      "defensemen": [
+        "Brandt Clarke",
+        "Caleb Jones",
+        "Drew Doughty",
+        "Jacob Moverare",
+        "Jordan Spence",
+        "Kyle Burroughs",
+        "Mikey Anderson",
+        "Vladislav Gavrikov"
+      ],
+      "goalies": [
+        "Darcy Kuemper"
+      ],
+      "total_players": 25
+    },
+    "FA": {
+      "team_name": "fa",
+      "forwards": [
+        "Vitali Kravtsov"
+      ],
+      "defensemen": [
+        "Calen Addison"
+      ],
+      "goalies": [],
+      "total_players": 2
+    },
+    "UFA": {
+      "team_name": "ufa",
+      "forwards": [
+        "Maxime Comtois"
+      ],
+      "defensemen": [],
+      "goalies": [],
+      "total_players": 1
+    },
+    "S.J": {
+      "team_name": "s.j",
+      "forwards": [],
+      "defensemen": [
+        "Radim Simek"
+      ],
+      "goalies": [],
+      "total_players": 1
+    },
+    "VEG": {
+      "team_name": "veg",
+      "forwards": [],
+      "defensemen": [],
+      "goalies": [
+        "Adin Hill",
+        "Ilya Samsonov"
+      ],
+      "total_players": 2
+    },
+    "2TM": {
+      "team_name": "2tm",
+      "forwards": [],
+      "defensemen": [],
+      "goalies": [
+        "Alexandar Georgiev",
+        "James Reimer",
+        "Justus Annunen",
+        "Mackenzie Blackwood",
+        "Petr Mrazek",
+        "Scott Wedgewood",
+        "Spencer Knight",
+        "Ville Husso",
+        "Vi\u00adtek Vanecek"
+      ],
+      "total_players": 9
+    }
+  }
+}

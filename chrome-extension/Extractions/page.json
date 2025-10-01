@@ -1,0 +1,336 @@
+{
+  "exportedAt": "2025-10-01T04:42:41.374Z",
+  "pages": [
+    {
+      "ok": true,
+      "url": "https://uhhp.hockey.cbssports.com/transactions/all/all_but_lineup/",
+      "title": "Ultimate Hardcore Hockey Pool - CBSSports.com",
+      "tables": [
+        {
+          "name": "table_1",
+          "headers": [
+            "DATE",
+            "TEAM",
+            "PLAYERS",
+            "EFFECTIVE"
+          ],
+          "rows": [
+            {
+              "DATE": "9/27/25 3:36 PM ET",
+              "TEAM": "The Pylons",
+              "cbs_player_id": "50001091",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001091",
+              "player_name": "Carter Bear",
+              "player_label": "Carter Bear W DET",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $0.00"
+            },
+            {
+              "DATE": "9/27/25 3:35 PM ET",
+              "TEAM": "CinStars",
+              "cbs_player_id": "50001158",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001158",
+              "player_name": "Roger McQueen",
+              "player_label": "Roger McQueen C ANA",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $0.00"
+            },
+            {
+              "DATE": "9/27/25 3:34 PM ET",
+              "TEAM": "G' Stars",
+              "cbs_player_id": "50001154",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001154",
+              "player_name": "Brady Martin",
+              "player_label": "Brady Martin C NSH",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $0.00"
+            },
+            {
+              "DATE": "9/27/25 3:34 PM ET",
+              "TEAM": "HawtSawwce",
+              "cbs_player_id": "50001111",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001111",
+              "player_name": "Caleb Desnoyers",
+              "player_label": "Caleb Desnoyers C UTA",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $0.00"
+            },
+            {
+              "DATE": "9/27/25 3:33 PM ET",
+              "TEAM": "The Dook of Sook",
+              "cbs_player_id": "50001195",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001195",
+              "player_name": "Matthew Schaefer",
+              "player_label": "Matthew Schaefer D NYI",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $0.00"
+            },
+            {
+              "DATE": "9/27/25 3:32 PM ET",
+              "TEAM": "The Dook of Sook",
+              "cbs_player_id": "50001155",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001155",
+              "player_name": "Porter Martone",
+              "player_label": "Porter Martone W PHI",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $0.00"
+            },
+            {
+              "DATE": "9/27/25 3:30 PM ET",
+              "TEAM": "LIP's Lasers",
+              "cbs_player_id": "50001120",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001120",
+              "player_name": "Anton Frondell",
+              "player_label": "Anton Frondell C CHI",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $0.00 Jake O'Brien C • SEA - Signed for $0.00"
+            },
+            {
+              "DATE": "9/27/25 3:28 PM ET",
+              "TEAM": "South Calgary Oilers",
+              "cbs_player_id": "50001127",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001127",
+              "player_name": "James Hagens",
+              "player_label": "James Hagens C BOS",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $0.00 Michael Misa C • SJ - Signed for $0.00 Victor Eklund W • NYI - Signed for $0.00 Benjamin Kindel C • PIT - Signed for $0.00"
+            },
+            {
+              "DATE": "9/27/25 10:54 AM ET",
+              "TEAM": "The Pylons",
+              "cbs_player_id": "29404919",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29404919",
+              "player_name": "Zeev Buium",
+              "player_label": "Zeev Buium D MIN",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Dropped",
+              "details": "Dropped"
+            },
+            {
+              "DATE": "9/27/25 1:08 AM ET",
+              "TEAM": "The Pylons",
+              "cbs_player_id": "29404919",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29404919",
+              "player_name": "Zeev Buium",
+              "player_label": "Zeev Buium D MIN",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $2.00"
+            },
+            {
+              "DATE": "9/27/25 1:08 AM ET",
+              "TEAM": "HawtSawwce",
+              "cbs_player_id": "2265487",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2265487",
+              "player_name": "Gustav Forsling",
+              "player_label": "Gustav Forsling D FLA",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $2.00"
+            },
+            {
+              "DATE": "9/25/25 4:06 PM ET",
+              "TEAM": "The Pylons",
+              "cbs_player_id": "1133425",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1133425",
+              "player_name": "Brad Marchand",
+              "player_label": "Brad Marchand C FLA",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Trade",
+              "details": "Traded from HawtSawwce"
+            },
+            {
+              "DATE": "9/25/25 4:06 PM ET",
+              "TEAM": "HawtSawwce",
+              "cbs_player_id": "1897608",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1897608",
+              "player_name": "Jordan Binnington",
+              "player_label": "Jordan Binnington G STL",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Trade",
+              "details": "Traded from The Pylons z-CAPHIT Jiricik G • - Traded from The Pylons Brock Boeser W • VAN - Traded from The Pylons"
+            },
+            {
+              "DATE": "9/25/25 1:08 AM ET",
+              "TEAM": "The Pylons",
+              "cbs_player_id": "29700070",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29700070",
+              "player_name": "Alexander Nikishin",
+              "player_label": "Alexander Nikishin D CAR",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $2.00"
+            },
+            {
+              "DATE": "9/25/25 1:08 AM ET",
+              "TEAM": "3sheets Sports Entertainment",
+              "cbs_player_id": "2245503",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2245503",
+              "player_name": "Patrik Laine",
+              "player_label": "Patrik Laine W MON",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Patrik Laine W • MON - Activated",
+              "details": "Activated"
+            },
+            {
+              "DATE": "9/25/25 1:08 AM ET",
+              "TEAM": "3sheets Sports Entertainment",
+              "cbs_player_id": "2245503",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2245503",
+              "player_name": "Patrik Laine",
+              "player_label": "Patrik Laine W MON",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $2.00"
+            },
+            {
+              "DATE": "9/25/25 1:08 AM ET",
+              "TEAM": "South Calgary Oilers",
+              "cbs_player_id": "2147507",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2147507",
+              "player_name": "Bryan Rust",
+              "player_label": "Bryan Rust W PIT",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $2.00"
+            },
+            {
+              "DATE": "9/25/25 1:08 AM ET",
+              "TEAM": "CinStars",
+              "cbs_player_id": "1897652",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1897652",
+              "player_name": "Mattias Ekholm",
+              "player_label": "Mattias Ekholm D EDM",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $3.00"
+            },
+            {
+              "DATE": "9/24/25 11:57 PM ET",
+              "TEAM": "South Calgary Oilers",
+              "cbs_player_id": "2940940",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2940940",
+              "player_name": "Barrett Hayton",
+              "player_label": "Barrett Hayton C UTA",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Trade",
+              "details": "Traded from The Pylons"
+            },
+            {
+              "DATE": "9/24/25 11:57 PM ET",
+              "TEAM": "The Pylons",
+              "cbs_player_id": "1000000851",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1000000851",
+              "player_name": "z-CAPHIT Jiricik",
+              "player_label": "z-CAPHIT Jiricik G",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Trade",
+              "details": "CAPHIT Jiricik G • - Traded from South Calgary Oilers"
+            },
+            {
+              "DATE": "9/24/25 12:18 PM ET",
+              "TEAM": "re-degeneration X 2.0",
+              "cbs_player_id": "1000000854",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1000000854",
+              "player_name": "z-CAPHIT Meier",
+              "player_label": "z-CAPHIT Meier G",
+              "EFFECTIVE": "10/7/25",
+              "Event": "z-CAPHIT Meier G • - Added",
+              "details": "CAPHIT Meier G • - Added"
+            },
+            {
+              "DATE": "9/24/25 12:17 PM ET",
+              "TEAM": "re-degeneration X 2.0",
+              "cbs_player_id": "1000000853",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1000000853",
+              "player_name": "z-CAPHIT Saros",
+              "player_label": "z-CAPHIT Saros G",
+              "EFFECTIVE": "10/7/25",
+              "Event": "z-CAPHIT Saros G • - Added",
+              "details": "CAPHIT Saros G • - Added"
+            },
+            {
+              "DATE": "9/24/25 12:17 PM ET",
+              "TEAM": "re-degeneration X 2.0",
+              "cbs_player_id": "2198319",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2198319",
+              "player_name": "Timo Meier",
+              "player_label": "Timo Meier W NJ",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Dropped",
+              "details": "Dropped Juuse Saros G • NSH - Dropped"
+            },
+            {
+              "DATE": "9/24/25 1:08 AM ET",
+              "TEAM": "re-degeneration X 2.0",
+              "cbs_player_id": "2000681",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2000681",
+              "player_name": "Tom Wilson",
+              "player_label": "Tom Wilson W WAS",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $2.00"
+            },
+            {
+              "DATE": "9/23/25 7:39 AM ET",
+              "TEAM": "3sheets Sports Entertainment",
+              "cbs_player_id": "1771067",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1771067",
+              "player_name": "Sergei Bobrovsky",
+              "player_label": "Sergei Bobrovsky G FLA",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Trade",
+              "details": "Traded from The Pylons"
+            },
+            {
+              "DATE": "9/23/25 1:08 AM ET",
+              "TEAM": "The Inglorious Basteeerds",
+              "cbs_player_id": "1770996",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1770996",
+              "player_name": "Mark Stone",
+              "player_label": "Mark Stone W LV",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $2.00"
+            },
+            {
+              "DATE": "9/23/25 1:08 AM ET",
+              "TEAM": "The Pylons",
+              "cbs_player_id": "1897608",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1897608",
+              "player_name": "Jordan Binnington",
+              "player_label": "Jordan Binnington G STL",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $2.00"
+            },
+            {
+              "DATE": "9/23/25 1:08 AM ET",
+              "TEAM": "The Inglorious Basteeerds",
+              "cbs_player_id": "1897821",
+              "player_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1897821",
+              "player_name": "Mika Zibanejad",
+              "player_label": "Mika Zibanejad C NYR",
+              "EFFECTIVE": "10/7/25",
+              "Event": "Waivers",
+              "details": "Signed for $2.00"
+            }
+          ],
+          "context": {
+            "team_name": null,
+            "roster_group": null,
+            "team_owner": null
+          }
+        }
+      ]
+    }
+  ]
+}

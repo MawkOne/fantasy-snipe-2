@@ -173,7 +173,17 @@ def compute_shift_metrics(
         if game_id is not None:
             game_ids = [int(game_id)]
         else:
-            game_ids = [gid for (gid,) in session.query(PlayerShift.game_id).distinct().all()]
+            # Optionally filter by season and game_type using the games table
+            from src.database.models import Game as _Game
+            q = session.query(PlayerShift.game_id).distinct()
+            if season is not None:
+                q = q.join(_Game, _Game.id == PlayerShift.game_id).filter(_Game.season == int(season))
+            if game_type is not None:
+                # Ensure we join Games if not already
+                if season is None:
+                    q = q.join(_Game, _Game.id == PlayerShift.game_id)
+                q = q.filter(_Game.game_type == int(game_type))
+            game_ids = [gid for (gid,) in q.all()]
 
         processed = 0
         committed = 0
@@ -729,6 +739,8 @@ def compute_shift_metrics(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compute per-shift metrics by combining player_shifts and game_events.")
+    parser.add_argument("--season", type=int, default=None, help="Season ID like 20182019 to filter games")
+    parser.add_argument("--game-type", type=int, default=None, help="Game type (2=Regular, 3=Playoffs)")
     parser.add_argument("--game-id", type=int, default=None, help="Restrict computation to a single game_id")
     parser.add_argument("--player-id", type=int, default=None, help="Restrict computation to a single player_id")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of shifts processed (for testing)")
@@ -740,6 +752,8 @@ if __name__ == "__main__":
     parser.add_argument("--allow-zero-writes", action="store_true", help="Allow inserting/updating rows even when all counters are zero")
     args = parser.parse_args()
     compute_shift_metrics(
+        season=args.season,
+        game_type=args.game_type,
         batch_commit=args.batch_commit,
         game_id=args.game_id,
         limit=args.limit,

@@ -1,0 +1,296 @@
+{
+  "season": "2025-26",
+  "teams": {
+    "EDM": {
+      "team_name": "Edmonton Oilers",
+      "projected_lineup": {
+        "forwards": {
+          "line_1": [
+            {
+              "name": "Connor McDavid",
+              "position": "C",
+              "number": "97",
+              "toi_tier": "Elite"
+            },
+            {
+              "name": "Leon Draisaitl",
+              "position": "C",
+              "number": "29",
+              "toi_tier": "Elite"
+            },
+            {
+              "name": "Zach Hyman",
+              "position": "L",
+              "number": "18",
+              "toi_tier": "Top Line"
+            }
+          ],
+          "line_2": [
+            {
+              "name": "Trent Frederic",
+              "position": "C",
+              "number": "10",
+              "toi_tier": "Top Line"
+            },
+            {
+              "name": "Adam Henrique",
+              "position": "C",
+              "number": "19",
+              "toi_tier": "Middle 6"
+            },
+            {
+              "name": "Andrew Mangiapane",
+              "position": "L",
+              "number": "88",
+              "toi_tier": "Middle 6"
+            }
+          ],
+          "line_3": [
+            {
+              "name": "Mattias Janmark",
+              "position": "C",
+              "number": "13",
+              "toi_tier": "Bottom 6"
+            },
+            {
+              "name": "Curtis Lazar",
+              "position": "C",
+              "number": "20",
+              "toi_tier": "Bottom 6"
+            },
+            {
+              "name": "Kasperi Kapanen",
+              "position": "R",
+              "number": "42",
+              "toi_tier": "Bottom 6"
+            }
+          ],
+          "line_4": [
+            {
+              "name": "Max Jones",
+              "position": "L",
+              "number": "46",
+              "toi_tier": "Depth"
+            },
+            {
+              "name": "James Hamblin",
+              "position": "L",
+              "number": "52",
+              "toi_tier": "Depth"
+            },
+            {
+              "name": "Jayden Grubbe",
+              "position": "C",
+              "number": "47",
+              "toi_tier": "Depth"
+            }
+          ],
+          "prospects": [
+            {
+              "name": "Isaac Howard",
+              "position": "L",
+              "number": "53",
+              "toi_tier": "Middle 6"
+            },
+            {
+              "name": "Quinn Hutson",
+              "position": "R",
+              "number": "28",
+              "toi_tier": "Middle 6"
+            },
+            {
+              "name": "Roby Jarventie",
+              "position": "L",
+              "number": "15",
+              "toi_tier": "Bottom 6"
+            }
+          ]
+        },
+        "defensemen": {
+          "pair_1": [
+            {
+              "name": "Evan Bouchard",
+              "position": "D",
+              "number": "2",
+              "toi_tier": "Elite"
+            },
+            {
+              "name": "Darnell Nurse",
+              "position": "D",
+              "number": "25",
+              "toi_tier": "Top Line"
+            }
+          ],
+          "pair_2": [
+            {
+              "name": "Brett Kulak",
+              "position": "D",
+              "number": "27",
+              "toi_tier": "Middle 6"
+            },
+            {
+              "name": "Jake Walman",
+              "position": "D",
+              "number": "96",
+              "toi_tier": "Middle 6"
+            }
+          ],
+          "pair_3": [
+            {
+              "name": "Troy Stecher",
+              "position": "D",
+              "number": "51",
+              "toi_tier": "Bottom 6"
+            },
+            {
+              "name": "Riley Stillman",
+              "position": "D",
+              "number": "61",
+              "toi_tier": "Bottom 6"
+            }
+          ],
+          "depth": [
+            {
+              "name": "Ty Emberson",
+              "position": "D",
+              "number": "49",
+              "toi_tier": "Depth"
+            },
+            {
+              "name": "Alec Regula",
+              "position": "D",
+              "number": "75",
+              "toi_tier": "Depth"
+            },
+            {
+              "name": "Atro Leppanen",
+              "position": "D",
+              "number": "37",
+              "toi_tier": "Depth"
+            }
+          ]
+        },
+        "goalies": [
+          {
+            "name": "Stuart Skinner",
+            "position": "G",
+            "number": "74",
+            "toi_tier": "Elite"
+          },
+          {
+            "name": "Calvin Pickard",
+            "position": "G",
+            "number": "30",
+            "toi_tier": "Top Line"
+          },
+          {
+            "name": "Matt Tomkins",
+            "position": "G",
+            "number": "90",
+            "toi_tier": "Depth"
+          },
+          {
+            "name": "Samuel Jonsson",
+            "position": "G",
+            "number": "34",
+            "toi_tier": "Depth"
+          },
+          {
+            "name": "Nathaniel Day",
+            "position": "G",
+            "number": "40",
+            "toi_tier": "Depth"
+          },
+          {
+            "name": "Connor Ungar",
+            "position": "G",
+            "number": "32",
+            "toi_tier": "Depth"
+          }
+        ]
+      },
+      "special_teams": {
+        "pp1": [
+          {
+            "name": "Connor McDavid",
+            "position": "C"
+          },
+          {
+            "name": "Leon Draisaitl",
+            "position": "C"
+          },
+          {
+            "name": "Zach Hyman",
+            "position": "L"
+          },
+          {
+            "name": "Evan Bouchard",
+            "position": "D"
+          },
+          {
+            "name": "Darnell Nurse",
+            "position": "D"
+          }
+        ],
+        "pp2": [
+          {
+            "name": "Trent Frederic",
+            "position": "C"
+          },
+          {
+            "name": "Adam Henrique",
+            "position": "C"
+          },
+          {
+            "name": "Andrew Mangiapane",
+            "position": "L"
+          },
+          {
+            "name": "Brett Kulak",
+            "position": "D"
+          },
+          {
+            "name": "Jake Walman",
+            "position": "D"
+          }
+        ],
+        "pk1": [
+          {
+            "name": "Mattias Janmark",
+            "position": "C"
+          },
+          {
+            "name": "Curtis Lazar",
+            "position": "C"
+          },
+          {
+            "name": "Darnell Nurse",
+            "position": "D"
+          },
+          {
+            "name": "Brett Kulak",
+            "position": "D"
+          }
+        ],
+        "pk2": [
+          {
+            "name": "Adam Henrique",
+            "position": "C"
+          },
+          {
+            "name": "Kasperi Kapanen",
+            "position": "R"
+          },
+          {
+            "name": "Troy Stecher",
+            "position": "D"
+          },
+          {
+            "name": "Riley Stillman",
+            "position": "D"
+          }
+        ]
+      }
+    }
+  }
+}
