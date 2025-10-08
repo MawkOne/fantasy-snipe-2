@@ -13,14 +13,14 @@
       window.scrollTo(0, 0);
     }
   
-    async function waitForTables(timeoutMs = 20000) {
+    async function waitForTables(timeoutMs = 60000) {
       const t0 = Date.now();
       for (;;) {
         const t1 = document.querySelector('table:has(tbody > tr.row1), table:has(tbody > tr.row2)');
         const t2 = document.querySelector('table');
         if (t1 || t2) return true;
         if (Date.now() - t0 > timeoutMs) return false;
-        await sleep(300);
+        await sleep(400);
       }
     }
   
@@ -207,7 +207,7 @@
     }
   
     async function extractAllTables() {
-      const hasTables = await waitForTables(20000);
+      const hasTables = await waitForTables(60000);
       if (!hasTables) return { ok: false, reason: 'no-tables', url: location.href, title: document.title || '' };
   
       await ensureAllRowsVisible();

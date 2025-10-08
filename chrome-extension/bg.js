@@ -173,21 +173,23 @@ async function navigateAndExtractFromAllFrames(tabId, url) {
   try {
     // Do not focus the tab during navigation; keeps popup alive
     await chrome.tabs.update(tabId, { url });
-    await waitForTabComplete(tabId, 60000);
+    await waitForTabComplete(tabId, 90000);
 
     await chrome.scripting.executeScript({
       target: { tabId, allFrames: true },
       files: ['content.js']
     }).catch(() => {});
 
-    await sleep(200);
-    let page = await collectFromAllFrames(tabId);
-
-    if (!page.ok) {
-      await sleep(1200);
+    // Retry extraction up to 3 times with exponential backoff
+    let page = null;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await sleep(300 + attempt * 300);
       page = await collectFromAllFrames(tabId);
+      if (page?.ok) break;
+      await chrome.scripting.executeScript({ target: { tabId, allFrames: true }, files: ['content.js'] }).catch(() => {});
+      await sleep(600 * Math.pow(2, attempt));
     }
-    return page;
+    return page || { ok:false, url, reason:'no-tables', title:'' };
   } catch (e) {
     return { ok:false, url, reason:String(e), title:'' };
   }
