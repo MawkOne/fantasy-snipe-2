@@ -64,44 +64,66 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         const [tab2] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (!tab2?.id) { sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
         const startUrl = tab2.url;
+
+        // 1) Capture all pages first, report capture progress
         const results = [];
         for (const url of TARGET_URLS) {
           const page = await navigateAndExtractFromAllFrames(tab2.id, url);
-          results.push(page);
-          try { chrome.runtime.sendMessage({ cmd: 'SYNC_PROGRESS', url, ok: !!page?.ok }); } catch {}
+          results.push({ url, page });
+          try { chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok: !!page?.ok }); } catch {}
         }
-        const ownersByTeamName = buildOwnersMap(results);
-        for (const page of results) {
-          if (!page?.ok) continue;
-          for (const t of page.tables || []) {
+
+        // 2) Enrich with owners map
+        const ownersByTeamName = buildOwnersMap(results.map(r => r.page));
+        for (const it of results) {
+          const p = it.page;
+          if (!p?.ok) continue;
+          for (const t of p.tables || []) {
             for (const r of t.rows || []) {
               const key = normTeam(r.team_name || r.Team || r['Team Name']);
               if (!r.team_owner && key && ownersByTeamName[key]) r.team_owner = ownersByTeamName[key];
             }
           }
         }
-        const payload = { exportedAt: new Date().toISOString(), pages: results };
+
         const { cbsApiUrl, cbsApiKey } = await chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey']);
         const uploadUrl = (cbsApiUrl || DEFAULT_API_URL);
         if (!uploadUrl) { sendResponse?.({ ok:false, error:'missing-api-url' }); return; }
-        const res = await fetch(uploadUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(cbsApiKey ? { 'x-api-key': cbsApiKey } : {})
-          },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json().catch(() => ({}));
+
+        // 3) Upload each page individually and report synced status per page
+        let okCount = 0;
+        for (const it of results) {
+          const payload = { exportedAt: new Date().toISOString(), pages: [it.page] };
+          let exId = null, ok = false, status = 0;
+          try {
+            const res = await fetch(uploadUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                ...(cbsApiKey ? { 'x-api-key': cbsApiKey } : {})
+              },
+              body: JSON.stringify(payload)
+            });
+            status = res.status;
+            const data = await res.json().catch(() => ({}));
+            ok = res.ok;
+            exId = data?.extraction_id || null;
+          } catch (_) {
+            ok = false;
+          }
+          if (ok) okCount += 1;
+          try { chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: it.url, ok, extraction_id: exId, status }); } catch {}
+        }
+
         if (startUrl?.startsWith('http')) {
           try { await chrome.tabs.update(tab2.id, { url: startUrl }); } catch {}
         }
-        if (!res.ok) { sendResponse?.({ ok:false, status: res.status, detail: data?.detail || null }); return; }
-        try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: true, pages: results.length, extraction_id: data?.extraction_id }); } catch {}
-        try { chrome.storage.local.set({ lastSync: { ok: true, pages: results.length, at: new Date().toISOString() } }); } catch {}
-        setBadge('✓', '#16a34a');
+
+        try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: okCount === results.length, pages: okCount }); } catch {}
+        try { chrome.storage.local.set({ lastSync: { ok: okCount === results.length, pages: okCount, at: new Date().toISOString() } }); } catch {}
+        setBadge(okCount === results.length ? '✓' : '!', okCount === results.length ? '#16a34a' : '#dc2626');
         setTimeout(() => setBadge('', null), 8000);
-        sendResponse?.({ ok:true, pages: results.length, response: data });
+        sendResponse?.({ ok: okCount === results.length, pages: okCount });
       } catch (e) {
         try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: false, error: String(e) }); } catch {}
         try { chrome.storage.local.set({ lastSync: { ok: false, error: String(e), at: new Date().toISOString() } }); } catch {}

@@ -172,8 +172,10 @@ document.getElementById('syncBtn').addEventListener('click', () => {
 
 // Display progress lines as pages are captured and when upload completes
 chrome.runtime.onMessage.addListener((msg) => {
-  if (msg?.cmd === 'SYNC_PROGRESS') {
+  if (msg?.cmd === 'SYNC_CAPTURED') {
     append(`Captured: ${msg.url} -> ${msg.ok ? 'ok' : 'failed'}`);
+  } else if (msg?.cmd === 'SYNC_SYNCED') {
+    append(`Synced: ${msg.url} -> ${msg.ok ? `ok${msg.extraction_id ? ` (extraction_id=${msg.extraction_id})` : ''}` : `failed${msg.status ? ` (HTTP ${msg.status})` : ''}`}`);
   } else if (msg?.cmd === 'SYNC_DONE') {
     append(msg.ok ? `Uploaded: ${msg.pages} pages${msg.extraction_id ? `, extraction_id=${msg.extraction_id}` : ''}` : `Upload failed: ${msg.error || ''}`);
   }
