@@ -390,14 +390,14 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
         extraction_id = None
         try:
             row = session.execute(
-                sa_text("INSERT INTO cbs_extractions(source, raw) VALUES(:src, CAST(:raw AS JSONB)) RETURNING id"),
+                sa_text("INSERT INTO public.cbs_extractions(source, raw) VALUES(:src, CAST(:raw AS JSONB)) RETURNING id"),
                 {"src": "chrome_extension", "raw": _json.dumps(raw)}
             ).fetchone()
             if row is not None:
                 extraction_id = int(row[0])
         except Exception as _e:
-            # Non-fatal: continue processing even if audit log insert fails
-            extraction_id = None
+            logger.error(f"cbs_extractions insert failed: {_e}")
+            raise HTTPException(status_code=500, detail="extraction_insert_failed")
 
         league_name = None
         scoring_rules: List[Dict[str, Any]] = []
