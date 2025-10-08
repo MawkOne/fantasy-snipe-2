@@ -34,10 +34,9 @@ const TARGET_URLS = [
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   (async () => {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (!tab?.id) { sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
-
     if (msg?.cmd === 'EXPORT_ALL_JSON') {
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (!tab?.id) { sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
       const startUrl = tab.url;
       const results = [];
 
@@ -74,9 +73,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         // Initialize progress log (persisted so popup can read even if closed)
         await chrome.storage.local.set({ syncLog: [`[${new Date().toLocaleTimeString()}] Sync started…`], syncRunning: true });
         // Use the current active tab (no new tab)
-        const [activeTab0] = await chrome.tabs.query({ active: true, currentWindow: true });
-        if (!activeTab0?.id) { await appendLog('No active tab'); sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
-        let activeTab = activeTab0;
+        let [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (!activeTab?.id) { await appendLog('No active tab'); sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
 
         // 1) Capture all pages first, report capture progress
         const results = [];
