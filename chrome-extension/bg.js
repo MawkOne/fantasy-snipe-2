@@ -97,7 +97,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           try { await chrome.tabs.update(tab2.id, { url: startUrl }); } catch {}
         }
         if (!res.ok) { sendResponse?.({ ok:false, status: res.status, detail: data?.detail || null }); return; }
-        try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: true, pages: results.length }); } catch {}
+        try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: true, pages: results.length, extraction_id: data?.extraction_id }); } catch {}
         try { chrome.storage.local.set({ lastSync: { ok: true, pages: results.length, at: new Date().toISOString() } }); } catch {}
         setBadge('✓', '#16a34a');
         setTimeout(() => setBadge('', null), 8000);

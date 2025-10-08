@@ -161,7 +161,12 @@ document.getElementById('syncBtn').addEventListener('click', () => {
   log('Sync started…');
   chrome.runtime.sendMessage({ cmd: 'UPLOAD_ALL_TO_API' }, (res) => {
     if (chrome.runtime.lastError) return log({ ok:false, error: chrome.runtime.lastError.message });
-    append(`Result: ${res?.ok ? 'ok' : 'failed'}${res?.pages ? `, pages=${res.pages}` : ''}`);
+    if (res?.ok) {
+      const exId = res?.response?.extraction_id;
+      append(`Result: ok, pages=${res?.pages || 0}${exId ? `, extraction_id=${exId}` : ''}`);
+    } else {
+      append(`Result: failed${res?.status ? ` HTTP ${res.status}` : ''}`);
+    }
   });
 });
 
@@ -170,7 +175,7 @@ chrome.runtime.onMessage.addListener((msg) => {
   if (msg?.cmd === 'SYNC_PROGRESS') {
     append(`Captured: ${msg.url} -> ${msg.ok ? 'ok' : 'failed'}`);
   } else if (msg?.cmd === 'SYNC_DONE') {
-    append(msg.ok ? `Uploaded: ${msg.pages} pages` : `Upload failed: ${msg.error || ''}`);
+    append(msg.ok ? `Uploaded: ${msg.pages} pages${msg.extraction_id ? `, extraction_id=${msg.extraction_id}` : ''}` : `Upload failed: ${msg.error || ''}`);
   }
 });
 

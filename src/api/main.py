@@ -376,7 +376,17 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
             )
             """
         ))
-        session.execute(sa_text("INSERT INTO cbs_extractions(source, raw) VALUES(:src, CAST(:raw AS JSONB))"), {"src": "chrome_extension", "raw": _json.dumps(raw)})
+        extraction_id = None
+        try:
+            row = session.execute(
+                sa_text("INSERT INTO cbs_extractions(source, raw) VALUES(:src, CAST(:raw AS JSONB)) RETURNING id"),
+                {"src": "chrome_extension", "raw": _json.dumps(raw)}
+            ).fetchone()
+            if row is not None:
+                extraction_id = int(row[0])
+        except Exception as _e:
+            # Non-fatal: continue processing even if audit log insert fails
+            extraction_id = None
 
         league_name = None
         scoring_rules: List[Dict[str, Any]] = []
@@ -650,7 +660,7 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
         except Exception as e:
             logger.warning(f"new_cbs_* upsert failed: {e}")
 
-        return {"ok": True, "league_name": league_name, "league_id": saved_league_id, "roster_positions": roster_positions, "scoring_rules": scoring_rules, "upserts": upserts_summary}
+        return {"ok": True, "league_name": league_name, "league_id": saved_league_id, "roster_positions": roster_positions, "scoring_rules": scoring_rules, "upserts": upserts_summary, "extraction_id": extraction_id}
 
 # Rankings endpoint (public)
 @app.get("/api/rankings")
