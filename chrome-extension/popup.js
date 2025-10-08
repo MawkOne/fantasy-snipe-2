@@ -94,11 +94,10 @@ chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey', 'cbsEmail'], ({ cbsApiUrl, cb
   apiUrlInput.value = (cbsApiUrl || DEFAULT_API_URL);
   apiUrlInput.disabled = true; // lock to Railway by default
   if (cbsApiKey) apiKeyInput.value = cbsApiKey;
-  // Prefill with provided credentials and lock inputs
-  emailInput.value = 'markhenderson1977@gmail.com';
-  passwordInput.value = 'Utop8a09!';
-  emailInput.disabled = true;
-  passwordInput.disabled = true;
+  // Optional prefill email from storage; never hardcode or lock credentials
+  if (cbsEmail) emailInput.value = cbsEmail;
+  emailInput.disabled = false;
+  passwordInput.disabled = false;
   // Disable sync unless we have an API key
   syncBtn.disabled = !Boolean(apiKeyInput.value);
 });
