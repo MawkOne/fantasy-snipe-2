@@ -20,15 +20,16 @@ async function appendLog(line) {
 }
 
 
+// Put heavy stats page last so it can't block earlier writes
 const TARGET_URLS = [
-  "https://uhhp.hockey.cbssports.com/stats/stats-main/all:C:W:F:D/restofseason:p/standard/projections?print_rows=9999",
-  "https://uhhp.hockey.cbssports.com/transactions",
   "https://uhhp.hockey.cbssports.com/rules",
   "https://uhhp.hockey.cbssports.com/details/teams-managers",
-  "https://uhhp.hockey.cbssports.com/glossary",
   "https://uhhp.hockey.cbssports.com/teams/all",
+  "https://uhhp.hockey.cbssports.com/transactions",
   "https://uhhp.hockey.cbssports.com/schedule/full",
-  "https://uhhp.hockey.cbssports.com/standings/overall"
+  "https://uhhp.hockey.cbssports.com/standings/overall",
+  "https://uhhp.hockey.cbssports.com/glossary",
+  "https://uhhp.hockey.cbssports.com/stats/stats-main/all:C:W:F:D/restofseason:p/standard/projections?print_rows=9999"
 ];
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
@@ -189,7 +190,8 @@ async function navigateAndExtractFromAllFrames(tabId, url) {
       await chrome.scripting.executeScript({ target: { tabId, allFrames: true }, files: ['content.js'] }).catch(() => {});
       await sleep(600 * Math.pow(2, attempt));
     }
-    return page || { ok:false, url, reason:'no-tables', title:'' };
+    // Hard timeout guard: if still no tables, return reason
+    return page || { ok:false, url, reason:'timeout-or-no-tables', title:'' };
   } catch (e) {
     return { ok:false, url, reason:String(e), title:'' };
   }
