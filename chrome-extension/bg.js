@@ -172,6 +172,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         const uploadUrl = (cbsApiUrl || DEFAULT_API_URL);
         if (!uploadUrl) { sendResponse?.({ ok:false, error:'missing-api-url' }); return; }
         const payload = { exportedAt: new Date().toISOString(), pages: [page] };
+        await appendLog(`POST -> ${uploadUrl} (apiKey=${cbsApiKey ? 'yes' : 'no'})`);
         const res = await fetch(uploadUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', ...(cbsApiKey ? { 'x-api-key': cbsApiKey } : {}) },
