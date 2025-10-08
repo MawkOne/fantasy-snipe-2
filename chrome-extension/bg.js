@@ -10,6 +10,15 @@ function setBadge(text, color) {
   } catch {}
 }
 
+async function appendLog(line) {
+  try {
+    const cur = await chrome.storage.local.get(['syncLog']);
+    const arr = Array.isArray(cur.syncLog) ? cur.syncLog : [];
+    arr.push(`[${new Date().toLocaleTimeString()}] ${line}`);
+    await chrome.storage.local.set({ syncLog: arr });
+  } catch {}
+}
+
 
 const TARGET_URLS = [
   "https://uhhp.hockey.cbssports.com/stats/stats-main/all:C:W:F:D/restofseason:p/standard/projections?print_rows=9999",
@@ -61,23 +70,28 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg?.cmd === 'UPLOAD_ALL_TO_API') {
       try {
         setBadge('…', '#2f6bff');
-        // Use a temporary, inactive tab (auto-close at end)
-        let workTab = await chrome.tabs.create({ url: TARGET_URLS[0], active: false });
-        if (!workTab?.id) { sendResponse?.({ ok:false, error:'no-work-tab' }); return; }
-        await waitForTabComplete(workTab.id, 60000);
+        // Initialize progress log (persisted so popup can read even if closed)
+        await chrome.storage.local.set({ syncLog: [], syncRunning: true });
+        // Use the current active tab (no new tab)
+        const [activeTab0] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (!activeTab0?.id) { await appendLog('No active tab'); sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
+        let activeTab = activeTab0;
 
         // 1) Capture all pages first, report capture progress
         const results = [];
         for (const url of TARGET_URLS) {
-          // Re-validate temp tab, recreate if user closed it mid-sync
-          let alive = await chrome.tabs.get(workTab.id).catch(() => null);
+          // Re-validate active tab; if gone, attempt to re-acquire
+          let alive = await chrome.tabs.get(activeTab.id).catch(() => null);
           if (!alive?.id) {
-            workTab = await chrome.tabs.create({ url, active: false });
-            await waitForTabComplete(workTab.id, 60000);
+            const re = await chrome.tabs.query({ active: true, currentWindow: true });
+            activeTab = re?.[0];
+            if (!activeTab?.id) { await appendLog(`Captured: ${url} -> failed (no tab)`); continue; }
           }
-          const page = await navigateAndExtractFromAllFrames(workTab.id, url);
+          const page = await navigateAndExtractFromAllFrames(activeTab.id, url);
           results.push({ url, page });
-          try { chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok: !!page?.ok }); } catch {}
+          const ok = !!page?.ok;
+          try { chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok }); } catch {}
+          await appendLog(`Captured: ${url} -> ${ok ? 'ok' : 'failed'}`);
         }
 
         // 2) Enrich with owners map
@@ -120,18 +134,19 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           }
           if (ok) okCount += 1;
           try { chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: it.url, ok, extraction_id: exId, status }); } catch {}
+          await appendLog(ok ? `Synced: ${it.url} -> ok${exId ? ` (extraction_id=${exId})` : ''}` : `Synced: ${it.url} -> failed${status ? ` (HTTP ${status})` : ''}`);
         }
 
-        // Close the temp tab
-        try { if (workTab?.id) await chrome.tabs.remove(workTab.id); } catch {}
         try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: okCount === results.length, pages: okCount }); } catch {}
         try { chrome.storage.local.set({ lastSync: { ok: okCount === results.length, pages: okCount, at: new Date().toISOString() } }); } catch {}
+        try { chrome.storage.local.set({ syncRunning: false }); } catch {}
         setBadge(okCount === results.length ? '✓' : '!', okCount === results.length ? '#16a34a' : '#dc2626');
         setTimeout(() => setBadge('', null), 8000);
         sendResponse?.({ ok: okCount === results.length, pages: okCount });
       } catch (e) {
         try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: false, error: String(e) }); } catch {}
         try { chrome.storage.local.set({ lastSync: { ok: false, error: String(e), at: new Date().toISOString() } }); } catch {}
+        try { chrome.storage.local.set({ syncRunning: false }); } catch {}
         setBadge('!', '#dc2626');
         setTimeout(() => setBadge('', null), 8000);
         sendResponse?.({ ok:false, error: String(e) });

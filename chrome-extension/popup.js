@@ -181,6 +181,16 @@ chrome.runtime.onMessage.addListener((msg) => {
   }
 });
 
+// If the popup was opened mid-sync, hydrate the log from storage
+(async () => {
+  try {
+    const { syncLog } = await chrome.storage.local.get(['syncLog']);
+    if (Array.isArray(syncLog) && syncLog.length) {
+      log(syncLog.join('\n'));
+    }
+  } catch {}
+})();
+
 async function authCall(path, body) {
   const base = (apiUrlInput.value.trim() || DEFAULT_API_URL).replace(/\/$/, '');
   const url = base.replace(/\/api\/inseason\/cbs\/import$/, '') + path;
