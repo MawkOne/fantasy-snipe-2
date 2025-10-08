@@ -87,9 +87,9 @@ function downloadText(text, mime, filename) {
 
 /* ---------- Wire up buttons ---------- */
 // Manual export buttons (debug)
-document.getElementById('thisJson').addEventListener('click', exportThisJson);
-document.getElementById('allJson').addEventListener('click',  exportAllJson);
-document.getElementById('uploadCurrent').addEventListener('click', () => {
+document.getElementById('thisJson')?.addEventListener('click', exportThisJson);
+document.getElementById('allJson')?.addEventListener('click',  exportAllJson);
+document.getElementById('uploadCurrent')?.addEventListener('click', () => {
   log('Sync (current page) started…');
   chrome.runtime.sendMessage({ cmd: 'UPLOAD_CURRENT_TO_API' }, (res) => {
     if (chrome.runtime.lastError) return log({ ok:false, error: chrome.runtime.lastError.message });
@@ -170,7 +170,7 @@ function uploadAllJson() {
   });
 }
 
-document.getElementById('syncBtn').addEventListener('click', () => {
+document.getElementById('syncBtn')?.addEventListener('click', () => {
   // Use background flow to gather all pages and upload
   log('Sync started…');
   chrome.runtime.sendMessage({ cmd: 'UPLOAD_ALL_TO_API', skipStats: !!(skipStats && skipStats.checked) }, (res) => {
@@ -260,5 +260,8 @@ async function doRegister() {
   }
 }
 
-document.getElementById('login').addEventListener('click', doLogin);
+document.getElementById('login')?.addEventListener('click', doLogin);
+
+// Ensure the log box is visible at open
+try { if (logEl && !logEl.textContent) log(''); } catch {}
 // Register disabled per requirement
