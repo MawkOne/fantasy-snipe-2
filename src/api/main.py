@@ -11,6 +11,8 @@ from fastapi import WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Optional, Dict, Any, List
+import secrets
+import hashlib
 import jwt
 from datetime import datetime, timedelta
 from sqlalchemy.orm import sessionmaker
@@ -26,7 +28,7 @@ from src.database.fantasy_connection import fantasy_db
 from src.database.fantasy_models_v2 import (
     FantasyUser, FantasyLeague, FantasyTeam, FantasyPlayer,
     FantasyUserLeague, FantasyAPIKey, FantasySeasonRanking,
-    FantasyLeagueSettings, FantasyScoringRule
+    FantasyLeagueSettings, FantasyScoringRule, SiteUser
 )
 # Avoid importing NHL DB connector and models at import time to prevent local env requirements
 # We'll import NHL connectors lazily inside endpoints that need them.
@@ -131,6 +133,42 @@ def _get_nhl_engine(timeout_seconds: int = 3):
     except Exception as e:
         logger.warning(f"NHL DB engine init failed: {e}")
         raise
+
+# ---- Simple email/password auth that returns an API key ----
+def _hash_password(password: str, salt: str) -> str:
+    return hashlib.sha256((salt + password).encode('utf-8')).hexdigest()
+
+@app.post("/api/auth/register", response_model=dict)
+async def register_site_user(body: Dict[str, Any]) -> Dict[str, Any]:
+    email = (body.get('email') or '').strip().lower()
+    password = body.get('password') or ''
+    if not email or not password:
+        raise HTTPException(status_code=400, detail="email and password required")
+    with get_fantasy_session() as session:
+        existing = session.query(SiteUser).filter(SiteUser.email == email).first()
+        if existing:
+            raise HTTPException(status_code=400, detail="email already registered")
+        salt = secrets.token_hex(16)
+        pwd_hash = _hash_password(password, salt)
+        api_key = secrets.token_hex(24)
+        user = SiteUser(email=email, password_salt=salt, password_hash=pwd_hash, api_key=api_key)
+        session.add(user)
+        session.flush()
+        return {"ok": True, "api_key": api_key}
+
+@app.post("/api/auth/login", response_model=dict)
+async def login_site_user(body: Dict[str, Any]) -> Dict[str, Any]:
+    email = (body.get('email') or '').strip().lower()
+    password = body.get('password') or ''
+    if not email or not password:
+        raise HTTPException(status_code=400, detail="email and password required")
+    with get_fantasy_session() as session:
+        user = session.query(SiteUser).filter(SiteUser.email == email, SiteUser.is_active == True).first()
+        if not user:
+            raise HTTPException(status_code=401, detail="invalid credentials")
+        if _hash_password(password, user.password_salt) != user.password_hash:
+            raise HTTPException(status_code=401, detail="invalid credentials")
+        return {"ok": True, "api_key": user.api_key}
 # Archetype mapping cache
 ARCHETYPE_MAPS_CACHE: dict[int, dict[int, str]] = {}
 
@@ -1367,7 +1405,7 @@ async def get_projections(
                                 caph_v = float(getattr(rr, 'cap_hits', 0) or 0)
                                 contracted_v = int(getattr(rr, 'contracted_count', 0) or 0)
                                 total_contracted_counts += contracted_v
-                                # Use different per-team budget when vorp_cap requested (reflect UI Cap Summary’s budget)
+                                # Use different per-team budget when vorp_cap requested (reflect UI Cap Summary's budget)
                                 per_team_budget = 100.0
                                 if (source or "").lower() == "vorp_cap":
                                     per_team_budget = 120.0 if False else 100.0

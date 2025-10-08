@@ -11,6 +11,20 @@ from datetime import datetime
 
 Base = declarative_base()
 
+class SiteUser(Base):
+    """Simple site-local auth users (email + password + api_key)"""
+    __tablename__ = 'site_users'
+
+    id = Column(Integer, primary_key=True)
+    email = Column(String(200), unique=True, nullable=False, index=True)
+    password_salt = Column(String(200), nullable=False)
+    password_hash = Column(String(200), nullable=False)
+    api_key = Column(String(200), unique=True, nullable=False, index=True)
+
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+
 class FantasyUser(Base):
     """Fantasy sports user accounts"""
     __tablename__ = 'fantasy_users'

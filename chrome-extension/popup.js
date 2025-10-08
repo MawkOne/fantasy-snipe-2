@@ -84,14 +84,18 @@ document.getElementById('allJson').addEventListener('click',  exportAllJson);
 // --- New: Persist API config in chrome.storage and upload helpers ---
 const apiUrlInput = document.getElementById('apiUrl');
 const apiKeyInput = document.getElementById('apiKey');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
 
-chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey'], ({ cbsApiUrl, cbsApiKey }) => {
+chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey', 'cbsEmail'], ({ cbsApiUrl, cbsApiKey, cbsEmail }) => {
   if (cbsApiUrl) apiUrlInput.value = cbsApiUrl;
   if (cbsApiKey) apiKeyInput.value = cbsApiKey;
+  if (cbsEmail) emailInput.value = cbsEmail;
 });
 
 apiUrlInput.addEventListener('change', () => chrome.storage.sync.set({ cbsApiUrl: apiUrlInput.value.trim() }));
 apiKeyInput.addEventListener('change', () => chrome.storage.sync.set({ cbsApiKey: apiKeyInput.value.trim() }));
+emailInput.addEventListener('change', () => chrome.storage.sync.set({ cbsEmail: emailInput.value.trim() }));
 
 async function uploadPayload(payload) {
   const apiUrl = apiUrlInput.value.trim();
@@ -140,3 +144,51 @@ function uploadAllJson() {
 
 document.getElementById('uploadThis').addEventListener('click', uploadThisJson);
 document.getElementById('uploadAll').addEventListener('click',  uploadAllJson);
+
+async function authCall(path, body) {
+  const base = (apiUrlInput.value.trim() || '').replace(/\/$/, '');
+  const url = base.replace(/\/api\/inseason\/cbs\/import$/, '') + path;
+  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data?.detail || `HTTP ${res.status}`);
+  return data;
+}
+
+async function doLogin() {
+  try {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return log({ ok:false, error:'email/password required' });
+    const data = await authCall('/api/auth/login', { email, password });
+    if (data?.api_key) {
+      apiKeyInput.value = data.api_key;
+      await chrome.storage.sync.set({ cbsApiKey: data.api_key, cbsEmail: email });
+      log({ ok:true, message:'logged in', api_key: '***' });
+    } else {
+      log({ ok:false, error:'no api_key in response' });
+    }
+  } catch (e) {
+    log({ ok:false, error:String(e) });
+  }
+}
+
+async function doRegister() {
+  try {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return log({ ok:false, error:'email/password required' });
+    const data = await authCall('/api/auth/register', { email, password });
+    if (data?.api_key) {
+      apiKeyInput.value = data.api_key;
+      await chrome.storage.sync.set({ cbsApiKey: data.api_key, cbsEmail: email });
+      log({ ok:true, message:'registered', api_key: '***' });
+    } else {
+      log({ ok:false, error:'no api_key in response' });
+    }
+  } catch (e) {
+    log({ ok:false, error:String(e) });
+  }
+}
+
+document.getElementById('login').addEventListener('click', doLogin);
+document.getElementById('register').addEventListener('click', doRegister);
