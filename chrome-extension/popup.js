@@ -86,7 +86,9 @@ function downloadText(text, mime, filename) {
 }
 
 /* ---------- Wire up buttons ---------- */
-// Old export buttons removed in favor of single Sync
+// Manual export buttons (debug)
+document.getElementById('thisJson').addEventListener('click', exportThisJson);
+document.getElementById('allJson').addEventListener('click',  exportAllJson);
 
 // --- New: Persist API config in chrome.storage and upload helpers ---
 // Hardcoded default API endpoint (Railway FastAPI)
