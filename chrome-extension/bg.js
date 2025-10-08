@@ -154,6 +154,48 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         sendResponse?.({ ok:false, error: String(e) });
       }
     }
+
+    if (msg?.cmd === 'UPLOAD_CURRENT_TO_API') {
+      try {
+        setBadge('…', '#2f6bff');
+        await chrome.storage.local.set({ syncLog: [`[${new Date().toLocaleTimeString()}] Sync (current page) started…`], syncRunning: true });
+        const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (!activeTab?.id) { await appendLog('No active tab'); sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
+
+        const page = await navigateAndExtractFromAllFrames(activeTab.id, activeTab.url || '');
+        await appendLog(`Captured: ${activeTab.url} -> ${page?.ok ? 'ok' : (page?.reason || 'failed')}`);
+        chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url: activeTab.url, ok: !!page?.ok }).catch(() => {});
+
+        if (!page?.ok) { sendResponse?.({ ok:false, error: page?.reason || 'no-tables' }); return; }
+
+        const { cbsApiUrl, cbsApiKey } = await chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey']);
+        const uploadUrl = (cbsApiUrl || DEFAULT_API_URL);
+        if (!uploadUrl) { sendResponse?.({ ok:false, error:'missing-api-url' }); return; }
+        const payload = { exportedAt: new Date().toISOString(), pages: [page] };
+        const res = await fetch(uploadUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...(cbsApiKey ? { 'x-api-key': cbsApiKey } : {}) },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(() => ({}));
+        const ok = res.ok;
+        const exId = data?.extraction_id || null;
+        await appendLog(ok ? `Synced: ${activeTab.url} -> ok${exId ? ` (extraction_id=${exId})` : ''}` : `Synced: ${activeTab.url} -> failed (HTTP ${res.status})`);
+        chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: activeTab.url, ok, extraction_id: exId, status: res.status }).catch(() => {});
+        chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok, pages: ok ? 1 : 0 }).catch(() => {});
+        try { chrome.storage.local.set({ syncRunning: false }); } catch {}
+        setBadge(ok ? '✓' : '!', ok ? '#16a34a' : '#dc2626');
+        setTimeout(() => setBadge('', null), 8000);
+        sendResponse?.({ ok, response: data, pages: ok ? 1 : 0 });
+      } catch (e) {
+        await appendLog(String(e));
+        chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: false, error: String(e) }).catch(() => {});
+        try { chrome.storage.local.set({ syncRunning: false }); } catch {}
+        setBadge('!', '#dc2626');
+        setTimeout(() => setBadge('', null), 8000);
+        sendResponse?.({ ok:false, error: String(e) });
+      }
+    }
   })();
   return true;
 });

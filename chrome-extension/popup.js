@@ -89,6 +89,13 @@ function downloadText(text, mime, filename) {
 // Manual export buttons (debug)
 document.getElementById('thisJson').addEventListener('click', exportThisJson);
 document.getElementById('allJson').addEventListener('click',  exportAllJson);
+document.getElementById('uploadCurrent').addEventListener('click', () => {
+  log('Sync (current page) started…');
+  chrome.runtime.sendMessage({ cmd: 'UPLOAD_CURRENT_TO_API' }, (res) => {
+    if (chrome.runtime.lastError) return log({ ok:false, error: chrome.runtime.lastError.message });
+    append(res?.ok ? 'Uploaded current page.' : `Upload failed: ${res?.error || ''}`);
+  });
+});
 
 // --- New: Persist API config in chrome.storage and upload helpers ---
 // Hardcoded default API endpoint (Railway FastAPI)
@@ -99,6 +106,7 @@ const apiKeyInput = document.getElementById('apiKey');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 const syncBtn = document.getElementById('syncBtn');
+const skipStats = document.getElementById('skipStats');
 
 chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey', 'cbsEmail'], ({ cbsApiUrl, cbsApiKey, cbsEmail }) => {
   apiUrlInput.value = (cbsApiUrl || DEFAULT_API_URL);
@@ -165,7 +173,7 @@ function uploadAllJson() {
 document.getElementById('syncBtn').addEventListener('click', () => {
   // Use background flow to gather all pages and upload
   log('Sync started…');
-  chrome.runtime.sendMessage({ cmd: 'UPLOAD_ALL_TO_API' }, (res) => {
+  chrome.runtime.sendMessage({ cmd: 'UPLOAD_ALL_TO_API', skipStats: !!(skipStats && skipStats.checked) }, (res) => {
     if (chrome.runtime.lastError) return log({ ok:false, error: chrome.runtime.lastError.message });
     if (res?.ok) {
       const exId = res?.response?.extraction_id;
