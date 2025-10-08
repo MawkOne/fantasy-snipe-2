@@ -90,6 +90,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           const page = await navigateAndExtractFromAllFrames(activeTab.id, url);
           results.push({ url, page });
           const ok = !!page?.ok;
+          await appendLog(`Captured: ${url} -> ${ok ? 'ok' : 'failed'}`);
+          // Also notify popup (best-effort)
           chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok }).catch(() => {});
           await appendLog(`Captured: ${url} -> ${ok ? 'ok' : 'failed'}`);
         }
@@ -133,8 +135,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
             ok = false;
           }
           if (ok) okCount += 1;
-          chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: it.url, ok, extraction_id: exId, status }).catch(() => {});
           await appendLog(ok ? `Synced: ${it.url} -> ok${exId ? ` (extraction_id=${exId})` : ''}` : `Synced: ${it.url} -> failed${status ? ` (HTTP ${status})` : ''}`);
+          chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: it.url, ok, extraction_id: exId, status }).catch(() => {});
         }
 
         chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: okCount === results.length, pages: okCount }).catch(() => {});

@@ -191,6 +191,15 @@ chrome.runtime.onMessage.addListener((msg) => {
   } catch {}
 })();
 
+// Live-update the log when background appends to storage
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area !== 'local') return;
+  if (changes.syncLog && Array.isArray(changes.syncLog.newValue)) {
+    const lines = changes.syncLog.newValue;
+    log(lines.join('\n'));
+  }
+});
+
 async function authCall(path, body) {
   const base = (apiUrlInput.value.trim() || DEFAULT_API_URL).replace(/\/$/, '');
   const url = base.replace(/\/api\/inseason\/cbs\/import$/, '') + path;
