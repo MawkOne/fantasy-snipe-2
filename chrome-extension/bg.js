@@ -90,7 +90,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           const page = await navigateAndExtractFromAllFrames(activeTab.id, url);
           results.push({ url, page });
           const ok = !!page?.ok;
-          try { chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok }); } catch {}
+          chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok }).catch(() => {});
           await appendLog(`Captured: ${url} -> ${ok ? 'ok' : 'failed'}`);
         }
 
@@ -133,18 +133,18 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
             ok = false;
           }
           if (ok) okCount += 1;
-          try { chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: it.url, ok, extraction_id: exId, status }); } catch {}
+          chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: it.url, ok, extraction_id: exId, status }).catch(() => {});
           await appendLog(ok ? `Synced: ${it.url} -> ok${exId ? ` (extraction_id=${exId})` : ''}` : `Synced: ${it.url} -> failed${status ? ` (HTTP ${status})` : ''}`);
         }
 
-        try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: okCount === results.length, pages: okCount }); } catch {}
+        chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: okCount === results.length, pages: okCount }).catch(() => {});
         try { chrome.storage.local.set({ lastSync: { ok: okCount === results.length, pages: okCount, at: new Date().toISOString() } }); } catch {}
         try { chrome.storage.local.set({ syncRunning: false }); } catch {}
         setBadge(okCount === results.length ? '✓' : '!', okCount === results.length ? '#16a34a' : '#dc2626');
         setTimeout(() => setBadge('', null), 8000);
         sendResponse?.({ ok: okCount === results.length, pages: okCount });
       } catch (e) {
-        try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: false, error: String(e) }); } catch {}
+        chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: false, error: String(e) }).catch(() => {});
         try { chrome.storage.local.set({ lastSync: { ok: false, error: String(e), at: new Date().toISOString() } }); } catch {}
         try { chrome.storage.local.set({ syncRunning: false }); } catch {}
         setBadge('!', '#dc2626');
@@ -200,7 +200,14 @@ async function collectFromAllFrames(tabId) {
     try {
       const resp = await chrome.tabs.sendMessage(tabId, { cmd: 'EXTRACT_JSON' }, { frameId: fid });
       if (resp?.ok && Array.isArray(resp.tables)) responses.push(resp);
-    } catch {/* frame may not have our script */}
+    } catch (e) {
+      // frame may not have our script; attempt injection once
+      try {
+        await chrome.scripting.executeScript({ target: { tabId, allFrames: true }, files: ['content.js'] });
+        const resp2 = await chrome.tabs.sendMessage(tabId, { cmd: 'EXTRACT_JSON' }, { frameId: fid });
+        if (resp2?.ok && Array.isArray(resp2.tables)) responses.push(resp2);
+      } catch {}
+    }
   }
 
   const tabInfo = await chrome.tabs.get(tabId).catch(() => ({}));
