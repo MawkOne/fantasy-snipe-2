@@ -93,7 +93,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           await appendLog(`Captured: ${url} -> ${ok ? 'ok' : 'failed'}`);
           // Also notify popup (best-effort)
           chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok }).catch(() => {});
-          await appendLog(`Captured: ${url} -> ${ok ? 'ok' : 'failed'}`);
         }
 
         // 2) Enrich with owners map
@@ -172,7 +171,8 @@ chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
 /* -------- core nav/extract (all frames) -------- */
 async function navigateAndExtractFromAllFrames(tabId, url) {
   try {
-    await chrome.tabs.update(tabId, { url, active: true });
+    // Do not focus the tab during navigation; keeps popup alive
+    await chrome.tabs.update(tabId, { url });
     await waitForTabComplete(tabId, 60000);
 
     await chrome.scripting.executeScript({
