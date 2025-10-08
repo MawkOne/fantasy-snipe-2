@@ -3,10 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <style>
-      body { font: 13px system-ui, sans-serif; margin: 12px; width: 320px; }
-      .row { margin-bottom: 8px; }
-      button { padding: 6px 10px; margin-right: 6px; }
-      #log { white-space: pre-wrap; font-family: ui-monospace, monospace; font-size: 12px; margin-top: 8px; color: #555; }
+      :root {
+        --bg: #0f1830;         /* deep navy */
+        --bg-elev: #152042;    /* slightly lighter panel */
+        --fg: #ffffff;         /* primary text */
+        --muted: #aab4cf;      /* secondary text */
+        --accent: #2f6bff;     /* action */
+        --accent-hover: #2558d1;
+        --input-bg: #0e1730;
+        --input-border: #31406c;
+      }
+      html, body { padding: 0; margin: 0; }
+      body { font-family: Inter, -apple-system, system-ui, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif; font-size: 13px; background: var(--bg); color: var(--fg); width: 340px; }
+      h3 { margin: 12px; font-weight: 600; }
+      .row { margin: 8px 12px; }
+      label { display: inline-block; margin-bottom: 6px; color: var(--muted); font-size: 12px; }
+      input { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--fg); outline: none; }
+      input:disabled { opacity: 0.7; cursor: not-allowed; }
+      button { padding: 8px 12px; margin-right: 6px; border-radius: 8px; border: 1px solid transparent; background: var(--accent); color: #fff; cursor: pointer; font-weight: 600; }
+      button:hover { background: var(--accent-hover); }
+      #log { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; margin: 10px 12px 12px; color: var(--muted); background: var(--bg-elev); padding: 8px; border-radius: 8px; border: 1px solid var(--input-border); }
     </style>
   </head>
   <body>
