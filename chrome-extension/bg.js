@@ -34,41 +34,10 @@ const TARGET_URLS = [
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   (async () => {
-    if (msg?.cmd === 'EXPORT_ALL_JSON') {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      if (!tab?.id) { sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
-      const startUrl = tab.url;
-      const results = [];
+    if (msg?.cmd === 'EXPORT_ALL_JSON') { sendResponse?.({ ok:false, error:'multi-page export disabled' }); return; }
 
-      for (const url of TARGET_URLS) {
-        const page = await navigateAndExtractFromAllFrames(tab.id, url);
-        results.push(page);
-      }
-
-      // Build owners map from Teams & Managers, enrich rows
-      const ownersByTeamName = buildOwnersMap(results);
-      for (const page of results) {
-        if (!page?.ok) continue;
-        for (const t of page.tables || []) {
-          for (const r of t.rows || []) {
-            const key = normTeam(r.team_name || r.Team || r['Team Name']);
-            if (!r.team_owner && key && ownersByTeamName[key]) r.team_owner = ownersByTeamName[key];
-          }
-        }
-      }
-
-      const json = JSON.stringify({ exportedAt: new Date().toISOString(), pages: results }, null, 2);
-      downloadText(json, 'application/json', 'cbs_export.json');
-
-      if (startUrl?.startsWith('http')) {
-        try { await chrome.tabs.update(tab.id, { url: startUrl }); } catch {}
-      }
-
-      sendResponse?.({ ok:true, pages: results.length });
-    }
-
-    if (msg?.cmd === 'UPLOAD_ALL_TO_API') {
-      try {
+    if (msg?.cmd === 'UPLOAD_ALL_TO_API') { sendResponse?.({ ok:false, error:'multi-page sync disabled' }); return; }
+      /* try {
         setBadge('…', '#2f6bff');
         // Initialize progress log (persisted so popup can read even if closed)
         await chrome.storage.local.set({ syncLog: [`[${new Date().toLocaleTimeString()}] Sync started…`], syncRunning: true });
@@ -151,7 +120,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         setTimeout(() => setBadge('', null), 8000);
         sendResponse?.({ ok:false, error: String(e) });
       }
-    }
+    }*/
 
     if (msg?.cmd === 'UPLOAD_CURRENT_TO_API') {
       try {
