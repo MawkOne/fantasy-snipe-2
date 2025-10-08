@@ -89,11 +89,14 @@ function downloadText(text, mime, filename) {
 // Manual export buttons (debug)
 document.getElementById('thisJson')?.addEventListener('click', exportThisJson);
 document.getElementById('allJson')?.addEventListener('click',  exportAllJson);
-document.getElementById('uploadCurrent')?.addEventListener('click', () => {
+document.getElementById('uploadCurrent')?.addEventListener('click', async () => {
   log('Sync (current page) started…');
+  const btn = document.getElementById('uploadCurrent');
+  if (btn) btn.disabled = true;
   chrome.runtime.sendMessage({ cmd: 'UPLOAD_CURRENT_TO_API' }, (res) => {
-    if (chrome.runtime.lastError) return log({ ok:false, error: chrome.runtime.lastError.message });
-    append(res?.ok ? 'Uploaded current page.' : `Upload failed: ${res?.error || ''}`);
+    if (chrome.runtime.lastError) { log({ ok:false, error: chrome.runtime.lastError.message }); if (btn) btn.disabled = false; return; }
+    // Background writes all status lines; just re-enable button
+    if (btn) btn.disabled = false;
   });
 });
 

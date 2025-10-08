@@ -3,6 +3,7 @@ console.log('[CBSX] Service worker starting');
 
 // Hardcoded default API endpoint (Railway FastAPI)
 const DEFAULT_API_URL = 'https://fastapi-production-45ce.up.railway.app/api/inseason/cbs/import';
+let SYNC_BUSY = false; // prevent overlapping actions
 function setBadge(text, color) {
   try {
     chrome.action.setBadgeText({ text: String(text || '') });
@@ -123,6 +124,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     }*/
 
     if (msg?.cmd === 'UPLOAD_CURRENT_TO_API') {
+      if (SYNC_BUSY) { sendResponse?.({ ok:false, error:'sync-in-progress' }); return; }
+      SYNC_BUSY = true;
       try {
         setBadge('…', '#2f6bff');
         await chrome.storage.local.set({ syncLog: [`[${new Date().toLocaleTimeString()}] Sync (current page) started…`], syncRunning: true });
@@ -131,7 +134,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
         const page = await navigateAndExtractFromAllFrames(activeTab.id, activeTab.url || '');
         await appendLog(`Captured: ${activeTab.url} -> ${page?.ok ? 'ok' : (page?.reason || 'failed')}`);
-        chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url: activeTab.url, ok: !!page?.ok }).catch(() => {});
 
         if (!page?.ok) { sendResponse?.({ ok:false, error: page?.reason || 'no-tables' }); return; }
 
@@ -149,20 +151,18 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         const ok = res.ok;
         const exId = data?.extraction_id || null;
         await appendLog(ok ? `Synced: ${activeTab.url} -> ok${exId ? ` (extraction_id=${exId})` : ''}` : `Synced: ${activeTab.url} -> failed (HTTP ${res.status})`);
-        chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: activeTab.url, ok, extraction_id: exId, status: res.status }).catch(() => {});
-        chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok, pages: ok ? 1 : 0 }).catch(() => {});
         try { chrome.storage.local.set({ syncRunning: false }); } catch {}
         setBadge(ok ? '✓' : '!', ok ? '#16a34a' : '#dc2626');
         setTimeout(() => setBadge('', null), 8000);
         sendResponse?.({ ok, response: data, pages: ok ? 1 : 0 });
       } catch (e) {
         await appendLog(String(e));
-        chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: false, error: String(e) }).catch(() => {});
         try { chrome.storage.local.set({ syncRunning: false }); } catch {}
         setBadge('!', '#dc2626');
         setTimeout(() => setBadge('', null), 8000);
         sendResponse?.({ ok:false, error: String(e) });
       }
+      SYNC_BUSY = false;
     }
   })();
   return true;
