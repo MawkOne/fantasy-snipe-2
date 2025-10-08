@@ -3,6 +3,13 @@ console.log('[CBSX] Service worker starting');
 
 // Hardcoded default API endpoint (Railway FastAPI)
 const DEFAULT_API_URL = 'https://fastapi-production-45ce.up.railway.app/api/inseason/cbs/import';
+function setBadge(text, color) {
+  try {
+    chrome.action.setBadgeText({ text: String(text || '') });
+    if (color) chrome.action.setBadgeBackgroundColor({ color });
+  } catch {}
+}
+
 
 const TARGET_URLS = [
   "https://uhhp.hockey.cbssports.com/stats/stats-main/all:C:W:F:D/restofseason:p/standard/projections?print_rows=9999",
@@ -53,6 +60,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
     if (msg?.cmd === 'UPLOAD_ALL_TO_API') {
       try {
+        setBadge('…', '#2f6bff');
         const [tab2] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (!tab2?.id) { sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
         const startUrl = tab2.url;
@@ -90,9 +98,15 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         }
         if (!res.ok) { sendResponse?.({ ok:false, status: res.status, detail: data?.detail || null }); return; }
         try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: true, pages: results.length }); } catch {}
+        try { chrome.storage.local.set({ lastSync: { ok: true, pages: results.length, at: new Date().toISOString() } }); } catch {}
+        setBadge('✓', '#16a34a');
+        setTimeout(() => setBadge('', null), 8000);
         sendResponse?.({ ok:true, pages: results.length, response: data });
       } catch (e) {
         try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: false, error: String(e) }); } catch {}
+        try { chrome.storage.local.set({ lastSync: { ok: false, error: String(e), at: new Date().toISOString() } }); } catch {}
+        setBadge('!', '#dc2626');
+        setTimeout(() => setBadge('', null), 8000);
         sendResponse?.({ ok:false, error: String(e) });
       }
     }

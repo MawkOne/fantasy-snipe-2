@@ -1,6 +1,10 @@
 // popup.js
 const logEl = document.getElementById('log');
 const log = (m) => (logEl.textContent = typeof m === 'string' ? m : JSON.stringify(m, null, 2));
+function append(line) {
+  const prev = logEl.textContent || '';
+  log(prev ? `${prev}\n${line}` : line);
+}
 
 async function getActiveTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -157,20 +161,16 @@ document.getElementById('syncBtn').addEventListener('click', () => {
   log('Sync started…');
   chrome.runtime.sendMessage({ cmd: 'UPLOAD_ALL_TO_API' }, (res) => {
     if (chrome.runtime.lastError) return log({ ok:false, error: chrome.runtime.lastError.message });
-    log(res || { ok:true, uploaded:true });
+    append(`Result: ${res?.ok ? 'ok' : 'failed'}${res?.pages ? `, pages=${res.pages}` : ''}`);
   });
 });
 
 // Display progress lines as pages are captured and when upload completes
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg?.cmd === 'SYNC_PROGRESS') {
-    const prev = logEl.textContent || '';
-    const line = `Captured: ${msg.url} -> ${msg.ok ? 'ok' : 'failed'}`;
-    log(prev ? `${prev}\n${line}` : line);
+    append(`Captured: ${msg.url} -> ${msg.ok ? 'ok' : 'failed'}`);
   } else if (msg?.cmd === 'SYNC_DONE') {
-    const prev = logEl.textContent || '';
-    const line = msg.ok ? `Uploaded: ${msg.pages} pages` : `Upload failed: ${msg.error || ''}`;
-    log(prev ? `${prev}\n${line}` : line);
+    append(msg.ok ? `Uploaded: ${msg.pages} pages` : `Upload failed: ${msg.error || ''}`);
   }
 });
 
