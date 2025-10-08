@@ -161,6 +161,19 @@ document.getElementById('syncBtn').addEventListener('click', () => {
   });
 });
 
+// Display progress lines as pages are captured and when upload completes
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg?.cmd === 'SYNC_PROGRESS') {
+    const prev = logEl.textContent || '';
+    const line = `Captured: ${msg.url} -> ${msg.ok ? 'ok' : 'failed'}`;
+    log(prev ? `${prev}\n${line}` : line);
+  } else if (msg?.cmd === 'SYNC_DONE') {
+    const prev = logEl.textContent || '';
+    const line = msg.ok ? `Uploaded: ${msg.pages} pages` : `Upload failed: ${msg.error || ''}`;
+    log(prev ? `${prev}\n${line}` : line);
+  }
+});
+
 async function authCall(path, body) {
   const base = (apiUrlInput.value.trim() || DEFAULT_API_URL).replace(/\/$/, '');
   const url = base.replace(/\/api\/inseason\/cbs\/import$/, '') + path;

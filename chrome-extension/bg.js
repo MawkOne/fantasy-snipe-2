@@ -60,6 +60,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         for (const url of TARGET_URLS) {
           const page = await navigateAndExtractFromAllFrames(tab2.id, url);
           results.push(page);
+          try { chrome.runtime.sendMessage({ cmd: 'SYNC_PROGRESS', url, ok: !!page?.ok }); } catch {}
         }
         const ownersByTeamName = buildOwnersMap(results);
         for (const page of results) {
@@ -88,8 +89,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           try { await chrome.tabs.update(tab2.id, { url: startUrl }); } catch {}
         }
         if (!res.ok) { sendResponse?.({ ok:false, status: res.status, detail: data?.detail || null }); return; }
+        try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: true, pages: results.length }); } catch {}
         sendResponse?.({ ok:true, pages: results.length, response: data });
       } catch (e) {
+        try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: false, error: String(e) }); } catch {}
         sendResponse?.({ ok:false, error: String(e) });
       }
     }
