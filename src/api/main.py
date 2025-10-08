@@ -435,6 +435,25 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
 
         # Persist normalized league, settings, scoring
         saved_league_id = None
+        # Collect lightweight debug stats about the payload we received
+        debug_pages: list[dict[str, Any]] = []
+        try:
+            for page in (raw.get('pages') or []):
+                total_rows = 0
+                player_rows = 0
+                for tbl in (page.get('tables') or []):
+                    rws = tbl.get('rows') or []
+                    total_rows += len(rws)
+                    for r in rws:
+                        if isinstance(r, dict) and r.get('cbs_player_id'):
+                            player_rows += 1
+                debug_pages.append({
+                    "url": page.get('url'),
+                    "total_rows": total_rows,
+                    "player_rows": player_rows
+                })
+        except Exception:
+            pass
         if league_name:
             # Create a minimal FantasyLeague if not exists
             try:
@@ -671,7 +690,7 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
         except Exception as e:
             logger.warning(f"new_cbs_* upsert failed: {e}")
 
-        return {"ok": True, "league_name": league_name, "league_id": saved_league_id, "roster_positions": roster_positions, "scoring_rules": scoring_rules, "upserts": upserts_summary, "extraction_id": extraction_id}
+        return {"ok": True, "league_name": league_name, "league_id": saved_league_id, "roster_positions": roster_positions, "scoring_rules": scoring_rules, "upserts": upserts_summary, "extraction_id": extraction_id, "debug": {"pages": debug_pages}}
 
 # Rankings endpoint (public)
 @app.get("/api/rankings")
