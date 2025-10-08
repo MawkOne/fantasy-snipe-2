@@ -88,6 +88,7 @@ const apiUrlInput = document.getElementById('apiUrl');
 const apiKeyInput = document.getElementById('apiKey');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
+const syncBtn = document.getElementById('syncBtn');
 
 chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey', 'cbsEmail'], ({ cbsApiUrl, cbsApiKey, cbsEmail }) => {
   apiUrlInput.value = (cbsApiUrl || DEFAULT_API_URL);
@@ -98,6 +99,8 @@ chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey', 'cbsEmail'], ({ cbsApiUrl, cb
   passwordInput.value = 'Utop8a09!';
   emailInput.disabled = true;
   passwordInput.disabled = true;
+  // Disable sync unless we have an API key
+  syncBtn.disabled = !Boolean(apiKeyInput.value);
 });
 
 // If you ever re-enable editing, this persists the override
@@ -178,6 +181,7 @@ async function doLogin() {
       apiKeyInput.value = data.api_key;
       await chrome.storage.sync.set({ cbsApiKey: data.api_key, cbsEmail: email });
       log({ ok:true, message:'logged in', api_key: '***' });
+      syncBtn.disabled = false;
     } else {
       log({ ok:false, error:'no api_key in response' });
     }
