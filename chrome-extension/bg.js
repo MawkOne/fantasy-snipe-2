@@ -71,7 +71,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       try {
         setBadge('…', '#2f6bff');
         // Initialize progress log (persisted so popup can read even if closed)
-        await chrome.storage.local.set({ syncLog: [], syncRunning: true });
+        await chrome.storage.local.set({ syncLog: [`[${new Date().toLocaleTimeString()}] Sync started…`], syncRunning: true });
         // Use the current active tab (no new tab)
         const [activeTab0] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (!activeTab0?.id) { await appendLog('No active tab'); sendResponse?.({ ok:false, error:'no-active-tab' }); return; }

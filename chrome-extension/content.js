@@ -13,14 +13,14 @@
       window.scrollTo(0, 0);
     }
   
-    async function waitForTables(timeoutMs = 60000) {
+    async function waitForTables(timeoutMs = 15000) {
       const t0 = Date.now();
       for (;;) {
-        const t1 = document.querySelector('table:has(tbody > tr.row1), table:has(tbody > tr.row2)');
-        const t2 = document.querySelector('table');
-        if (t1 || t2) return true;
+        // Prefer a concrete signal: at least a few body rows present
+        const rows = document.querySelectorAll('table tbody tr');
+        if (rows && rows.length >= 3) return true;
         if (Date.now() - t0 > timeoutMs) return false;
-        await sleep(400);
+        await sleep(250);
       }
     }
   
@@ -207,7 +207,7 @@
     }
   
     async function extractAllTables() {
-      const hasTables = await waitForTables(60000);
+      const hasTables = await waitForTables(15000);
       if (!hasTables) return { ok: false, reason: 'no-tables', url: location.href, title: document.title || '' };
   
       await ensureAllRowsVisible();

@@ -1,8 +1,12 @@
 // popup.js
 const logEl = document.getElementById('log');
-const log = (m) => (logEl.textContent = typeof m === 'string' ? m : JSON.stringify(m, null, 2));
+function normalizeMsg(m) {
+  if (typeof m === 'string') return m;
+  try { return JSON.stringify(m, null, 2); } catch { return String(m); }
+}
+const log = (m) => (logEl && (logEl.textContent = normalizeMsg(m)));
 function append(line) {
-  const prev = logEl.textContent || '';
+  const prev = (logEl && logEl.textContent) || '';
   log(prev ? `${prev}\n${line}` : line);
 }
 
