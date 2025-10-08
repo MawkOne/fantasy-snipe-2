@@ -61,24 +61,21 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg?.cmd === 'UPLOAD_ALL_TO_API') {
       try {
         setBadge('…', '#2f6bff');
-        // Use the current active tab; do not open new tabs
-        let [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
-        if (!activeTab?.id) { sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
+        // Use a temporary, inactive tab (auto-close at end)
+        let workTab = await chrome.tabs.create({ url: TARGET_URLS[0], active: false });
+        if (!workTab?.id) { sendResponse?.({ ok:false, error:'no-work-tab' }); return; }
+        await waitForTabComplete(workTab.id, 60000);
 
         // 1) Capture all pages first, report capture progress
         const results = [];
         for (const url of TARGET_URLS) {
-          // Validate tab is still alive before each navigation; re-acquire if needed
-          let tabAlive = await chrome.tabs.get(activeTab.id).catch(() => null);
-          if (!tabAlive?.id) {
-            const re = await chrome.tabs.query({ active: true, currentWindow: true });
-            activeTab = re?.[0];
-            if (!activeTab?.id) {
-              try { chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok: false }); } catch {}
-              continue;
-            }
+          // Re-validate temp tab, recreate if user closed it mid-sync
+          let alive = await chrome.tabs.get(workTab.id).catch(() => null);
+          if (!alive?.id) {
+            workTab = await chrome.tabs.create({ url, active: false });
+            await waitForTabComplete(workTab.id, 60000);
           }
-          const page = await navigateAndExtractFromAllFrames(activeTab.id, url);
+          const page = await navigateAndExtractFromAllFrames(workTab.id, url);
           results.push({ url, page });
           try { chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok: !!page?.ok }); } catch {}
         }
@@ -125,6 +122,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           try { chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: it.url, ok, extraction_id: exId, status }); } catch {}
         }
 
+        // Close the temp tab
+        try { if (workTab?.id) await chrome.tabs.remove(workTab.id); } catch {}
         try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: okCount === results.length, pages: okCount }); } catch {}
         try { chrome.storage.local.set({ lastSync: { ok: okCount === results.length, pages: okCount, at: new Date().toISOString() } }); } catch {}
         setBadge(okCount === results.length ? '✓' : '!', okCount === results.length ? '#16a34a' : '#dc2626');
