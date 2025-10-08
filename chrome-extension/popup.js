@@ -93,7 +93,11 @@ chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey', 'cbsEmail'], ({ cbsApiUrl, cb
   apiUrlInput.value = (cbsApiUrl || DEFAULT_API_URL);
   apiUrlInput.disabled = true; // lock to Railway by default
   if (cbsApiKey) apiKeyInput.value = cbsApiKey;
-  if (cbsEmail) emailInput.value = cbsEmail;
+  // Prefill with provided credentials and lock inputs
+  emailInput.value = 'markhenderson1977@gmail.com';
+  passwordInput.value = 'Utop8a09!';
+  emailInput.disabled = true;
+  passwordInput.disabled = true;
 });
 
 // If you ever re-enable editing, this persists the override
@@ -201,4 +205,4 @@ async function doRegister() {
 }
 
 document.getElementById('login').addEventListener('click', doLogin);
-document.getElementById('register').addEventListener('click', doRegister);
+// Register disabled per requirement
