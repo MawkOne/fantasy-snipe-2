@@ -145,6 +145,24 @@ async def register_site_user(body: Dict[str, Any]) -> Dict[str, Any]:
     if not email or not password:
         raise HTTPException(status_code=400, detail="email and password required")
     with get_fantasy_session() as session:
+        # Ensure table exists (in case migration not run yet)
+        try:
+            session.execute(text(
+                """
+                CREATE TABLE IF NOT EXISTS site_users (
+                  id SERIAL PRIMARY KEY,
+                  email VARCHAR(200) UNIQUE NOT NULL,
+                  password_salt VARCHAR(200) NOT NULL,
+                  password_hash VARCHAR(200) NOT NULL,
+                  api_key VARCHAR(200) UNIQUE NOT NULL,
+                  is_active BOOLEAN DEFAULT TRUE,
+                  created_at TIMESTAMP DEFAULT NOW(),
+                  updated_at TIMESTAMP DEFAULT NOW()
+                );
+                """
+            ))
+        except Exception:
+            pass
         existing = session.query(SiteUser).filter(SiteUser.email == email).first()
         if existing:
             raise HTTPException(status_code=400, detail="email already registered")
@@ -163,6 +181,24 @@ async def login_site_user(body: Dict[str, Any]) -> Dict[str, Any]:
     if not email or not password:
         raise HTTPException(status_code=400, detail="email and password required")
     with get_fantasy_session() as session:
+        # Ensure table exists prior to lookup to avoid 500s on fresh DBs
+        try:
+            session.execute(text(
+                """
+                CREATE TABLE IF NOT EXISTS site_users (
+                  id SERIAL PRIMARY KEY,
+                  email VARCHAR(200) UNIQUE NOT NULL,
+                  password_salt VARCHAR(200) NOT NULL,
+                  password_hash VARCHAR(200) NOT NULL,
+                  api_key VARCHAR(200) UNIQUE NOT NULL,
+                  is_active BOOLEAN DEFAULT TRUE,
+                  created_at TIMESTAMP DEFAULT NOW(),
+                  updated_at TIMESTAMP DEFAULT NOW()
+                );
+                """
+            ))
+        except Exception:
+            pass
         user = session.query(SiteUser).filter(SiteUser.email == email, SiteUser.is_active == True).first()
         if not user:
             raise HTTPException(status_code=401, detail="invalid credentials")
