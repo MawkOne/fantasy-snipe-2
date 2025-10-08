@@ -134,6 +134,17 @@ def _get_nhl_engine(timeout_seconds: int = 3):
         logger.warning(f"NHL DB engine init failed: {e}")
         raise
 
+# Debug endpoint to verify JSON reaches the server
+@app.post("/api/debug/ping", response_model=dict)
+async def debug_ping(request: Request) -> Dict[str, Any]:
+    body = await request.body()
+    return {
+        "ok": True,
+        "len": len(body or b""),
+        "content_type": request.headers.get("content-type"),
+        "preview": (body[:200].decode("utf-8", errors="ignore") if body else "")
+    }
+
 # ---- Simple email/password auth that returns an API key ----
 def _hash_password(password: str, salt: str) -> str:
     return hashlib.sha256((salt + password).encode('utf-8')).hexdigest()
