@@ -61,14 +61,18 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg?.cmd === 'UPLOAD_ALL_TO_API') {
       try {
         setBadge('…', '#2f6bff');
-        const [tab2] = await chrome.tabs.query({ active: true, currentWindow: true });
-        if (!tab2?.id) { sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
-        const startUrl = tab2.url;
+        // Work in a background tab so the popup stays open and can receive progress updates
+        let workTab = null;
+        try {
+          workTab = await chrome.tabs.create({ url: TARGET_URLS[0], active: false });
+        } catch {}
+        if (!workTab?.id) { sendResponse?.({ ok:false, error:'no-work-tab' }); return; }
+        await waitForTabComplete(workTab.id, 60000);
 
         // 1) Capture all pages first, report capture progress
         const results = [];
         for (const url of TARGET_URLS) {
-          const page = await navigateAndExtractFromAllFrames(tab2.id, url);
+          const page = await navigateAndExtractFromAllFrames(workTab.id, url);
           results.push({ url, page });
           try { chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok: !!page?.ok }); } catch {}
         }
@@ -115,9 +119,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           try { chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: it.url, ok, extraction_id: exId, status }); } catch {}
         }
 
-        if (startUrl?.startsWith('http')) {
-          try { await chrome.tabs.update(tab2.id, { url: startUrl }); } catch {}
-        }
+        // Close background tab
+        try { if (workTab?.id) await chrome.tabs.remove(workTab.id); } catch {}
 
         try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: okCount === results.length, pages: okCount }); } catch {}
         try { chrome.storage.local.set({ lastSync: { ok: okCount === results.length, pages: okCount, at: new Date().toISOString() } }); } catch {}
