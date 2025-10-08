@@ -47,6 +47,48 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
       sendResponse?.({ ok:true, pages: results.length });
     }
+
+    if (msg?.cmd === 'UPLOAD_ALL_TO_API') {
+      try {
+        const [tab2] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (!tab2?.id) { sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
+        const startUrl = tab2.url;
+        const results = [];
+        for (const url of TARGET_URLS) {
+          const page = await navigateAndExtractFromAllFrames(tab2.id, url);
+          results.push(page);
+        }
+        const ownersByTeamName = buildOwnersMap(results);
+        for (const page of results) {
+          if (!page?.ok) continue;
+          for (const t of page.tables || []) {
+            for (const r of t.rows || []) {
+              const key = normTeam(r.team_name || r.Team || r['Team Name']);
+              if (!r.team_owner && key && ownersByTeamName[key]) r.team_owner = ownersByTeamName[key];
+            }
+          }
+        }
+        const payload = { exportedAt: new Date().toISOString(), pages: results };
+        const { cbsApiUrl, cbsApiKey } = await chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey']);
+        if (!cbsApiUrl) { sendResponse?.({ ok:false, error:'missing-api-url' }); return; }
+        const res = await fetch(cbsApiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(cbsApiKey ? { 'x-api-key': cbsApiKey } : {})
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(() => ({}));
+        if (startUrl?.startsWith('http')) {
+          try { await chrome.tabs.update(tab2.id, { url: startUrl }); } catch {}
+        }
+        if (!res.ok) { sendResponse?.({ ok:false, status: res.status, detail: data?.detail || null }); return; }
+        sendResponse?.({ ok:true, pages: results.length, response: data });
+      } catch (e) {
+        sendResponse?.({ ok:false, error: String(e) });
+      }
+    }
   })();
   return true;
 });

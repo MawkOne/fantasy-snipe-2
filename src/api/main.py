@@ -6,6 +6,7 @@ Main FastAPI application for fantasy sports management
 import os
 import logging
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import Request
 from fastapi import WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -284,7 +285,7 @@ async def init_v2_tables():
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/inseason/cbs/import", response_model=dict)
-async def import_cbs_extraction(payload: Dict[str, Any]) -> Dict[str, Any]:
+async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     import json as _json
     raw = payload
@@ -342,12 +343,32 @@ async def import_cbs_extraction(payload: Dict[str, Any]) -> Dict[str, Any]:
         if league_name:
             # Create a minimal FantasyLeague if not exists
             try:
-                # Find or create owner placeholder
-                owner = session.query(FantasyUser).filter(FantasyUser.email == 'importer@fantasy.local').first()
+                # Resolve owner from API key if provided, else fallback to placeholder
+                owner = None
+                try:
+                    api_key = request.headers.get('x-api-key') or ''
+                    # Also allow Authorization: ApiKey <key>
+                    auth = request.headers.get('authorization') or ''
+                    if not api_key and auth.lower().startswith('apikey '):
+                        api_key = auth.split(' ', 1)[1].strip()
+                    if api_key:
+                        key_obj = (
+                            session.query(FantasyAPIKey)
+                            .filter(FantasyAPIKey.api_key == api_key, FantasyAPIKey.is_active == True)
+                            .first()
+                        )
+                        if key_obj and key_obj.user:
+                            owner = key_obj.user
+                except Exception:
+                    # Non-fatal; we will fallback to placeholder user
+                    pass
+
                 if not owner:
-                    owner = FantasyUser(email='importer@fantasy.local', display_name='Importer')
-                    session.add(owner)
-                    session.flush()
+                    owner = session.query(FantasyUser).filter(FantasyUser.email == 'importer@fantasy.local').first()
+                    if not owner:
+                        owner = FantasyUser(email='importer@fantasy.local', display_name='Importer')
+                        session.add(owner)
+                        session.flush()
                 league = session.query(FantasyLeague).filter(FantasyLeague.name == league_name).first()
                 if not league:
                     league = FantasyLeague(

@@ -80,3 +80,63 @@ function downloadText(text, mime, filename) {
 /* ---------- Wire up buttons ---------- */
 document.getElementById('thisJson').addEventListener('click', exportThisJson);
 document.getElementById('allJson').addEventListener('click',  exportAllJson);
+
+// --- New: Persist API config in chrome.storage and upload helpers ---
+const apiUrlInput = document.getElementById('apiUrl');
+const apiKeyInput = document.getElementById('apiKey');
+
+chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey'], ({ cbsApiUrl, cbsApiKey }) => {
+  if (cbsApiUrl) apiUrlInput.value = cbsApiUrl;
+  if (cbsApiKey) apiKeyInput.value = cbsApiKey;
+});
+
+apiUrlInput.addEventListener('change', () => chrome.storage.sync.set({ cbsApiUrl: apiUrlInput.value.trim() }));
+apiKeyInput.addEventListener('change', () => chrome.storage.sync.set({ cbsApiKey: apiKeyInput.value.trim() }));
+
+async function uploadPayload(payload) {
+  const apiUrl = apiUrlInput.value.trim();
+  const apiKey = apiKeyInput.value.trim();
+  if (!apiUrl) { log({ ok:false, error:'missing-api-url' }); return; }
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Prefer x-api-key header; backend also supports Authorization: ApiKey <key>
+        ...(apiKey ? { 'x-api-key': apiKey } : {})
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data?.detail || `HTTP ${res.status}`);
+    log({ ok:true, uploaded:true, response: data });
+  } catch (e) {
+    log({ ok:false, error:String(e) });
+  }
+}
+
+async function uploadThisJson() {
+  const tab = await getActiveTab();
+  if (!tab?.id) return log({ ok:false, error:'no-active-tab' });
+  if (!(await injectContentIfNeeded(tab.id))) return;
+  try {
+    const resp = await chrome.tabs.sendMessage(tab.id, { cmd: 'EXTRACT_JSON' });
+    if (!resp?.ok) return log(resp || { ok:false, error:'no response from content script' });
+    const payload = { exportedAt: new Date().toISOString(), pages: [resp] };
+    await uploadPayload(payload);
+  } catch (e) {
+    log({ ok:false, error:String(e) });
+  }
+}
+
+function uploadAllJson() {
+  // Ask background to gather all target pages and upload directly
+  log('Uploading sequential export…');
+  chrome.runtime.sendMessage({ cmd: 'UPLOAD_ALL_TO_API' }, async (res) => {
+    if (chrome.runtime.lastError) return log({ ok:false, error: chrome.runtime.lastError.message });
+    log(res || { ok:true, uploaded:true });
+  });
+}
+
+document.getElementById('uploadThis').addEventListener('click', uploadThisJson);
+document.getElementById('uploadAll').addEventListener('click',  uploadAllJson);

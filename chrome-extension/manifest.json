@@ -6,7 +6,9 @@
     "permissions": ["storage", "scripting", "activeTab", "downloads", "tabs", "webNavigation"],
     "host_permissions": [
       "https://*.cbssports.com/*",
-      "https://uhhp.hockey.cbssports.com/*"
+      "https://uhhp.hockey.cbssports.com/*",
+      "http://*/*",
+      "https://*/*"
     ],
     "background": {
       "service_worker": "bg.js"
