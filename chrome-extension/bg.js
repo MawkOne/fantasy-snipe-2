@@ -1,6 +1,9 @@
 // bg.js
 console.log('[CBSX] Service worker starting');
 
+// Hardcoded default API endpoint (Railway FastAPI)
+const DEFAULT_API_URL = 'https://fastapi-production-45ce.up.railway.app/api/inseason/cbs/import';
+
 const TARGET_URLS = [
   "https://uhhp.hockey.cbssports.com/stats/stats-main/all:C:W:F:D/restofseason:p/standard/projections?print_rows=9999",
   "https://uhhp.hockey.cbssports.com/transactions",
@@ -70,8 +73,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         }
         const payload = { exportedAt: new Date().toISOString(), pages: results };
         const { cbsApiUrl, cbsApiKey } = await chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey']);
-        if (!cbsApiUrl) { sendResponse?.({ ok:false, error:'missing-api-url' }); return; }
-        const res = await fetch(cbsApiUrl, {
+        const uploadUrl = (cbsApiUrl || DEFAULT_API_URL);
+        if (!uploadUrl) { sendResponse?.({ ok:false, error:'missing-api-url' }); return; }
+        const res = await fetch(uploadUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

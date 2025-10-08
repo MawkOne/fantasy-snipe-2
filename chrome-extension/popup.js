@@ -81,23 +81,28 @@ function downloadText(text, mime, filename) {
 // Old export buttons removed in favor of single Sync
 
 // --- New: Persist API config in chrome.storage and upload helpers ---
+// Hardcoded default API endpoint (Railway FastAPI)
+const DEFAULT_API_URL = 'https://fastapi-production-45ce.up.railway.app/api/inseason/cbs/import';
+
 const apiUrlInput = document.getElementById('apiUrl');
 const apiKeyInput = document.getElementById('apiKey');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 
 chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey', 'cbsEmail'], ({ cbsApiUrl, cbsApiKey, cbsEmail }) => {
-  if (cbsApiUrl) apiUrlInput.value = cbsApiUrl;
+  apiUrlInput.value = (cbsApiUrl || DEFAULT_API_URL);
+  apiUrlInput.disabled = true; // lock to Railway by default
   if (cbsApiKey) apiKeyInput.value = cbsApiKey;
   if (cbsEmail) emailInput.value = cbsEmail;
 });
 
+// If you ever re-enable editing, this persists the override
 apiUrlInput.addEventListener('change', () => chrome.storage.sync.set({ cbsApiUrl: apiUrlInput.value.trim() }));
 apiKeyInput.addEventListener('change', () => chrome.storage.sync.set({ cbsApiKey: apiKeyInput.value.trim() }));
 emailInput.addEventListener('change', () => chrome.storage.sync.set({ cbsEmail: emailInput.value.trim() }));
 
 async function uploadPayload(payload) {
-  const apiUrl = apiUrlInput.value.trim();
+  const apiUrl = (apiUrlInput.value.trim() || DEFAULT_API_URL);
   const apiKey = apiKeyInput.value.trim();
   if (!apiUrl) { log({ ok:false, error:'missing-api-url' }); return; }
   try {
@@ -151,7 +156,7 @@ document.getElementById('syncBtn').addEventListener('click', () => {
 });
 
 async function authCall(path, body) {
-  const base = (apiUrlInput.value.trim() || '').replace(/\/$/, '');
+  const base = (apiUrlInput.value.trim() || DEFAULT_API_URL).replace(/\/$/, '');
   const url = base.replace(/\/api\/inseason\/cbs\/import$/, '') + path;
   const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   const data = await res.json().catch(() => ({}));
