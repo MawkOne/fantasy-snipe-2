@@ -61,18 +61,24 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg?.cmd === 'UPLOAD_ALL_TO_API') {
       try {
         setBadge('…', '#2f6bff');
-        // Work in a background tab so the popup stays open and can receive progress updates
-        let workTab = null;
-        try {
-          workTab = await chrome.tabs.create({ url: TARGET_URLS[0], active: false });
-        } catch {}
-        if (!workTab?.id) { sendResponse?.({ ok:false, error:'no-work-tab' }); return; }
-        await waitForTabComplete(workTab.id, 60000);
+        // Use the current active tab; do not open new tabs
+        let [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (!activeTab?.id) { sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
 
         // 1) Capture all pages first, report capture progress
         const results = [];
         for (const url of TARGET_URLS) {
-          const page = await navigateAndExtractFromAllFrames(workTab.id, url);
+          // Validate tab is still alive before each navigation; re-acquire if needed
+          let tabAlive = await chrome.tabs.get(activeTab.id).catch(() => null);
+          if (!tabAlive?.id) {
+            const re = await chrome.tabs.query({ active: true, currentWindow: true });
+            activeTab = re?.[0];
+            if (!activeTab?.id) {
+              try { chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok: false }); } catch {}
+              continue;
+            }
+          }
+          const page = await navigateAndExtractFromAllFrames(activeTab.id, url);
           results.push({ url, page });
           try { chrome.runtime.sendMessage({ cmd: 'SYNC_CAPTURED', url, ok: !!page?.ok }); } catch {}
         }
@@ -118,9 +124,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           if (ok) okCount += 1;
           try { chrome.runtime.sendMessage({ cmd: 'SYNC_SYNCED', url: it.url, ok, extraction_id: exId, status }); } catch {}
         }
-
-        // Close background tab
-        try { if (workTab?.id) await chrome.tabs.remove(workTab.id); } catch {}
 
         try { chrome.runtime.sendMessage({ cmd: 'SYNC_DONE', ok: okCount === results.length, pages: okCount }); } catch {}
         try { chrome.storage.local.set({ lastSync: { ok: okCount === results.length, pages: okCount, at: new Date().toISOString() } }); } catch {}
