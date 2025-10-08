@@ -78,8 +78,7 @@ function downloadText(text, mime, filename) {
 }
 
 /* ---------- Wire up buttons ---------- */
-document.getElementById('thisJson').addEventListener('click', exportThisJson);
-document.getElementById('allJson').addEventListener('click',  exportAllJson);
+// Old export buttons removed in favor of single Sync
 
 // --- New: Persist API config in chrome.storage and upload helpers ---
 const apiUrlInput = document.getElementById('apiUrl');
@@ -142,8 +141,14 @@ function uploadAllJson() {
   });
 }
 
-document.getElementById('uploadThis').addEventListener('click', uploadThisJson);
-document.getElementById('uploadAll').addEventListener('click',  uploadAllJson);
+document.getElementById('syncBtn').addEventListener('click', () => {
+  // Use background flow to gather all pages and upload
+  log('Sync started…');
+  chrome.runtime.sendMessage({ cmd: 'UPLOAD_ALL_TO_API' }, (res) => {
+    if (chrome.runtime.lastError) return log({ ok:false, error: chrome.runtime.lastError.message });
+    log(res || { ok:true, uploaded:true });
+  });
+});
 
 async function authCall(path, body) {
   const base = (apiUrlInput.value.trim() || '').replace(/\/$/, '');

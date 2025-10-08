@@ -446,7 +446,175 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
             except Exception as e:
                 logger.warning(f"Import persist failed: {e}")
 
-        return {"ok": True, "league_name": league_name, "league_id": saved_league_id, "roster_positions": roster_positions, "scoring_rules": scoring_rules}
+        # ---- Upsert into new_cbs_* tables (leagues, rules, scoring, teams, players, rosters, projections) ----
+        upserts_summary = {"teams": 0, "players": 0, "rosters": 0, "projections": 0, "rules": 0}
+        try:
+            from sqlalchemy import text as sa_text
+
+            def slugify(value: str) -> str:
+                s = (value or '').strip().lower()
+                out = []
+                for ch in s:
+                    if ch.isalnum(): out.append(ch)
+                    elif ch in (' ', '-', '_'): out.append('-')
+                return ''.join(out).strip('-') or 'unknown'
+
+            # Determine provider/domain
+            first_url = None
+            for p in (raw.get('pages') or []):
+                if p.get('url'): first_url = p['url']; break
+            provider_slug = 'uhhp'
+            domain = 'uhhp.hockey.cbssports.com'
+            if first_url:
+                try:
+                    from urllib.parse import urlparse
+                    u = urlparse(first_url)
+                    domain = u.netloc
+                    host = domain.split('.')[0]
+                    if host: provider_slug = host
+                except Exception:
+                    pass
+
+            # League record
+            session.execute(sa_text(
+                """
+                INSERT INTO new_cbs_leagues (provider_slug, name, domain, sport)
+                VALUES (:slug, :name, :domain, 'nhl')
+                ON CONFLICT (provider_slug)
+                DO UPDATE SET name = EXCLUDED.name, domain = EXCLUDED.domain
+                """
+            ), {"slug": provider_slug, "name": league_name or provider_slug, "domain": domain})
+
+            lid_row = session.execute(sa_text(
+                "SELECT id FROM new_cbs_leagues WHERE provider_slug = :slug"
+            ), {"slug": provider_slug}).fetchone()
+            new_league_id = int(lid_row.id) if lid_row else None
+
+            # League rules + scoring
+            if new_league_id is not None:
+                session.execute(sa_text(
+                    """
+                    INSERT INTO new_cbs_league_rules (league_id, roster_positions, source_url, captured_at, raw_meta)
+                    VALUES (:lid, CAST(:roster AS JSONB), :src, NOW(), CAST(:raw AS JSONB))
+                    ON CONFLICT (league_id)
+                    DO UPDATE SET roster_positions = EXCLUDED.roster_positions, raw_meta = EXCLUDED.raw_meta, source_url = EXCLUDED.source_url, captured_at = NOW()
+                    """
+                ), {"lid": new_league_id, "roster": _json.dumps(roster_positions or {}), "src": first_url or '', "raw": _json.dumps(raw) })
+                if scoring_rules:
+                    session.execute(sa_text("DELETE FROM new_cbs_scoring_rules WHERE league_id = :lid"), {"lid": new_league_id})
+                    for r in scoring_rules:
+                        session.execute(sa_text(
+                            """
+                            INSERT INTO new_cbs_scoring_rules (league_id, stat_code, stat_name, points)
+                            VALUES (:lid, :code, :name, :pts)
+                            """
+                        ), {"lid": new_league_id, "code": str(r.get('stat_code') or ''), "name": str(r.get('stat_name') or ''), "pts": float(r.get('points') or 0.0)})
+                        upserts_summary["rules"] += 1
+
+            # Build owners map from Teams & Managers page
+            owners_by_team: dict[str, str] = {}
+            for page in (raw.get('pages') or []):
+                if not page.get('url') or 'details/teams-managers' not in page['url']:
+                    continue
+                for t in (page.get('tables') or []):
+                    headers = [str(h or '').lower() for h in (t.get('headers') or [])]
+                    rows = t.get('rows') or []
+                    for r in rows:
+                        vals = list(r.values())
+                        if not vals: continue
+                        team = str(vals[0]).strip()
+                        owner = None
+                        # try second column as owner name
+                        if len(vals) > 1:
+                            owner = str(vals[1]).strip() or None
+                        if team:
+                            owners_by_team[team] = owner or owners_by_team.get(team) or ''
+
+            # Process Teams/All (rosters) and Projections pages
+            def upsert_team(session, league_id: int, team_name: str, cbs_team_id: Optional[str], owner_display: Optional[str]):
+                team_key = cbs_team_id or slugify(team_name)
+                session.execute(sa_text(
+                    """
+                    INSERT INTO new_cbs_teams (league_id, team_id, team_name, owner_id)
+                    VALUES (:lid, :tid, :tname, :owner)
+                    ON CONFLICT (league_id, team_id)
+                    DO UPDATE SET team_name = EXCLUDED.team_name
+                    """
+                ), {"lid": league_id, "tid": team_key, "tname": team_name, "owner": None})
+
+            # Clear existing roster snapshot for this league before reinsert
+            if new_league_id is not None:
+                session.execute(sa_text("DELETE FROM new_cbs_rosters WHERE league_id = :lid"), {"lid": new_league_id})
+
+            for page in (raw.get('pages') or []):
+                url = page.get('url') or ''
+                for tbl in (page.get('tables') or []):
+                    headers = tbl.get('headers') or []
+                    rows = tbl.get('rows') or []
+                    # Teams/All roster rows with cbs_player_id
+                    if any(h.lower() in ('players','player') for h in headers) and any('cbs_player_id' in r for r in rows):
+                        for r in rows:
+                            cbs_pid = r.get('cbs_player_id')
+                            if not cbs_pid: continue
+                            full_name = r.get('player_name') or (r.get('Players') or '').split(' • ')[0]
+                            pos = r.get('Pos') or None
+                            # Player upsert
+                            session.execute(sa_text(
+                                """
+                                INSERT INTO new_cbs_players (cbs_player_id, full_name, pos_primary)
+                                VALUES (:pid, :name, :pos)
+                                ON CONFLICT (cbs_player_id)
+                                DO UPDATE SET full_name = EXCLUDED.full_name, pos_primary = COALESCE(EXCLUDED.pos_primary, new_cbs_players.pos_primary)
+                                """
+                            ), {"pid": str(cbs_pid), "name": str(full_name or ''), "pos": str(pos or '') or None})
+                            upserts_summary["players"] += 1
+
+                            if new_league_id is not None:
+                                team_name = r.get('team_name') or r.get('Team') or r.get('Team Name') or ''
+                                cbs_team_id = r.get('cbs_team_id')
+                                if team_name:
+                                    upsert_team(session, new_league_id, team_name, cbs_team_id, owners_by_team.get(team_name))
+                                    upserts_summary["teams"] += 1
+                                    slot_type = r.get('Pos') or None
+                                    salary = None
+                                    years = None
+                                    rookie = None
+                                    try: salary = float(str(r.get('salary') or '').strip() or 0)
+                                    except Exception: pass
+                                    try: years = int(str(r.get('Years') or '').strip() or 0)
+                                    except Exception: pass
+                                    rookie = bool(str(r.get('Rookie') or '').strip())
+                                    session.execute(sa_text(
+                                        """
+                                        INSERT INTO new_cbs_rosters (league_id, team_id, cbs_player_id, slot_type, salary, years, rookie, source_url, captured_at)
+                                        VALUES (:lid, :tid, :pid, :slot, :sal, :yrs, :rook, :src, NOW())
+                                        """
+                                    ), {"lid": new_league_id, "tid": cbs_team_id or slugify(team_name), "pid": str(cbs_pid), "slot": slot_type, "sal": salary, "yrs": years, "rook": rookie, "src": url})
+                                    upserts_summary["rosters"] += 1
+                    # Projections pages
+                    if 'stats-main' in url and any('FPTS' in headers for _ in [0]):
+                        scope = 'skaters' if ':G:' not in url else 'goalies'
+                        for r in rows:
+                            cbs_pid = r.get('cbs_player_id')
+                            if not cbs_pid: continue
+                            fpts = None
+                            try: fpts = float(str(r.get('FPTS') or '0') or 0)
+                            except Exception: pass
+                            stats = {k:v for k,v in r.items() if k not in ('Action','Avail','Player','player_label','player_url','player_name')}
+                            session.execute(sa_text(
+                                """
+                                INSERT INTO new_cbs_projections (league_id, season, scope, cbs_player_id, stats, fantasy_points, source_url)
+                                VALUES (:lid, :season, :scope, :pid, CAST(:stats AS JSONB), :fpts, :src)
+                                ON CONFLICT (league_id, season, scope, cbs_player_id)
+                                DO UPDATE SET stats = EXCLUDED.stats, fantasy_points = EXCLUDED.fantasy_points, source_url = EXCLUDED.source_url
+                                """
+                            ), {"lid": new_league_id, "season": None, "scope": scope, "pid": str(cbs_pid), "stats": _json.dumps(stats), "fpts": fpts, "src": url})
+                            upserts_summary["projections"] += 1
+
+        except Exception as e:
+            logger.warning(f"new_cbs_* upsert failed: {e}")
+
+        return {"ok": True, "league_name": league_name, "league_id": saved_league_id, "roster_positions": roster_positions, "scoring_rules": scoring_rules, "upserts": upserts_summary}
 
 # Rankings endpoint (public)
 @app.get("/api/rankings")
