@@ -3015,7 +3015,7 @@ async def get_user_league_overview(slug: str, request: Request) -> Dict[str, Any
             raise HTTPException(status_code=500, detail="Failed to read league overview")
 
 @app.get("/api/user/cbs/league/{slug}/waivers", response_model=dict)
-async def list_waiver_players_user(slug: str, limit: int = 500, request: Request) -> Dict[str, Any]:
+async def list_waiver_players_user(slug: str, request: Request, limit: int = 500) -> Dict[str, Any]:
     return await list_waiver_players(slug, limit)
 
 @app.get("/api/user/cbs/league/{slug}/schedule", response_model=dict)
@@ -3023,7 +3023,7 @@ async def get_league_schedule_user(slug: str, request: Request) -> Dict[str, Any
     return await get_league_schedule(slug)
 
 @app.get("/api/user/cbs/league/{slug}/transactions", response_model=dict)
-async def get_league_transactions_user(slug: str, limit: int = 200, request: Request) -> Dict[str, Any]:
+async def get_league_transactions_user(slug: str, request: Request, limit: int = 200) -> Dict[str, Any]:
     return await get_league_transactions(slug, limit)
 
 @app.get("/api/public/cbs/league/{slug}/waivers", response_model=dict)
