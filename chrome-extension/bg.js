@@ -3,6 +3,29 @@ console.log('[CBSX] Service worker starting');
 
 // Hardcoded default API endpoint (Railway FastAPI)
 const DEFAULT_API_URL = 'https://fastapi-production-45ce.up.railway.app/api/inseason/cbs/import';
+function apiBaseFrom(url) {
+  return (url || DEFAULT_API_URL).replace(/\/?api\/inseason\/cbs\/import$/, '');
+}
+
+async function postCookiesSave(apiBase, payload, apiKey) {
+  const url = apiBase + '/api/public/providers/cbs/cookies_save';
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(apiKey ? { 'x-api-key': apiKey } : {}) },
+    body: JSON.stringify(payload)
+  }).catch(() => null);
+  return !!(res && res.ok);
+}
+
+async function collectCookiesFor(url) {
+  try {
+    const cookies = await chrome.cookies.getAll({ url });
+    const map = {};
+    for (const c of cookies || []) if (c?.name) map[c.name] = c.value || '';
+    return map;
+  } catch { return {}; }
+}
+
 let SYNC_BUSY = false; // prevent overlapping actions
 function setBadge(text, color) {
   try {
@@ -221,6 +244,22 @@ chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
   const url = details.url || '';
   const allowed = /^https:\/\/(.*\.)?cbssports\.com\/|^https:\/\/uhhp\.hockey\.cbssports\.com\//.test(url);
   if (!allowed) return;
+
+  // If user lands on My Teams, auto-save cookies to backend (best effort)
+  if (/https:\/\/.*cbssports\.com\/fantasy\/games\/my-teams\/?/i.test(url)) {
+    (async () => {
+      try {
+        const cookies = await collectCookiesFor(url);
+        if (Object.keys(cookies).length) {
+          const { cbsApiUrl, cbsApiKey, userEmail, userUuid } = await chrome.storage.sync.get({ cbsApiUrl: DEFAULT_API_URL, cbsApiKey: '', userEmail: '', userUuid: '' });
+          const ok = await postCookiesSave(apiBaseFrom(cbsApiUrl), { email: userEmail || '', user_uuid: userUuid || '', cookies }, cbsApiKey);
+          if (ok) await appendLog('Auto-saved CBS cookies from My Teams');
+        }
+      } catch (e) { /* ignore */ }
+    })();
+  }
+
+  // Keep content script active for extraction
   chrome.scripting.executeScript({
     target: { tabId: details.tabId, allFrames: true },
     files: ['content.js']

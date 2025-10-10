@@ -213,17 +213,36 @@ function uploadAllJson() {
 }
 
 document.getElementById('syncBtn')?.addEventListener('click', () => {
-  // Use background flow to gather all pages and upload
-  log('Sync started…');
-  chrome.runtime.sendMessage({ cmd: 'UPLOAD_ALL_TO_API', skipStats: !!(skipStats && skipStats.checked) }, (res) => {
-    if (chrome.runtime.lastError) return log({ ok:false, error: chrome.runtime.lastError.message });
-    if (res?.ok) {
-      const exId = res?.response?.extraction_id;
-      append(`Result: ok, pages=${res?.pages || 0}${exId ? `, extraction_id=${exId}` : ''}`);
-    } else {
-      append(`Result: failed${res?.status ? ` HTTP ${res.status}` : ''}`);
+  // Enqueue backend sync using stored cookies (no need to capture pages here)
+  (async () => {
+    try {
+      log('Queueing server sync…');
+      const email = (await chrome.storage.sync.get(['cbsEmail'])).cbsEmail || '';
+      const apiUrl = (apiUrlInput.value.trim() || DEFAULT_API_URL);
+      const apiKey = (apiKeyInput.value || '').trim();
+      const base = apiUrl.replace(/\/?api\/inseason\/cbs\/import$/, '');
+      const res = await fetch(base + '/api/public/providers/cbs/sync_enqueue', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email })
+      });
+      const data = await res.json().catch(()=>({}));
+      if (res.ok) {
+        append('Sync enqueued. Worker will use stored cookies.');
+        return;
+      }
+      if (res.status === 404) {
+        // Fallback: try authenticated user sync route
+        const headers = { 'Content-Type': 'application/json', ...(apiKey ? { 'x-api-key': apiKey, 'Authorization': `ApiKey ${apiKey}` } : {}) };
+        const res2 = await fetch(base + '/api/user/providers/cbs/sync', { method: 'POST', headers, body: JSON.stringify({}) });
+        const data2 = await res2.json().catch(()=>({}));
+        if (!res2.ok) throw new Error(data2?.detail || `HTTP ${res2.status}`);
+        append('Sync triggered via user route. Worker will run shortly.');
+        return;
+      }
+      throw new Error(data?.detail || `HTTP ${res.status}`);
+    } catch (e) {
+      append(`Enqueue failed: ${String(e)}`);
     }
-  });
+  })();
 });
 
 // Display progress lines as pages are captured and when upload completes

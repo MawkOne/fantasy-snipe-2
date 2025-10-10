@@ -3,7 +3,7 @@
     "name": "FirstOfficer CBS Export",
     "version": "0.6.0",
     "description": "Export CBSSports league pages (post-login) to JSON.",
-    "permissions": ["storage", "scripting", "activeTab", "downloads", "tabs", "webNavigation"],
+    "permissions": ["storage", "scripting", "activeTab", "downloads", "tabs", "webNavigation", "cookies"],
     "host_permissions": [
       "https://*.cbssports.com/*",
       "https://uhhp.hockey.cbssports.com/*",

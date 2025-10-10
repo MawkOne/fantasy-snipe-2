@@ -29,6 +29,10 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       if (!res.ok || !data?.ok) {
         throw new Error(data?.detail || "Invalid credentials")
       }
+      // Persist API key for authenticated user endpoints
+      if (data?.api_key) {
+        localStorage.setItem('fantasy_api_key', data.api_key)
+      }
       localStorage.setItem('fantasy_user', JSON.stringify({ id: email, email }))
       window.location.href = "/"
     } catch (err: any) {

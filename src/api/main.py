@@ -84,6 +84,32 @@ def rate_limit(request: Request) -> None:
             raise HTTPException(status_code=429, detail="rate_limited")
         arr.append(now)
 
+# --- Helpers ---
+def _resolve_cbs_league_id(session, slug: str) -> int:
+    """Resolve a league id from various sources given a slug. Tries strict matches first, then fuzzy.
+    Returns integer league id or raises HTTPException(404).
+    """
+    from sqlalchemy import text as sa_text
+    s = (slug or '').strip()
+    # 1) new schema strict match
+    row = session.execute(sa_text("SELECT id FROM new_cbs_leagues WHERE provider_slug = :s LIMIT 1"), {"s": s}).fetchone()
+    if row:
+        return int(row.id)
+    # 2) legacy strict match
+    row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :s LIMIT 1"), {"s": s}).fetchone()
+    if row:
+        return int(row.id)
+    # 3) fuzzy by domain/name
+    row = session.execute(sa_text("SELECT id FROM new_cbs_leagues WHERE domain ILIKE :p OR name ILIKE :p ORDER BY id DESC LIMIT 1"), {"p": f"%{s}%"}).fetchone()
+    if row:
+        return int(row.id)
+    # 4) single league fallback
+    row = session.execute(sa_text("SELECT id FROM new_cbs_leagues ORDER BY id DESC LIMIT 1")).fetchone()
+    if row:
+        return int(row.id)
+    # 5) last resort: none
+    raise HTTPException(status_code=404, detail="League not found")
+
 # Security
 security = HTTPBearer()
 
@@ -146,7 +172,7 @@ class KindeAuth:
                 detail="Authentication failed"
             )
 
-# Initialize Kinde auth
+// Initialize Kinde auth (kept for future use but not required for current user-scoped endpoints)
 kinde_auth = KindeAuth()
 # Helper: create NHL DB engine with short connect timeout so production doesn't stall
 def _get_nhl_engine(timeout_seconds: int = 3):
@@ -336,51 +362,25 @@ def load_archetype_mapping(season: int) -> dict[int, str]:
         return {}
 
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> FantasyUser:
-    """Get current authenticated user from database"""
-    try:
-        # Verify Kinde token
-        payload = kinde_auth.verify_token(credentials.credentials)
-        
-        # Extract user info from token
-        kinde_user_id = payload.get("sub")
-        email = payload.get("email")
-        
-        if not kinde_user_id or not email:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid token payload"
-            )
-        
-        # Get user from database
-        with get_fantasy_session() as session:
-            user = session.query(FantasyUser).filter(
-                FantasyUser.external_auth_id == kinde_user_id
-            ).first()
-            
-            if not user:
-                # Create new user if doesn't exist
-                user = FantasyUser(
-                    external_auth_id=kinde_user_id,
-                    email=email,
-                    username=email.split('@')[0],  # Use email prefix as username
-                    first_name=payload.get("given_name", ""),
-                    last_name=payload.get("family_name", ""),
-                    display_name=payload.get("name", email),
-                    is_active=True,
-                    is_verified=True,
-                    email_verified=True,
-                    created_at=datetime.now()
-                )
-                session.add(user)
-                session.commit()
-                session.refresh(user)
-            
-            return user
-            
-    except Exception as e:
-        logger.error(f"Error getting current user: {e}")
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication failed")
+def _extract_api_key_from_headers(request: Request) -> str:
+    api_key = request.headers.get('x-api-key') or ''
+    if not api_key:
+        auth = request.headers.get('authorization') or ''
+        if auth.lower().startswith('apikey '):
+            api_key = auth.split(' ', 1)[1].strip()
+    return api_key
+
+async def get_current_site_user(request: Request) -> Dict[str, Any]:
+    """Authenticate using site_users.api_key; returns minimal user dict."""
+    from sqlalchemy import text as sa_text
+    api_key = _extract_api_key_from_headers(request)
+    if not api_key:
+        raise HTTPException(status_code=401, detail="missing_api_key")
+    with get_fantasy_session() as session:
+        row = session.execute(sa_text("SELECT id, email, is_active FROM site_users WHERE api_key = :k"), {"k": api_key}).fetchone()
+        if not row or getattr(row, 'is_active', False) is False:
+            raise HTTPException(status_code=401, detail="invalid_api_key")
+        return {"id": int(row.id), "email": str(row.email)}
 
 # Health check endpoint
 @app.get("/health")
@@ -2898,27 +2898,33 @@ async def get_cbs_league_draft_state(slug: str, season: int = 2025) -> Dict[str,
             logger.error(f"CBS draft state failed: {e}")
             raise HTTPException(status_code=500, detail="Failed to read CBS draft state")
 @app.get("/api/user/cbs/league/{slug}/overview", response_model=dict)
-async def get_user_league_overview(slug: str, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+async def get_user_league_overview(slug: str, request: Request) -> Dict[str, Any]:
     """Return league overview for a user: teams (with owners), rosters, full rules, and the user's team.
     Uses the newer new_cbs_* schema when available; gracefully falls back to legacy cbs_* if needed.
     """
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         try:
-            lid_row = session.execute(sa_text("SELECT id FROM new_cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
-            if not lid_row:
-                lid_row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
-            if not lid_row:
-                raise HTTPException(status_code=404, detail="League not found")
-            league_id = int(lid_row.id)
+            # Resolve site user (API key auth)
+            api_key = request.headers.get('x-api-key') or ''
+            if not api_key:
+                auth = request.headers.get('authorization') or ''
+                if auth.lower().startswith('apikey '):
+                    api_key = auth.split(' ', 1)[1].strip()
+            site_user_id = None
+            if api_key:
+                row_user = session.execute(sa_text("SELECT id FROM site_users WHERE api_key = :k"), {"k": api_key}).fetchone()
+                if row_user:
+                    site_user_id = int(row_user.id)
 
-            user_subject = getattr(current_user, "subject", None) or getattr(current_user, "sub", None) or None
+            league_id = _resolve_cbs_league_id(session, slug)
+
             user_team_id = None
-            if user_subject:
+            if site_user_id is not None:
                 row = session.execute(sa_text(
-                    "SELECT team_id FROM cbs_user_memberships WHERE league_id = :lid AND user_subject = :sub"
-                ), {"lid": league_id, "sub": user_subject}).fetchone()
-                if row and row.team_id is not None:
+                    "SELECT team_id FROM memberships WHERE league_id = :lid AND site_user_id = :sid"
+                ), {"lid": league_id, "sid": site_user_id}).fetchone()
+                if row and getattr(row, 'team_id', None) is not None:
                     user_team_id = str(row.team_id)
 
             def _safe_select(sql: str, params: Dict[str, Any]) -> List[Dict[str, Any]]:
@@ -3009,15 +3015,15 @@ async def get_user_league_overview(slug: str, current_user: FantasyUser = Depend
             raise HTTPException(status_code=500, detail="Failed to read league overview")
 
 @app.get("/api/user/cbs/league/{slug}/waivers", response_model=dict)
-async def list_waiver_players_user(slug: str, limit: int = 500, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+async def list_waiver_players_user(slug: str, limit: int = 500, request: Request) -> Dict[str, Any]:
     return await list_waiver_players(slug, limit)
 
 @app.get("/api/user/cbs/league/{slug}/schedule", response_model=dict)
-async def get_league_schedule_user(slug: str, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+async def get_league_schedule_user(slug: str, request: Request) -> Dict[str, Any]:
     return await get_league_schedule(slug)
 
 @app.get("/api/user/cbs/league/{slug}/transactions", response_model=dict)
-async def get_league_transactions_user(slug: str, limit: int = 200, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+async def get_league_transactions_user(slug: str, limit: int = 200, request: Request) -> Dict[str, Any]:
     return await get_league_transactions(slug, limit)
 
 @app.get("/api/public/cbs/league/{slug}/waivers", response_model=dict)
@@ -3026,12 +3032,7 @@ async def list_waiver_players(slug: str, limit: int = 500) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         try:
-            lid_row = session.execute(sa_text("SELECT id FROM new_cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
-            if not lid_row:
-                lid_row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
-            if not lid_row:
-                raise HTTPException(status_code=404, detail="League not found")
-            league_id = int(lid_row.id)
+            league_id = _resolve_cbs_league_id(session, slug)
 
             rostered = session.execute(sa_text(
                 "SELECT DISTINCT cbs_player_id FROM new_cbs_rosters WHERE league_id = :lid"
@@ -3084,13 +3085,15 @@ async def get_league_schedule(slug: str) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         try:
-            lid_row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
-            if not lid_row:
-                lid_row = session.execute(sa_text("SELECT id FROM new_cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
+            try:
+                lid_row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
                 if not lid_row:
-                    raise HTTPException(status_code=404, detail="League not found")
-                return {"league_id": int(lid_row.id), "slug": slug, "periods": [], "matchups": []}
-            league_id = int(lid_row.id)
+                    # Fall back to new schema resolver
+                    league_id = _resolve_cbs_league_id(session, slug)
+                    return {"league_id": int(league_id), "slug": slug, "periods": [], "matchups": []}
+                league_id = int(lid_row.id)
+            except Exception:
+                league_id = _resolve_cbs_league_id(session, slug)
 
             periods = session.execute(sa_text(
                 "SELECT period_no, start_date, end_date, is_playoffs FROM cbs_scoring_periods WHERE league_id = :lid ORDER BY period_no"
@@ -3116,13 +3119,14 @@ async def get_league_transactions(slug: str, limit: int = 200) -> Dict[str, Any]
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         try:
-            lid_row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
-            if not lid_row:
-                lid_row = session.execute(sa_text("SELECT id FROM new_cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
+            try:
+                lid_row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
                 if not lid_row:
-                    raise HTTPException(status_code=404, detail="League not found")
-                return {"league_id": int(lid_row.id), "slug": slug, "transactions": []}
-            league_id = int(lid_row.id)
+                    league_id = _resolve_cbs_league_id(session, slug)
+                    return {"league_id": int(league_id), "slug": slug, "transactions": []}
+                league_id = int(lid_row.id)
+            except Exception:
+                league_id = _resolve_cbs_league_id(session, slug)
 
             tx_rows = session.execute(sa_text(
                 """
@@ -4468,6 +4472,94 @@ async def admin_table_counts() -> Dict[str, Any]:
             except Exception as e:
                 out[t] = f"ERR:{type(e).__name__}"
     return out
+# Admin debug: trace raw → tables mapping for recent CBS extractions
+@app.get("/api/admin/debug/cbs_extraction_trace", response_model=dict)
+async def admin_cbs_extraction_trace(extraction_id: Optional[int] = None, limit: int = 1) -> Dict[str, Any]:
+    """Summarize which tables each page in a raw extraction will populate.
+
+    This does not re-run inserts; it classifies pages and estimates target tables and row counts.
+    """
+    from sqlalchemy import text as sa_text
+    import json as _json
+    def classify_page(url: str, tables: List[Dict[str, Any]]) -> Dict[str, Any]:
+        url = str(url or '')
+        # Count rows and player rows
+        total_rows = 0
+        player_rows = 0
+        for t in (tables or []):
+            rws = t.get('rows') or []
+            total_rows += len(rws)
+            for r in rws:
+                if isinstance(r, dict) and r.get('cbs_player_id'):
+                    player_rows += 1
+        # Classification by URL heuristics
+        lower = url.lower()
+        planned: list[dict] = []
+        def add(table: str, est_rows: int | None = None):
+            planned.append({"table": table, "estimated_rows": est_rows})
+        if '/rules' in lower:
+            add('new_cbs_league_rules', 1)
+            add('new_cbs_scoring_rules', total_rows)
+            kind = 'rules'
+        elif '/details/teams-managers' in lower:
+            add('new_cbs_owners', total_rows)
+            add('new_cbs_teams.owner_id (update)', None)
+            kind = 'owners'
+        elif '/teams/all' in lower or player_rows > 0:
+            add('new_cbs_players', player_rows)
+            add('new_cbs_rosters', player_rows)
+            kind = 'rosters'
+        elif '/stats/stats-main' in lower:
+            add('new_cbs_projections', total_rows)
+            kind = 'projections'
+        elif '/transactions' in lower:
+            add('cbs_transactions (legacy)', total_rows)
+            add('cbs_transaction_items (legacy)', None)
+            kind = 'transactions'
+        elif '/schedule' in lower:
+            add('cbs_scoring_periods (legacy)', None)
+            add('cbs_matchups (legacy)', None)
+            kind = 'schedule'
+        else:
+            kind = 'unknown'
+        return {
+            "url": url,
+            "kind": kind,
+            "total_rows": total_rows,
+            "player_rows": player_rows,
+            "planned_writes": planned,
+        }
+
+    with get_fantasy_session() as session:
+        where = ""
+        params: dict[str, Any] = {}
+        if extraction_id is not None:
+            where = "WHERE id = :id"
+            params["id"] = int(extraction_id)
+        rows = session.execute(sa_text(
+            f"""
+            SELECT id, site_url, updated_at, raw
+              FROM cbs_extractions
+             {where}
+             ORDER BY updated_at DESC NULLS LAST, id DESC
+             LIMIT :lim
+            """
+        ), {**params, "lim": int(limit)}).fetchall()
+        out: list[dict[str, Any]] = []
+        for r in rows:
+            try:
+                raw = r.raw if isinstance(r.raw, dict) else _json.loads(r.raw) if r.raw else {}
+            except Exception:
+                raw = {}
+            pages = raw.get('pages') or []
+            page_summaries = [classify_page(p.get('url'), p.get('tables') or []) for p in pages]
+            out.append({
+                "extraction_id": int(r.id),
+                "site_url": str(getattr(r, 'site_url', '') or ''),
+                "updated_at": str(getattr(r, 'updated_at', '') or ''),
+                "pages": page_summaries,
+            })
+        return {"count": len(out), "extractions": out}
 
 # Public connect endpoint (local auth compatible): attach CBS credentials to a site user by email or user_uuid
 @app.post("/api/public/providers/cbs/connect_local", response_model=dict)
@@ -4561,6 +4653,42 @@ async def save_cbs_cookies(payload: Dict[str, Any]) -> Dict[str, Any]:
             "UPDATE provider_accounts SET secret_ref = :secret, last_verified_at = NOW() WHERE user_id = :uid AND provider_id = :pid"
         ), {"uid": user_id, "pid": provider_id, "secret": secret_ref})
 
+        return {"ok": True}
+
+# Public enqueue: trigger a provider sync run for CBS using stored cookies (no auth; identify by email or user_uuid)
+@app.post("/api/public/providers/cbs/sync_enqueue", response_model=dict)
+async def enqueue_cbs_sync(payload: Dict[str, Any]) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    email = (payload.get("email") or "").strip().lower()
+    user_uuid = (payload.get("user_uuid") or "").strip()
+    if not email and not user_uuid:
+        raise HTTPException(status_code=400, detail="email_or_user_uuid_required")
+    with get_fantasy_session() as session:
+        # Resolve site user id
+        user_id = None
+        if user_uuid:
+            row = session.execute(sa_text("SELECT id FROM site_users WHERE user_uuid = :u"), {"u": user_uuid}).fetchone()
+            if row:
+                user_id = int(row.id)
+        if user_id is None and email:
+            row = session.execute(sa_text("SELECT id FROM site_users WHERE lower(email) = :e"), {"e": email}).fetchone()
+            if row:
+                user_id = int(row.id)
+        if user_id is None:
+            raise HTTPException(status_code=404, detail="user_not_found")
+
+        # Ensure provider exists
+        session.execute(sa_text("INSERT INTO providers(slug, name) VALUES('cbs','CBS Sports') ON CONFLICT (slug) DO NOTHING"))
+        pid_row = session.execute(sa_text("SELECT id FROM providers WHERE slug='cbs'"))
+        p = pid_row.fetchone()
+        if not p:
+            raise HTTPException(status_code=500, detail="provider_missing")
+        provider_id = int(p.id)
+
+        # Enqueue
+        session.execute(sa_text(
+            "INSERT INTO provider_sync_runs(user_id, provider_id, status, meta) VALUES (:uid, :pid, 'queued', '{}'::jsonb)"
+        ), {"uid": user_id, "pid": provider_id})
         return {"ok": True}
 
 # --- Content sources management and feed ---

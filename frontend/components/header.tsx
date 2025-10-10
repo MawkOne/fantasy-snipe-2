@@ -114,6 +114,13 @@ export default function Header() {
                   <Link href="/account">
                     <User className="w-5 h-5 text-gray-300 hover:text-white" />
                   </Link>
+                  <button
+                    onClick={() => { try { localStorage.removeItem('fantasy_api_key'); localStorage.removeItem('fantasy_user'); } catch {}; logout(); window.location.href = '/'; }}
+                    className="text-gray-300 hover:text-white flex items-center"
+                    aria-label="Logout"
+                  >
+                    <LogOut className="w-5 h-5" />
+                  </button>
                 </div>
               ) : (
                 <Link href="/login">

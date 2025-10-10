@@ -14,7 +14,7 @@ type RosterRow = {
 
 export default function MyTeamContent() {
   const [rows, setRows] = useState<RosterRow[] | null>(null)
-  const [teamName] = useState<string>("New Oilers Nation")
+  const [teamName, setTeamName] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
   const [rosterPositions, setRosterPositions] = useState<Record<string, number>>({})
 
@@ -40,17 +40,32 @@ export default function MyTeamContent() {
             }
           }
         } catch {}
-        const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/draft_state`, { cache: "no-store" })
+        // Fetch authenticated overview for user's league
+        const apiKey = (typeof window !== 'undefined') ? localStorage.getItem('fantasy_api_key') : null
+        const headers: Record<string, string> = { }
+        if (apiKey) headers['x-api-key'] = apiKey
+        const res = await fetch(`${apiBase}/api/user/cbs/league/uhhp/overview`, { cache: "no-store", headers })
         if (!res.ok) { setRows([]); return }
         const data = await res.json()
         const teams = Array.isArray(data?.teams) ? data.teams as any[] : []
         const rosters = Array.isArray(data?.rosters) ? data.rosters as any[] : []
-        const team = teams.find((t: any) => (t?.team_name || "").toString() === teamName)
-        const tid = team?.team_id
+        const userTeamId = data?.user_team_id ? String(data.user_team_id) : null
+        let team = null as any
+        let tid = null as any
+        if (userTeamId) {
+          team = teams.find((t: any) => String(t?.team_id) === userTeamId) || null
+          tid = userTeamId
+        }
+        if (!tid) {
+          // Fallback: first team
+          team = teams[0] || null
+          tid = team?.team_id
+        }
+        if (team && team.team_name && !teamName) setTeamName(String(team.team_name))
         const mine = rosters.filter((r: any) => String(r.team_id) === String(tid))
         const mapped: RosterRow[] = mine.map((r: any) => ({
-          position: (r.position || '').toString().toUpperCase(),
-          player_name: r.player_name || String(r.cbs_player_id || r.nhl_player_id || ''),
+          position: (r.slot_type || r.position || '').toString().toUpperCase(),
+          player_name: r.full_name || r.player_name || String(r.cbs_player_id || r.nhl_player_id || ''),
           nhl_player_id: typeof r.nhl_player_id === 'number' ? r.nhl_player_id : undefined,
           status: r.status || null,
           salary: r.salary ?? null,

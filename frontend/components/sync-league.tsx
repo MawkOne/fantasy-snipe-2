@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -30,6 +31,7 @@ type League = {
 
 export default function SyncLeague() {
   const { toast } = useToast()
+  const router = useRouter()
   const [selectedProvider, setSelectedProvider] = useState<ProviderId | null>(null)
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
@@ -72,10 +74,8 @@ export default function SyncLeague() {
         const data = await res.json().catch(()=>({}))
         throw new Error(data?.detail || 'Failed to save credentials')
       }
-      setIsConnected(true)
-      setLeagues(sampleLeagues)
-      setSelectedLeagues({ 3: true })
-      toast({ title: 'Connected', description: 'Credentials saved. Discovering leagues...' })
+      toast({ title: 'Credentials saved', description: 'Next: open the CBS login and run the extension sync.' })
+      router.push('/sync/extension')
     } catch (e: any) {
       toast({ title: 'Connection failed', description: e?.message || 'Try again', variant: 'destructive' })
     } finally {
