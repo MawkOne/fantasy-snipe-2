@@ -45,13 +45,44 @@ app = FastAPI(
 )
 
 # Add CORS middleware
+import os as _os
+import time as _time
+from collections import defaultdict as _defaultdict
+from threading import Lock as _Lock
+_allowed = (_os.getenv("ALLOWED_ORIGINS") or "*").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure this properly for production
+    allow_origins=[o.strip() for o in _allowed if o.strip()] or ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# --- Minimal in-memory rate limiter (per-IP, per-minute) ---
+_rl_lock = _Lock()
+_rl_hits = _defaultdict(list)  # key -> [timestamps]
+_RL_LIMIT = int((_os.getenv("RATE_LIMIT_PER_MINUTE") or "240").strip() or 240)
+
+def rate_limit(request: Request) -> None:
+    try:
+        ip = request.client.host if request and request.client else "unknown"
+    except Exception:
+        ip = "unknown"
+    now = _time.time()
+    window_start = now - 60.0
+    key = f"ip:{ip}"
+    with _rl_lock:
+        arr = _rl_hits[key]
+        # drop old
+        i = 0
+        for i in range(len(arr)):
+            if arr[i] >= window_start:
+                break
+        if i > 0:
+            del arr[:i]
+        if len(arr) >= _RL_LIMIT:
+            raise HTTPException(status_code=429, detail="rate_limited")
+        arr.append(now)
 
 # Security
 security = HTTPBearer()
@@ -371,6 +402,12 @@ async def init_v2_tables():
 
 @app.post("/api/inseason/cbs/import", response_model=dict)
 async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Dict[str, Any]:
+    # Optional API key enforcement
+    expected_key = os.getenv("IMPORT_API_KEY")
+    if expected_key:
+        supplied = request.headers.get("x-api-key")
+        if not supplied or supplied != expected_key:
+            raise HTTPException(status_code=401, detail="invalid_api_key")
     from sqlalchemy import text as sa_text
     import json as _json
     raw = payload
@@ -609,14 +646,29 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
             # Process Teams/All (rosters) and Projections pages
             def upsert_team(session, league_id: int, team_name: str, cbs_team_id: Optional[str], owner_display: Optional[str]):
                 team_key = cbs_team_id or slugify(team_name)
+                owner_key = None
+                if owner_display:
+                    # Persist owner if not already present. Use per-league scoped key to avoid cross-league collisions.
+                    owner_key = f"{league_id}:{slugify(str(owner_display))}"
+                    session.execute(sa_text(
+                        """
+                        INSERT INTO new_cbs_owners (owner_id, display_name)
+                        SELECT :oid, :name
+                        WHERE NOT EXISTS (
+                            SELECT 1 FROM new_cbs_owners WHERE owner_id = :oid
+                        )
+                        """
+                    ), {"oid": owner_key, "name": str(owner_display)})
+
                 session.execute(sa_text(
                     """
                     INSERT INTO new_cbs_teams (league_id, team_id, team_name, owner_id)
                     VALUES (:lid, :tid, :tname, :owner)
                     ON CONFLICT (league_id, team_id)
-                    DO UPDATE SET team_name = EXCLUDED.team_name
+                    DO UPDATE SET team_name = EXCLUDED.team_name,
+                                  owner_id = COALESCE(EXCLUDED.owner_id, new_cbs_teams.owner_id)
                     """
-                ), {"lid": league_id, "tid": team_key, "tname": team_name, "owner": None})
+                ), {"lid": league_id, "tid": team_key, "tname": team_name, "owner": owner_key})
 
             # Clear existing roster snapshot for this league before reinsert
             if new_league_id is not None:
@@ -624,48 +676,72 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
 
             for page in (raw.get('pages') or []):
                 url = page.get('url') or ''
+                page_ctx = (page.get('context') or {}) if isinstance(page.get('context'), dict) else {}
                 for tbl in (page.get('tables') or []):
                     headers = tbl.get('headers') or []
                     rows = tbl.get('rows') or []
-                    # Teams/All roster rows with cbs_player_id
-                    if any(h.lower() in ('players','player') for h in headers) and any('cbs_player_id' in r for r in rows):
+                    # Generic roster/player detection: any row with cbs_player_id is a player row
+                    # Derive team from row or table context
+                    if any(isinstance(r, dict) and r.get('cbs_player_id') for r in rows):
                         for r in rows:
                             cbs_pid = r.get('cbs_player_id')
-                            if not cbs_pid: continue
-                            full_name = r.get('player_name') or (r.get('Players') or '').split(' • ')[0]
+                            if not cbs_pid:
+                                continue
+                            const_name = r.get('player_name') or r.get('Player') or r.get('Players') or ''
+                            full_name = (const_name.split(' • ')[0]).strip() if isinstance(const_name, str) else str(const_name)
                             pos = r.get('Pos') or None
-                            # Player upsert
+                            # Player upsert (always)
                             session.execute(sa_text(
                                 """
                                 INSERT INTO new_cbs_players (cbs_player_id, full_name, pos_primary)
                                 VALUES (:pid, :name, :pos)
                                 ON CONFLICT (cbs_player_id)
-                                DO UPDATE SET full_name = EXCLUDED.full_name, pos_primary = COALESCE(EXCLUDED.pos_primary, new_cbs_players.pos_primary)
+                                DO UPDATE SET full_name = EXCLUDED.full_name,
+                                              pos_primary = COALESCE(EXCLUDED.pos_primary, new_cbs_players.pos_primary)
                                 """
                             ), {"pid": str(cbs_pid), "name": str(full_name or ''), "pos": str(pos or '') or None})
                             upserts_summary["players"] += 1
 
                             if new_league_id is not None:
-                                team_name = r.get('team_name') or r.get('Team') or r.get('Team Name') or ''
+                                team_name = (
+                                    r.get('team_name') or r.get('Team') or r.get('Team Name') or page_ctx.get('team_name') or ''
+                                )
                                 cbs_team_id = r.get('cbs_team_id')
                                 if team_name:
-                                    upsert_team(session, new_league_id, team_name, cbs_team_id, owners_by_team.get(team_name))
+                                    owner_display = owners_by_team.get(team_name) or r.get('team_owner')
+                                    upsert_team(session, new_league_id, team_name, cbs_team_id, owner_display)
                                     upserts_summary["teams"] += 1
                                     slot_type = r.get('Pos') or None
                                     salary = None
                                     years = None
                                     rookie = None
-                                    try: salary = float(str(r.get('salary') or '').strip() or 0)
-                                    except Exception: pass
-                                    try: years = int(str(r.get('Years') or '').strip() or 0)
-                                    except Exception: pass
+                                    try:
+                                        salary = float(str(r.get('salary') or '').strip() or 0)
+                                    except Exception:
+                                        pass
+                                    try:
+                                        years = int(str(r.get('Years') or '').strip() or 0)
+                                    except Exception:
+                                        pass
                                     rookie = bool(str(r.get('Rookie') or '').strip())
                                     session.execute(sa_text(
                                         """
-                                        INSERT INTO new_cbs_rosters (league_id, team_id, cbs_player_id, slot_type, salary, years, rookie, source_url, captured_at)
-                                        VALUES (:lid, :tid, :pid, :slot, :sal, :yrs, :rook, :src, NOW())
+                                        INSERT INTO new_cbs_rosters (
+                                            league_id, team_id, cbs_player_id, slot_type, salary, years, rookie, source_url, captured_at
+                                        ) VALUES (
+                                            :lid, :tid, :pid, :slot, :sal, :yrs, :rook, :src, NOW()
+                                        )
                                         """
-                                    ), {"lid": new_league_id, "tid": cbs_team_id or slugify(team_name), "pid": str(cbs_pid), "slot": slot_type, "sal": salary, "yrs": years, "rook": rookie, "src": url})
+                                    ), {
+                                        "lid": new_league_id,
+                                        "tid": cbs_team_id or slugify(team_name),
+                                        "pid": str(cbs_pid),
+                                        "slot": slot_type,
+                                        "sal": salary,
+                                        "yrs": years,
+                                        "rook": rookie,
+                                        "src": url
+                                    })
                                     upserts_summary["rosters"] += 1
                     # Projections pages
                     if 'stats-main' in url and any('FPTS' in headers for _ in [0]):
@@ -2751,6 +2827,261 @@ async def get_cbs_league_draft_state(slug: str, season: int = 2025) -> Dict[str,
         except Exception as e:
             logger.error(f"CBS draft state failed: {e}")
             raise HTTPException(status_code=500, detail="Failed to read CBS draft state")
+@app.get("/api/user/cbs/league/{slug}/overview", response_model=dict)
+async def get_user_league_overview(slug: str, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+    """Return league overview for a user: teams (with owners), rosters, full rules, and the user's team.
+    Uses the newer new_cbs_* schema when available; gracefully falls back to legacy cbs_* if needed.
+    """
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        try:
+            lid_row = session.execute(sa_text("SELECT id FROM new_cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
+            if not lid_row:
+                lid_row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
+            if not lid_row:
+                raise HTTPException(status_code=404, detail="League not found")
+            league_id = int(lid_row.id)
+
+            user_subject = getattr(current_user, "subject", None) or getattr(current_user, "sub", None) or None
+            user_team_id = None
+            if user_subject:
+                row = session.execute(sa_text(
+                    "SELECT team_id FROM cbs_user_memberships WHERE league_id = :lid AND user_subject = :sub"
+                ), {"lid": league_id, "sub": user_subject}).fetchone()
+                if row and row.team_id is not None:
+                    user_team_id = str(row.team_id)
+
+            def _safe_select(sql: str, params: Dict[str, Any]) -> List[Dict[str, Any]]:
+                try:
+                    rs = session.execute(sa_text(sql), params).fetchall()
+                    return [dict(r._mapping) for r in rs]
+                except Exception:
+                    return []
+
+            teams = _safe_select(
+                """
+                SELECT t.team_id, t.team_name, COALESCE(o.display_name,'') AS owner_name, t.owner_id,
+                       t.abbrev, t.long_abbr, t.short_name, t.logo_url, t.is_active
+                  FROM new_cbs_teams t
+                  LEFT JOIN new_cbs_owners o ON o.owner_id = t.owner_id
+                 WHERE t.league_id = :lid
+                 ORDER BY t.team_name
+                """,
+                {"lid": league_id}
+            )
+            if not teams:
+                teams = _safe_select(
+                    """
+                    SELECT t.team_id, t.team_name, t.owner_id, t.abbrev, t.long_abbr, t.short_name, t.logo_url
+                      FROM cbs_teams t
+                     WHERE t.league_id = :lid
+                     ORDER BY t.team_name
+                    """,
+                    {"lid": league_id}
+                )
+
+            rosters = _safe_select(
+                """
+                SELECT r.league_id, r.team_id, r.cbs_player_id, r.slot_type, r.salary, r.years, r.rookie,
+                       r.status, r.acquired_via, r.source_url, r.captured_at,
+                       p.full_name, p.pos_primary
+                  FROM new_cbs_rosters r
+                  LEFT JOIN new_cbs_players p ON p.cbs_player_id = r.cbs_player_id
+                 WHERE r.league_id = :lid
+                """,
+                {"lid": league_id}
+            )
+            if not rosters:
+                rosters = _safe_select(
+                    """
+                    SELECT r.league_id, r.team_id, r.cbs_player_id, r.slot_type, r.salary, r.years, r.rookie,
+                           r.status, r.acquired_via, r.source_url, r.captured_at
+                      FROM cbs_rosters r
+                     WHERE r.league_id = :lid
+                    """,
+                    {"lid": league_id}
+                )
+
+            rules_row = session.execute(sa_text(
+                "SELECT roster_positions, source_url, captured_at, raw_meta FROM new_cbs_league_rules WHERE league_id = :lid"
+            ), {"lid": league_id}).fetchone()
+            if rules_row:
+                rules = dict(rules_row._mapping)
+            else:
+                rules_row = session.execute(sa_text(
+                    "SELECT roster_positions, lineup_deadline, ir_options, scoring_mode, scoring_policies, source_url, captured_at FROM cbs_league_rules WHERE league_id = :lid"
+                ), {"lid": league_id}).fetchone()
+                rules = dict(rules_row._mapping) if rules_row else {}
+
+            scoring = _safe_select(
+                "SELECT stat_code, stat_name, points FROM new_cbs_scoring_rules WHERE league_id = :lid",
+                {"lid": league_id}
+            )
+            if not scoring:
+                scoring = _safe_select(
+                    "SELECT stat_code, stat_name, points, category FROM cbs_scoring_rules WHERE league_id = :lid",
+                    {"lid": league_id}
+                )
+
+            return {
+                "league_id": league_id,
+                "slug": slug,
+                "teams": teams,
+                "rosters": rosters,
+                "rules": rules,
+                "scoring": scoring,
+                "user_team_id": user_team_id,
+            }
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"League overview failed: {e}")
+            raise HTTPException(status_code=500, detail="Failed to read league overview")
+
+@app.get("/api/user/cbs/league/{slug}/waivers", response_model=dict)
+async def list_waiver_players_user(slug: str, limit: int = 500, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+    return await list_waiver_players(slug, limit)
+
+@app.get("/api/user/cbs/league/{slug}/schedule", response_model=dict)
+async def get_league_schedule_user(slug: str, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+    return await get_league_schedule(slug)
+
+@app.get("/api/user/cbs/league/{slug}/transactions", response_model=dict)
+async def get_league_transactions_user(slug: str, limit: int = 200, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+    return await get_league_transactions(slug, limit)
+
+@app.get("/api/public/cbs/league/{slug}/waivers", response_model=dict)
+async def list_waiver_players(slug: str, limit: int = 500) -> Dict[str, Any]:
+    """Players not currently rostered in the league (approximation of waivers)."""
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        try:
+            lid_row = session.execute(sa_text("SELECT id FROM new_cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
+            if not lid_row:
+                lid_row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
+            if not lid_row:
+                raise HTTPException(status_code=404, detail="League not found")
+            league_id = int(lid_row.id)
+
+            rostered = session.execute(sa_text(
+                "SELECT DISTINCT cbs_player_id FROM new_cbs_rosters WHERE league_id = :lid"
+            ), {"lid": league_id}).fetchall()
+            rostered_ids = {str(r[0]) for r in rostered} if rostered else set()
+            use_new = True
+            if not rostered_ids:
+                use_new = False
+                rostered = session.execute(sa_text(
+                    "SELECT DISTINCT cbs_player_id FROM cbs_rosters WHERE league_id = :lid"
+                ), {"lid": league_id}).fetchall()
+                rostered_ids = {str(r[0]) for r in rostered}
+
+            if use_new:
+                rows = session.execute(sa_text(
+                    """
+                    SELECT p.cbs_player_id, p.full_name, p.pos_primary
+                      FROM new_cbs_players p
+                     WHERE NOT EXISTS (
+                           SELECT 1 FROM new_cbs_rosters r WHERE r.league_id = :lid AND r.cbs_player_id = p.cbs_player_id
+                     )
+                     ORDER BY p.full_name
+                     LIMIT :lim
+                    """
+                ), {"lid": league_id, "lim": int(limit)}).fetchall()
+            else:
+                rows = session.execute(sa_text(
+                    """
+                    SELECT p.cbs_player_id, p.full_name, p.pos_primary
+                      FROM new_cbs_players p
+                     WHERE NOT EXISTS (
+                           SELECT 1 FROM cbs_rosters r WHERE r.league_id = :lid AND r.cbs_player_id = p.cbs_player_id
+                     )
+                     ORDER BY p.full_name
+                     LIMIT :lim
+                    """
+                ), {"lid": league_id, "lim": int(limit)}).fetchall()
+
+            waivers = [dict(r._mapping) for r in rows]
+            return {"league_id": league_id, "slug": slug, "count": len(waivers), "players": waivers}
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"List waivers failed: {e}")
+            raise HTTPException(status_code=500, detail="Failed to list waivers")
+
+@app.get("/api/public/cbs/league/{slug}/schedule", response_model=dict)
+async def get_league_schedule(slug: str) -> Dict[str, Any]:
+    """Return scoring periods and matchups (legacy CBS schema)."""
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        try:
+            lid_row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
+            if not lid_row:
+                lid_row = session.execute(sa_text("SELECT id FROM new_cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
+                if not lid_row:
+                    raise HTTPException(status_code=404, detail="League not found")
+                return {"league_id": int(lid_row.id), "slug": slug, "periods": [], "matchups": []}
+            league_id = int(lid_row.id)
+
+            periods = session.execute(sa_text(
+                "SELECT period_no, start_date, end_date, is_playoffs FROM cbs_scoring_periods WHERE league_id = :lid ORDER BY period_no"
+            ), {"lid": league_id}).fetchall()
+            matchups = session.execute(sa_text(
+                """
+                SELECT period_no, home_team_id, away_team_id, home_score, away_score, status
+                  FROM cbs_matchups
+                 WHERE league_id = :lid
+                 ORDER BY period_no, home_team_id, away_team_id
+                """
+            ), {"lid": league_id}).fetchall()
+            return {"league_id": league_id, "slug": slug, "periods": [dict(r._mapping) for r in periods], "matchups": [dict(r._mapping) for r in matchups]}
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Get schedule failed: {e}")
+            raise HTTPException(status_code=500, detail="Failed to read schedule")
+
+@app.get("/api/public/cbs/league/{slug}/transactions", response_model=dict)
+async def get_league_transactions(slug: str, limit: int = 200) -> Dict[str, Any]:
+    """Return latest league transactions (legacy CBS schema if present)."""
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        try:
+            lid_row = session.execute(sa_text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
+            if not lid_row:
+                lid_row = session.execute(sa_text("SELECT id FROM new_cbs_leagues WHERE provider_slug = :slug"), {"slug": slug}).fetchone()
+                if not lid_row:
+                    raise HTTPException(status_code=404, detail="League not found")
+                return {"league_id": int(lid_row.id), "slug": slug, "transactions": []}
+            league_id = int(lid_row.id)
+
+            tx_rows = session.execute(sa_text(
+                """
+                SELECT id, season, txn_type, occurred_at, description, source_url
+                  FROM cbs_transactions
+                 WHERE league_id = :lid
+                 ORDER BY occurred_at DESC NULLS LAST, id DESC
+                 LIMIT :lim
+                """
+            ), {"lid": league_id, "lim": int(limit)}).fetchall()
+            txs = [dict(r._mapping) for r in tx_rows]
+
+            if not txs:
+                return {"league_id": league_id, "slug": slug, "transactions": []}
+
+            ids = [int(t["id"]) for t in txs]
+            items = []
+            if ids:
+                items_rows = session.execute(sa_text(
+                    "SELECT txn_id, cbs_player_id, from_team_id, to_team_id, faab_delta, notes FROM cbs_transaction_items WHERE txn_id = ANY(:ids)"
+                ), {"ids": ids}).fetchall()
+                items = [dict(r._mapping) for r in items_rows]
+
+            return {"league_id": league_id, "slug": slug, "transactions": txs, "items": items}
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Get transactions failed: {e}")
+            raise HTTPException(status_code=500, detail="Failed to read transactions")
 @app.get("/api/public/cbs/teams/{team_id}/roster", response_model=dict)
 async def get_cbs_team_roster(team_id: str, draft_year: int | None = None) -> Dict[str, Any]:
     """Return a single team's roster with player names, slot type, salary, years, NHL id, and RFA/UFA status.
@@ -3967,6 +4298,179 @@ async def get_user_api_keys(current_user: FantasyUser = Depends(get_current_user
                 } for key in api_keys
             ]
         }
+
+# Provider accounts (connect/revoke/status)
+@app.post("/api/user/providers/{provider_slug}/connect", response_model=dict)
+async def connect_provider_account(provider_slug: str, payload: Dict[str, Any], current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    login = str(payload.get("login") or "").strip()
+    secret_ref = str(payload.get("secret_ref") or "").strip()
+    if not login or not secret_ref:
+        raise HTTPException(status_code=400, detail="login and secret_ref are required")
+    with get_fantasy_session() as session:
+        # ensure provider exists
+        prow = session.execute(sa_text("SELECT id FROM providers WHERE slug=:s"), {"s": provider_slug}).fetchone()
+        if not prow:
+            session.execute(sa_text("INSERT INTO providers(slug, name) VALUES(:s, :n) ON CONFLICT (slug) DO NOTHING"), {"s": provider_slug, "n": provider_slug.upper()})
+            prow = session.execute(sa_text("SELECT id FROM providers WHERE slug=:s"), {"s": provider_slug}).fetchone()
+        pid = int(prow.id)
+        session.execute(sa_text(
+            """
+            INSERT INTO provider_accounts(user_id, provider_id, login, secret_ref)
+            VALUES (:uid, :pid, :login, :secret)
+            ON CONFLICT DO NOTHING
+            """
+        ), {"uid": getattr(current_user, "id", None), "pid": pid, "login": login, "secret": secret_ref})
+        return {"ok": True}
+
+@app.post("/api/user/providers/{provider_slug}/revoke", response_model=dict)
+async def revoke_provider_account(provider_slug: str, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        prow = session.execute(sa_text("SELECT id FROM providers WHERE slug=:s"), {"s": provider_slug}).fetchone()
+        if not prow:
+            return {"ok": True}
+        pid = int(prow.id)
+        session.execute(sa_text("DELETE FROM provider_accounts WHERE user_id=:uid AND provider_id=:pid"), {"uid": getattr(current_user, "id", None), "pid": pid})
+        return {"ok": True}
+
+@app.get("/api/user/providers/{provider_slug}/status", response_model=dict)
+async def provider_account_status(provider_slug: str, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        prow = session.execute(sa_text("SELECT id FROM providers WHERE slug=:s"), {"s": provider_slug}).fetchone()
+        if not prow:
+            return {"connected": False}
+        pid = int(prow.id)
+        row = session.execute(sa_text("SELECT id, last_verified_at FROM provider_accounts WHERE user_id=:uid AND provider_id=:pid"), {"uid": getattr(current_user, "id", None), "pid": pid}).fetchone()
+        return {"connected": bool(row), "last_verified_at": (str(getattr(row, 'last_verified_at', '')) if row else None)}
+
+# Health check
+@app.get("/api/healthz")
+async def healthz() -> Dict[str, Any]:
+    try:
+        from sqlalchemy import text as sa_text
+        with get_fantasy_session() as session:
+            session.execute(sa_text("SELECT 1"))
+        return {"ok": True, "db": "up"}
+    except Exception:
+        return {"ok": False, "db": "down"}
+
+# Metrics (basic)
+@app.get("/api/metrics")
+async def metrics() -> str:
+    # Very basic placeholder; integrate Prometheus client in the future
+    return "app_up 1\n"
+
+# Provider sync trigger
+@app.post("/api/user/providers/{provider_slug}/sync", response_model=dict)
+async def trigger_provider_sync(provider_slug: str, current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        prow = session.execute(sa_text("SELECT id FROM providers WHERE slug=:s"), {"s": provider_slug}).fetchone()
+        if not prow:
+            raise HTTPException(status_code=404, detail="Provider not found")
+        pid = int(prow.id)
+        # Record a sync run (a worker can pick this up)
+        session.execute(sa_text(
+            "INSERT INTO provider_sync_runs(user_id, provider_id, status, meta) VALUES (:uid, :pid, 'queued', '{}'::jsonb)"
+        ), {"uid": getattr(current_user, "id", None), "pid": pid})
+        return {"ok": True, "status": "queued"}
+
+# --- Content sources management and feed ---
+@app.post("/api/user/content/sources", response_model=dict)
+async def create_content_source(payload: Dict[str, Any], current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+    kind = str(payload.get("kind") or "").strip().lower()
+    url_or_handle = str(payload.get("url_or_handle") or "").strip()
+    filters = payload.get("filters") or {}
+    active = bool(payload.get("active", True))
+    if kind not in {"rss", "social"}:
+        raise HTTPException(status_code=400, detail="invalid kind")
+    if not url_or_handle:
+        raise HTTPException(status_code=400, detail="url_or_handle required")
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        session.execute(sa_text(
+            """
+            INSERT INTO content_sources(user_id, kind, url_or_handle, filters, active)
+            VALUES (:uid, :kind, :uoh, CAST(:filters AS JSONB), :active)
+            """
+        ), {"uid": getattr(current_user, "id", None), "kind": kind, "uoh": url_or_handle, "filters": json.dumps(filters), "active": active})
+        return {"ok": True}
+
+@app.get("/api/user/content/sources", response_model=dict)
+async def list_content_sources(current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        rows = session.execute(sa_text(
+            "SELECT id, kind, url_or_handle, filters, active, created_at FROM content_sources WHERE user_id = :uid ORDER BY created_at DESC"
+        ), {"uid": getattr(current_user, "id", None)}).fetchall()
+        return {"sources": [dict(r._mapping) for r in rows]}
+
+@app.delete("/api/user/content/sources/{source_id}", response_model=dict)
+async def delete_content_source(source_id: int, current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        session.execute(sa_text("DELETE FROM content_sources WHERE id=:id AND user_id=:uid"), {"id": int(source_id), "uid": getattr(current_user, "id", None)})
+        return {"ok": True}
+
+@app.get("/api/user/content/feed", response_model=dict)
+async def get_content_feed(limit: int = 100, current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+    limit = max(1, min(500, int(limit)))
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        rows = session.execute(sa_text(
+            """
+            SELECT i.id, i.title, i.url, i.published_at, i.text, i.entities, s.kind, s.url_or_handle
+              FROM content_items i
+              JOIN content_sources s ON s.id = i.source_id
+             WHERE s.user_id = :uid
+             ORDER BY i.published_at DESC NULLS LAST, i.id DESC
+             LIMIT :lim
+            """
+        ), {"uid": getattr(current_user, "id", None), "lim": limit}).fetchall()
+        return {"items": [dict(r._mapping) for r in rows]}
+
+@app.post("/api/user/content/jobs", response_model=dict)
+async def create_content_job(payload: Dict[str, Any], current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+    kind = str(payload.get("kind") or "").strip().lower()  # podcast, summary
+    league_id = payload.get("league_id")
+    inputs_ref = payload.get("inputs_ref") or {}
+    if kind not in {"podcast", "summary"}:
+        raise HTTPException(status_code=400, detail="invalid kind")
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        row = session.execute(sa_text(
+            """
+            INSERT INTO content_jobs(user_id, league_id, kind, status, inputs_ref)
+            VALUES (:uid, :lid, :kind, 'queued', CAST(:inputs AS JSONB))
+            RETURNING id
+            """
+        ), {"uid": getattr(current_user, "id", None), "lid": league_id, "kind": kind, "inputs": json.dumps(inputs_ref)}).fetchone()
+        return {"ok": True, "job_id": int(row.id) if row else None}
+
+@app.get("/api/user/content/jobs", response_model=dict)
+async def list_content_jobs(current_user: FantasyUser = Depends(get_current_user), limit: int = 100) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    limit = max(1, min(500, int(limit)))
+    with get_fantasy_session() as session:
+        rows = session.execute(sa_text(
+            "SELECT id, league_id, kind, status, requested_at, completed_at FROM content_jobs WHERE user_id = :uid ORDER BY requested_at DESC NULLS LAST, id DESC LIMIT :lim"
+        ), {"uid": getattr(current_user, "id", None), "lim": limit}).fetchall()
+        return {"jobs": [dict(r._mapping) for r in rows]}
+
+@app.get("/api/user/content/jobs/{job_id}/assets", response_model=dict)
+async def list_content_assets(job_id: int, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        # ensure ownership
+        owner = session.execute(sa_text("SELECT 1 FROM content_jobs WHERE id=:id AND user_id=:uid"), {"id": int(job_id), "uid": getattr(current_user, "id", None)}).fetchone()
+        if not owner:
+            raise HTTPException(status_code=404, detail="job_not_found")
+        rows = session.execute(sa_text(
+            "SELECT kind, url, size, created_at FROM content_assets WHERE job_id = :id ORDER BY created_at DESC"
+        ), {"id": int(job_id)}).fetchall()
+        return {"assets": [dict(r._mapping) for r in rows]}
 
 if __name__ == "__main__":
     import uvicorn

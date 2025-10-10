@@ -93,11 +93,22 @@ document.getElementById('uploadCurrent')?.addEventListener('click', async () => 
   log('Sync (current page) started…');
   const btn = document.getElementById('uploadCurrent');
   if (btn) btn.disabled = true;
-  chrome.runtime.sendMessage({ cmd: 'UPLOAD_CURRENT_TO_API' }, (res) => {
-    if (chrome.runtime.lastError) { log({ ok:false, error: chrome.runtime.lastError.message }); if (btn) btn.disabled = false; return; }
-    // Background writes all status lines; just re-enable button
+  try {
+    // Delegate to background so it keeps running if popup closes
+    const res = await new Promise(resolve => {
+      chrome.runtime.sendMessage({ cmd: 'UPLOAD_CURRENT_TO_API' }, (r) => {
+        if (chrome.runtime.lastError) return resolve({ ok:false, error: chrome.runtime.lastError.message });
+        resolve(r);
+      });
+    });
+    if (res?.ok) {
+      append('Result: ok');
+    } else {
+      append(`Result: failed${res?.status ? ` HTTP ${res.status}` : ''}`);
+    }
+  } finally {
     if (btn) btn.disabled = false;
-  });
+  }
 });
 
 // --- New: Persist API config in chrome.storage and upload helpers ---
@@ -120,7 +131,11 @@ chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey', 'cbsEmail'], ({ cbsApiUrl, cb
   emailInput.disabled = false;
   passwordInput.disabled = false;
   // Disable sync unless we have an API key
-  syncBtn.disabled = !Boolean(apiKeyInput.value);
+  const hasKey = Boolean(apiKeyInput.value);
+  syncBtn.disabled = !hasKey;
+  // Also enable Upload This Page only when logged in
+  const upBtn = document.getElementById('uploadCurrent');
+  if (upBtn) upBtn.disabled = !hasKey;
 });
 
 // If you ever re-enable editing, this persists the override
@@ -158,7 +173,31 @@ async function uploadThisJson() {
     const resp = await chrome.tabs.sendMessage(tab.id, { cmd: 'EXTRACT_JSON' });
     if (!resp?.ok) return log(resp || { ok:false, error:'no response from content script' });
     const payload = { exportedAt: new Date().toISOString(), pages: [resp] };
-    await uploadPayload(payload);
+    const payloadStr = JSON.stringify(payload);
+    append(`Captured: ${resp.url || tab.url || ''} -> ok (tables=${resp.tables?.length || 0}, bytes=${payloadStr.length})`);
+    // Actually send
+    const apiUrl = (apiUrlInput.value.trim() || DEFAULT_API_URL);
+    const apiKey = apiKeyInput.value.trim();
+    if (!apiKey) { append('Login required (no API key).'); return; }
+    append(`POST -> ${apiUrl} (apiKey=yes)`);
+    try {
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(apiKey ? { 'x-api-key': apiKey } : {}) },
+        body: payloadStr,
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        const exId = data?.extraction_id;
+        append(`Synced: ${resp.url || tab.url || ''} -> ok${exId ? ` (extraction_id=${exId})` : ''}`);
+        log({ ok:true, uploaded:true, response: data });
+      } else {
+        append(`Synced: ${resp.url || tab.url || ''} -> failed (HTTP ${res.status})`);
+        log({ ok:false, status: res.status, response: data });
+      }
+    } catch (e) {
+      log({ ok:false, error:String(e) });
+    }
   } catch (e) {
     log({ ok:false, error:String(e) });
   }

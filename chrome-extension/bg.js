@@ -129,28 +129,75 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       try {
         setBadge('…', '#2f6bff');
         await chrome.storage.local.set({ syncLog: [`[${new Date().toLocaleTimeString()}] Sync (current page) started…`], syncRunning: true });
+
+        // Require login (API key) before attempting
+        const { cbsApiUrl, cbsApiKey } = await chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey']);
+        const uploadUrl = (cbsApiUrl || DEFAULT_API_URL);
+        if (!cbsApiKey) { await appendLog('Login required (no API key).'); sendResponse?.({ ok:false, error:'login-required' }); return; }
+        if (!uploadUrl) { sendResponse?.({ ok:false, error:'missing-api-url' }); return; }
+
         const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (!activeTab?.id) { await appendLog('No active tab'); sendResponse?.({ ok:false, error:'no-active-tab' }); return; }
 
-        const page = await navigateAndExtractFromAllFrames(activeTab.id, activeTab.url || '');
-        await appendLog(`Captured: ${activeTab.url} -> ${page?.ok ? 'ok' : (page?.reason || 'failed')}`);
+        // Do NOT navigate; just inject and collect from current page
+        await chrome.scripting.executeScript({ target: { tabId: activeTab.id, allFrames: true }, files: ['content.js'] }).catch(() => {});
+        let page = null;
+        for (let i = 0; i < 3; i++) {
+          await sleep(250 + i * 250);
+          page = await collectFromAllFrames(activeTab.id);
+          if (page?.ok) break;
+        }
+        // Fallback: inline extractor if content messaging failed
+        if (!page?.ok) {
+          try {
+            const [res] = await chrome.scripting.executeScript({
+              target: { tabId: activeTab.id, allFrames: false },
+              func: () => {
+                const clean = t => (t ?? "").replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+                const tables = [...document.querySelectorAll('table')].map((t, i) => {
+                  const headRow = t.querySelector('thead tr:last-child') || t.querySelector('tr');
+                  const headers = headRow ? [...headRow.querySelectorAll('th,td')].map(th => clean(th.innerText || th.textContent)) : [];
+                  const trs = [...t.querySelectorAll('tbody tr')];
+                  const rows = trs.map(tr => {
+                    const tds = [...tr.querySelectorAll('td')];
+                    const o = {};
+                    tds.forEach((td, idx) => {
+                      const key = headers[idx] || `col_${idx + 1}`;
+                      o[key] = clean(td.innerText || td.textContent);
+                      const a = td.querySelector('a[href*="/players/playerpage/"]');
+                      if (a) {
+                        const m = a.getAttribute('href')?.match(/\/players\/playerpage\/(\d+)/);
+                        if (m) o.cbs_player_id = m[1];
+                        o.player_url = a.href;
+                        o.player_name = clean(a.textContent || '');
+                      }
+                    });
+                    return o;
+                  });
+                  return { name: `table_${i+1}`, headers, rows };
+                });
+                return { ok: tables.length > 0, url: location.href, title: document.title || '', tables };
+              },
+            });
+            page = res?.result || page;
+          } catch {}
+        }
+
+        await appendLog(`Captured: ${page?.url || activeTab.url} -> ${page?.ok ? 'ok' : (page?.reason || 'failed')}`);
 
         if (!page?.ok) { sendResponse?.({ ok:false, error: page?.reason || 'no-tables' }); return; }
 
-        const { cbsApiUrl, cbsApiKey } = await chrome.storage.sync.get(['cbsApiUrl', 'cbsApiKey']);
-        const uploadUrl = (cbsApiUrl || DEFAULT_API_URL);
-        if (!uploadUrl) { sendResponse?.({ ok:false, error:'missing-api-url' }); return; }
         const payload = { exportedAt: new Date().toISOString(), pages: [page] };
-        await appendLog(`POST -> ${uploadUrl} (apiKey=${cbsApiKey ? 'yes' : 'no'})`);
+        await appendLog(`POST -> ${uploadUrl} (apiKey=yes)`);
         const res = await fetch(uploadUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', ...(cbsApiKey ? { 'x-api-key': cbsApiKey } : {}) },
+          headers: { 'Content-Type': 'application/json', 'x-api-key': cbsApiKey },
           body: JSON.stringify(payload)
         });
         const data = await res.json().catch(() => ({}));
         const ok = res.ok;
         const exId = data?.extraction_id || null;
-        await appendLog(ok ? `Synced: ${activeTab.url} -> ok${exId ? ` (extraction_id=${exId})` : ''}` : `Synced: ${activeTab.url} -> failed (HTTP ${res.status})`);
+        await appendLog(ok ? `Synced: ${page?.url || activeTab.url} -> ok${exId ? ` (extraction_id=${exId})` : ''}` : `Synced: ${page?.url || activeTab.url} -> failed (HTTP ${res.status})`);
         try { chrome.storage.local.set({ syncRunning: false }); } catch {}
         setBadge(ok ? '✓' : '!', ok ? '#16a34a' : '#dc2626');
         setTimeout(() => setBadge('', null), 8000);
@@ -161,8 +208,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         setBadge('!', '#dc2626');
         setTimeout(() => setBadge('', null), 8000);
         sendResponse?.({ ok:false, error: String(e) });
+      } finally {
+        SYNC_BUSY = false;
       }
-      SYNC_BUSY = false;
     }
   })();
   return true;
@@ -228,12 +276,13 @@ async function collectFromAllFrames(tabId) {
 
   const tabInfo = await chrome.tabs.get(tabId).catch(() => ({}));
   const tabUrl = tabInfo?.url || '';
+  const firstUrl = responses.length && responses[0]?.url ? responses[0].url : tabUrl;
 
   if (!responses.length) {
-    return { ok:false, url: tabUrl, reason:'no-tables', title:'' };
+    return { ok:false, url: firstUrl, reason:'no-tables', title:'' };
   }
 
-  const merged = { ok:true, url: tabUrl, title: '', tables: [] };
+  const merged = { ok:true, url: firstUrl, title: '', tables: [] };
   for (const r of responses) {
     merged.title = merged.title || r.title || '';
     merged.tables = merged.tables.concat(r.tables || []);
