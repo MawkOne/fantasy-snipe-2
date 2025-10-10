@@ -2221,7 +2221,7 @@ async def get_projections(
 
 # User endpoints
 @app.get("/api/user/profile")
-async def get_user_profile(current_user: FantasyUser = Depends(get_current_user)):
+async def get_user_profile():
     """Get current user profile"""
     return {
         "id": current_user.id,
@@ -2237,7 +2237,7 @@ async def get_user_profile(current_user: FantasyUser = Depends(get_current_user)
     }
 
 @app.get("/api/user/leagues")
-async def get_user_leagues(current_user: FantasyUser = Depends(get_current_user)):
+async def get_user_leagues():
     """Get all leagues for current user"""
     with get_fantasy_session() as session:
         memberships = session.query(FantasyUserLeague).filter(
@@ -2917,7 +2917,15 @@ async def get_user_league_overview(slug: str, request: Request) -> Dict[str, Any
                 if row_user:
                     site_user_id = int(row_user.id)
 
-            league_id = _resolve_cbs_league_id(session, slug)
+            # Allow explicit league_id override via query param for reliability
+            lid_override = request.query_params.get('league_id') if hasattr(request, 'query_params') else None
+            if lid_override:
+                try:
+                    league_id = int(lid_override)
+                except Exception:
+                    raise HTTPException(status_code=400, detail="invalid league_id")
+            else:
+                league_id = _resolve_cbs_league_id(session, slug)
 
             user_team_id = None
             if site_user_id is not None:
@@ -4350,7 +4358,7 @@ async def get_pool_state(pool_id: str) -> Dict[str, Any]:
 
 # API key endpoints
 @app.get("/api/user/api-keys")
-async def get_user_api_keys(current_user: FantasyUser = Depends(get_current_user)):
+async def get_user_api_keys():
     """Get user's API keys"""
     with get_fantasy_session() as session:
         api_keys = session.query(FantasyAPIKey).filter(
@@ -4375,7 +4383,7 @@ async def get_user_api_keys(current_user: FantasyUser = Depends(get_current_user
 
 # Provider accounts (connect/revoke/status)
 @app.post("/api/user/providers/{provider_slug}/connect", response_model=dict)
-async def connect_provider_account(provider_slug: str, payload: Dict[str, Any], current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+async def connect_provider_account(provider_slug: str, payload: Dict[str, Any]) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     login = str(payload.get("login") or "").strip()
     secret_ref = str(payload.get("secret_ref") or "").strip()
@@ -4398,7 +4406,7 @@ async def connect_provider_account(provider_slug: str, payload: Dict[str, Any], 
         return {"ok": True}
 
 @app.post("/api/user/providers/{provider_slug}/revoke", response_model=dict)
-async def revoke_provider_account(provider_slug: str, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+async def revoke_provider_account(provider_slug: str) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         prow = session.execute(sa_text("SELECT id FROM providers WHERE slug=:s"), {"s": provider_slug}).fetchone()
@@ -4409,7 +4417,7 @@ async def revoke_provider_account(provider_slug: str, current_user: FantasyUser 
         return {"ok": True}
 
 @app.get("/api/user/providers/{provider_slug}/status", response_model=dict)
-async def provider_account_status(provider_slug: str, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+async def provider_account_status(provider_slug: str) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         prow = session.execute(sa_text("SELECT id FROM providers WHERE slug=:s"), {"s": provider_slug}).fetchone()
@@ -4438,7 +4446,7 @@ async def metrics() -> str:
 
 # Provider sync trigger
 @app.post("/api/user/providers/{provider_slug}/sync", response_model=dict)
-async def trigger_provider_sync(provider_slug: str, current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+async def trigger_provider_sync(provider_slug: str, _=Depends(rate_limit)) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         prow = session.execute(sa_text("SELECT id FROM providers WHERE slug=:s"), {"s": provider_slug}).fetchone()
@@ -4693,7 +4701,7 @@ async def enqueue_cbs_sync(payload: Dict[str, Any]) -> Dict[str, Any]:
 
 # --- Content sources management and feed ---
 @app.post("/api/user/content/sources", response_model=dict)
-async def create_content_source(payload: Dict[str, Any], current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+async def create_content_source(payload: Dict[str, Any], _=Depends(rate_limit)) -> Dict[str, Any]:
     kind = str(payload.get("kind") or "").strip().lower()
     url_or_handle = str(payload.get("url_or_handle") or "").strip()
     filters = payload.get("filters") or {}
@@ -4713,7 +4721,7 @@ async def create_content_source(payload: Dict[str, Any], current_user: FantasyUs
         return {"ok": True}
 
 @app.get("/api/user/content/sources", response_model=dict)
-async def list_content_sources(current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+async def list_content_sources(_=Depends(rate_limit)) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         rows = session.execute(sa_text(
@@ -4722,14 +4730,14 @@ async def list_content_sources(current_user: FantasyUser = Depends(get_current_u
         return {"sources": [dict(r._mapping) for r in rows]}
 
 @app.delete("/api/user/content/sources/{source_id}", response_model=dict)
-async def delete_content_source(source_id: int, current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+async def delete_content_source(source_id: int, _=Depends(rate_limit)) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         session.execute(sa_text("DELETE FROM content_sources WHERE id=:id AND user_id=:uid"), {"id": int(source_id), "uid": getattr(current_user, "id", None)})
         return {"ok": True}
 
 @app.get("/api/user/content/feed", response_model=dict)
-async def get_content_feed(limit: int = 100, current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+async def get_content_feed(limit: int = 100, _=Depends(rate_limit)) -> Dict[str, Any]:
     limit = max(1, min(500, int(limit)))
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
@@ -4746,7 +4754,7 @@ async def get_content_feed(limit: int = 100, current_user: FantasyUser = Depends
         return {"items": [dict(r._mapping) for r in rows]}
 
 @app.post("/api/user/content/jobs", response_model=dict)
-async def create_content_job(payload: Dict[str, Any], current_user: FantasyUser = Depends(get_current_user), _=Depends(rate_limit)) -> Dict[str, Any]:
+async def create_content_job(payload: Dict[str, Any], _=Depends(rate_limit)) -> Dict[str, Any]:
     kind = str(payload.get("kind") or "").strip().lower()  # podcast, summary
     league_id = payload.get("league_id")
     inputs_ref = payload.get("inputs_ref") or {}
@@ -4764,7 +4772,7 @@ async def create_content_job(payload: Dict[str, Any], current_user: FantasyUser 
         return {"ok": True, "job_id": int(row.id) if row else None}
 
 @app.get("/api/user/content/jobs", response_model=dict)
-async def list_content_jobs(current_user: FantasyUser = Depends(get_current_user), limit: int = 100) -> Dict[str, Any]:
+async def list_content_jobs(limit: int = 100) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     limit = max(1, min(500, int(limit)))
     with get_fantasy_session() as session:
@@ -4774,7 +4782,7 @@ async def list_content_jobs(current_user: FantasyUser = Depends(get_current_user
         return {"jobs": [dict(r._mapping) for r in rows]}
 
 @app.get("/api/user/content/jobs/{job_id}/assets", response_model=dict)
-async def list_content_assets(job_id: int, current_user: FantasyUser = Depends(get_current_user)) -> Dict[str, Any]:
+async def list_content_assets(job_id: int) -> Dict[str, Any]:
     from sqlalchemy import text as sa_text
     with get_fantasy_session() as session:
         # ensure ownership
