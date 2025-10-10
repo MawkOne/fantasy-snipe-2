@@ -25,9 +25,9 @@ export default function MyTeamContent() {
         const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith("http"))
           ? (process.env.NEXT_PUBLIC_API_BASE as string)
           : "http://localhost:8000"
-        // Fetch league state to get roster position rules
+        // Fetch draft_state to get roster position rules
         try {
-          const st = await fetch(`${apiBase}/api/public/cbs/league/uhhp/state`, { cache: "no-store" })
+          const st = await fetch(`${apiBase}/api/public/cbs/league/uhhp/draft_state`, { cache: "no-store" })
           if (st.ok) {
             const stateJson = await st.json()
             const rp = (stateJson?.rules?.roster_positions) || (stateJson?.roster_positions) || null

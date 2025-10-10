@@ -172,7 +172,7 @@ class KindeAuth:
                 detail="Authentication failed"
             )
 
-// Initialize Kinde auth (kept for future use but not required for current user-scoped endpoints)
+# Initialize Kinde auth (kept for future use but not required for current user-scoped endpoints)
 kinde_auth = KindeAuth()
 # Helper: create NHL DB engine with short connect timeout so production doesn't stall
 def _get_nhl_engine(timeout_seconds: int = 3):
