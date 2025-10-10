@@ -1,4 +1,3 @@
-import Header from "@/components/header"
 import Sidebar from "@/components/sidebar"
 import InjuryReport from "@/components/injury-report"
 import PlayerComparisonTool from "@/components/player-comparison-tool"
@@ -8,7 +7,6 @@ import FeaturedLinks from "@/components/featured-links"
 export default function InjuriesPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
       <div className="flex">
         <Sidebar />
         <main className="flex-1">

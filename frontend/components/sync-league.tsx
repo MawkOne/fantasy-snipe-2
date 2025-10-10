@@ -15,11 +15,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { ShieldCheck, LinkIcon, CheckCircle2, Loader2 } from "lucide-react"
+import { CheckCircle2, Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
-type ProviderId = "yahoo" | "espn" | "cbs" | "sleeper" | "fantrax"
+type ProviderId = "cbs"
 
 type League = {
   id: string
@@ -41,58 +40,47 @@ export default function SyncLeague() {
   const providers = useMemo(
     () => [
       {
-        id: "yahoo" as const,
-        name: "Yahoo",
-        desc: "Secure OAuth connection to your Yahoo Fantasy leagues.",
-        accent: "bg-violet-600",
-      },
-      {
-        id: "espn" as const,
-        name: "ESPN",
-        desc: "Connect with your ESPN Fantasy leagues.",
-        accent: "bg-red-600",
-      },
-      {
         id: "cbs" as const,
         name: "CBS",
         desc: "Sync CBS Sports fantasy leagues.",
         accent: "bg-sky-700",
-      },
-      {
-        id: "sleeper" as const,
-        name: "Sleeper",
-        desc: "Sync Sleeper leagues in seconds.",
-        accent: "bg-emerald-600",
-      },
-      {
-        id: "fantrax" as const,
-        name: "Fantrax",
-        desc: "Bring in your Fantrax configuration.",
-        accent: "bg-blue-700",
       },
     ],
     [],
   )
 
   const sampleLeagues: League[] = [
-    { id: "1", name: "Dynasty Cup 2025", platform: "Yahoo", scoring: "Points", teams: 12 },
-    { id: "2", name: "Friends & Family", platform: "ESPN", scoring: "Categories", teams: 10 },
     { id: "3", name: "Work League", platform: "CBS", scoring: "Points", teams: 12 },
-    { id: "4", name: "Sleeper Saturday", platform: "Sleeper", scoring: "Points", teams: 14 },
   ]
 
-  function simulateConnect() {
-    setIsConnecting(true)
-    setTimeout(() => {
-      setIsConnecting(false)
+  async function simulateConnect() {
+    try {
+      setIsConnecting(true)
+      const base = process.env.NEXT_PUBLIC_API_BASE || ""
+      const body = {
+        email: localStorage.getItem('fantasy_user') ? JSON.parse(localStorage.getItem('fantasy_user') as string)?.email : "",
+        user_uuid: localStorage.getItem('fantasy_user_uuid') || "",
+        login: form.username,
+        password: form.password,
+      }
+      const res = await fetch(`${base}/api/public/providers/cbs/connect_local`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(()=>({}))
+        throw new Error(data?.detail || 'Failed to save credentials')
+      }
       setIsConnected(true)
       setLeagues(sampleLeagues)
-      setSelectedLeagues({ 1: true, 3: true })
-      toast({
-        title: "Connected",
-        description: "We discovered 4 leagues linked to your account.",
-      })
-    }, 1200)
+      setSelectedLeagues({ 3: true })
+      toast({ title: 'Connected', description: 'Credentials saved. Discovering leagues...' })
+    } catch (e: any) {
+      toast({ title: 'Connection failed', description: e?.message || 'Try again', variant: 'destructive' })
+    } finally {
+      setIsConnecting(false)
+    }
   }
 
   function importSelected() {
@@ -133,77 +121,58 @@ export default function SyncLeague() {
           ))}
         </div>
 
-        <Alert>
-          <ShieldCheck className="h-4 w-4" />
-          <AlertTitle>Secure. Read-only. Private.</AlertTitle>
-          <AlertDescription>
-            We use read-only access to fetch league settings and rosters. Your credentials are encrypted in transit and
-            are never stored in plain text.
-          </AlertDescription>
-        </Alert>
+        {/* Security note removed per request */}
       </div>
 
-      {/* Right column: Connection + discovered leagues */}
+      {/* Right column: show connection only when needed */}
       <div className="space-y-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <LinkIcon className="w-5 h-5" />
-              Connection
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {!selectedProvider && (
-              <p className="text-gray-600">Choose a provider on the left to begin syncing your league.</p>
-            )}
+        {(selectedProvider || isConnected) && (
+          <Card>
+            <CardContent className="space-y-4">
+              {selectedProvider && !isConnected && (
+                <ConnectDialog
+                  provider={selectedProvider}
+                  form={form}
+                  setForm={setForm}
+                  isConnecting={isConnecting}
+                  onCancel={() => setSelectedProvider(null)}
+                  onConnect={simulateConnect}
+                />
+              )}
 
-            {/* Connect dialog */}
-            {selectedProvider && !isConnected && (
-              <ConnectDialog
-                provider={selectedProvider}
-                form={form}
-                setForm={setForm}
-                isConnecting={isConnecting}
-                onCancel={() => setSelectedProvider(null)}
-                onConnect={simulateConnect}
-              />
-            )}
-
-            {/* Connected state */}
-            {isConnected && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-green-700">
-                  <CheckCircle2 className="w-5 h-5" />
-                  <span className="font-medium">Connected. Select leagues to import.</span>
-                </div>
-
-                <div className="space-y-3">
-                  {leagues.map((lg) => (
-                    <div key={lg.id} className="flex items-center justify-between rounded-lg border p-3">
-                      <div className="flex items-center gap-3">
-                        <Checkbox
-                          checked={!!selectedLeagues[lg.id]}
-                          onCheckedChange={(v) => setSelectedLeagues((s) => ({ ...s, [lg.id]: Boolean(v) }))}
-                        />
-                        <div>
-                          <div className="font-medium">{lg.name}</div>
-                          <div className="text-xs text-gray-500">
-                            {lg.platform} • {lg.scoring} • {lg.teams} teams
+              {isConnected && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-green-700">
+                    <CheckCircle2 className="w-5 h-5" />
+                    <span className="font-medium">Connected. Select leagues to import.</span>
+                  </div>
+                  <div className="space-y-3">
+                    {leagues.map((lg) => (
+                      <div key={lg.id} className="flex items-center justify-between rounded-lg border p-3">
+                        <div className="flex items-center gap-3">
+                          <Checkbox
+                            checked={!!selectedLeagues[lg.id]}
+                            onCheckedChange={(v) => setSelectedLeagues((s) => ({ ...s, [lg.id]: Boolean(v) }))}
+                          />
+                          <div>
+                            <div className="font-medium">{lg.name}</div>
+                            <div className="text-xs text-gray-500">
+                              {lg.platform} • {lg.scoring} • {lg.teams} teams
+                            </div>
                           </div>
                         </div>
+                        <Badge variant="outline">{lg.platform}</Badge>
                       </div>
-                      <Badge variant="outline">{lg.platform}</Badge>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                  <Button className="w-full" onClick={importSelected}>
+                    Import Selected
+                  </Button>
                 </div>
-
-                <Button className="w-full" onClick={importSelected}>
-                  Import Selected
-                </Button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Support card (CSV removed) */}
         <Card>

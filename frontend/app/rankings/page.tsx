@@ -1,4 +1,3 @@
-import Header from "@/components/header"
 import Sidebar from "@/components/sidebar"
 import RankingsTable from "@/components/rankings-table"
 import RankingsFilters from "@/components/rankings-filters"
@@ -11,7 +10,6 @@ import { Button } from "@/components/ui/button"
 export default function RankingsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
       <div className="flex">
         <Sidebar />
         <main className="flex-1">

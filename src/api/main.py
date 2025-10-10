@@ -443,8 +443,17 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
                 league_id = int(payload.get('league_id')) if payload.get('league_id') is not None else None
             except Exception:
                 league_id = None
+            # Upsert main extraction by (user_id, league_id, site_url) to avoid duplicates
             row = session.execute(
-                sa_text("INSERT INTO public.cbs_extractions(source, raw, user_id, league_id, site_url) VALUES(:src, CAST(:raw AS JSONB), :uid, :lid, :site) RETURNING id"),
+                sa_text(
+                    """
+                    INSERT INTO public.cbs_extractions(source, raw, user_id, league_id, site_url, updated_at)
+                    VALUES(:src, CAST(:raw AS JSONB), :uid, :lid, :site, NOW())
+                    ON CONFLICT (user_id, league_id, site_url)
+                    DO UPDATE SET raw = EXCLUDED.raw, source = EXCLUDED.source, updated_at = NOW()
+                    RETURNING id
+                    """
+                ),
                 {"src": "chrome_extension", "raw": _json.dumps(raw), "uid": user_id, "lid": league_id, "site": site_url}
             ).fetchone()
             if row is not None:
@@ -4459,6 +4468,100 @@ async def admin_table_counts() -> Dict[str, Any]:
             except Exception as e:
                 out[t] = f"ERR:{type(e).__name__}"
     return out
+
+# Public connect endpoint (local auth compatible): attach CBS credentials to a site user by email or user_uuid
+@app.post("/api/public/providers/cbs/connect_local", response_model=dict)
+async def connect_cbs_local(payload: Dict[str, Any]) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    email = (payload.get("email") or "").strip().lower()
+    user_uuid = (payload.get("user_uuid") or "").strip()
+    login = (payload.get("login") or "").strip()
+    password = (payload.get("password") or "").strip()
+    if not login or not password:
+        raise HTTPException(status_code=400, detail="login and password required")
+    with get_fantasy_session() as session:
+        # Resolve site user id
+        user_id = None
+        if user_uuid:
+            row = session.execute(sa_text("SELECT id FROM site_users WHERE user_uuid = :u"), {"u": user_uuid}).fetchone()
+            if row:
+                user_id = int(row.id)
+        if user_id is None and email:
+            row = session.execute(sa_text("SELECT id FROM site_users WHERE lower(email) = :e"), {"e": email}).fetchone()
+            if row:
+                user_id = int(row.id)
+        if user_id is None:
+            raise HTTPException(status_code=404, detail="user_not_found")
+
+        # Ensure provider exists
+        session.execute(sa_text("INSERT INTO providers(slug, name) VALUES('cbs','CBS Sports') ON CONFLICT (slug) DO NOTHING"))
+        prow = session.execute(sa_text("SELECT id FROM providers WHERE slug='cbs'"))
+        pid_row = prow.fetchone()
+        if not pid_row:
+            raise HTTPException(status_code=500, detail="provider_missing")
+        provider_id = int(pid_row.id)
+
+        # Store credentials in secret_ref (JSON) - replace with secure secret store in production
+        import json as _json
+        secret_ref = _json.dumps({"credentials": {"username": login, "password": password}})
+        session.execute(sa_text(
+            """
+            INSERT INTO provider_accounts(user_id, provider_id, login, secret_ref)
+            VALUES (:uid, :pid, :login, :secret)
+            ON CONFLICT DO NOTHING
+            """
+        ), {"uid": user_id, "pid": provider_id, "login": login, "secret": secret_ref})
+        return {"ok": True}
+
+# Endpoint to accept CBS cookies from the Chrome extension and store them for the user
+@app.post("/api/public/providers/cbs/cookies_save", response_model=dict)
+async def save_cbs_cookies(payload: Dict[str, Any]) -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    email = (payload.get("email") or "").strip().lower()
+    user_uuid = (payload.get("user_uuid") or "").strip()
+    cookies = payload.get("cookies")  # expected dict { name: value }
+    if not isinstance(cookies, dict) or not cookies:
+        raise HTTPException(status_code=400, detail="cookies_required")
+    with get_fantasy_session() as session:
+        # Resolve site user id
+        user_id = None
+        if user_uuid:
+            row = session.execute(sa_text("SELECT id FROM site_users WHERE user_uuid = :u"), {"u": user_uuid}).fetchone()
+            if row:
+                user_id = int(row.id)
+        if user_id is None and email:
+            row = session.execute(sa_text("SELECT id FROM site_users WHERE lower(email) = :e"), {"e": email}).fetchone()
+            if row:
+                user_id = int(row.id)
+        if user_id is None:
+            raise HTTPException(status_code=404, detail="user_not_found")
+
+        # Ensure provider exists
+        session.execute(sa_text("INSERT INTO providers(slug, name) VALUES('cbs','CBS Sports') ON CONFLICT (slug) DO NOTHING"))
+        pid_row = session.execute(sa_text("SELECT id FROM providers WHERE slug='cbs'"))
+        p = pid_row.fetchone()
+        if not p:
+            raise HTTPException(status_code=500, detail="provider_missing")
+        provider_id = int(p.id)
+
+        import json as _json
+        secret_ref = _json.dumps({"cookies": cookies})
+
+        # Upsert account: prefer updating existing record
+        session.execute(sa_text(
+            """
+            INSERT INTO provider_accounts(user_id, provider_id, login, secret_ref, last_verified_at)
+            VALUES (:uid, :pid, '', :secret, NOW())
+            ON CONFLICT DO NOTHING
+            """
+        ), {"uid": user_id, "pid": provider_id, "secret": secret_ref})
+
+        # If exists, update secret_ref
+        session.execute(sa_text(
+            "UPDATE provider_accounts SET secret_ref = :secret, last_verified_at = NOW() WHERE user_id = :uid AND provider_id = :pid"
+        ), {"uid": user_id, "pid": provider_id, "secret": secret_ref})
+
+        return {"ok": True}
 
 # --- Content sources management and feed ---
 @app.post("/api/user/content/sources", response_model=dict)
