@@ -147,18 +147,19 @@ Build a multi-provider fantasy hockey platform that lets a single user manage mu
 ## Change Management Plan (Phased)
 
 Phase 0 – Foundations (Railway + GCP) [Week 0-1]
-- Stand up Railway Postgres schemas (users, providers, internal core).
+- Stand up Railway Postgres schemas (users, providers, internal core). — DONE
 - Wire auth (Kinde/Password) → `users` + `auth_identities`, issue API keys.
 - Provision GCP BigQuery datasets and GCS buckets for projections/assets.
 
 Phase 1 – Provider Ingestion & Normalization [Week 1-2]
-- Update extension/backend to write to `provider_*` then upsert into internal `leagues/teams/rosters`.
-- Implement owner/team linking and user `memberships` across providers.
+- Update extension/backend to write to `provider_*` then upsert into internal `leagues/teams/rosters`. — IN PROGRESS (provider_* + new_cbs_* in place; sync worker posting payloads)
+- Implement owner/team linking and user `memberships` across providers. — PARTIAL (owners wired in new_cbs; canonical `memberships` created)
 - Backfill existing CBS data into normalized tables.
 
 Phase 2 – Core Endpoints & UI [Week 2-3]
-- User-scoped: `/api/user/leagues`, `/api/user/league/{id}/overview`, `/waivers`, `/recommendations`.
-- Public: `/api/public/league/{slug}/state`, `/schedule`, `/transactions`.
+- User-scoped: `/api/user/league/{id}/overview`, `/waivers`, `/schedule`, `/transactions`. — DONE
+- User-scoped: `/api/user/leagues`, `/recommendations`. 
+- Public: `/api/public/league/{slug}/state`, `/schedule`, `/transactions`. — DONE
 - Add caching for hot queries (per league snapshot).
 
 Phase 3 – Projections & Recs [Week 3-4]
@@ -167,7 +168,7 @@ Phase 3 – Projections & Recs [Week 3-4]
 - Surface recs in UI + via API.
 
 Phase 4 – Podcast Generation [Week 4-5]
-- Implement `content_jobs` and worker calling Play.ht.
+- Implement `content_jobs` and worker calling Play.ht. — DONE
 - Generate weekly episode per user/league; store to GCS and index in `content_assets`.
 - Expose `/api/integrations/content/jobs` and `/assets` for 3rd-party.
 
@@ -199,29 +200,37 @@ Phase 6 – Hardening & Ops [Week 7-8]
 - Backend/API
   - Added user-scoped league overview endpoint and public waivers/schedule/transactions; owners are now persisted and wired to teams.
   - Migration runner updated to apply all SQL files sequentially.
+  - Added provider account endpoints (connect/revoke/status) and sync trigger endpoint.
+  - Added content endpoints: sources (create/list/delete), feed, content jobs list/assets.
+  - Added basic metrics endpoint and improved health check (DB ping).
+  - Added minimal in-memory rate limiter; tightened CORS via ALLOWED_ORIGINS env; import endpoint now supports x-api-key enforcement.
 
 - Database (Railway)
   - Applied migrations: providers/accounts/leagues/teams/owners, provider_player_map, canonical memberships (+legacy backfill), new_cbs_* hardening (uniques/indexes), projections snapshot, recommendations/content, content ingestion.
+  - Applied provider sync run tracking migration and verified migration runner on Railway.
 
 - Plan alignment
   - Delivers Phase 0/1 core DB work and part of Phase 2 endpoints.
+  - Security/ops hardening started (CORS, rate limiting, metrics/health, API key).
 
 - Immediate next steps
-  - Implement provider account connect/revoke/token-status endpoints; add background sync worker using stored tokens.
-  - Tighten CORS and add rate limiting middleware; add health/metrics endpoints.
+  - Deploy workers on Railway and set environment variables (API and workers).
+  - Attach CBS cookies (per user) via provider connect API; run first sync.
+  - Add initial RSS sources; confirm ingestion, feed, and content job creation.
 
 ## Remaining tasks
 
-- Worker deploy: deploy sync worker on Railway with env; schedule and alerts.
-- Auth + cookies capture UI for provider connect/status/revoke.
-- Sync robustness: domain detection, retries/backoff, 2FA detection, richer parsing, telemetry.
-- Security/ops: lock CORS; add rate limiting; enforce x-api-key on import; DB health checks; metrics.
-- Data normalization: backfill normalized views; migrate memberships; create unified views.
-- Projections pipeline: nightly BigQuery → Postgres replication and validation.
-- Recommendations: generator service + API exposure.
-- Content ingestion: RSS/social polling worker; feed/prompts/jobs; Play.ht runner integration.
-- Frontend: provider UI, league pages (user-scoped endpoints), content UIs; later chat/marketplace UIs.
-- Testing/docs: unit/integration/e2e; runbooks and secrets policy.
+- Worker deploy: deploy provider_sync_worker, rss_ingestion_worker, playht_worker (env, schedules, alerts) on Railway.
+- Auth + cookies capture UI for provider connect/status/revoke (frontend changes).
+- Sync robustness: domain detection, retries/backoff, 2FA/verification detection, richer parsing, telemetry.
+- Security/ops: replace in-memory rate limiter with robust limiter; set alerts; expand metrics; document incident runbooks.
+- Data normalization: backfill unified internal views; finalize memberships migration; create read views over provider/new_cbs.
+- Projections pipeline: nightly BigQuery → Postgres replication; validate joins in API responses.
+- Recommendations: implement generator, write recommendation_runs/items, expose via API.
+- Content ingestion: add social connectors (X/Reddit/YouTube) with OAuth; entity tagging; personalized feed scoring.
+- Podcast: move assets to GCS with signed URLs; retries/error handling; voice selection.
+- Frontend: provider UI, league pages (user-scoped endpoints), content UIs; future chat/marketplace UIs.
+- Testing/docs: unit/integration/e2e; deployment docs; secrets policy for cookies and API keys.
 ## Content ingestion and generation infra
 
 - Monitored sources

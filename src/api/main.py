@@ -426,9 +426,26 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
         ))
         extraction_id = None
         try:
+            # Attempt to infer site_url from first page
+            site_url = None
+            for p in (raw.get('pages') or []):
+                if p.get('url'):
+                    site_url = p['url']
+                    break
+            # Optional: try to infer user_id and league_id (if provided in payload)
+            user_id = None
+            league_id = None
+            try:
+                user_id = int(payload.get('user_id')) if payload.get('user_id') is not None else None
+            except Exception:
+                user_id = None
+            try:
+                league_id = int(payload.get('league_id')) if payload.get('league_id') is not None else None
+            except Exception:
+                league_id = None
             row = session.execute(
-                sa_text("INSERT INTO public.cbs_extractions(source, raw) VALUES(:src, CAST(:raw AS JSONB)) RETURNING id"),
-                {"src": "chrome_extension", "raw": _json.dumps(raw)}
+                sa_text("INSERT INTO public.cbs_extractions(source, raw, user_id, league_id, site_url) VALUES(:src, CAST(:raw AS JSONB), :uid, :lid, :site) RETURNING id"),
+                {"src": "chrome_extension", "raw": _json.dumps(raw), "uid": user_id, "lid": league_id, "site": site_url}
             ).fetchone()
             if row is not None:
                 extraction_id = int(row[0])
@@ -765,6 +782,50 @@ async def import_cbs_extraction(payload: Dict[str, Any], request: Request) -> Di
 
         except Exception as e:
             logger.warning(f"new_cbs_* upsert failed: {e}")
+
+        # Upsert pages for faster incremental ingestion
+        try:
+            session.execute(sa_text(
+                """
+                CREATE TABLE IF NOT EXISTS public.cbs_extraction_pages (
+                  id BIGSERIAL PRIMARY KEY,
+                  user_id BIGINT,
+                  league_id BIGINT,
+                  site_url TEXT,
+                  url TEXT NOT NULL,
+                  title TEXT,
+                  page JSONB NOT NULL,
+                  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+                  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+                  UNIQUE (user_id, league_id, url)
+                )
+                """
+            ))
+            from urllib.parse import urlparse
+            site = None
+            for p in (raw.get('pages') or []):
+                try:
+                    u = p.get('url') or ''
+                    t = p.get('title') or ''
+                    pg = _json.dumps(p)
+                    if u:
+                        if site is None:
+                            try:
+                                site = urlparse(u).netloc
+                            except Exception:
+                                site = None
+                        session.execute(sa_text(
+                            """
+                            INSERT INTO public.cbs_extraction_pages(user_id, league_id, site_url, url, title, page)
+                            VALUES(:uid, :lid, :site, :url, :title, CAST(:page AS JSONB))
+                            ON CONFLICT (user_id, league_id, url)
+                            DO UPDATE SET title = EXCLUDED.title, page = EXCLUDED.page, updated_at = now(), site_url = COALESCE(EXCLUDED.site_url, public.cbs_extraction_pages.site_url)
+                            """
+                        ), {"uid": user_id, "lid": league_id, "site": site, "url": u, "title": t, "page": pg})
+                except Exception:
+                    continue
+        except Exception as _e:
+            logger.warning(f"extraction pages upsert failed: {_e}")
 
         return {"ok": True, "league_name": league_name, "league_id": saved_league_id, "roster_positions": roster_positions, "scoring_rules": scoring_rules, "upserts": upserts_summary, "extraction_id": extraction_id, "debug": {"pages": debug_pages}}
 
@@ -4376,6 +4437,28 @@ async def trigger_provider_sync(provider_slug: str, current_user: FantasyUser = 
             "INSERT INTO provider_sync_runs(user_id, provider_id, status, meta) VALUES (:uid, :pid, 'queued', '{}'::jsonb)"
         ), {"uid": getattr(current_user, "id", None), "pid": pid})
         return {"ok": True, "status": "queued"}
+
+# Admin debug: table counts (no auth for now; restrict in production)
+@app.get("/api/admin/debug/table_counts", response_model=dict)
+async def admin_table_counts() -> Dict[str, Any]:
+    from sqlalchemy import text as sa_text
+    tables = [
+        'public.cbs_extractions',
+        'public.cbs_extraction_pages',
+        'public.new_cbs_leagues','public.new_cbs_teams','public.new_cbs_rosters','public.new_cbs_players','public.new_cbs_projections','public.new_cbs_scoring_rules','public.new_cbs_league_rules',
+        'public.providers','public.provider_accounts','public.provider_player_map','public.provider_sync_runs',
+        'public.content_sources','public.content_items','public.content_jobs','public.content_assets',
+        'public.memberships'
+    ]
+    out: Dict[str, Any] = {}
+    with get_fantasy_session() as session:
+        for t in tables:
+            try:
+                row = session.execute(sa_text(f"SELECT count(*) AS n FROM {t}")).fetchone()
+                out[t] = int(getattr(row, 'n', 0)) if row is not None else 0
+            except Exception as e:
+                out[t] = f"ERR:{type(e).__name__}"
+    return out
 
 # --- Content sources management and feed ---
 @app.post("/api/user/content/sources", response_model=dict)
