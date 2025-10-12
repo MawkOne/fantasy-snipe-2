@@ -1,0 +1,294 @@
+spec_version: 1.0
+name: fantasy-lmsr-amm
+purpose: >
+  Implement a non-custodial (VC-only) LMSR automated market maker that powers
+  public and private prediction games with binary, multinomial, and binned-scalar
+  contracts. No real-money flows. Provide quoting, trading, locking, resolution,
+  and auditability.
+
+# ---------- CONFIGURATION ----------
+config:
+  # Liquidity tuning: b ≈ 5–15% of expected per-market active VC
+  liquidity:
+    default_b_fraction_of_per_market_active_vc: 0.10
+    min_b: 10.0
+    max_b: 5000.0
+    dynamic_b:
+      enabled: true
+      schedule: # optional calendar scaling
+        - { phase: pre_season, factor: 1.3 }
+        - { phase: mid_season, factor: 1.0 }
+        - { phase: late_season, factor: 0.8 }
+      crowd_scaling: # scale with active traders
+        enabled: true
+        k_per_active_trader: 0.5
+  trading:
+    min_delta: 0.1            # minimum share delta (fractional)
+    max_delta_per_trade: 10.0 # absolute cap
+    per_user_exposure_cap_fraction_of_bankroll: 0.25
+    close_only_window_hours: 24 # optional pre-lock
+  lock_policy:
+    mode: rolling # rolling | global | per_round
+    offset_days_before_end: 7
+    allow_close_only: true
+  resolution:
+    dispute_window_hours: 24
+    stat_correction_policy: "re-resolve-and-replay-pnl"
+  economy:
+    virtual_cash_symbol: "VC"
+    vc_convertible_to_fiat: false
+    weekly_stipend_vc: 10
+    initial_bankroll_vc: 100
+  ipos:
+    cadence: weekly           # weekly | monthly
+    markets_per_drop: 40
+    contract_lifetime_months: 4
+  fairness:
+    enable_rebase: true
+    rebase_trigger:
+      price_threshold: 0.90   # if YES or NO > 0.90 for N days
+      days_above_threshold: 7
+      split_factor: 10.0
+
+# ---------- MATH ----------
+math:
+  # Cost function C(q) and price p = ∂C/∂q
+  binary:
+    cost: "C(qY,qN) = b * ln( exp(qY/b) + exp(qN/b) )"
+    price_yes: "pY = exp(qY/b) / (exp(qY/b) + exp(qN/b))"
+    price_no: "pN = 1 - pY"
+    max_amm_loss: "b * ln(2)"
+  multinomial:
+    cost: "C(q) = b * ln( sum_i exp(q_i/b) )"
+    price_i: "p_i = exp(q_i/b) / sum_j exp(q_j/b)"
+    max_amm_loss: "b * ln(n)"
+  scalar_binning:
+    method: "discretize continuous outcome into K bins; treat as multinomial"
+    bin_resolution: "winning bin pays 1; others pay 0 (or proportional if configured)"
+  rebase_invariance:
+    rule: "scale q and b by same factor s to preserve prices; q' = s*q, b' = s*b"
+
+# ---------- ENTITIES / STATE ----------
+entities:
+  Market:
+    fields:
+      id: string
+      type: enum [binary, multinomial, scalar_binned]
+      sport: string
+      subject: string      # player/team/award identifier
+      metric: string       # e.g., season_points
+      threshold: number|null # for Over/Under; null otherwise
+      outcomes: array[string] # ["OVER","UNDER"] or labels
+      b: number
+      q: array[number]     # cumulative shares per outcome; init zeros
+      created_at: datetime
+      locked_at: datetime|null
+      resolved_at: datetime|null
+      result_index: integer|null
+      oracle_ref: string   # authoritative stat source
+      status: enum [open, close_only, locked, resolved, canceled]
+      rebase_factor: number # default 1.0
+      ipo_round: string|null
+  Trade:
+    fields:
+      id: string
+      market_id: string
+      user_id: string
+      outcome_index: integer
+      delta: number         # positive buy, negative sell
+      cost_paid: number     # VC debited (refund negative)
+      price_before: number
+      price_after: number
+      created_at: datetime
+  Position:
+    fields:
+      user_id: string
+      market_id: string
+      outcome_index: integer
+      shares: number        # net cumulative delta
+      avg_cost: number      # optional accounting
+  AuditLog:
+    fields:
+      id: string
+      actor: string
+      action: string
+      target: string
+      payload_json: string
+      ts: datetime
+
+# ---------- CORE FUNCTIONS (SIDE-EFFECT FREE) ----------
+functions_pure:
+  C:
+    input: { q: array[number], b: number }
+    output: number
+    impl: "return b * ln(sum(exp(q_i / b)))"
+  price:
+    input: { q: array[number], b: number }
+    output: array[number] # probabilities summing to 1 within ε
+    impl: "softmax(q / b)"
+  quote_trade:
+    description: Compute cost and new prices for a tentative trade.
+    input:
+      market: Market
+      outcome_index: integer
+      delta: number
+    steps:
+      - assert market.status in [open, close_only] (and delta<=0 if close_only)
+      - q_before := market.q
+      - cost_before := C(q_before,b)
+      - q_after := q_before; q_after[outcome]+=delta
+      - cost_after := C(q_after,b)
+      - cost := cost_after - cost_before
+      - prices_after := price(q_after,b)
+    output:
+      cost: number
+      prices_after: array[number]
+
+# ---------- CORE PROCEDURES (WITH STATE EFFECTS) ----------
+procedures_effectful:
+  execute_trade:
+    input: { user_id, market_id, outcome_index, delta }
+    validations:
+      - market exists and status allows trade (close_only forbids delta>0)
+      - user has sufficient VC for cost (or sufficient shares for negative delta)
+      - enforce exposure caps and max_delta_per_trade
+    actions:
+      - compute quote := quote_trade(...)
+      - debit_or_credit_user_vc(user_id, quote.cost)
+      - update market.q[outcome]+=delta
+      - upsert Position (user_id, market_id, outcome): add shares=delta
+      - write Trade & AuditLog
+    output:
+      price_after: number
+      cost: number
+  lock_market:
+    input: { market_id, reason }
+    actions:
+      - set status to locked; set locked_at=now
+      - write AuditLog
+  set_close_only:
+    input: { market_id }
+    actions:
+      - set status to close_only
+  resolve_market:
+    input: { market_id, result_index, oracle_payload }
+    steps:
+      - assert status in [locked, close_only]
+      - set resolved_at=now; status=resolved; result_index=value
+      - for each Position:
+          payout := (outcome_index==result_index ? shares*1.0 : 0.0)
+          pnl := payout - realized_cost(position) # or settle via AMM diff
+          credit_user_vc(user_id, pnl)
+      - write AuditLog with oracle_payload
+  rebase_market:
+    input: { market_id, split_factor }
+    steps:
+      - scale market.q[i] *= split_factor
+      - scale market.b   *= split_factor
+      - market.rebase_factor *= split_factor
+      - write AuditLog
+
+# ---------- API CONTRACTS ----------
+api:
+  GET /markets/{id}:
+    returns: Market + current prices = price(q,b)
+  POST /markets:
+    body: { type, sport, subject, metric, threshold?, outcomes, b, oracle_ref, ipo_round }
+    effects: create Market with q=zeros
+  POST /markets/{id}/quote:
+    body: { outcome_index, delta }
+    returns: { cost, prices_after }
+  POST /markets/{id}/trade:
+    body: { user_id, outcome_index, delta }
+    returns: { cost, price_after, user_vc_balance }
+  POST /markets/{id}/lock:
+    body: { reason }
+  POST /markets/{id}/close-only: {}
+  POST /markets/{id}/resolve:
+    body: { result_index, oracle_payload }
+  POST /markets/{id}/rebase:
+    body: { split_factor }
+
+# ---------- SCHEDULERS / JOBS ----------
+jobs:
+  ipo_drop:
+    cadence: config.ipos.cadence
+    actions:
+      - select top-N subjects from vote queue
+      - compute thresholds/lines from consensus forecasts
+      - create N markets with seeded b
+      - announce in chat stream
+  lock_enforcer:
+    cadence: 15m
+    actions:
+      - set close_only or locked based on lock_policy and calendars
+  resolver:
+    cadence: hourly
+    actions:
+      - check oracle for resolvable markets; call resolve_market
+  rebase_watcher:
+    cadence: daily
+    actions:
+      - for each market with price>threshold for N days: rebase(split_factor)
+  weekly_stipend:
+    cadence: weekly
+    actions:
+      - credit active users with stipend_vc; write AuditLog
+
+# ---------- POLICIES (COMPLIANCE/FAIRNESS) ----------
+policies:
+  money_flows:
+    - "No deposits/withdrawals tied to markets; VC is non-purchasable and non-convertible."
+    - "Subscriptions for data/API are separate; cannot be used as league pots."
+  exposure:
+    - "Enforce per-user per-market exposure caps; tighter as locked_at approaches."
+  auditability:
+    - "All trades, locks, resolutions, and rebases are logged with immutable IDs and timestamps."
+  dispute:
+    - "Dispute window allows re-resolution if official stats are corrected."
+  marketing_language:
+    - "Use 'game', 'forecast', 'probability' — avoid 'bet', 'wager', 'win money'."
+
+# ---------- TEST ORACLES ----------
+tests:
+  math_sanity:
+    - name: probabilities_sum_to_one
+      assert: "abs(sum(price(q,b)) - 1.0) < 1e-9"
+    - name: monotonicity
+      arrange: "quote_trade with +Δ increases chosen outcome price"
+    - name: symmetry_binary
+      arrange: "start q=[0,0]; buy YES Δ; then sell YES Δ"
+      assert: "net_cost ~ 0 within epsilon (no fee)"
+  exposure_bounds:
+    - name: max_loss_bound_binary
+      assert: "amm_loss <= b * ln(2) + epsilon"
+  locking:
+    - name: close_only_allows_sells_only
+      assert: "delta>0 rejected when status=close_only"
+    - name: lock_blocks_trades
+      assert: "any delta rejected when status=locked"
+  rebase_invariance:
+    - name: price_invariance_after_rebase
+      arrange: "record p_before; rebase s; record p_after"
+      assert: "||p_after - p_before|| < 1e-9"
+  resolution:
+    - name: winner_payouts
+      arrange: "buy YES; resolve YES"
+      assert: "credit == shares*1 - cost_paid (up to epsilon)"
+
+# ---------- STARTUP CHECKLIST ----------
+startup:
+  - "Initialize config; set default b by estimating per-market active VC."
+  - "Deploy markets with q=zeros; expose quote & trade endpoints."
+  - "Enable schedulers: ipo_drop, lock_enforcer, resolver, rebase_watcher, weekly_stipend."
+  - "Enable audit logging and metrics: prices, traded Δ, realized/unrealized PnL."
+  - "Run unit tests in tests.* and a canary market in sandbox mode."
+
+# ---------- METRICS ----------
+metrics:
+  - market_liquidity_b
+  - trade_volume_vc
+  - average_price_move_per_trade
+  - user_roi_distribution
+  - per_market_active_vc
+  - amm_pnl (should hover near 0; bounded by analytic max loss)
