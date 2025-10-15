@@ -78,7 +78,9 @@ async function loadDirectoryAsRanking(dirPath: string): Promise<Map<string, numb
 }
 
 export async function computeBlendedTop50(): Promise<PlayerEntry[]> {
-  const root = "/Users/markhenderson/Cursor Projects/NHL-API/Projections/2025"
+  // Resolve the projections directory relative to the repo root
+  const repoRoot = process.cwd()
+  const root = path.join(repoRoot, "Projections/2025")
   const sourceDirs = [
     path.join(root, "AG_skaters"),
     path.join(root, "Cullen_goalies"),
