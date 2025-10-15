@@ -23,7 +23,7 @@ export default async function MultiOptionMarketPage() {
         buyPrice: 45,
         sellPrice: 47,
         volume: "$540K",
-        image: await getPlayerHeadshotUrlByName("Connor McDavid"),
+        image: (await getPlayerHeadshotUrlByName("Connor McDavid")) || undefined,
       },
       {
         id: "mackinnon",
@@ -33,7 +33,7 @@ export default async function MultiOptionMarketPage() {
         buyPrice: 25,
         sellPrice: 27,
         volume: "$300K",
-        image: await getPlayerHeadshotUrlByName("Nathan MacKinnon"),
+        image: (await getPlayerHeadshotUrlByName("Nathan MacKinnon")) || undefined,
       },
       {
         id: "matthews",
@@ -43,7 +43,7 @@ export default async function MultiOptionMarketPage() {
         buyPrice: 15,
         sellPrice: 17,
         volume: "$180K",
-        image: await getPlayerHeadshotUrlByName("Auston Matthews"),
+        image: (await getPlayerHeadshotUrlByName("Auston Matthews")) || undefined,
       },
       {
         id: "kucherov",
@@ -53,7 +53,7 @@ export default async function MultiOptionMarketPage() {
         buyPrice: 8,
         sellPrice: 10,
         volume: "$96K",
-        image: await getPlayerHeadshotUrlByName("Nikita Kucherov"),
+        image: (await getPlayerHeadshotUrlByName("Nikita Kucherov")) || undefined,
       },
       {
         id: "draisaitl",
@@ -63,7 +63,7 @@ export default async function MultiOptionMarketPage() {
         buyPrice: 5,
         sellPrice: 7,
         volume: "$60K",
-        image: await getPlayerHeadshotUrlByName("Leon Draisaitl"),
+        image: (await getPlayerHeadshotUrlByName("Leon Draisaitl")) || undefined,
       },
       {
         id: "other",
@@ -123,7 +123,15 @@ export default async function MultiOptionMarketPage() {
           <div className="lg:col-span-1">
             <div className="lg:sticky lg:top-8 space-y-4 sm:space-y-6">
               <UserBudget />
-              <TradingPanel outcomes={marketData.outcomes} />
+              <TradingPanel
+                outcomes={marketData.outcomes.map((o) => ({
+                  id: o.id,
+                  label: o.name,
+                  probability: o.probability,
+                  buyPrice: o.buyPrice,
+                  sellPrice: o.sellPrice,
+                }))}
+              />
               <RelatedMarkets markets={marketData.relatedMarkets} />
             </div>
           </div>
