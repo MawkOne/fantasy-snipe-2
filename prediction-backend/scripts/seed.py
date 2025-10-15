@@ -6,7 +6,11 @@ from psycopg2.extras import RealDictCursor
 
 
 def get_db_url() -> str:
-    db_url = os.environ.get("NHL_DATABASE_URL") or os.environ.get("DATABASE_URL")
+    db_url = (
+        os.environ.get("MARKET_DATABASE_URL")
+        or os.environ.get("NHL_DATABASE_URL")
+        or os.environ.get("DATABASE_URL")
+    )
     if not db_url:
         print("Set DATABASE_URL or NHL_DATABASE_URL in env.", file=sys.stderr)
         sys.exit(1)

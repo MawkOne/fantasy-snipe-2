@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 set -e
 
-if [ -z "$NHL_DATABASE_URL" ] && [ -z "$DATABASE_URL" ]; then
-  echo "Set DATABASE_URL or NHL_DATABASE_URL before starting." >&2
+if [ -z "$MARKET_DATABASE_URL" ] && [ -z "$NHL_DATABASE_URL" ] && [ -z "$DATABASE_URL" ]; then
+  echo "Set MARKET_DATABASE_URL (preferred), or DATABASE_URL/NHL_DATABASE_URL before starting." >&2
   exit 1
 fi
 

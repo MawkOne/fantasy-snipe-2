@@ -5,7 +5,7 @@ Minimal FastAPI app exposing LMSR AMM endpoints backed by the shared Railway Pos
 Run locally:
 
 ```bash
-export DATABASE_URL="postgresql://..."
+export MARKET_DATABASE_URL="postgresql://..."  # preferred
 python3 -m uvicorn app:app --app-dir prediction-backend --host 0.0.0.0 --port 8100 --reload
 ```
 
