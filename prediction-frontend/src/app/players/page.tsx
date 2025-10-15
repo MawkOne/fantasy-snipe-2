@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { Search } from "lucide-react"
-import { headers } from "next/headers"
+import { computeBlendedTop50 } from "@/lib/blended"
+import { getPlayerHeadshotUrlByName } from "@/lib/nhl"
 
 type ApiPlayer = {
   name: string
@@ -9,21 +10,10 @@ type ApiPlayer = {
 }
 
 export default async function PlayersPage() {
-  const h = headers()
-  const host = h.get("x-forwarded-host") || h.get("host") || "localhost:3000"
-  const proto = h.get("x-forwarded-proto") || "http"
-  const base = `${proto}://${host}`
-
-  let players: ApiPlayer[] = []
-  try {
-    const res = await fetch(new URL("/api/players", base), { cache: "no-store" })
-    if (res.ok) {
-      const data = await res.json()
-      players = Array.isArray(data?.players) ? data.players : []
-    }
-  } catch {
-    players = []
-  }
+  const base = await computeBlendedTop50()
+  const players: ApiPlayer[] = await Promise.all(
+    base.map(async (p, idx) => ({ name: p.name, blended: p.blended, headshot: await getPlayerHeadshotUrlByName(p.name) }))
+  )
 
   return (
     <div className="min-h-screen bg-background">
