@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from typing import Dict
+from typing import Dict, List
 
 from ..db import get_cursor
 from ..models import MarketCreate, MarketResponse, QuoteRequest, QuoteResponse, TradeRequest, TradeResponse
@@ -93,6 +93,35 @@ def get_market(market_id: str):
             inventory=inventory,
             prices=prices,
         )
+
+
+@router.get("/markets", response_model=List[MarketResponse])
+def list_markets():
+    results: List[MarketResponse] = []
+    with get_cursor() as cur:
+        cur.execute(
+            "SELECT id, slug, title, description, outcome_type, status, created_at, b FROM markets ORDER BY created_at DESC"
+        )
+        markets = cur.fetchall()
+        for m in markets:
+            market_id = m["id"]
+            b, inventory, prices, _ = _get_market_q_and_b(cur, market_id)
+            results.append(
+                MarketResponse(
+                    id=str(market_id),
+                    slug=m["slug"],
+                    title=m["title"],
+                    description=m.get("description"),
+                    outcome_type=m["outcome_type"],
+                    status=m["status"],
+                    b=b,
+                    created_at=str(m["created_at"]),
+                    outcomes=["yes", "no"],
+                    inventory=inventory,
+                    prices=prices,
+                )
+            )
+    return results
 
 
 @router.post("/markets/{market_id}/quote", response_model=QuoteResponse)
