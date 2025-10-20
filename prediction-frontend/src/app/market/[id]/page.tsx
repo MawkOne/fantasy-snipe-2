@@ -58,18 +58,19 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
   const projectionLine = Number(m.threshold || 0)
   const yesP = Number.isFinite(Number(m?.prices?.yes)) ? Math.round(Number(m.prices.yes) * 100) : 50
   const noP = 100 - yesP
+  const volumeLabel = m.volume_total ? `$${Number(m.volume_total).toLocaleString()}` : "$0"
 
   const marketData = {
     title: `${m.player_name || m.title} ${stat}`.trim(),
     subtitle: m.timeframe || "",
     image,
-    volume: m.volume_total ? `$${Number(m.volume_total).toLocaleString()}` : "$0",
+    volume: volumeLabel,
     ends: "",
     projectionLine,
     moreProbability: yesP,
     outcomes: [
-      { id: "more", label: "Yes", probability: yesP, buyPrice: yesP, sellPrice: yesP, volume: marketData?.volume || "$0" },
-      { id: "less", label: "No", probability: noP, buyPrice: noP, sellPrice: noP, volume: marketData?.volume || "$0" },
+      { id: "more", label: "Yes", probability: yesP, buyPrice: yesP, sellPrice: yesP, volume: volumeLabel },
+      { id: "less", label: "No", probability: noP, buyPrice: noP, sellPrice: noP, volume: volumeLabel },
     ],
     relatedMarkets: [] as any[],
   }
