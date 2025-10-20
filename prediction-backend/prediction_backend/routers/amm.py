@@ -31,8 +31,8 @@ def create_market(payload: MarketCreate):
     with get_cursor() as cur:
         cur.execute(
             """
-            INSERT INTO markets (slug, title, description, outcome_type, status, b, player_name, metric, threshold, category, sub_category, timeframe)
-            VALUES (%s, %s, %s, 'binary', 'open', %s, %s, %s, %s, %s, %s, %s) RETURNING id, created_at
+            INSERT INTO markets (slug, title, description, outcome_type, status, b, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total)
+            VALUES (%s, %s, %s, 'binary', 'open', %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id, created_at
             """,
             (
                 payload.slug,
@@ -45,6 +45,8 @@ def create_market(payload: MarketCreate):
                 payload.category,
                 payload.sub_category,
                 payload.timeframe,
+                payload.team,
+                payload.volume_total,
             ),
         )
         row = cur.fetchone()
@@ -60,7 +62,7 @@ def create_market(payload: MarketCreate):
         )
         # response
         b, inventory, prices, _ = _get_market_q_and_b(cur, market_id)
-        cur.execute("SELECT slug, title, description, outcome_type, status, created_at, player_name, metric, threshold, category, sub_category, timeframe FROM markets WHERE id=%s", (market_id,))
+        cur.execute("SELECT slug, title, description, outcome_type, status, created_at, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total FROM markets WHERE id=%s", (market_id,))
         m = cur.fetchone()
         return MarketResponse(
             id=str(market_id),
@@ -80,6 +82,8 @@ def create_market(payload: MarketCreate):
             category=m.get("category"),
             sub_category=m.get("sub_category"),
             timeframe=m.get("timeframe"),
+            team=m.get("team"),
+            volume_total=float(m["volume_total"]) if m.get("volume_total") is not None else None,
         )
 
 
@@ -87,7 +91,7 @@ def create_market(payload: MarketCreate):
 def get_market(market_id: str):
     with get_cursor() as cur:
         b, inventory, prices, _ = _get_market_q_and_b(cur, market_id)
-        cur.execute("SELECT slug, title, description, outcome_type, status, created_at, player_name, metric, threshold, category, sub_category, timeframe FROM markets WHERE id=%s", (market_id,))
+        cur.execute("SELECT slug, title, description, outcome_type, status, created_at, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total FROM markets WHERE id=%s", (market_id,))
         m = cur.fetchone()
         if not m:
             raise HTTPException(status_code=404, detail="market not found")
@@ -109,6 +113,8 @@ def get_market(market_id: str):
             category=m.get("category"),
             sub_category=m.get("sub_category"),
             timeframe=m.get("timeframe"),
+            team=m.get("team"),
+            volume_total=float(m["volume_total"]) if m.get("volume_total") is not None else None,
         )
 
 
@@ -116,7 +122,7 @@ def get_market(market_id: str):
 def list_markets():
     results: List[MarketResponse] = []
     with get_cursor() as cur:
-        cur.execute("SELECT id, slug, title, description, outcome_type, status, created_at, b, player_name, metric, threshold, category, sub_category, timeframe FROM markets ORDER BY created_at DESC")
+        cur.execute("SELECT id, slug, title, description, outcome_type, status, created_at, b, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total FROM markets ORDER BY created_at DESC")
         markets = cur.fetchall()
         for m in markets:
             market_id = m["id"]
@@ -140,6 +146,8 @@ def list_markets():
                     category=m.get("category"),
                     sub_category=m.get("sub_category"),
                     timeframe=m.get("timeframe"),
+                    team=m.get("team"),
+                    volume_total=float(m["volume_total"]) if m.get("volume_total") is not None else None,
                 )
             )
     return results

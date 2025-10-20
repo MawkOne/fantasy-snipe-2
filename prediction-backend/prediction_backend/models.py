@@ -13,6 +13,8 @@ class MarketCreate(BaseModel):
     category: Optional[str] = None
     sub_category: Optional[str] = None
     timeframe: Optional[str] = None  # Season | Monthly | Weekly
+    team: Optional[str] = None
+    volume_total: Optional[float] = None
 
 
 class MarketResponse(BaseModel):
@@ -33,6 +35,8 @@ class MarketResponse(BaseModel):
     category: Optional[str] = None
     sub_category: Optional[str] = None
     timeframe: Optional[str] = None
+    team: Optional[str] = None
+    volume_total: Optional[float] = None
 
 
 class QuoteRequest(BaseModel):

@@ -108,13 +108,14 @@ def rebuild():
                         title = title.replace("Top 12", "Top 20")
                         description = f"Auto-generated from {tab_name} tab. Projection={val}, line={thr}"
                         # create market
+                        team = (r.get("Team") or r.get("TEAM") or "").strip()
                         cur.execute(
                             """
-                            INSERT INTO markets (slug, title, description, outcome_type, status, b, player_name, metric, threshold, category, sub_category, timeframe)
-                            VALUES (%s,%s,%s,'binary','open',%s,%s,%s,%s,%s,%s,%s)
+                            INSERT INTO markets (slug, title, description, outcome_type, status, b, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total)
+                            VALUES (%s,%s,%s,'binary','open',%s,%s,%s,%s,%s,%s,%s,%s,%s)
                             RETURNING id
                             """,
-                            (slug, title, description, 50, player, metric, thr, 'Players', tab_name, 'Season'),
+                            (slug, title, description, 50, player, metric, thr, 'Players', tab_name, 'Season', team, 0),
                         )
                         mid = cur.fetchone()["id"]
                         cur.execute("INSERT INTO market_outcomes (market_id, outcome) VALUES (%s,'yes'),(%s,'no')", (mid, mid))
