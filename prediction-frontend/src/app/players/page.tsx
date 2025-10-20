@@ -70,7 +70,7 @@ export default async function PlayersPage() {
               player={m.player_name || m.title}
               team={m.team || ""}
               stat={toStat(m.sub_category)}
-              projectionLine={Number(m.threshold || 0).toFixed ? Number(m.threshold) : 0}
+              projectionLine={Number.isFinite(Number(m.threshold)) ? Number(m.threshold) : 0}
               volume={"$0 Vol."}
               category={m.sub_category || ""}
             />
