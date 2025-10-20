@@ -63,9 +63,9 @@ export default async function PlayersPage({ searchParams }: { searchParams?: Pro
 
   // Filter by metric (Points | Goals | Assists) if provided
   const sp = searchParams ? await searchParams : undefined
-  const wanted = (sp?.metric || "All").toString()
+  const wanted = sp?.metric ? String(sp.metric) : undefined
   const metricMap: Record<string, string> = { Points: "PTS", Goals: "G", Assists: "A" }
-  if (wanted in metricMap) {
+  if (wanted && wanted in metricMap) {
     marketWithImages = marketWithImages.filter((m: any) => (m.metric || "").toUpperCase() === metricMap[wanted])
   }
 
@@ -99,7 +99,6 @@ export default async function PlayersPage({ searchParams }: { searchParams?: Pro
         <div className="mb-2 text-sm text-muted-foreground">Active Player Contracts</div>
         <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
           {[
-            { label: "All", q: "" },
             { label: "Points", q: "?metric=Points" },
             { label: "Goals", q: "?metric=Goals" },
             { label: "Assists", q: "?metric=Assists" },
