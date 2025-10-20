@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card"
+import Link from "next/link"
 import { Search } from "lucide-react"
 import { computeBlendedTop50 } from "@/lib/blended"
 import { getPlayerHeadshotUrlByName } from "@/lib/nhl"
@@ -48,17 +49,27 @@ function toStat(sub: string | undefined): string {
   return sub
 }
 
-export default async function PlayersPage() {
+export default async function PlayersPage({ searchParams }: { searchParams?: { metric?: string } }) {
   const [markets, base] = await Promise.all([fetchMarkets(), computeBlendedTop50()])
   const playerMkts = (markets || []).filter((m: any) => m.category === "Players")
 
   // Fetch headshots for the markets (best-effort)
-  const marketWithImages = await Promise.all(
+  let marketWithImages = await Promise.all(
     playerMkts.map(async (m: any) => ({
       ...m,
       imageUrl: await headshotFromLanding(m.landing_url, m.player_name)
     }))
   )
+
+  // Filter by metric (Points | Goals | Assists) if provided
+  const wanted = (searchParams?.metric || "All").toString()
+  const metricMap: Record<string, string> = { Points: "PTS", Goals: "G", Assists: "A" }
+  if (wanted in metricMap) {
+    marketWithImages = marketWithImages.filter((m: any) => (m.metric || "").toUpperCase() === metricMap[wanted])
+  }
+
+  // Sort by projection/threshold desc
+  marketWithImages.sort((a: any, b: any) => Number(b?.threshold || 0) - Number(a?.threshold || 0))
 
   const players = await Promise.all(
     base.map(async (p: any) => ({ name: p.name, blended: p.blended, headshot: await getPlayerHeadshotUrlByName(p.name) }))
@@ -84,7 +95,19 @@ export default async function PlayersPage() {
           <div className="mb-4 text-sm text-red-500">Backend URL not configured. Set MARKET_BACKEND_API_BASE_URL.</div>
         )}
 
-        <div className="mb-4 text-sm text-muted-foreground">Active Player Contracts</div>
+        <div className="mb-2 text-sm text-muted-foreground">Active Player Contracts</div>
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+          {[
+            { label: "All", q: "" },
+            { label: "Points", q: "?metric=Points" },
+            { label: "Goals", q: "?metric=Goals" },
+            { label: "Assists", q: "?metric=Assists" },
+          ].map(({ label, q }) => (
+            <Link key={label} href={`/players${q}`} className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap text-sm ${wanted===label? 'bg-primary text-primary-foreground' : 'bg-accent/50 text-muted-foreground hover:bg-accent'}`}>
+              {label}
+            </Link>
+          ))}
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
           {marketWithImages.map((m: any) => (
             <ProjectionTile
