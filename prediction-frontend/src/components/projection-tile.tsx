@@ -9,13 +9,19 @@ interface ProjectionTileProps {
   projectionLine: number
   volume: string
   category: string
+  yesProb?: number // percentage 0-100
+  noProb?: number  // percentage 0-100
+  href?: string
 }
 
-export function ProjectionTile({ player, team, stat, projectionLine, volume, category }: ProjectionTileProps) {
+export function ProjectionTile({ player, team, stat, projectionLine, volume, category, yesProb, noProb, href }: ProjectionTileProps) {
   const marketId = `${player.toLowerCase().replace(/\s+/g, "-")}-${stat.toLowerCase().replace(/\s+/g, "-")}`
+  const link = href || `/market/${marketId}`
+  const yesP = Number.isFinite(yesProb) ? Math.max(0, Math.min(100, Number(yesProb))) : 52
+  const noP = Number.isFinite(noProb) ? Math.max(0, Math.min(100, Number(noProb))) : 48
 
   return (
-    <Link href={`/market/${marketId}`}>
+    <Link href={link}>
       <Card className="p-4 hover:bg-accent/30 transition-colors cursor-pointer border-border/50 bg-card/50">
         <div className="space-y-3">
           <div className="flex items-start gap-3">
@@ -36,7 +42,7 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
             <div className="flex items-center justify-between gap-3">
               <span className="text-sm text-foreground">More {projectionLine}</span>
               <div className="flex items-center gap-2">
-                <span className="text-lg font-semibold text-foreground min-w-[3rem] text-right">52%</span>
+                <span className="text-lg font-semibold text-foreground min-w-[3rem] text-right">{yesP.toFixed(0)}%</span>
                 <button className="px-3 py-1.5 rounded bg-emerald-500/15 hover:bg-emerald-500/25 transition-colors border border-emerald-500/30 min-w-[3rem]">
                   <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Yes</span>
                 </button>
@@ -49,12 +55,12 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
             <div className="flex items-center justify-between gap-3">
               <span className="text-sm text-foreground">Less {projectionLine}</span>
               <div className="flex items-center gap-2">
-                <span className="text-lg font-semibold text-foreground min-w-[3rem] text-right">48%</span>
+                <span className="text-lg font-semibold text-foreground min-w-[3rem] text-right">{noP.toFixed(0)}%</span>
                 <button className="px-3 py-1.5 rounded bg-emerald-500/15 hover:bg-emerald-500/25 transition-colors border border-emerald-500/30 min-w-[3rem]">
                   <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Yes</span>
                 </button>
                 <button className="px-3 py-1.5 rounded bg-rose-500/15 hover:bg-rose-500/25 transition-colors border border-rose-500/30 min-w-[3rem]">
-                  <span className="text-xs font-medium text-rose-600 dark:text-rose-400">No</span>
+                  <span className="text-xs font-medium text-rose-400">No</span>
                 </button>
               </div>
             </div>

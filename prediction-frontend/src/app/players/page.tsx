@@ -71,8 +71,11 @@ export default async function PlayersPage() {
               team={m.team || ""}
               stat={toStat(m.sub_category)}
               projectionLine={Number.isFinite(Number(m.threshold)) ? Number(m.threshold) : 0}
-              volume={"$0 Vol."}
+              volume={`$${Number(m.volume_total || 0).toLocaleString()} Vol.`}
               category={m.sub_category || ""}
+              yesProb={Number.isFinite(Number(m?.prices?.yes)) ? Number(m.prices.yes) * 100 : undefined}
+              noProb={Number.isFinite(Number(m?.prices?.no)) ? Number(m.prices.no) * 100 : undefined}
+              href={`/market/${m.id}`}
             />
           ))}
         </div>
