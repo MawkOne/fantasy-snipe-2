@@ -13,17 +13,19 @@ function getApiBase() {
   return `https://${raw}`
 }
 
-async function headshotFromLanding(landingUrl?: string | null, fallbackName?: string | null): Promise<string | null> {
+type LandingData = { headshot?: string; featuredStats?: any }
+
+async function landingData(landingUrl?: string | null): Promise<LandingData> {
   try {
     if (landingUrl) {
       const r = await fetch(landingUrl, { next: { revalidate: 86400 } })
       if (r.ok) {
         const j = await r.json()
-        if (j && typeof j.headshot === "string") return j.headshot as string
+        return { headshot: j?.headshot, featuredStats: j?.featuredStats }
       }
     }
   } catch {}
-  return null
+  return {}
 }
 
 function toStat(metric?: string, sub?: string): string {
@@ -54,7 +56,8 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
   const m = await res.json()
 
   const stat = toStat(m.metric, m.sub_category)
-  const image = await headshotFromLanding(m.landing_url, m.player_name)
+  const landing = await landingData(m.landing_url)
+  const image = landing.headshot || null
   const projectionLine = Number(m.threshold || 0)
   const yesP = Number.isFinite(Number(m?.prices?.yes)) ? Math.round(Number(m.prices.yes) * 100) : 50
   const noP = 100 - yesP
@@ -74,6 +77,8 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
     ],
     relatedMarkets: [] as any[],
   }
+
+  const fs = landing?.featuredStats?.regularSeason?.subSeason || landing?.featuredStats?.regularSeason || landing?.featuredStats || null
 
   return (
     <div className="min-h-screen bg-background">
@@ -104,8 +109,8 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
             {/* Outcomes */}
             <MarketOutcomes outcomes={marketData.outcomes} projectionLine={marketData.projectionLine} />
 
-            {/* Market Context */}
-            <MarketContext />
+            {/* Market Context with Featured Stats */}
+            <MarketContext stats={fs} />
 
             {/* Comments */}
             <MarketComments />

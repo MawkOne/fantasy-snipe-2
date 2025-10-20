@@ -3,7 +3,23 @@
 import { Card } from "@/components/ui/card"
 import { useState } from "react"
 
-export function MarketContext() {
+interface FeaturedStatsProps {
+  stats?: {
+    gamesPlayed?: number
+    goals?: number
+    assists?: number
+    points?: number
+    shots?: number
+    plusMinus?: number
+    powerPlayGoals?: number
+    powerPlayPoints?: number
+    shorthandedGoals?: number
+    shorthandedPoints?: number
+    pim?: number
+  } | null
+}
+
+export function MarketContext({ stats }: FeaturedStatsProps) {
   const [showMore, setShowMore] = useState(false)
 
   return (
@@ -40,6 +56,25 @@ export function MarketContext() {
             {showMore ? "Show less" : "Show more"}
           </button>
         </div>
+
+        {stats && (
+          <div>
+            <h3 className="font-semibold mb-2">Featured Stats</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-muted-foreground">
+              {typeof stats.gamesPlayed === 'number' && <div>GP: {stats.gamesPlayed}</div>}
+              {typeof stats.goals === 'number' && <div>G: {stats.goals}</div>}
+              {typeof stats.assists === 'number' && <div>A: {stats.assists}</div>}
+              {typeof stats.points === 'number' && <div>PTS: {stats.points}</div>}
+              {typeof stats.shots === 'number' && <div>SOG: {stats.shots}</div>}
+              {typeof stats.plusMinus === 'number' && <div>+/-: {stats.plusMinus}</div>}
+              {typeof stats.powerPlayGoals === 'number' && <div>PPG: {stats.powerPlayGoals}</div>}
+              {typeof stats.powerPlayPoints === 'number' && <div>PPP: {stats.powerPlayPoints}</div>}
+              {typeof stats.shorthandedGoals === 'number' && <div>SHG: {stats.shorthandedGoals}</div>}
+              {typeof stats.shorthandedPoints === 'number' && <div>SHP: {stats.shorthandedPoints}</div>}
+              {typeof stats.pim === 'number' && <div>PIM: {stats.pim}</div>}
+            </div>
+          </div>
+        )}
       </div>
     </Card>
   )
