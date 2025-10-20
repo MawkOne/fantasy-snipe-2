@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card"
 import { Search } from "lucide-react"
 import { computeBlendedTop50 } from "@/lib/blended"
 import { getPlayerHeadshotUrlByName } from "@/lib/nhl"
+import { ProjectionTile } from "@/components/projection-tile"
 
 // Prefer Railway-provided MARKET_BACKEND_API_BASE_URL; add protocol if missing
 function getApiBase() {
@@ -22,6 +23,15 @@ async function fetchMarkets() {
     console.error("Failed to fetch markets:", e)
     return []
   }
+}
+
+function toStat(sub: string | undefined): string {
+  if (!sub) return "Total"
+  const s = String(sub).toLowerCase()
+  if (s.includes("goal")) return "Total Goals"
+  if (s.includes("assist")) return "Total Assists"
+  if (s.includes("pt") || s.includes("point")) return "Total Points"
+  return sub
 }
 
 export default async function PlayersPage() {
@@ -55,16 +65,15 @@ export default async function PlayersPage() {
         <div className="mb-4 text-sm text-muted-foreground">Active Player Contracts</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
           {playerMkts.map((m: any) => (
-            <Card key={m.id} className="p-4">
-              <div className="text-sm text-muted-foreground">{m.sub_category} · {m.timeframe}</div>
-              <div className="font-semibold mt-1">{m.player_name || m.title}</div>
-              {m.threshold != null && (
-                <div className="text-xs text-muted-foreground">Line: {Number(m.threshold).toFixed(1)}</div>
-              )}
-              {m.prices && (
-                <div className="text-xs mt-2">Yes {(m.prices.yes*100).toFixed(1)}% · No {(m.prices.no*100).toFixed(1)}%</div>
-              )}
-            </Card>
+            <ProjectionTile
+              key={m.id}
+              player={m.player_name || m.title}
+              team={m.team || ""}
+              stat={toStat(m.sub_category)}
+              projectionLine={Number(m.threshold || 0).toFixed ? Number(m.threshold) : 0}
+              volume={"$0 Vol."}
+              category={m.sub_category || ""}
+            />
           ))}
         </div>
 
