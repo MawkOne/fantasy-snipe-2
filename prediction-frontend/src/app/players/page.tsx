@@ -3,12 +3,18 @@ import { Search } from "lucide-react"
 import { computeBlendedTop50 } from "@/lib/blended"
 import { getPlayerHeadshotUrlByName } from "@/lib/nhl"
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8100"
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || "").replace(/\/$/, "")
 
 async function fetchMarkets() {
-  const res = await fetch(`${API_BASE}/api/amm/markets`, { next: { revalidate: 0 } })
-  if (!res.ok) return []
-  return res.json()
+  if (!API_BASE) return [] as any[]
+  try {
+    const res = await fetch(`${API_BASE}/api/amm/markets`, { next: { revalidate: 0 } })
+    if (!res.ok) return []
+    return res.json()
+  } catch (e) {
+    console.error("Failed to fetch markets:", e)
+    return []
+  }
 }
 
 export default async function PlayersPage() {
@@ -34,6 +40,10 @@ export default async function PlayersPage() {
             </div>
           </div>
         </div>
+
+        {API_BASE ? null : (
+          <div className="mb-4 text-sm text-red-500">Backend URL not configured. Set NEXT_PUBLIC_API_BASE.</div>
+        )}
 
         <div className="mb-4 text-sm text-muted-foreground">Active Player Contracts</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
