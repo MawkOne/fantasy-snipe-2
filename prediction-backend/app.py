@@ -1,6 +1,7 @@
 import os
 from fastapi import FastAPI
 from prediction_backend.routers.amm import router as amm_router
+from prediction_backend.routers.forecasts import router as forecasts_router
 from prediction_backend.config import PORT, HOST
 
 
@@ -13,6 +14,7 @@ def healthz():
 
 
 app.include_router(amm_router)
+app.include_router(forecasts_router)
 
 
 if __name__ == "__main__":

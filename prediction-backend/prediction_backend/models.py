@@ -10,6 +10,9 @@ class MarketCreate(BaseModel):
     player_name: Optional[str] = None
     metric: Optional[str] = None
     threshold: Optional[float] = None
+    category: Optional[str] = None
+    sub_category: Optional[str] = None
+    timeframe: Optional[str] = None  # Season | Monthly | Weekly
 
 
 class MarketResponse(BaseModel):
@@ -27,6 +30,9 @@ class MarketResponse(BaseModel):
     player_name: Optional[str] = None
     metric: Optional[str] = None
     threshold: Optional[float] = None
+    category: Optional[str] = None
+    sub_category: Optional[str] = None
+    timeframe: Optional[str] = None
 
 
 class QuoteRequest(BaseModel):

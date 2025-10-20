@@ -44,6 +44,17 @@ def parse_number(s: str) -> float:
         return 0.0
 
 
+def col_letter_to_index(letter: str) -> int:
+    # Convert Excel-style column letters to 0-based index (A=0, Z=25, AA=26, AB=27, ...)
+    letter = (letter or "").strip().upper()
+    total = 0
+    for ch in letter:
+        if not ('A' <= ch <= 'Z'):
+            return -1
+        total = total * 26 + (ord(ch) - ord('A') + 1)
+    return total - 1  # zero-based
+
+
 def rebuild():
     conn = psycopg2.connect(db_url(), cursor_factory=RealDictCursor)
     try:
@@ -54,6 +65,22 @@ def rebuild():
                 created = 0
                 for tab_name, value_col, metric in TABS:
                     rows = fetch_sheet(SHEET_ID, tab_name)
+                    # prepare header order for index lookup
+                    headers = []
+                    if rows:
+                        headers = list(rows[0].keys())
+                    idx = col_letter_to_index(value_col)
+                    # prefer named columns if present
+                    metric_name_candidates = {
+                        "PTS": ["PTS", "Pts", "Points", " PTS"],
+                        "G": ["G", "Goals", " G"],
+                        "A": ["A", "Assists", " A"],
+                    }.get(metric, [metric])
+                    named_key = None
+                    for cand in metric_name_candidates:
+                        if cand in headers:
+                            named_key = cand
+                            break
                     # Expect columns: Player, Team, and Z/AA/AB value columns
                     # Sort by requested value column desc, pick top 12
                     ranked = []
@@ -61,23 +88,33 @@ def rebuild():
                         player = (r.get("Player") or "").strip()
                         if not player:
                             continue
-                        val = parse_number(r.get(value_col))
+                        # Prefer named metric column
+                        if named_key is not None:
+                            val = parse_number(r.get(named_key))
+                        # Else by letter index if available
+                        elif 0 <= idx < len(headers):
+                            key = headers[idx]
+                            val = parse_number(r.get(key))
+                        else:
+                            # fallback: try by exact letter name (unlikely) or metric key
+                            val = parse_number(r.get(value_col) or r.get(metric) or r.get(metric.upper()))
                         ranked.append((player, val, r))
                     ranked.sort(key=lambda x: x[1], reverse=True)
-                    top = ranked[:12]
+                    top = ranked[:20]
                     for rank, (player, val, r) in enumerate(top, start=1):
                         thr = float(int(val)) + 0.5
                         slug = f"{metric.lower()}-r{rank}-{player.lower().replace(' ', '-') }"
                         title = f"{player} — Top 12 {tab_name} (rank {rank})"
+                        title = title.replace("Top 12", "Top 20")
                         description = f"Auto-generated from {tab_name} tab. Projection={val}, line={thr}"
                         # create market
                         cur.execute(
                             """
-                            INSERT INTO markets (slug, title, description, outcome_type, status, b, player_name, metric, threshold)
-                            VALUES (%s,%s,%s,'binary','open',%s,%s,%s,%s)
+                            INSERT INTO markets (slug, title, description, outcome_type, status, b, player_name, metric, threshold, category, sub_category, timeframe)
+                            VALUES (%s,%s,%s,'binary','open',%s,%s,%s,%s,%s,%s,%s)
                             RETURNING id
                             """,
-                            (slug, title, description, 50, player, metric, thr),
+                            (slug, title, description, 50, player, metric, thr, 'Players', tab_name, 'Season'),
                         )
                         mid = cur.fetchone()["id"]
                         cur.execute("INSERT INTO market_outcomes (market_id, outcome) VALUES (%s,'yes'),(%s,'no')", (mid, mid))
