@@ -46,14 +46,14 @@ export function MultiOptionOutcomes({ outcomes }: MultiOptionOutcomesProps) {
                 size="sm"
                 className="bg-green-600 hover:bg-green-700 text-white min-w-16 sm:min-w-20 text-xs sm:text-sm"
               >
-                ${outcome.buyPrice}IM
+                ${outcome.buyPrice}
               </Button>
               <Button
                 size="sm"
                 variant="outline"
                 className="border-red-600 text-red-600 hover:bg-red-50 min-w-16 sm:min-w-20 bg-transparent text-xs sm:text-sm"
               >
-                ${outcome.sellPrice}IM
+                ${outcome.sellPrice}
               </Button>
             </div>
           </div>

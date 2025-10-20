@@ -29,14 +29,14 @@ export function MarketOutcomes({ outcomes, projectionLine = 60 }: MarketOutcomes
                 <h3 className="font-semibold text-lg">
                   {outcome.label === "Yes" ? "More" : "Less"} {projectionLine}
                 </h3>
-                <span className="text-2xl font-bold text-primary">${outcome.probability}IM</span>
+                <span className="text-2xl font-bold text-primary">${outcome.probability}</span>
               </div>
               <div className="text-sm text-muted-foreground">{outcome.volume} vol</div>
             </div>
             <div className="flex gap-2">
-              <Button className="bg-green-600 hover:bg-green-700 text-white min-w-24">Buy ${outcome.buyPrice}IM</Button>
+              <Button className="bg-green-600 hover:bg-green-700 text-white min-w-24">Buy ${outcome.buyPrice}</Button>
               <Button variant="outline" className="border-red-600 text-red-600 hover:bg-red-50 min-w-24 bg-transparent">
-                Sell ${outcome.sellPrice}IM
+                Sell ${outcome.sellPrice}
               </Button>
             </div>
           </div>

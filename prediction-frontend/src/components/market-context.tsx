@@ -29,7 +29,7 @@ export function MarketContext() {
               </p>
               <p>
                 This is a fantasy sports forecast market where users can take positions on player performance outcomes
-                using $IM (Imaginary Money) for entertainment and skill-building purposes.
+                using virtual credits for entertainment and skill-building purposes.
               </p>
             </div>
           )}
