@@ -3,7 +3,14 @@ import { Search } from "lucide-react"
 import { computeBlendedTop50 } from "@/lib/blended"
 import { getPlayerHeadshotUrlByName } from "@/lib/nhl"
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || "").replace(/\/$/, "")
+// Prefer Railway-provided MARKET_BACKEND_API_BASE_URL; add protocol if missing
+function getApiBase() {
+  const raw = (process.env.MARKET_BACKEND_API_BASE_URL || "").replace(/\/$/, "")
+  if (!raw) return ""
+  if (raw.startsWith("http://") || raw.startsWith("https://")) return raw
+  return `https://${raw}`
+}
+const API_BASE = getApiBase()
 
 async function fetchMarkets() {
   if (!API_BASE) return [] as any[]
@@ -42,7 +49,7 @@ export default async function PlayersPage() {
         </div>
 
         {API_BASE ? null : (
-          <div className="mb-4 text-sm text-red-500">Backend URL not configured. Set NEXT_PUBLIC_API_BASE.</div>
+          <div className="mb-4 text-sm text-red-500">Backend URL not configured. Set MARKET_BACKEND_API_BASE_URL.</div>
         )}
 
         <div className="mb-4 text-sm text-muted-foreground">Active Player Contracts</div>
