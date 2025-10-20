@@ -49,7 +49,7 @@ function toStat(sub: string | undefined): string {
   return sub
 }
 
-export default async function PlayersPage({ searchParams }: { searchParams?: { metric?: string } }) {
+export default async function PlayersPage({ searchParams }: { searchParams?: Promise<Record<string, string>> }) {
   const [markets, base] = await Promise.all([fetchMarkets(), computeBlendedTop50()])
   const playerMkts = (markets || []).filter((m: any) => m.category === "Players")
 
@@ -62,7 +62,8 @@ export default async function PlayersPage({ searchParams }: { searchParams?: { m
   )
 
   // Filter by metric (Points | Goals | Assists) if provided
-  const wanted = (searchParams?.metric || "All").toString()
+  const sp = searchParams ? await searchParams : undefined
+  const wanted = (sp?.metric || "All").toString()
   const metricMap: Record<string, string> = { Points: "PTS", Goals: "G", Assists: "A" }
   if (wanted in metricMap) {
     marketWithImages = marketWithImages.filter((m: any) => (m.metric || "").toUpperCase() === metricMap[wanted])
