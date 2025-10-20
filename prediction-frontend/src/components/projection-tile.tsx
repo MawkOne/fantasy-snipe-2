@@ -12,9 +12,10 @@ interface ProjectionTileProps {
   yesProb?: number // percentage 0-100
   noProb?: number  // percentage 0-100
   href?: string
+  imageUrl?: string | null
 }
 
-export function ProjectionTile({ player, team, stat, projectionLine, volume, category, yesProb, noProb, href }: ProjectionTileProps) {
+export function ProjectionTile({ player, team, stat, projectionLine, volume, category, yesProb, noProb, href, imageUrl }: ProjectionTileProps) {
   const marketId = `${player.toLowerCase().replace(/\s+/g, "-")}-${stat.toLowerCase().replace(/\s+/g, "-")}`
   const link = href || `/market/${marketId}`
   const yesP = Number.isFinite(yesProb) ? Math.max(0, Math.min(100, Number(yesProb))) : 52
@@ -25,13 +26,17 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
       <Card className="p-4 hover:bg-accent/30 transition-colors cursor-pointer border-border/50 bg-card/50">
         <div className="space-y-3">
           <div className="flex items-start gap-3">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-border/50 flex-shrink-0">
-              <span className="text-base font-bold text-primary">
-                {player
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
-              </span>
+            <div className="w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-border/50 flex-shrink-0">
+              {imageUrl ? (
+                <img src={imageUrl} alt={player} className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-base font-bold text-primary">
+                  {player
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </span>
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-base text-foreground leading-tight">{stat}</h3>
@@ -47,7 +52,7 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
                   <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Yes</span>
                 </button>
                 <button className="px-3 py-1.5 rounded bg-rose-500/15 hover:bg-rose-500/25 transition-colors border border-rose-500/30 min-w-[3rem]">
-                  <span className="text-xs font-medium text-rose-600 dark:text-rose-400">No</span>
+                  <span className="text-xs font-medium text-rose-400">No</span>
                 </button>
               </div>
             </div>

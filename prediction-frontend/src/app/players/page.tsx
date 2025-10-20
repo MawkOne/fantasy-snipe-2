@@ -25,6 +25,20 @@ async function fetchMarkets() {
   }
 }
 
+async function headshotFromLanding(landingUrl?: string | null, fallbackName?: string | null): Promise<string | null> {
+  try {
+    if (landingUrl) {
+      const r = await fetch(landingUrl, { next: { revalidate: 86400 } })
+      if (r.ok) {
+        const j = await r.json()
+        if (j && typeof j.headshot === "string") return j.headshot as string
+      }
+    }
+  } catch {}
+  if (fallbackName) return getPlayerHeadshotUrlByName(fallbackName)
+  return null
+}
+
 function toStat(sub: string | undefined): string {
   if (!sub) return "Total"
   const s = String(sub).toLowerCase()
@@ -37,6 +51,14 @@ function toStat(sub: string | undefined): string {
 export default async function PlayersPage() {
   const [markets, base] = await Promise.all([fetchMarkets(), computeBlendedTop50()])
   const playerMkts = (markets || []).filter((m: any) => m.category === "Players")
+
+  // Fetch headshots for the markets (best-effort)
+  const marketWithImages = await Promise.all(
+    playerMkts.map(async (m: any) => ({
+      ...m,
+      imageUrl: await headshotFromLanding(m.landing_url, m.player_name)
+    }))
+  )
 
   const players = await Promise.all(
     base.map(async (p: any) => ({ name: p.name, blended: p.blended, headshot: await getPlayerHeadshotUrlByName(p.name) }))
@@ -64,7 +86,7 @@ export default async function PlayersPage() {
 
         <div className="mb-4 text-sm text-muted-foreground">Active Player Contracts</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
-          {playerMkts.map((m: any) => (
+          {marketWithImages.map((m: any) => (
             <ProjectionTile
               key={m.id}
               player={m.player_name || m.title}
@@ -76,6 +98,7 @@ export default async function PlayersPage() {
               yesProb={Number.isFinite(Number(m?.prices?.yes)) ? Number(m.prices.yes) * 100 : undefined}
               noProb={Number.isFinite(Number(m?.prices?.no)) ? Number(m.prices.no) * 100 : undefined}
               href={`/market/${m.id}`}
+              imageUrl={m.imageUrl}
             />
           ))}
         </div>
