@@ -37,6 +37,7 @@ class MarketResponse(BaseModel):
     timeframe: Optional[str] = None
     team: Optional[str] = None
     volume_total: Optional[float] = None
+    landing_url: Optional[str] = None
 
 
 class QuoteRequest(BaseModel):

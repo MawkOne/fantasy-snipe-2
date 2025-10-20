@@ -62,7 +62,7 @@ def create_market(payload: MarketCreate):
         )
         # response
         b, inventory, prices, _ = _get_market_q_and_b(cur, market_id)
-        cur.execute("SELECT slug, title, description, outcome_type, status, created_at, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total FROM markets WHERE id=%s", (market_id,))
+        cur.execute("SELECT slug, title, description, outcome_type, status, created_at, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total, landing_url FROM markets WHERE id=%s", (market_id,))
         m = cur.fetchone()
         return MarketResponse(
             id=str(market_id),
@@ -84,6 +84,7 @@ def create_market(payload: MarketCreate):
             timeframe=m.get("timeframe"),
             team=m.get("team"),
             volume_total=float(m["volume_total"]) if m.get("volume_total") is not None else None,
+            landing_url=m.get("landing_url"),
         )
 
 
@@ -122,7 +123,7 @@ def get_market(market_id: str):
 def list_markets():
     results: List[MarketResponse] = []
     with get_cursor() as cur:
-        cur.execute("SELECT id, slug, title, description, outcome_type, status, created_at, b, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total FROM markets ORDER BY created_at DESC")
+        cur.execute("SELECT id, slug, title, description, outcome_type, status, created_at, b, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total, landing_url FROM markets ORDER BY created_at DESC")
         markets = cur.fetchall()
         for m in markets:
             market_id = m["id"]
@@ -148,6 +149,7 @@ def list_markets():
                     timeframe=m.get("timeframe"),
                     team=m.get("team"),
                     volume_total=float(m["volume_total"]) if m.get("volume_total") is not None else None,
+                    landing_url=m.get("landing_url"),
                 )
             )
     return results
