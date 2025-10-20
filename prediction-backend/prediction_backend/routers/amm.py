@@ -31,10 +31,18 @@ def create_market(payload: MarketCreate):
     with get_cursor() as cur:
         cur.execute(
             """
-            INSERT INTO markets (slug, title, description, outcome_type, status, b)
-            VALUES (%s, %s, %s, 'binary', 'open', %s) RETURNING id, created_at
+            INSERT INTO markets (slug, title, description, outcome_type, status, b, player_name, metric, threshold)
+            VALUES (%s, %s, %s, 'binary', 'open', %s, %s, %s, %s) RETURNING id, created_at
             """,
-            (payload.slug, payload.title, payload.description, payload.b),
+            (
+                payload.slug,
+                payload.title,
+                payload.description,
+                payload.b,
+                payload.player_name,
+                payload.metric,
+                payload.threshold,
+            ),
         )
         row = cur.fetchone()
         market_id = row["id"]
@@ -49,10 +57,7 @@ def create_market(payload: MarketCreate):
         )
         # response
         b, inventory, prices, _ = _get_market_q_and_b(cur, market_id)
-        cur.execute(
-            "SELECT slug, title, description, outcome_type, status, created_at FROM markets WHERE id=%s",
-            (market_id,),
-        )
+        cur.execute("SELECT slug, title, description, outcome_type, status, created_at, player_name, metric, threshold FROM markets WHERE id=%s", (market_id,))
         m = cur.fetchone()
         return MarketResponse(
             id=str(market_id),
@@ -66,6 +71,9 @@ def create_market(payload: MarketCreate):
             outcomes=["yes", "no"],
             inventory=inventory,
             prices=prices,
+            player_name=m.get("player_name"),
+            metric=m.get("metric"),
+            threshold=float(m["threshold"]) if m.get("threshold") is not None else None,
         )
 
 
@@ -73,10 +81,7 @@ def create_market(payload: MarketCreate):
 def get_market(market_id: str):
     with get_cursor() as cur:
         b, inventory, prices, _ = _get_market_q_and_b(cur, market_id)
-        cur.execute(
-            "SELECT slug, title, description, outcome_type, status, created_at FROM markets WHERE id=%s",
-            (market_id,),
-        )
+        cur.execute("SELECT slug, title, description, outcome_type, status, created_at, player_name, metric, threshold FROM markets WHERE id=%s", (market_id,))
         m = cur.fetchone()
         if not m:
             raise HTTPException(status_code=404, detail="market not found")
@@ -92,6 +97,9 @@ def get_market(market_id: str):
             outcomes=["yes", "no"],
             inventory=inventory,
             prices=prices,
+            player_name=m.get("player_name"),
+            metric=m.get("metric"),
+            threshold=float(m["threshold"]) if m.get("threshold") is not None else None,
         )
 
 
@@ -99,9 +107,7 @@ def get_market(market_id: str):
 def list_markets():
     results: List[MarketResponse] = []
     with get_cursor() as cur:
-        cur.execute(
-            "SELECT id, slug, title, description, outcome_type, status, created_at, b FROM markets ORDER BY created_at DESC"
-        )
+        cur.execute("SELECT id, slug, title, description, outcome_type, status, created_at, b, player_name, metric, threshold FROM markets ORDER BY created_at DESC")
         markets = cur.fetchall()
         for m in markets:
             market_id = m["id"]
@@ -119,6 +125,9 @@ def list_markets():
                     outcomes=["yes", "no"],
                     inventory=inventory,
                     prices=prices,
+                    player_name=m.get("player_name"),
+                    metric=m.get("metric"),
+                    threshold=float(m["threshold"]) if m.get("threshold") is not None else None,
                 )
             )
     return results

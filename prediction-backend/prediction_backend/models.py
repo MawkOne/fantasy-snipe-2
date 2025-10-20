@@ -7,6 +7,9 @@ class MarketCreate(BaseModel):
     title: str
     description: Optional[str] = None
     b: float = Field(gt=0)
+    player_name: Optional[str] = None
+    metric: Optional[str] = None
+    threshold: Optional[float] = None
 
 
 class MarketResponse(BaseModel):
@@ -21,6 +24,9 @@ class MarketResponse(BaseModel):
     outcomes: List[str]
     inventory: Dict[str, float]
     prices: Dict[str, float]
+    player_name: Optional[str] = None
+    metric: Optional[str] = None
+    threshold: Optional[float] = None
 
 
 class QuoteRequest(BaseModel):
