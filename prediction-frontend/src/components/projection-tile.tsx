@@ -39,7 +39,8 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-base text-foreground leading-tight">{stat}</h3>
+              <h3 className="font-semibold text-base text-foreground leading-tight">{player}</h3>
+              <div className="text-xs text-muted-foreground mt-0.5">{stat}</div>
             </div>
           </div>
 
@@ -51,9 +52,6 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
                 <button className="px-3 py-1.5 rounded bg-emerald-500/15 hover:bg-emerald-500/25 transition-colors border border-emerald-500/30 min-w-[3rem]">
                   <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Yes</span>
                 </button>
-                <button className="px-3 py-1.5 rounded bg-rose-500/15 hover:bg-rose-500/25 transition-colors border border-rose-500/30 min-w-[3rem]">
-                  <span className="text-xs font-medium text-rose-400">No</span>
-                </button>
               </div>
             </div>
 
@@ -63,9 +61,6 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
                 <span className="text-lg font-semibold text-foreground min-w-[3rem] text-right">{noP.toFixed(0)}%</span>
                 <button className="px-3 py-1.5 rounded bg-emerald-500/15 hover:bg-emerald-500/25 transition-colors border border-emerald-500/30 min-w-[3rem]">
                   <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Yes</span>
-                </button>
-                <button className="px-3 py-1.5 rounded bg-rose-500/15 hover:bg-rose-500/25 transition-colors border border-rose-500/30 min-w-[3rem]">
-                  <span className="text-xs font-medium text-rose-400">No</span>
                 </button>
               </div>
             </div>
