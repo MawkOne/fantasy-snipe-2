@@ -5,26 +5,73 @@ import { MarketComments } from "@/components/market-comments"
 import { TradingPanel } from "@/components/trading-panel"
 import { RelatedMarkets } from "@/components/related-markets"
 import { UserBudget } from "@/components/user-budget"
-import { getPlayerHeadshotUrlByName } from "@/lib/nhl"
 
-export default async function MarketDetailPage() {
+function getApiBase() {
+  const raw = (process.env.MARKET_BACKEND_API_BASE_URL || "").replace(/\/$/, "")
+  if (!raw) return ""
+  if (raw.startsWith("http://") || raw.startsWith("https://")) return raw
+  return `https://${raw}`
+}
+
+async function headshotFromLanding(landingUrl?: string | null, fallbackName?: string | null): Promise<string | null> {
+  try {
+    if (landingUrl) {
+      const r = await fetch(landingUrl, { next: { revalidate: 86400 } })
+      if (r.ok) {
+        const j = await r.json()
+        if (j && typeof j.headshot === "string") return j.headshot as string
+      }
+    }
+  } catch {}
+  return null
+}
+
+function toStat(metric?: string, sub?: string): string {
+  const s = (sub || metric || "").toString().toLowerCase()
+  if (s.includes("goal")) return "Total Goals"
+  if (s.includes("assist")) return "Total Assists"
+  if (s.includes("pt") || s.includes("points") || s === "pts") return "Total Points"
+  return sub || metric || ""
+}
+
+export default async function MarketDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const API_BASE = getApiBase()
+  if (!API_BASE) {
+    // minimal fallback if backend URL is missing
+    return (
+      <div className="min-h-screen bg-background"><main className="container mx-auto px-4 py-8 max-w-3xl"><div className="text-red-500 text-sm">Backend URL not configured. Set MARKET_BACKEND_API_BASE_URL.</div></main></div>
+    )
+  }
+
+  // Fetch market
+  const res = await fetch(`${API_BASE}/api/amm/markets/${id}`, { next: { revalidate: 5 } })
+  if (!res.ok) {
+    return (
+      <div className="min-h-screen bg-background"><main className="container mx-auto px-4 py-8 max-w-3xl"><div className="text-red-500 text-sm">Market not found.</div></main></div>
+    )
+  }
+  const m = await res.json()
+
+  const stat = toStat(m.metric, m.sub_category)
+  const image = await headshotFromLanding(m.landing_url, m.player_name)
+  const projectionLine = Number(m.threshold || 0)
+  const yesP = Number.isFinite(Number(m?.prices?.yes)) ? Math.round(Number(m.prices.yes) * 100) : 50
+  const noP = 100 - yesP
+
   const marketData = {
-    title: "Connor McDavid Total Goals",
-    subtitle: "2024-25 Regular Season",
-    image: await getPlayerHeadshotUrlByName("Connor McDavid"),
-    volume: "$234.5K",
-    ends: "Apr 18, 2025",
-    projectionLine: 60,
-    moreProbability: 34,
+    title: `${m.player_name || m.title} ${stat}`.trim(),
+    subtitle: m.timeframe || "",
+    image,
+    volume: m.volume_total ? `$${Number(m.volume_total).toLocaleString()}` : "$0",
+    ends: "",
+    projectionLine,
+    moreProbability: yesP,
     outcomes: [
-      { id: "more", label: "Yes", probability: 34, buyPrice: 34, sellPrice: 36, volume: "$156.2K" },
-      { id: "less", label: "No", probability: 66, buyPrice: 64, sellPrice: 66, volume: "$78.3K" },
+      { id: "more", label: "Yes", probability: yesP, buyPrice: yesP, sellPrice: yesP, volume: marketData?.volume || "$0" },
+      { id: "less", label: "No", probability: noP, buyPrice: noP, sellPrice: noP, volume: marketData?.volume || "$0" },
     ],
-    relatedMarkets: [
-      { title: "McDavid Total Points: More/Less 150.5", probability: 45 },
-      { title: "McDavid Hart Trophy Winner", probability: 38 },
-      { title: "Oilers Stanley Cup Winner", probability: 12 },
-    ],
+    relatedMarkets: [] as any[],
   }
 
   return (
