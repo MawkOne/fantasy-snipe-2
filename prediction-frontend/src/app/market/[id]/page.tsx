@@ -5,6 +5,7 @@ import { MarketComments } from "@/components/market-comments"
 import { TradingPanel } from "@/components/trading-panel"
 import { RelatedMarkets } from "@/components/related-markets"
 import { UserBudget } from "@/components/user-budget"
+import { getPlayerHeadshotUrlByName } from "@/lib/nhl"
 
 function getApiBase() {
   const raw = (process.env.MARKET_BACKEND_API_BASE_URL || "").replace(/\/$/, "")
@@ -57,7 +58,7 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
 
   const stat = toStat(m.metric, m.sub_category)
   const landing = await landingData(m.landing_url)
-  const image = landing.headshot || null
+  const image = landing.headshot || (m.player_name ? await getPlayerHeadshotUrlByName(m.player_name) : null)
   const projectionLine = Number(m.threshold || 0)
   const yesP = Number.isFinite(Number(m?.prices?.yes)) ? Math.round(Number(m.prices.yes) * 100) : 50
   const noP = 100 - yesP
@@ -88,8 +89,19 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {/* Market Header */}
             <div className="flex items-start gap-3 sm:gap-4">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 border-border/50 flex-shrink-0">
-                <img src={marketData.image || "/placeholder.svg"} alt="Player" className="w-full h-full object-cover" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 border-border/50 flex-shrink-0 bg-accent/30 flex items-center justify-center">
+                {marketData.image ? (
+                  <img src={marketData.image} alt="Player" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-base sm:text-lg font-bold text-primary">
+                    {(m.player_name || m.title || "?")
+                      .toString()
+                      .split(" ")
+                      .slice(0, 2)
+                      .map((n: string) => n[0])
+                      .join("")}
+                  </span>
+                )}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-semibold text-primary mb-1">PLAYER FORECAST</div>
