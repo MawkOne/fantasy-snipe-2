@@ -113,14 +113,14 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
                   {projectionLine.toFixed(1)} {stat}
                 </h1>
-                <p className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground mt-0.5">
+                <p className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground mt-2">
                   {m.player_name || m.title}
                 </p>
                 {marketData.subtitle && marketData.subtitle !== 'Season' && (
-                  <p className="text-sm sm:text-base text-muted-foreground mt-1 mb-2">{marketData.subtitle}</p>
+                  <p className="text-sm sm:text-base text-muted-foreground mt-2">{marketData.subtitle}</p>
                 )}
                 {headerStats && (
-                  <div className="text-xs sm:text-sm text-muted-foreground mb-2 overflow-x-auto">
+                  <div className="text-xs sm:text-sm text-muted-foreground mt-2 overflow-x-auto">
                     <div className="flex items-center gap-6 whitespace-nowrap pr-1">
                       <span>GP: {headerStats.gamesPlayed}</span>
                       <span>G: {headerStats.goals}</span>
@@ -133,7 +133,7 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
                     </div>
                   </div>
                 )}
-                <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
+                <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap mt-2">
                   <span>{marketData.volume} volume</span>
                   <span>•</span>
                   <span>Ends {marketData.ends}</span>
