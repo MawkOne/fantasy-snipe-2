@@ -6,7 +6,7 @@ import { TradingPanel } from "@/components/trading-panel"
 import { RelatedMarkets } from "@/components/related-markets"
 import { UserBudget } from "@/components/user-budget"
 import { getPlayerHeadshotUrlByName, getPlayerIdByName } from "@/lib/nhl"
-import { PlayerProgressChart } from "@/components/player-progress-chart"
+import { PlayerProjectionRechart } from "@/components/player-projection-rechart"
 
 function getApiBase() {
   const raw = (process.env.MARKET_BACKEND_API_BASE_URL || "").replace(/\/$/, "")
@@ -135,7 +135,7 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
             {/* Chart */}
             <MarketChart projectionLine={marketData.projectionLine} moreProbability={marketData.moreProbability} />
 
-            {/* Player progress chart (cumulative projection vs current) */}
+            {/* Player progress chart (cumulative projection vs current) using Recharts */}
             {(() => {
               const metric = (m.metric || '').toUpperCase()
               const label = metric === 'G' ? 'Goals' : metric === 'A' ? 'Assists' : 'Points'
@@ -149,7 +149,7 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
               )
               const projected = Number(m.threshold || 0)
               return (
-                <PlayerProgressChart
+                <PlayerProjectionRechart
                   metricLabel={label}
                   projectionTotal={projected}
                   gamesPlayed={gp}
