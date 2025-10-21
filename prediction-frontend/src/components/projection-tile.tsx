@@ -45,7 +45,7 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
             </div>
             {teamLogoUrl ? (
               <div className="ml-auto">
-                <img src={teamLogoUrl} alt={team || 'team'} className="w-6 h-6 object-contain opacity-80" />
+                <img src={teamLogoUrl} alt={team || 'team'} className="w-8 h-8 object-contain opacity-90" />
               </div>
             ) : null}
           </div>
