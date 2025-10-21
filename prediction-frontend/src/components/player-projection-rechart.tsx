@@ -86,8 +86,11 @@ export function PlayerProjectionRechart({
   }, [startGame, endGame, projectionTotal, cumulative])
 
   // Build a "nice" Y max and ticks similar to the top chart spacing
-  // Y-axis should honor the projection scale (full-season), not the current actual window
-  const rawMax = Math.max(1, projectionTotal) * 1.1
+  // For ALL we lock to the full-season projection scale; for Last 10 / YTD we scale to the max within the selected window
+  const currentMaxInWindow = data.reduce((mx, d) => (d.current !== undefined && d.current > mx ? d.current : mx), 0)
+  const projectionAtWindowEnd = (projectionTotal * (timeframe === "ALL" ? lastGame : endGame)) / lastGame
+  const baseMax = timeframe === "ALL" ? projectionTotal : Math.max(projectionAtWindowEnd, currentMaxInWindow)
+  const rawMax = Math.max(1, baseMax) * 1.1
   const niceMaxBase = Math.max(10, Math.ceil(rawMax))
   const niceMax = Math.ceil(niceMaxBase / 10) * 10
   const yTicks = [0, Math.round(niceMax * 0.25), Math.round(niceMax * 0.5), Math.round(niceMax * 0.75), niceMax]
