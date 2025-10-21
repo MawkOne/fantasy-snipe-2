@@ -31,12 +31,12 @@ export function Header() {
   const activeTimeframe = "season"
 
   const marketTabs = [
-    { id: "teams", label: "Teams", href: "/" },
     { id: "players", label: "Players", href: "/players" },
+    { id: "teams", label: "Teams", href: "/" },
     { id: "trades", label: "Trades", href: "/trades" },
-    { id: "projections", label: "Projections", href: "/projections" },
-    { id: "awards", label: "Awards", href: "/awards" },
+    { id: "projections", label: "Projection Lists", href: "/projections" },
     { id: "draft", label: "Draft", href: "/draft" },
+    { id: "awards", label: "Awards", href: "/awards" },
   ]
 
   const timeframes = [
