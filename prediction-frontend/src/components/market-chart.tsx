@@ -14,12 +14,6 @@ export function MarketChart({ projectionLine = 60, moreProbability = 34 }: Marke
 
   return (
     <div className="space-y-4">
-      <div className="flex items-baseline gap-2">
-        <span className="text-4xl font-bold">{moreProbability}%</span>
-        <span className="text-lg text-muted-foreground">chance</span>
-        <span className="text-xs text-green-600 ml-2">↑ 2%</span>
-      </div>
-
       <Card className="p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex gap-1">
