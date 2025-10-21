@@ -50,7 +50,7 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
               <div className="flex items-center gap-2">
                 <span className="text-lg font-semibold text-foreground min-w-[3rem] text-right">{yesP.toFixed(0)}%</span>
                 <button className="px-3 py-1.5 rounded bg-emerald-500/15 hover:bg-emerald-500/25 transition-colors border border-emerald-500/30 min-w-[3rem]">
-                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Yes</span>
+                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">More</span>
                 </button>
               </div>
             </div>
@@ -60,7 +60,7 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
               <div className="flex items-center gap-2">
                 <span className="text-lg font-semibold text-foreground min-w-[3rem] text-right">{noP.toFixed(0)}%</span>
                 <button className="px-3 py-1.5 rounded bg-emerald-500/15 hover:bg-emerald-500/25 transition-colors border border-emerald-500/30 min-w-[3rem]">
-                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Yes</span>
+                  <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Less</span>
                 </button>
               </div>
             </div>
