@@ -89,7 +89,7 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {/* Market Header */}
             <div className="flex items-start gap-3 sm:gap-4">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 border-border/50 flex-shrink-0 bg-accent/30 flex items-center justify-center">
+              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg overflow-hidden border-2 border-border/50 flex-shrink-0 bg-accent/30 flex items-center justify-center">
                 {marketData.image ? (
                   <img src={marketData.image} alt="Player" className="w-full h-full object-cover" />
                 ) : (
