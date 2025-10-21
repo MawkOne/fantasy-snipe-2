@@ -46,7 +46,7 @@ export function PlayerProjectionRechart({
     <div className="rounded-lg border border-border bg-card/50 p-6">
       <div className="text-sm font-medium mb-4">Season Progress – {metricLabel}</div>
       <ResponsiveContainer width="100%" height={height}>
-        <LineChart data={data} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
+        <LineChart data={data} margin={{ top: 4, right: 8, left: 0, bottom: 4 }}>
           <CartesianGrid strokeDasharray="4 4" stroke="hsl(var(--border))" />
           <XAxis
             type="number"
@@ -55,6 +55,8 @@ export function PlayerProjectionRechart({
             allowDecimals={false}
             ticks={xTicks}
             tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+            tickMargin={4}
+            padding={{ left: 8, right: 8 }}
             tickLine={false}
             axisLine={false}
           />
@@ -63,6 +65,8 @@ export function PlayerProjectionRechart({
             ticks={yTicks}
             tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
             allowDecimals={false}
+            tickMargin={4}
+            width={36}
             tickLine={false}
             axisLine={false}
           />
