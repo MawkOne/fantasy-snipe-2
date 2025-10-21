@@ -151,7 +151,7 @@ export function PlayerProjectionRechart({
           {/* Mid reference line to echo the style of the top chart's 50% guide */}
           <ReferenceLine y={niceMax / 2} stroke="hsl(var(--muted-foreground))" strokeDasharray="4 4" strokeOpacity={0.3} />
           <Line type="monotone" dataKey="forecast" name="Forecast" stroke="#16a34a" strokeWidth={3} dot={false} />
-          <Line type="monotone" dataKey="current" name="Current" stroke="hsl(var(--primary))" strokeWidth={3} dot={false} />
+          <Line type="monotone" dataKey="current" name="Current" stroke="#2563eb" strokeWidth={3} dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>
