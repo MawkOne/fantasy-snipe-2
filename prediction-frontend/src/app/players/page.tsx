@@ -25,7 +25,7 @@ async function fetchMarkets() {
   }
 }
 
-async function headshotFromLanding(landingUrl?: string | null, fallbackName?: string | null): Promise<{ headshot: string | null; position: string | null }> {
+async function headshotFromLanding(landingUrl?: string | null, fallbackName?: string | null): Promise<{ headshot: string | null; position: string | null; teamLogoUrl: string | null }> {
   try {
     if (landingUrl) {
       const r = await fetch(landingUrl, { next: { revalidate: 86400 } })
@@ -33,12 +33,13 @@ async function headshotFromLanding(landingUrl?: string | null, fallbackName?: st
         const j = await r.json()
         const headshot = j && typeof j.headshot === "string" ? (j.headshot as string) : null
         const position = (j?.position || j?.positionCode || j?.playerPosition || null) as string | null
-        return { headshot, position }
+        const teamLogoUrl = (j?.teamLogo || null) as string | null
+        return { headshot, position, teamLogoUrl }
       }
     }
   } catch {}
-  if (fallbackName) return { headshot: await getPlayerHeadshotUrlByName(fallbackName), position: null }
-  return { headshot: null, position: null }
+  if (fallbackName) return { headshot: await getPlayerHeadshotUrlByName(fallbackName), position: null, teamLogoUrl: null }
+  return { headshot: null, position: null, teamLogoUrl: null }
 }
 
 function toStat(sub: string | undefined): string {
@@ -61,7 +62,7 @@ export default async function PlayersPage({ searchParams }: { searchParams?: Pro
       // Map NHL position codes to buckets
       const code = (info.position || "").toUpperCase()
       const posBucket = code === "G" ? "G" : code === "D" ? "D" : code ? "F" : null // C/LW/RW => F
-      return { ...m, imageUrl: info.headshot, pos: posBucket }
+      return { ...m, imageUrl: info.headshot, teamLogoUrl: info.teamLogoUrl, pos: posBucket }
     })
   )
 
@@ -133,6 +134,7 @@ export default async function PlayersPage({ searchParams }: { searchParams?: Pro
               noProb={Number.isFinite(Number(m?.prices?.no)) ? Number(m.prices.no) * 100 : undefined}
               href={`/market/${m.id}`}
               imageUrl={m.imageUrl}
+              teamLogoUrl={m.teamLogoUrl}
             />
           ))}
         </div>

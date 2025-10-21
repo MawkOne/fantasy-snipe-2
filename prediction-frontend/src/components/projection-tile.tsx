@@ -13,9 +13,10 @@ interface ProjectionTileProps {
   noProb?: number  // percentage 0-100
   href?: string
   imageUrl?: string | null
+  teamLogoUrl?: string | null
 }
 
-export function ProjectionTile({ player, team, stat, projectionLine, volume, category, yesProb, noProb, href, imageUrl }: ProjectionTileProps) {
+export function ProjectionTile({ player, team, stat, projectionLine, volume, category, yesProb, noProb, href, imageUrl, teamLogoUrl }: ProjectionTileProps) {
   const marketId = `${player.toLowerCase().replace(/\s+/g, "-")}-${stat.toLowerCase().replace(/\s+/g, "-")}`
   const link = href || `/market/${marketId}`
   const yesP = Number.isFinite(yesProb) ? Math.max(0, Math.min(100, Number(yesProb))) : 52
@@ -42,6 +43,11 @@ export function ProjectionTile({ player, team, stat, projectionLine, volume, cat
               <h3 className="font-semibold text-base text-foreground leading-tight">{player}</h3>
               <div className="text-xs text-muted-foreground mt-0.5">{stat}</div>
             </div>
+            {teamLogoUrl ? (
+              <div className="ml-auto">
+                <img src={teamLogoUrl} alt={team || 'team'} className="w-6 h-6 object-contain opacity-80" />
+              </div>
+            ) : null}
           </div>
 
           <div className="space-y-2">
