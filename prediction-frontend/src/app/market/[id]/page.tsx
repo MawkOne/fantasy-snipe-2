@@ -109,7 +109,6 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-xs font-semibold text-primary mb-1">PLAYER FORECAST</div>
                 {/* New header layout: "130.5 Total Points" then player name */}
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
                   {projectionLine.toFixed(1)} {stat}
