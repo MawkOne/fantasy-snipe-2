@@ -16,7 +16,7 @@ export default async function MarketsPage() {
         <h1 className="text-xl font-semibold mb-4">Markets</h1>
         <div className="space-y-3">
           {markets.map((m: any) => (
-            <Link key={m.id} href={`/market/${encodeURIComponent(m.slug || m.id)}`} className="block p-4 rounded border border-border/50 hover:bg-accent/30">
+            <Link key={m.id} href={`/market/${m.id}`} className="block p-4 rounded border border-border/50 hover:bg-accent/30">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-medium">{m.title}</div>
