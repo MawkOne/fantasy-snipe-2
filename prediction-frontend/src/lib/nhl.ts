@@ -33,4 +33,8 @@ export async function getPlayerHeadshotUrlByName(name: string): Promise<string |
   return await getPlayerHeadshotUrlById(id)
 }
 
+export function getPlayerIdByName(name: string): string | null {
+  return nameToId[name] || null
+}
+
 

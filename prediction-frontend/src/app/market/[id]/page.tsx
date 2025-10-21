@@ -5,7 +5,7 @@ import { MarketComments } from "@/components/market-comments"
 import { TradingPanel } from "@/components/trading-panel"
 import { RelatedMarkets } from "@/components/related-markets"
 import { UserBudget } from "@/components/user-budget"
-import { getPlayerHeadshotUrlByName } from "@/lib/nhl"
+import { getPlayerHeadshotUrlByName, getPlayerIdByName } from "@/lib/nhl"
 
 function getApiBase() {
   const raw = (process.env.MARKET_BACKEND_API_BASE_URL || "").replace(/\/$/, "")
@@ -57,7 +57,9 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
   const m = await res.json()
 
   const stat = toStat(m.metric, m.sub_category)
-  const landing = await landingData(m.landing_url)
+  // If landing_url is missing, build it from known IDs mapping
+  const fallbackLandingUrl = m.landing_url || (m.player_name && getPlayerIdByName(m.player_name) ? `https://api-web.nhle.com/v1/player/${getPlayerIdByName(m.player_name)}/landing` : undefined)
+  const landing = await landingData(fallbackLandingUrl)
   const image = landing.headshot || (m.player_name ? await getPlayerHeadshotUrlByName(m.player_name) : null)
   const projectionLine = Number(m.threshold || 0)
   const yesP = Number.isFinite(Number(m?.prices?.yes)) ? Math.round(Number(m.prices.yes) * 100) : 50
