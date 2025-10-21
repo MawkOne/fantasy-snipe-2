@@ -7,7 +7,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
+  ReferenceLine,
   ResponsiveContainer,
 } from "recharts"
 
@@ -39,17 +39,33 @@ export function PlayerProjectionRechart({
   const xTicks = [1, 10, 20, 30, 40, 50, 60, 70, 82]
 
   return (
-    <div className="rounded-lg border border-border bg-card/50 p-4">
-      <div className="text-sm font-medium mb-2">Season Progress – {metricLabel}</div>
+    <div className="rounded-lg border border-border bg-card/50 p-6">
+      <div className="text-sm font-medium mb-4">Season Progress – {metricLabel}</div>
       <ResponsiveContainer width="100%" height={height}>
-        <LineChart data={data} margin={{ top: 8, right: 16, left: 8, bottom: 8 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-          <XAxis type="number" dataKey="g" domain={[firstGame, lastGame]} allowDecimals={false} ticks={xTicks} tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
-          <YAxis domain={[0, maxY]} tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} allowDecimals={false} />
+        <LineChart data={data} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
+          <CartesianGrid strokeDasharray="4 4" stroke="hsl(var(--border))" />
+          <XAxis
+            type="number"
+            dataKey="g"
+            domain={[firstGame, lastGame]}
+            allowDecimals={false}
+            ticks={xTicks}
+            tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis
+            domain={[0, maxY]}
+            tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+            allowDecimals={false}
+            tickLine={false}
+            axisLine={false}
+          />
           <Tooltip formatter={(v: any) => Number(v).toFixed(1)} labelFormatter={(l) => `Game ${l}`} />
-          <Legend wrapperStyle={{ fontSize: 12 }} />
+          {/* Mid reference line to echo the style of the top chart's 50% guide */}
+          <ReferenceLine y={maxY / 2} stroke="hsl(var(--muted-foreground))" strokeDasharray="4 4" strokeOpacity={0.3} />
           <Line type="monotone" dataKey="forecast" name="Forecast" stroke="#16a34a" strokeWidth={3} dot={false} />
-          <Line type="monotone" dataKey="current" name="Current" stroke="#2563eb" strokeWidth={3} dot={false} />
+          <Line type="monotone" dataKey="current" name="Current" stroke="hsl(var(--primary))" strokeWidth={3} dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>
