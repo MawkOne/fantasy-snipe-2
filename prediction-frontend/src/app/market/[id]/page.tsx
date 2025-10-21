@@ -116,7 +116,9 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
                 <p className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground mt-0.5">
                   {m.player_name || m.title}
                 </p>
-                <p className="text-sm sm:text-base text-muted-foreground mt-1 mb-2">{marketData.subtitle}</p>
+                {marketData.subtitle && marketData.subtitle !== 'Season' && (
+                  <p className="text-sm sm:text-base text-muted-foreground mt-1 mb-2">{marketData.subtitle}</p>
+                )}
                 {headerStats && (
                   <div className="text-xs sm:text-sm text-muted-foreground mb-2 overflow-x-auto">
                     <div className="flex items-center gap-6 whitespace-nowrap pr-1">
