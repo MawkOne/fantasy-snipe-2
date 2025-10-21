@@ -104,7 +104,10 @@ export function PlayerProjectionRechart({
   return (
     <div className="rounded-lg border border-border bg-card/50 p-6">
       <div className="flex items-center justify-between mb-2">
-        <div className="text-sm font-medium">Season Progress – {metricLabel}</div>
+        <div className="flex items-center gap-3">
+          <div className="text-sm font-medium">Season Progress – {metricLabel}</div>
+          <div className="text-xs text-muted-foreground">Actual YTD: {Math.round(currentTotal)}</div>
+        </div>
         <div className="flex gap-1">
           {tfs.map((tf) => (
             <button
