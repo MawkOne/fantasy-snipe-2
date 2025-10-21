@@ -158,8 +158,7 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
               )
             })()}
 
-            {/* Outcomes */}
-            <MarketOutcomes outcomes={marketData.outcomes} projectionLine={marketData.projectionLine} />
+            {/* Outcomes removed per request */}
 
             {/* Market Context with Featured Stats */}
             <MarketContext stats={fs} />
