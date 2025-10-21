@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from pydantic import BaseModel, Field
 
 
@@ -38,6 +38,7 @@ class MarketResponse(BaseModel):
     team: Optional[str] = None
     volume_total: Optional[float] = None
     landing_url: Optional[str] = None
+    landing: Optional[Dict[str, Any]] = None
 
 
 class QuoteRequest(BaseModel):

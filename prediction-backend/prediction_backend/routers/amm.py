@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from typing import Dict, List
+from typing import Dict, List, Optional
+import requests
 
 from ..db import get_cursor
 from ..models import MarketCreate, MarketResponse, QuoteRequest, QuoteResponse, TradeRequest, TradeResponse
@@ -92,10 +93,18 @@ def create_market(payload: MarketCreate):
 def get_market(market_id: str):
     with get_cursor() as cur:
         b, inventory, prices, _ = _get_market_q_and_b(cur, market_id)
-        cur.execute("SELECT slug, title, description, outcome_type, status, created_at, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total FROM markets WHERE id=%s", (market_id,))
+        cur.execute("SELECT slug, title, description, outcome_type, status, created_at, player_name, metric, threshold, category, sub_category, timeframe, team, volume_total, landing_url FROM markets WHERE id=%s", (market_id,))
         m = cur.fetchone()
         if not m:
             raise HTTPException(status_code=404, detail="market not found")
+        landing: Optional[dict] = None
+        if m.get("landing_url"):
+            try:
+                r = requests.get(m["landing_url"], timeout=6)
+                if r.ok:
+                    landing = r.json()
+            except Exception:
+                landing = None
         return MarketResponse(
             id=str(market_id),
             slug=m["slug"],
@@ -116,6 +125,8 @@ def get_market(market_id: str):
             timeframe=m.get("timeframe"),
             team=m.get("team"),
             volume_total=float(m["volume_total"]) if m.get("volume_total") is not None else None,
+            landing_url=m.get("landing_url"),
+            landing=landing,
         )
 
 
