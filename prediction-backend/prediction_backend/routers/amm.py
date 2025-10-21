@@ -105,6 +105,20 @@ def get_market(market_id: str):
                     landing = r.json()
             except Exception:
                 landing = None
+
+        # best-effort projection record (exact match on player_name)
+        player_projection = None
+        try:
+            if m.get("player_name"):
+                cur.execute(
+                    "SELECT data FROM player_projections WHERE (data->>'Player')=%s ORDER BY created_at DESC LIMIT 1",
+                    (m["player_name"],),
+                )
+                row = cur.fetchone()
+                if row and row.get("data"):
+                    player_projection = row["data"]
+        except Exception:
+            player_projection = None
         return MarketResponse(
             id=str(market_id),
             slug=m["slug"],
@@ -127,6 +141,7 @@ def get_market(market_id: str):
             volume_total=float(m["volume_total"]) if m.get("volume_total") is not None else None,
             landing_url=m.get("landing_url"),
             landing=landing,
+            player_projection=player_projection,
         )
 
 

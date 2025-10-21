@@ -39,6 +39,7 @@ class MarketResponse(BaseModel):
     volume_total: Optional[float] = None
     landing_url: Optional[str] = None
     landing: Optional[Dict[str, Any]] = None
+    player_projection: Optional[Dict[str, Any]] = None
 
 
 class QuoteRequest(BaseModel):
