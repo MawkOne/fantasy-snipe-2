@@ -26,6 +26,9 @@ export function PlayerProjectionRechart({
   currentTotal,
   height = 320,
 }: Props) {
+  // local timeframe controls: Last 10, YTD, ALL (UI only; line remains cumulative)
+  const [timeframe, setTimeframe] = React.useState<string>("ALL")
+  const tfs = ["Last 10", "YTD", "ALL"]
   // Build two-point series to draw straight lines
   const firstGame = 1
   const lastGame = 82
@@ -44,7 +47,22 @@ export function PlayerProjectionRechart({
 
   return (
     <div className="rounded-lg border border-border bg-card/50 p-6">
-      <div className="text-sm font-medium mb-4">Season Progress – {metricLabel}</div>
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-sm font-medium">Season Progress – {metricLabel}</div>
+        <div className="flex gap-1">
+          {tfs.map((tf) => (
+            <button
+              key={tf}
+              onClick={() => setTimeframe(tf)}
+              className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                timeframe === tf ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {tf}
+            </button>
+          ))}
+        </div>
+      </div>
       <ResponsiveContainer width="100%" height={height}>
         <LineChart data={data} margin={{ top: 4, right: 8, left: 0, bottom: 4 }}>
           <CartesianGrid strokeDasharray="4 4" stroke="hsl(var(--border))" />

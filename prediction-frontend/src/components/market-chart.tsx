@@ -10,12 +10,12 @@ interface MarketChartProps {
 
 export function MarketChart({ projectionLine = 60, moreProbability = 34 }: MarketChartProps) {
   const [timeframe, setTimeframe] = useState("ALL")
-  const timeframes = ["1H", "6H", "1D", "1W", "1M", "ALL"]
+  const timeframes = ["Last 10", "YTD", "ALL"]
 
   return (
     <div className="space-y-4">
       <Card className="p-6">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-end mb-2">
           <div className="flex gap-1">
             {timeframes.map((tf) => (
               <button
