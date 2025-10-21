@@ -131,7 +131,7 @@ export default async function PlayersPage({ searchParams }: { searchParams?: Pro
               category={m.sub_category || ""}
               yesProb={Number.isFinite(Number(m?.prices?.yes)) ? Number(m.prices.yes) * 100 : undefined}
               noProb={Number.isFinite(Number(m?.prices?.no)) ? Number(m.prices.no) * 100 : undefined}
-              href={`/market/${m.id}`}
+              href={`/market/${encodeURIComponent(m.slug || m.id)}`}
               imageUrl={m.imageUrl}
             />
           ))}

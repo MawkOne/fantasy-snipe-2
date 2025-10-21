@@ -170,6 +170,19 @@ def get_market(market_id: str):
         )
 
 
+@router.get("/markets/slug/{slug}", response_model=MarketResponse)
+def get_market_by_slug(slug: str):
+    with get_cursor() as cur:
+        # resolve id from slug
+        cur.execute("SELECT id FROM markets WHERE slug=%s", (slug,))
+        row = cur.fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="market not found")
+        market_id = str(row["id"]) if isinstance(row, dict) else str(row[0])
+        # reuse logic
+        return get_market(market_id)
+
+
 @router.get("/markets", response_model=List[MarketResponse])
 def list_markets():
     results: List[MarketResponse] = []

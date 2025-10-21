@@ -48,14 +48,19 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
     )
   }
 
-  // Fetch market
+  // Fetch market: accept either id or slug in the URL param
   const res = await fetch(`${API_BASE}/api/amm/markets/${id}`, { next: { revalidate: 5 } })
   if (!res.ok) {
-    return (
-      <div className="min-h-screen bg-background"><main className="container mx-auto px-4 py-8 max-w-3xl"><div className="text-red-500 text-sm">Market not found.</div></main></div>
-    )
+    const resBySlug = await fetch(`${API_BASE}/api/amm/markets/slug/${id}`, { next: { revalidate: 5 } })
+    if (!resBySlug.ok) {
+      return (
+        <div className="min-h-screen bg-background"><main className="container mx-auto px-4 py-8 max-w-3xl"><div className="text-red-500 text-sm">Market not found.</div></main></div>
+      )
+    }
+    var m = await resBySlug.json()
+  } else {
+    var m = await res.json()
   }
-  const m = await res.json()
 
   const stat = toStat(m.metric, m.sub_category)
   // If landing_url is missing, build it from known IDs mapping
