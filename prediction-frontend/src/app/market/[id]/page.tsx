@@ -68,7 +68,7 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
   const volumeLabel = m.volume_total ? `$${Number(m.volume_total).toLocaleString()}` : "$0"
 
   const marketData = {
-    title: `${m.player_name || m.title} ${stat}`.trim(),
+    title: `${m.player_name || m.title} ${stat}`.trim(), // legacy
     subtitle: m.timeframe || "",
     image,
     volume: volumeLabel,
@@ -110,8 +110,14 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-semibold text-primary mb-1">PLAYER FORECAST</div>
-                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 text-balance">{marketData.title}</h1>
-                <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-2">{marketData.subtitle}</p>
+                {/* New header layout: "130.5 Total Points" then player name */}
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
+                  {projectionLine.toFixed(1)} {stat}
+                </h1>
+                <p className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground mt-0.5">
+                  {m.player_name || m.title}
+                </p>
+                <p className="text-sm sm:text-base text-muted-foreground mt-1 mb-2">{marketData.subtitle}</p>
                 {headerStats && (
                   <div className="text-xs sm:text-sm text-muted-foreground mb-2 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-1">
                     <span>GP: {headerStats.gamesPlayed}</span>
