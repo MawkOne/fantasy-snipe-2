@@ -15,7 +15,7 @@ export function PlayerProgressChart({
   projectionTotal,
   gamesPlayed,
   currentTotal,
-  height = 160,
+  height = 320,
 }: PlayerProgressChartProps) {
   const width = 640
   const padding = { left: 36, right: 12, top: 12, bottom: 24 }
