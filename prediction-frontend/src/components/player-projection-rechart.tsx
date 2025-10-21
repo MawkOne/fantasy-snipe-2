@@ -27,13 +27,16 @@ export function PlayerProjectionRechart({
   height = 320,
 }: Props) {
   // Build two-point series to draw straight lines
+  const firstGame = 1
+  const lastGame = 82
   const data = [
-    { g: 0, forecast: 0, current: 0 },
-    { g: gamesPlayed, forecast: (projectionTotal * gamesPlayed) / 82, current: currentTotal },
-    { g: 82, forecast: projectionTotal, current: currentTotal },
+    { g: firstGame, forecast: (projectionTotal * firstGame) / lastGame, current: 0 },
+    { g: Math.max(firstGame, Math.min(gamesPlayed, lastGame)), forecast: (projectionTotal * Math.max(firstGame, Math.min(gamesPlayed, lastGame))) / lastGame, current: currentTotal },
+    { g: lastGame, forecast: projectionTotal, current: currentTotal },
   ]
 
   const maxY = Math.max(projectionTotal, currentTotal) * 1.1 || 1
+  const xTicks = [1, 10, 20, 30, 40, 50, 60, 70, 82]
 
   return (
     <div className="rounded-lg border border-border bg-card/50 p-4">
@@ -41,8 +44,8 @@ export function PlayerProjectionRechart({
       <ResponsiveContainer width="100%" height={height}>
         <LineChart data={data} margin={{ top: 8, right: 16, left: 8, bottom: 8 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-          <XAxis dataKey="g" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
-          <YAxis domain={[0, maxY]} tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
+          <XAxis type="number" dataKey="g" domain={[firstGame, lastGame]} allowDecimals={false} ticks={xTicks} tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
+          <YAxis domain={[0, maxY]} tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} allowDecimals={false} />
           <Tooltip formatter={(v: any) => Number(v).toFixed(1)} labelFormatter={(l) => `Game ${l}`} />
           <Legend wrapperStyle={{ fontSize: 12 }} />
           <Line type="monotone" dataKey="forecast" name="Forecast" stroke="#16a34a" strokeWidth={3} dot={false} />
