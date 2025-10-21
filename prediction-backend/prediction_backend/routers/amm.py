@@ -98,6 +98,7 @@ def get_market(market_id: str):
         if not m:
             raise HTTPException(status_code=404, detail="market not found")
         landing: Optional[dict] = None
+        game_log: Optional[list] = None
         if m.get("landing_url"):
             try:
                 r = requests.get(m["landing_url"], timeout=6)
@@ -105,6 +106,29 @@ def get_market(market_id: str):
                     landing = r.json()
             except Exception:
                 landing = None
+        # NHL game log via player_id if present in landing or markets table later
+        try:
+            player_id = None
+            if landing and isinstance(landing, dict):
+                # some landing payloads include playerId under 'playerId' or nested
+                player_id = landing.get("playerId") or landing.get("id")
+            # fallback: if markets table has player_id column available
+            if not player_id:
+                cur.execute("SELECT player_id FROM markets WHERE id=%s", (market_id,))
+                row_pid = cur.fetchone()
+                if row_pid and (row_pid.get("player_id") is not None):
+                    player_id = row_pid["player_id"]
+            if player_id:
+                # determine season id (YYYYYYYY) for current season; default to 20252026 for now
+                season_id = "20252026"
+                url = f"https://api-web.nhle.com/v1/player/{player_id}/game-log/{season_id}/2"
+                gr = requests.get(url, timeout=6)
+                if gr.ok:
+                    gj = gr.json()
+                    if isinstance(gj, dict) and isinstance(gj.get("gameLog"), list):
+                        game_log = gj["gameLog"]
+        except Exception:
+            game_log = None
 
         # best-effort projection record (exact match on player_name)
         player_projection = None
@@ -142,6 +166,7 @@ def get_market(market_id: str):
             landing_url=m.get("landing_url"),
             landing=landing,
             player_projection=player_projection,
+            game_log=game_log,
         )
 
 

@@ -40,6 +40,7 @@ class MarketResponse(BaseModel):
     landing_url: Optional[str] = None
     landing: Optional[Dict[str, Any]] = None
     player_projection: Optional[Dict[str, Any]] = None
+    game_log: Optional[List[Dict[str, Any]]] = None
 
 
 class QuoteRequest(BaseModel):
