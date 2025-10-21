@@ -118,15 +118,17 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
                 </p>
                 <p className="text-sm sm:text-base text-muted-foreground mt-1 mb-2">{marketData.subtitle}</p>
                 {headerStats && (
-                  <div className="text-xs sm:text-sm text-muted-foreground mb-2 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-1">
-                    <span>GP: {headerStats.gamesPlayed}</span>
-                    <span>G: {headerStats.goals}</span>
-                    <span>A: {headerStats.assists}</span>
-                    <span>PTS: {headerStats.points}</span>
-                    <span>SOG: {headerStats.shots}</span>
-                    <span>+/-: {headerStats.plusMinus}</span>
-                    <span>PPG: {headerStats.powerPlayGoals}</span>
-                    <span>PPP: {headerStats.powerPlayPoints}</span>
+                  <div className="text-xs sm:text-sm text-muted-foreground mb-2 overflow-x-auto">
+                    <div className="flex items-center gap-6 whitespace-nowrap pr-1">
+                      <span>GP: {headerStats.gamesPlayed}</span>
+                      <span>G: {headerStats.goals}</span>
+                      <span>A: {headerStats.assists}</span>
+                      <span>PTS: {headerStats.points}</span>
+                      <span>SOG: {headerStats.shots}</span>
+                      <span>+/-: {headerStats.plusMinus}</span>
+                      <span>PPG: {headerStats.powerPlayGoals}</span>
+                      <span>PPP: {headerStats.powerPlayPoints}</span>
+                    </div>
                   </div>
                 )}
                 <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
