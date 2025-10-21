@@ -19,6 +19,8 @@ interface Props {
   gamesPlayed: number
   currentTotal: number
   height?: number
+  gameLog?: Array<Record<string, any>>
+  statKey?: "points" | "goals" | "assists"
 }
 
 export function PlayerProjectionRechart({
@@ -27,25 +29,77 @@ export function PlayerProjectionRechart({
   gamesPlayed,
   currentTotal,
   height = 320,
+  gameLog = [],
+  statKey = "points",
 }: Props) {
   // local timeframe controls: Last 10, YTD, ALL (UI only; line remains cumulative)
   const [timeframe, setTimeframe] = React.useState<string>("ALL")
   const tfs = ["Last 10", "YTD", "ALL"]
-  // Build two-point series to draw straight lines
   const firstGame = 1
   const lastGame = 82
-  const data = [
-    { g: firstGame, forecast: (projectionTotal * firstGame) / lastGame, current: 0 },
-    { g: Math.max(firstGame, Math.min(gamesPlayed, lastGame)), forecast: (projectionTotal * Math.max(firstGame, Math.min(gamesPlayed, lastGame))) / lastGame, current: currentTotal },
-    { g: lastGame, forecast: projectionTotal, current: currentTotal },
-  ]
+
+  // Prepare cumulative actuals from gameLog (sorted oldest->newest)
+  const sortedLog = React.useMemo(() => {
+    try {
+      return [...(gameLog || [])].sort((a, b) => String(a.gameDate).localeCompare(String(b.gameDate)))
+    } catch {
+      return [] as Array<Record<string, any>>
+    }
+  }, [gameLog])
+
+  const cumulative = React.useMemo(() => {
+    const arr: number[] = []
+    let sum = 0
+    for (const rec of sortedLog) {
+      const val = Number(rec?.[statKey] ?? 0)
+      sum += Number.isFinite(val) ? val : 0
+      arr.push(sum)
+    }
+    return arr
+  }, [sortedLog, statKey])
+
+  const totalGamesPlayed = Math.max(gamesPlayed || 0, cumulative.length)
+
+  // Determine window based on timeframe
+  const [startGame, endGame] = React.useMemo((): [number, number] => {
+    if (timeframe === "Last 10") {
+      const e = Math.max(firstGame, Math.min(totalGamesPlayed || firstGame, lastGame))
+      const s = Math.max(firstGame, e - 9)
+      return [s, Math.max(s, e)]
+    }
+    if (timeframe === "YTD") {
+      const e = Math.max(firstGame, Math.min(totalGamesPlayed || firstGame, lastGame))
+      return [firstGame, e]
+    }
+    return [firstGame, lastGame]
+  }, [timeframe, totalGamesPlayed])
+
+  // Build data points for selected window
+  const data = React.useMemo(() => {
+    const rows: { g: number; forecast: number; current?: number }[] = []
+    for (let g = startGame; g <= endGame; g += 1) {
+      const forecastVal = (projectionTotal * g) / lastGame
+      const currentVal = g - 1 < cumulative.length ? cumulative[g - 1] : undefined
+      rows.push({ g, forecast: forecastVal, current: currentVal })
+    }
+    return rows
+  }, [startGame, endGame, projectionTotal, cumulative])
 
   // Build a "nice" Y max and ticks similar to the top chart spacing
-  const rawMax = Math.max(projectionTotal, currentTotal) * 1.1 || 1
+  const currentMaxInWindow = data.reduce((mx, d) => (d.current !== undefined && d.current > mx ? d.current : mx), 0)
+  const windowMax = Math.max((projectionTotal * endGame) / lastGame, currentMaxInWindow)
+  const rawMax = (windowMax || 1) * 1.1
   const niceMaxBase = Math.max(10, Math.ceil(rawMax))
   const niceMax = Math.ceil(niceMaxBase / 10) * 10
   const yTicks = [0, Math.round(niceMax * 0.25), Math.round(niceMax * 0.5), Math.round(niceMax * 0.75), niceMax]
-  const xTicks = [1, 10, 20, 30, 40, 50, 60, 70, 82]
+  const range = endGame - startGame
+  const xTicks = React.useMemo(() => {
+    const ticks: number[] = []
+    const step = range >= 40 ? 10 : range >= 20 ? 5 : range >= 10 ? 2 : 1
+    for (let t = startGame; t <= endGame; t += step) ticks.push(t)
+    if (ticks[ticks.length - 1] !== endGame) ticks.push(endGame)
+    return ticks
+  }, [startGame, endGame, range])
 
   return (
     <div className="rounded-lg border border-border bg-card/50 p-6">
@@ -71,7 +125,7 @@ export function PlayerProjectionRechart({
           <XAxis
             type="number"
             dataKey="g"
-            domain={[firstGame, lastGame]}
+            domain={[startGame, endGame]}
             allowDecimals={false}
             ticks={xTicks}
             tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}

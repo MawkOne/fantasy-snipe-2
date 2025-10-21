@@ -157,12 +157,16 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
                   : landing?.featuredStats?.regularSeason?.subSeason?.points || 0
               )
               const projected = Number(m.threshold || 0)
+              const gameLog = Array.isArray(m.game_log) ? m.game_log : []
+              const statKey = metric === 'G' ? 'goals' : metric === 'A' ? 'assists' : 'points'
               return (
                 <PlayerProjectionRechart
                   metricLabel={label}
                   projectionTotal={projected}
                   gamesPlayed={gp}
                   currentTotal={current}
+                  gameLog={gameLog}
+                  statKey={statKey as any}
                 />
               )
             })()}
