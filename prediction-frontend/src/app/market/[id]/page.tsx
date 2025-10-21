@@ -59,7 +59,7 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
   const stat = toStat(m.metric, m.sub_category)
   // If landing_url is missing, build it from known IDs mapping
   const fallbackLandingUrl = m.landing_url || (m.player_name && getPlayerIdByName(m.player_name) ? `https://api-web.nhle.com/v1/player/${getPlayerIdByName(m.player_name)}/landing` : undefined)
-  const landing = await landingData(fallbackLandingUrl)
+  const landing = m.landing || (await landingData(fallbackLandingUrl))
   const image = landing.headshot || (m.player_name ? await getPlayerHeadshotUrlByName(m.player_name) : null)
   const projectionLine = Number(m.threshold || 0)
   const yesP = Number.isFinite(Number(m?.prices?.yes)) ? Math.round(Number(m.prices.yes) * 100) : 50
@@ -82,6 +82,8 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
   }
 
   const fs = landing?.featuredStats?.regularSeason?.subSeason || landing?.featuredStats?.regularSeason || landing?.featuredStats || null
+
+  const headerStats = fs
 
   return (
     <div className="min-h-screen bg-background">
@@ -109,6 +111,18 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
                 <div className="text-xs font-semibold text-primary mb-1">PLAYER FORECAST</div>
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 text-balance">{marketData.title}</h1>
                 <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-2">{marketData.subtitle}</p>
+                {headerStats && (
+                  <div className="text-xs sm:text-sm text-muted-foreground mb-2 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-1">
+                    <span>GP: {headerStats.gamesPlayed}</span>
+                    <span>G: {headerStats.goals}</span>
+                    <span>A: {headerStats.assists}</span>
+                    <span>PTS: {headerStats.points}</span>
+                    <span>SOG: {headerStats.shots}</span>
+                    <span>+/-: {headerStats.plusMinus}</span>
+                    <span>PPG: {headerStats.powerPlayGoals}</span>
+                    <span>PPP: {headerStats.powerPlayPoints}</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
                   <span>{marketData.volume} volume</span>
                   <span>•</span>
