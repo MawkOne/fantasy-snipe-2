@@ -11,39 +11,77 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import { useState } from "react"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-  const getActiveTab = () => {
-    if (pathname === "/") return "teams"
-    if (pathname.startsWith("/players")) return "players"
-    if (pathname.startsWith("/trades")) return "trades"
-    if (pathname.startsWith("/projections")) return "projections"
-    if (pathname.startsWith("/awards")) return "awards"
-    if (pathname.startsWith("/draft")) return "draft"
-    return "teams"
+  // Get current page-specific tabs
+  const getPageTabs = () => {
+    if (pathname.startsWith("/players")) {
+      // Extract current query params
+      const currentPos = searchParams.get('pos') || ''
+      const currentTimeframe = searchParams.get('timeframe') || ''
+      const currentMetric = searchParams.get('metric') || ''
+      
+      const metricTabs = [
+        { id: "Points", label: "Points", href: `/players?metric=Points${currentPos?`&pos=${currentPos}`:''}${currentTimeframe?`&timeframe=${currentTimeframe}`:''}` },
+        { id: "Goals", label: "Goals", href: `/players?metric=Goals${currentPos?`&pos=${currentPos}`:''}${currentTimeframe?`&timeframe=${currentTimeframe}`:''}` },
+        { id: "Assists", label: "Assists", href: `/players?metric=Assists${currentPos?`&pos=${currentPos}`:''}${currentTimeframe?`&timeframe=${currentTimeframe}`:''}` },
+      ]
+      
+      const positionTabs = [
+        { id: "F", label: "Forwards", href: `/players?${currentMetric?`metric=${currentMetric}&`:''}pos=F${currentTimeframe?`&timeframe=${currentTimeframe}`:''}` },
+        { id: "D", label: "Defence", href: `/players?${currentMetric?`metric=${currentMetric}&`:''}pos=D${currentTimeframe?`&timeframe=${currentTimeframe}`:''}` },
+        { id: "G", label: "Goalies", href: `/players?${currentMetric?`metric=${currentMetric}&`:''}pos=G${currentTimeframe?`&timeframe=${currentTimeframe}`:''}` },
+      ]
+      
+      const timeframeTabs = [
+        { id: "Season", label: "Season", href: `/players?${currentMetric?`metric=${currentMetric}&`:''}${currentPos?`pos=${currentPos}&`:''}timeframe=Season` },
+        { id: "Monthly", label: "Monthly", href: `/players?${currentMetric?`metric=${currentMetric}&`:''}${currentPos?`pos=${currentPos}&`:''}timeframe=Monthly` },
+        { id: "Weekly", label: "Weekly", href: `/players?${currentMetric?`metric=${currentMetric}&`:''}${currentPos?`pos=${currentPos}&`:''}timeframe=Weekly` },
+      ]
+      
+      return {
+        tabs: [...metricTabs, ...positionTabs, ...timeframeTabs],
+        activeMetric: currentMetric || '',
+        activePos: currentPos || '',
+        activeTimeframe: currentTimeframe || ''
+      }
+    }
+    
+    if (pathname.startsWith("/teams")) {
+      return {
+        tabs: [
+          { id: "standings", label: "Standings", href: "/teams?view=standings" },
+          { id: "playoffs", label: "Playoffs", href: "/teams?view=playoffs" },
+          { id: "awards", label: "Awards", href: "/teams?view=awards" },
+        ],
+        activeMetric: '',
+        activePos: '',
+        activeTimeframe: ''
+      }
+    }
+    
+    if (pathname.startsWith("/trades")) {
+      return {
+        tabs: [
+          { id: "recent", label: "Recent", href: "/trades?view=recent" },
+          { id: "mine", label: "My Trades", href: "/trades?view=mine" },
+          { id: "leaderboard", label: "Leaderboard", href: "/trades?view=leaderboard" },
+        ],
+        activeMetric: '',
+        activePos: '',
+        activeTimeframe: ''
+      }
+    }
+    
+    return { tabs: [], activeMetric: '', activePos: '', activeTimeframe: '' }
   }
 
-  const activeTab = getActiveTab()
-  const activeTimeframe = "season"
-
-  const marketTabs = [
-    { id: "players", label: "Players", href: "/players" },
-    { id: "teams", label: "Teams", href: "/" },
-    { id: "trades", label: "Trades", href: "/trades" },
-    { id: "projections", label: "Projection Lists", href: "/projections" },
-    { id: "draft", label: "Draft", href: "/draft" },
-    { id: "awards", label: "Awards", href: "/awards" },
-  ]
-
-  const timeframes = [
-    { id: "season", label: "Season" },
-    { id: "monthly", label: "Monthly" },
-    { id: "weekly", label: "Weekly" },
-  ]
+  const { tabs: pageTabs, activeMetric, activePos, activeTimeframe } = getPageTabs()
 
   return (
     <header className="border-b border-border bg-card sticky top-0 z-50">
@@ -57,77 +95,109 @@ export function Header() {
               <span className="font-bold text-lg md:text-xl">IceMarkets</span>
             </Link>
             <nav className="hidden lg:flex items-center gap-6">
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
+              {/* Markets Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
+                  Markets <ChevronDown className="w-3 h-3" />
+                </button>
+                <div className="absolute left-0 top-full mt-2 w-48 bg-popover border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-1">
+                    <Link href="/players" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Players
+                    </Link>
+                    <Link href="/teams" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Teams
+                    </Link>
+                    <Link href="/trades" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Trades
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Leagues Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
                   Leagues <ChevronDown className="w-3 h-3" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem asChild>
-                    <Link href="/leagues/create">Create League</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/leagues/join">Join League</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/leagues/my-leagues">My Leagues</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </button>
+                <div className="absolute left-0 top-full mt-2 w-48 bg-popover border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-1">
+                    <Link href="/leagues/create" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Create League
+                    </Link>
+                    <Link href="/leagues/join" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Join League
+                    </Link>
+                    <Link href="/leagues/my-leagues" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      My Leagues
+                    </Link>
+                  </div>
+                </div>
+              </div>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
+              {/* Tools Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
                   Tools <ChevronDown className="w-3 h-3" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem asChild>
-                    <Link href="/tools/lineup-optimizer">Lineup Optimizer</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/tools/trade-analyzer">Trade Analyzer</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/tools/waiver-assistant">Waiver Assistant</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </button>
+                <div className="absolute left-0 top-full mt-2 w-48 bg-popover border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-1">
+                    <Link href="/tools/lineup-optimizer" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Lineup Optimizer
+                    </Link>
+                    <Link href="/tools/trade-analyzer" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Trade Analyzer
+                    </Link>
+                    <Link href="/tools/waiver-assistant" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Waiver Assistant
+                    </Link>
+                  </div>
+                </div>
+              </div>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
+              {/* Research Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
                   Research <ChevronDown className="w-3 h-3" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem asChild>
-                    <Link href="/research/player-stats">Player Stats</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/research/team-analytics">Team Analytics</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/research/injury-reports">Injury Reports</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </button>
+                <div className="absolute left-0 top-full mt-2 w-48 bg-popover border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-1">
+                    <Link href="/research/player-stats" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Player Stats
+                    </Link>
+                    <Link href="/research/team-analytics" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Team Analytics
+                    </Link>
+                    <Link href="/research/injury-reports" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Injury Reports
+                    </Link>
+                  </div>
+                </div>
+              </div>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
+              {/* Resources Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
                   Resources <ChevronDown className="w-3 h-3" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem asChild>
-                    <Link href="/resources/guides">Guides</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/resources/tutorials">Tutorials</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/resources/faq">FAQ</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/community">Community</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </button>
+                <div className="absolute left-0 top-full mt-2 w-48 bg-popover border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-1">
+                    <Link href="/resources/guides" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Guides
+                    </Link>
+                    <Link href="/resources/tutorials" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Tutorials
+                    </Link>
+                    <Link href="/resources/faq" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      FAQ
+                    </Link>
+                    <div className="border-t border-border my-1"></div>
+                    <Link href="/community" className="block px-4 py-2 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground">
+                      Community
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </nav>
           </div>
           <div className="flex items-center gap-2 md:gap-4">
@@ -148,40 +218,70 @@ export function Header() {
           </div>
         </div>
 
-        <div className="border-t border-border py-3">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-              {marketTabs.map((tab) => (
-                <Link
-                  key={tab.id}
-                  href={tab.href}
-                  className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap text-sm ${
-                    activeTab === tab.id
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-accent text-accent-foreground hover:bg-accent/80"
-                  }`}
-                >
-                  {tab.label}
-                </Link>
-              ))}
-            </div>
+        {pathname.startsWith("/players") && (
+          <div className="border-t border-border py-3">
+            <div className="flex gap-3 items-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="px-4 py-2 rounded-lg font-medium text-sm bg-primary text-primary-foreground flex items-center gap-1">
+                  {activeMetric || "Points"} <ChevronDown className="w-3 h-3" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?metric=Points${searchParams.get('pos')?`&pos=${searchParams.get('pos')}`:''}${searchParams.get('timeframe')?`&timeframe=${searchParams.get('timeframe')}`:''}`}>Points</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?metric=Goals${searchParams.get('pos')?`&pos=${searchParams.get('pos')}`:''}${searchParams.get('timeframe')?`&timeframe=${searchParams.get('timeframe')}`:''}`}>Goals</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?metric=Assists${searchParams.get('pos')?`&pos=${searchParams.get('pos')}`:''}${searchParams.get('timeframe')?`&timeframe=${searchParams.get('timeframe')}`:''}`}>Assists</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-            <div className="flex gap-2 flex-shrink-0 overflow-x-auto pb-2 scrollbar-hide">
-              {timeframes.map((timeframe) => (
-                <button
-                  key={timeframe.id}
-                  className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap text-sm ${
-                    activeTimeframe === timeframe.id
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-accent text-accent-foreground hover:bg-accent/80"
-                  }`}
-                >
-                  {timeframe.label}
-                </button>
-              ))}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="px-4 py-2 rounded-lg font-medium text-sm bg-accent text-accent-foreground hover:bg-accent/80 flex items-center gap-1">
+                  {activePos === "F" ? "Forwards" : activePos === "D" ? "Defence" : activePos === "G" ? "Goalies" : "All Positions"} <ChevronDown className="w-3 h-3" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?${searchParams.get('metric')?`metric=${searchParams.get('metric')}&`:''}pos=F${searchParams.get('timeframe')?`&timeframe=${searchParams.get('timeframe')}`:''}`}>Forwards</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?${searchParams.get('metric')?`metric=${searchParams.get('metric')}&`:''}pos=D${searchParams.get('timeframe')?`&timeframe=${searchParams.get('timeframe')}`:''}`}>Defence</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?${searchParams.get('metric')?`metric=${searchParams.get('metric')}&`:''}pos=G${searchParams.get('timeframe')?`&timeframe=${searchParams.get('timeframe')}`:''}`}>Goalies</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?${searchParams.get('metric')?`metric=${searchParams.get('metric')}`:''}${searchParams.get('timeframe')?`&timeframe=${searchParams.get('timeframe')}`:''}`}>All Positions</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger className="px-4 py-2 rounded-lg font-medium text-sm bg-accent text-accent-foreground hover:bg-accent/80 flex items-center gap-1">
+                  {activeTimeframe || "All Timeframes"} <ChevronDown className="w-3 h-3" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?${searchParams.get('metric')?`metric=${searchParams.get('metric')}&`:''}${searchParams.get('pos')?`pos=${searchParams.get('pos')}&`:''}timeframe=Season`}>Season</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?${searchParams.get('metric')?`metric=${searchParams.get('metric')}&`:''}${searchParams.get('pos')?`pos=${searchParams.get('pos')}&`:''}timeframe=Monthly`}>Monthly</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?${searchParams.get('metric')?`metric=${searchParams.get('metric')}&`:''}${searchParams.get('pos')?`pos=${searchParams.get('pos')}&`:''}timeframe=Weekly`}>Weekly</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href={`/players?${searchParams.get('metric')?`metric=${searchParams.get('metric')}`:''}${searchParams.get('pos')?`&pos=${searchParams.get('pos')}`:''}`}>All Timeframes</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
-        </div>
+        )}
 
         {mobileMenuOpen && (
           <nav className="lg:hidden border-t border-border py-4 space-y-2">

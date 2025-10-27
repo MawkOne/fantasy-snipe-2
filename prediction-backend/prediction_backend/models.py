@@ -41,6 +41,7 @@ class MarketResponse(BaseModel):
     landing: Optional[Dict[str, Any]] = None
     player_projection: Optional[Dict[str, Any]] = None
     game_log: Optional[List[Dict[str, Any]]] = None
+    timeframe_stats: Optional[Dict[str, float]] = None  # {'goals': 5, 'assists': 3, 'points': 8}
 
 
 class QuoteRequest(BaseModel):

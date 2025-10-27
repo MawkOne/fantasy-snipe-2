@@ -2,9 +2,8 @@ import { MarketChart } from "@/components/market-chart"
 import { MarketOutcomes } from "@/components/market-outcomes"
 import { MarketContext } from "@/components/market-context"
 import { MarketComments } from "@/components/market-comments"
-import { TradingPanel } from "@/components/trading-panel"
-import { RelatedMarkets } from "@/components/related-markets"
-import { UserBudget } from "@/components/user-budget"
+import { TradingPanelWrapper } from "@/components/trading-panel-wrapper"
+import { MarketActivity } from "@/components/market-activity"
 import { getPlayerHeadshotUrlByName, getPlayerIdByName } from "@/lib/nhl"
 import { PlayerProjectionRechart } from "@/components/player-projection-rechart"
 
@@ -71,6 +70,15 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
   const yesP = Number.isFinite(Number(m?.prices?.yes)) ? Math.round(Number(m.prices.yes) * 100) : 50
   const noP = 100 - yesP
   const volumeLabel = m.volume_total ? `$${Number(m.volume_total).toLocaleString()}` : "$0"
+  
+  // Fetch market stats (traders, trades)
+  let marketStats = { unique_traders: 0, total_trades: 0 }
+  try {
+    const statsRes = await fetch(`${API_BASE}/api/amm/markets/${id}/stats`, { next: { revalidate: 30 } })
+    if (statsRes.ok) {
+      marketStats = await statsRes.json()
+    }
+  } catch {}
 
   const marketData = {
     title: `${m.player_name || m.title} ${stat}`.trim(), // legacy
@@ -81,8 +89,8 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
     projectionLine,
     moreProbability: yesP,
     outcomes: [
-      { id: "more", label: "Yes", probability: yesP, buyPrice: yesP, sellPrice: yesP, volume: volumeLabel },
-      { id: "less", label: "No", probability: noP, buyPrice: noP, sellPrice: noP, volume: volumeLabel },
+      { id: "more", label: "More", probability: yesP, buyPrice: yesP, sellPrice: yesP, volume: volumeLabel },
+      { id: "less", label: "Less", probability: noP, buyPrice: noP, sellPrice: noP, volume: volumeLabel },
     ],
     relatedMarkets: [] as any[],
   }
@@ -94,9 +102,9 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
   return (
     <div className="min-h-screen bg-background">
       <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {/* Main Content - Left Side */}
-          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+          <div className="lg:col-span-3 space-y-4 sm:space-y-6">
             {/* Market Header */}
             <div className="flex items-start gap-3 sm:gap-4">
               <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg overflow-hidden border-2 border-border/50 flex-shrink-0 bg-accent/30 flex items-center justify-center">
@@ -126,7 +134,7 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
                 )}
                 {headerStats && (
                   <div className="text-xs sm:text-sm text-muted-foreground mt-2 overflow-x-auto">
-                    <div className="flex items-center gap-6 whitespace-nowrap pr-1">
+                    <div className="flex items-center gap-3 whitespace-nowrap pr-1">
                       <span>GP: {headerStats.gamesPlayed}</span>
                       <span>G: {headerStats.goals}</span>
                       <span>A: {headerStats.assists}</span>
@@ -138,16 +146,17 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
                     </div>
                   </div>
                 )}
-                <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap mt-2">
-                  <span>{marketData.volume} volume</span>
-                  <span>•</span>
-                  <span>Ends {marketData.ends}</span>
-                </div>
               </div>
             </div>
 
             {/* Chart */}
-            <MarketChart projectionLine={marketData.projectionLine} moreProbability={marketData.moreProbability} />
+            <MarketChart 
+              projectionLine={marketData.projectionLine} 
+              moreProbability={marketData.moreProbability} 
+              trades={await fetch(`${API_BASE}/api/amm/markets/${id}/trades?limit=200`, { next: { revalidate: 30 } }).then(r => r.ok ? r.json() : []).catch(() => [])}
+              volume={marketData.volume}
+              traders={marketStats.unique_traders}
+            />
 
             {/* Player progress chart (cumulative projection vs current) using Recharts */}
             {(() => {
@@ -182,15 +191,13 @@ export default async function MarketDetailPage({ params }: { params: Promise<{ i
             <MarketContext stats={fs} />
 
             {/* Comments */}
-            <MarketComments />
+            <MarketComments trades={await fetch(`${API_BASE}/api/amm/markets/${id}/trades?limit=50`, { next: { revalidate: 30 } }).then(r => r.ok ? r.json() : []).catch(() => [])} tradeCount={marketStats.total_trades} />
           </div>
 
           {/* Trading Panel - Right Side */}
           <div className="lg:col-span-1">
             <div className="lg:sticky lg:top-8 space-y-4 sm:space-y-6">
-              <UserBudget />
-              <TradingPanel outcomes={marketData.outcomes} />
-              <RelatedMarkets markets={marketData.relatedMarkets} />
+              <TradingPanelWrapper outcomes={marketData.outcomes} relatedMarkets={marketData.relatedMarkets} />
             </div>
           </div>
         </div>

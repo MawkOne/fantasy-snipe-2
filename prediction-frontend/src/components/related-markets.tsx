@@ -10,8 +10,10 @@ interface RelatedMarketsProps {
 }
 
 export function RelatedMarkets({ markets }: RelatedMarketsProps) {
+  if (markets.length === 0) return null
+  
   return (
-    <Card className="p-6">
+    <Card className="p-4">
       <h3 className="font-semibold mb-4">Related Forecasts</h3>
       <div className="space-y-3">
         {markets.map((market, index) => (

@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
+from datetime import datetime, timedelta
 import requests
 
 from ..db import get_cursor
@@ -183,6 +184,83 @@ def get_market_by_slug(slug: str):
         return get_market(market_id)
 
 
+def _calculate_timeframe_stats(landing_url: Optional[str], timeframe: Optional[str]) -> Optional[Dict[str, float]]:
+    """Calculate player stats for a specific timeframe (Season/Monthly/Weekly)."""
+    if not landing_url or not timeframe or timeframe == "Season":
+        # For Season or missing data, return None (frontend will use season totals from landing)
+        return None
+    
+    try:
+        # Fetch landing data to get player_id
+        landing_resp = requests.get(landing_url, timeout=5)
+        if not landing_resp.ok:
+            return None
+        
+        landing_data = landing_resp.json()
+        player_id = landing_data.get("playerId")
+        if not player_id:
+            return None
+        
+        # Fetch game log from NHL API
+        season_id = "20242025"  # 2024-25 season
+        game_log_url = f"https://api-web.nhle.com/v1/player/{player_id}/game-log/{season_id}/2"
+        game_log_resp = requests.get(game_log_url, timeout=5)
+        if not game_log_resp.ok:
+            return None
+        
+        game_log_data = game_log_resp.json()
+        game_log = game_log_data.get("gameLog", [])
+        if not game_log:
+            return None
+        
+        # Calculate date range based on timeframe
+        now = datetime.utcnow()
+        start_date = None
+        end_date = now
+        
+        if timeframe == "Weekly":
+            # Calculate current week (Week 5 = Oct 4 + 4 weeks)
+            season_start = datetime(2024, 10, 4)
+            diff_weeks = int((now - season_start).days / 7)
+            start_date = season_start + timedelta(weeks=diff_weeks)
+            end_date = start_date + timedelta(weeks=1)
+        elif timeframe == "Monthly":
+            # Current month
+            start_date = datetime(now.year, now.month, 1)
+            if now.month == 12:
+                end_date = datetime(now.year + 1, 1, 1)
+            else:
+                end_date = datetime(now.year, now.month + 1, 1)
+        
+        if not start_date:
+            return None
+        
+        # Sum stats from games in the date range
+        goals = 0
+        assists = 0
+        points = 0
+        
+        for game in game_log:
+            game_date_str = game.get("gameDate")
+            if not game_date_str:
+                continue
+            
+            try:
+                game_date = datetime.fromisoformat(game_date_str.replace("Z", "+00:00"))
+            except:
+                continue
+            
+            if start_date <= game_date < end_date:
+                goals += int(game.get("goals", 0))
+                assists += int(game.get("assists", 0))
+                points += int(game.get("goals", 0)) + int(game.get("assists", 0))
+        
+        return {"goals": float(goals), "assists": float(assists), "points": float(points)}
+    
+    except Exception:
+        return None
+
+
 @router.get("/markets", response_model=List[MarketResponse])
 def list_markets():
     results: List[MarketResponse] = []
@@ -192,6 +270,13 @@ def list_markets():
         for m in markets:
             market_id = m["id"]
             b, inventory, prices, _ = _get_market_q_and_b(cur, market_id)
+            
+            # Calculate timeframe-specific stats
+            # Temporarily disabled for performance - will implement caching later
+            timeframe_stats = None
+            # if m.get("category") == "Players":
+            #     timeframe_stats = _calculate_timeframe_stats(m.get("landing_url"), m.get("timeframe"))
+            
             results.append(
                 MarketResponse(
                     id=str(market_id),
@@ -214,6 +299,7 @@ def list_markets():
                     team=m.get("team"),
                     volume_total=float(m["volume_total"]) if m.get("volume_total") is not None else None,
                     landing_url=m.get("landing_url"),
+                    timeframe_stats=timeframe_stats,
                 )
             )
     return results
@@ -232,6 +318,60 @@ def quote_market(market_id: str, payload: QuoteRequest):
             price_after=qd["price_after"],
             prices_after={"no": qd["prices_after"][0], "yes": qd["prices_after"][1]},
         )
+
+
+@router.get("/markets/{market_id}/trades")
+def get_market_trades(market_id: str, limit: int = 20):
+    """Get recent trades for a market"""
+    with get_cursor() as cur:
+        cur.execute(
+            """
+            SELECT id, market_id, user_id, side, outcome, shares, price, cost, created_at
+            FROM trades
+            WHERE market_id = %s
+            ORDER BY created_at DESC
+            LIMIT %s
+            """,
+            (market_id, limit),
+        )
+        trades = cur.fetchall()
+        return [
+            {
+                "id": str(t["id"]),
+                "market_id": str(t["market_id"]),
+                "user_id": str(t["user_id"]),
+                "side": t["side"],
+                "outcome": t["outcome"],
+                "shares": float(t["shares"]),
+                "price": float(t["price"]),
+                "cost": float(t["cost"]),
+                "created_at": str(t["created_at"]),
+            }
+            for t in trades
+        ]
+
+
+@router.get("/markets/{market_id}/stats")
+def get_market_stats(market_id: str):
+    """Get market statistics like trader count and trade count"""
+    with get_cursor() as cur:
+        cur.execute(
+            """
+            SELECT 
+                COUNT(DISTINCT user_id) as unique_traders,
+                COUNT(*) as total_trades,
+                SUM(cost) as total_volume
+            FROM trades 
+            WHERE market_id = %s
+            """,
+            (market_id,),
+        )
+        row = cur.fetchone()
+        return {
+            "unique_traders": int(row["unique_traders"]) if row else 0,
+            "total_trades": int(row["total_trades"]) if row else 0,
+            "total_volume": float(row["total_volume"]) if row and row["total_volume"] else 0.0,
+        }
 
 
 @router.post("/markets/{market_id}/trade", response_model=TradeResponse)

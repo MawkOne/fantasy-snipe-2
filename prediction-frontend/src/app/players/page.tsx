@@ -16,7 +16,7 @@ const API_BASE = getApiBase()
 async function fetchMarkets() {
   if (!API_BASE) return [] as any[]
   try {
-    const res = await fetch(`${API_BASE}/api/amm/markets`, { next: { revalidate: 0 } })
+    const res = await fetch(`${API_BASE}/api/amm/markets`, { next: { revalidate: 300 } })
     if (!res.ok) return []
     return res.json()
   } catch (e) {
@@ -25,29 +25,35 @@ async function fetchMarkets() {
   }
 }
 
-async function headshotFromLanding(landingUrl?: string | null, fallbackName?: string | null): Promise<{ headshot: string | null; position: string | null; teamLogoUrl: string | null }> {
+async function headshotFromLanding(landingUrl?: string | null, fallbackName?: string | null): Promise<{ headshot: string | null; position: string | null; teamLogoUrl: string | null; currentGoals: number; currentAssists: number; currentPoints: number }> {
   try {
     if (landingUrl) {
-      const r = await fetch(landingUrl, { next: { revalidate: 86400 } })
+      const r = await fetch(landingUrl, { next: { revalidate: 1800 } }) // Cache for 30 minutes
       if (r.ok) {
         const j = await r.json()
         const headshot = j && typeof j.headshot === "string" ? (j.headshot as string) : null
         const position = (j?.position || j?.positionCode || j?.playerPosition || null) as string | null
         const teamLogoUrl = (j?.teamLogo || null) as string | null
-        return { headshot, position, teamLogoUrl }
+        
+        // Always use season totals for listing page (performance optimization)
+        const currentGoals = Number(j?.featuredStats?.regularSeason?.subSeason?.goals || 0)
+        const currentAssists = Number(j?.featuredStats?.regularSeason?.subSeason?.assists || 0)
+        const currentPoints = Number(j?.featuredStats?.regularSeason?.subSeason?.points || 0)
+        
+        return { headshot, position, teamLogoUrl, currentGoals, currentAssists, currentPoints }
       }
     }
   } catch {}
-  if (fallbackName) return { headshot: await getPlayerHeadshotUrlByName(fallbackName), position: null, teamLogoUrl: null }
-  return { headshot: null, position: null, teamLogoUrl: null }
+  if (fallbackName) return { headshot: await getPlayerHeadshotUrlByName(fallbackName), position: null, teamLogoUrl: null, currentGoals: 0, currentAssists: 0, currentPoints: 0 }
+  return { headshot: null, position: null, teamLogoUrl: null, currentGoals: 0, currentAssists: 0, currentPoints: 0 }
 }
 
 function toStat(sub: string | undefined): string {
-  if (!sub) return "Total"
+  if (!sub) return "Season"
   const s = String(sub).toLowerCase()
-  if (s.includes("goal")) return "Total Goals"
-  if (s.includes("assist")) return "Total Assists"
-  if (s.includes("pt") || s.includes("point")) return "Total Points"
+  if (s.includes("goal")) return "Season Goals"
+  if (s.includes("assist")) return "Season Assists"
+  if (s.includes("pt") || s.includes("point")) return "Season Points"
   return sub
 }
 
@@ -56,13 +62,31 @@ export default async function PlayersPage({ searchParams }: { searchParams?: Pro
   const playerMkts = (markets || []).filter((m: any) => m.category === "Players")
 
   // Fetch headshots for the markets (best-effort)
+  // Backend now provides timeframe_stats for Weekly/Monthly contracts
   let marketWithImages = await Promise.all(
     playerMkts.map(async (m: any) => {
       const info = await headshotFromLanding(m.landing_url, m.player_name)
       // Map NHL position codes to buckets
       const code = (info.position || "").toUpperCase()
       const posBucket = code === "G" ? "G" : code === "D" ? "D" : code ? "F" : null // C/LW/RW => F
-      return { ...m, imageUrl: info.headshot, teamLogoUrl: info.teamLogoUrl, pos: posBucket }
+      
+      // Determine current stat based on metric
+      const metric = (m.metric || "").toUpperCase()
+      let currentStat = 0
+      
+      // Use timeframe_stats from backend if available (for Weekly/Monthly)
+      if (m.timeframe_stats && (m.timeframe === "Weekly" || m.timeframe === "Monthly")) {
+        currentStat = metric === "G" ? (m.timeframe_stats.goals || 0) : 
+                      metric === "A" ? (m.timeframe_stats.assists || 0) : 
+                      (m.timeframe_stats.points || 0)
+      } else {
+        // Use season totals from landing for Season contracts
+        currentStat = metric === "G" ? info.currentGoals : metric === "A" ? info.currentAssists : info.currentPoints
+      }
+      
+      const statLabel = metric === "G" ? "Goals" : metric === "A" ? "Ast" : "Pts"
+      const statAbbrev = metric === "G" ? "G" : metric === "A" ? "A" : "Pts"
+      return { ...m, imageUrl: info.headshot, teamLogoUrl: info.teamLogoUrl, pos: posBucket, currentStat, statLabel, statAbbrev, timeframe: m.timeframe }
     })
   )
 
@@ -70,6 +94,7 @@ export default async function PlayersPage({ searchParams }: { searchParams?: Pro
   const sp = searchParams ? await searchParams : undefined
   const wanted = sp?.metric ? String(sp.metric) : undefined
   const wantedPos = sp?.pos ? String(sp.pos).toUpperCase() : undefined // F | D | G
+  const wantedTimeframe = sp?.timeframe ? String(sp.timeframe) : undefined // Season | Monthly | Weekly
   const metricMap: Record<string, string> = { Points: "PTS", Goals: "G", Assists: "A" }
   if (wanted && wanted in metricMap) {
     marketWithImages = marketWithImages.filter((m: any) => (m.metric || "").toUpperCase() === metricMap[wanted])
@@ -78,6 +103,11 @@ export default async function PlayersPage({ searchParams }: { searchParams?: Pro
   // Apply position filter if provided
   if (wantedPos && ["F", "D", "G"].includes(wantedPos)) {
     marketWithImages = marketWithImages.filter((m: any) => (m.pos ? m.pos === wantedPos : true))
+  }
+
+  // Apply timeframe filter if provided
+  if (wantedTimeframe && ["Season", "Monthly", "Weekly"].includes(wantedTimeframe)) {
+    marketWithImages = marketWithImages.filter((m: any) => (m.timeframe || "").toLowerCase() === wantedTimeframe.toLowerCase())
   }
 
   // Sort by projection/threshold desc
@@ -95,29 +125,23 @@ export default async function PlayersPage({ searchParams }: { searchParams?: Pro
           <div className="mb-4 text-sm text-red-500">Backend URL not configured. Set MARKET_BACKEND_API_BASE_URL.</div>
         )}
 
-        <div className="mb-2 text-sm text-muted-foreground">Active Player Contracts</div>
         <div className="flex items-center justify-between gap-3 mb-6">
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-            {[
-              { label: "Points", q: "?metric=Points" },
-              { label: "Goals", q: "?metric=Goals" },
-              { label: "Assists", q: "?metric=Assists" },
-            ].map(({ label, q }) => (
-              <Link key={label} href={`/players${q}${wantedPos?`&pos=${wantedPos}`:''}`} className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap text-sm ${wanted===label? 'bg-primary text-primary-foreground' : 'bg-accent/50 text-muted-foreground hover:bg-accent'}`}>
-                {label}
-              </Link>
-            ))}
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">Sort by:</span>
+            <select className="px-3 py-2 rounded-lg border border-border bg-background text-sm font-medium">
+              <option value="points">Points</option>
+              <option value="variance">Variance</option>
+              <option value="name">Name</option>
+            </select>
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-            {[
-              { label: "Forwards", code: "F" },
-              { label: "Defence", code: "D" },
-              { label: "Goalies", code: "G" },
-            ].map(({ label, code }) => (
-              <Link key={label} href={`/players?${wanted?`metric=${wanted}&`:''}pos=${code}`} className={`px-3 py-2 rounded-lg font-medium whitespace-nowrap text-sm ${wantedPos===code? 'bg-primary text-primary-foreground' : 'bg-accent/50 text-muted-foreground hover:bg-accent'}`}>
-                {label}
-              </Link>
-            ))}
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">Filter:</span>
+            <select className="px-3 py-2 rounded-lg border border-border bg-background text-sm font-medium">
+              <option value="all">All Markets</option>
+              <option value="high-prob">High Probability (&gt;60%)</option>
+              <option value="balanced">Balanced (40-60%)</option>
+              <option value="low-prob">Low Probability (&lt;40%)</option>
+            </select>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
@@ -135,6 +159,10 @@ export default async function PlayersPage({ searchParams }: { searchParams?: Pro
               href={`/market/${m.id}`}
               imageUrl={m.imageUrl}
               teamLogoUrl={m.teamLogoUrl}
+              currentStat={m.currentStat}
+              statLabel={m.statLabel}
+              statAbbrev={m.statAbbrev}
+              timeframe={m.timeframe}
             />
           ))}
         </div>

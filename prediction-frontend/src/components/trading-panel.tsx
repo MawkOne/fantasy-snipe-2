@@ -14,80 +14,95 @@ interface Outcome {
 
 interface TradingPanelProps {
   outcomes: Outcome[]
+  amount?: string
+  setAmount?: (amount: string) => void
+  selectedOutcome?: string
+  setSelectedOutcome?: (outcome: string) => void
 }
 
-export function TradingPanel({ outcomes }: TradingPanelProps) {
+export function TradingPanel({ outcomes, amount: externalAmount, setAmount: externalSetAmount, selectedOutcome: externalSelectedOutcome, setSelectedOutcome: externalSetSelectedOutcome }: TradingPanelProps) {
   const [side, setSide] = useState<"buy" | "sell">("buy")
-  const [selectedOutcome, setSelectedOutcome] = useState(outcomes[0].id)
-  const [amount, setAmount] = useState("")
+  const [internalSelectedOutcome, setInternalSelectedOutcome] = useState(outcomes[0].id)
+  const [internalAmount, setInternalAmount] = useState("")
 
-  const presetAmounts = [1, 5, 10, 25]
+  const amount = externalAmount !== undefined ? externalAmount : internalAmount
+  const setAmount = externalSetAmount || setInternalAmount
+  const selectedOutcome = externalSelectedOutcome || internalSelectedOutcome
+  const setSelectedOutcome = externalSetSelectedOutcome || setInternalSelectedOutcome
+
+  const presetAmounts = [1, 20, 100]
 
   return (
-    <Card className="p-6">
+    <Card className="p-4">
       <div className="space-y-4">
         {/* Buy/Sell Toggle */}
-        <div className="flex gap-2 p-1 bg-accent rounded-lg">
-          <button
-            onClick={() => setSide("buy")}
-            className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors ${
-              side === "buy" ? "bg-green-600 text-white" : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            Buy
-          </button>
-          <button
-            onClick={() => setSide("sell")}
-            className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors ${
-              side === "sell" ? "bg-red-600 text-white" : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            Sell
-          </button>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setSide("buy")}
+              className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-colors ${
+                side === "buy" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Buy
+            </button>
+            <button
+              onClick={() => setSide("sell")}
+              className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-colors ${
+                side === "sell" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Sell
+            </button>
+          </div>
+          <span className="text-sm font-medium text-muted-foreground">Market</span>
         </div>
 
-        {/* Outcome Selector */}
-        <div>
-          <label className="text-sm font-medium mb-2 block">Outcome</label>
-          <select
-            value={selectedOutcome}
-            onChange={(e) => setSelectedOutcome(e.target.value)}
-            className="w-full p-2 rounded-lg border border-border bg-background"
-          >
-            {outcomes.map((outcome) => (
-              <option key={outcome.id} value={outcome.id}>
-                {outcome.label} - {outcome.probability}%
-              </option>
-            ))}
-          </select>
+        {/* Outcome Selector - Large Buttons */}
+        <div className="grid grid-cols-2 gap-2">
+          {outcomes.map((outcome) => {
+            const isSelected = selectedOutcome === outcome.id
+            const isMore = outcome.id === "more"
+            return (
+              <button
+                key={outcome.id}
+                onClick={() => setSelectedOutcome(outcome.id)}
+                className={`p-3 rounded-lg text-center transition-all ${
+                  isSelected
+                    ? isMore
+                      ? "bg-emerald-600 text-white ring-2 ring-emerald-700 ring-offset-2"
+                      : "bg-red-500 text-white ring-2 ring-red-600 ring-offset-2"
+                    : isMore
+                    ? "bg-emerald-600 text-white opacity-60 hover:opacity-100"
+                    : "bg-red-500 text-white opacity-60 hover:opacity-100"
+                }`}
+              >
+                <div className="text-xs font-medium mb-1">{outcome.label}</div>
+                <div className="text-xl font-bold">{(outcome.probability / 100).toFixed(2)}¢</div>
+              </button>
+            )
+          })}
         </div>
 
         {/* Amount Input */}
         <div>
-          <label className="text-sm font-medium mb-2 block">Amount</label>
-          <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-2xl text-muted-foreground">$</span>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="0"
-              className="w-full pl-8 pr-4 py-3 text-2xl font-bold rounded-lg border border-border bg-background"
-            />
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-sm font-semibold">Amount</label>
+            <div className="text-3xl font-bold text-muted-foreground">${amount || "0"}</div>
           </div>
-          <div className="flex gap-2 mt-2">
+          <div className="grid grid-cols-4 gap-2">
             {presetAmounts.map((preset) => (
               <button
                 key={preset}
                 onClick={() => setAmount(preset.toString())}
-                className="flex-1 py-1 text-xs font-medium rounded border border-border hover:bg-accent"
+                className="py-1.5 px-2 text-xs font-medium rounded border border-border hover:bg-accent"
               >
                 +${preset}
               </button>
             ))}
             <button
               onClick={() => setAmount("")}
-              className="flex-1 py-1 text-xs font-medium rounded border border-border hover:bg-accent"
+              className="py-1.5 px-2 text-xs font-medium rounded border border-border hover:bg-accent"
             >
               Max
             </button>
@@ -96,13 +111,37 @@ export function TradingPanel({ outcomes }: TradingPanelProps) {
 
         {/* Trade Button */}
         <Button
-          className={`w-full ${side === "buy" ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"}`}
+          className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold py-6 text-lg rounded-lg"
           size="lg"
         >
-          {side === "buy" ? "Submit Forecast" : "Sell Position"}
+          Trade
         </Button>
 
-        <p className="text-xs text-muted-foreground text-center">By forecasting you agree to the Terms of Service</p>
+        {/* Trade Summary - Below button */}
+        {amount && parseFloat(amount) > 0 && (() => {
+          const selectedOutcomeData = outcomes.find(o => o.id === selectedOutcome)
+          const price = selectedOutcomeData ? selectedOutcomeData.probability / 100 : 0.5
+          const shares = (parseFloat(amount) / price).toFixed(2)
+          const avgPrice = (price * 100).toFixed(1)
+          const potentialReturn = (parseFloat(shares) - parseFloat(amount)).toFixed(2)
+          
+          return (
+            <div className="space-y-2 pt-4 border-t border-border">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Shares</span>
+                <span className="font-semibold text-lg">{shares}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Avg price</span>
+                <span className="font-semibold text-lg">{avgPrice}¢ ({price.toFixed(3)})</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Potential return</span>
+                <span className="font-semibold text-lg text-green-600">${potentialReturn}</span>
+              </div>
+            </div>
+          )
+        })()}
       </div>
     </Card>
   )
