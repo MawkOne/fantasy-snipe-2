@@ -116,7 +116,7 @@ export default async function MultiOptionMarketPage() {
             <MarketContext />
 
             {/* Comments */}
-            <MarketComments />
+            <MarketComments trades={[]} tradeCount={0} />
           </div>
 
           {/* Trading Panel - Right Side */}
