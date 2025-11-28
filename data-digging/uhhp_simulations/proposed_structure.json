@@ -1,0 +1,107 @@
+{
+  "league": {
+    "name": "UHHP Fantasy Hockey League",
+    "rules": {...}
+  },
+  
+  "teams": {
+    "New Oilers Nation": {
+      "gm": "Mark Henderson",
+      "history": {
+        "2022-2023": {
+          "regular_season": {"rank": 1, "wins": 18, "losses": 4, "points_for": 2847},
+          "playoffs": "Stanley Cup Champion",
+          "salary_cap_used": 98,
+          "total_transactions": 45,
+          "key_acquisitions": [...],
+          "championship": true
+        },
+        "2023-2024": {...},
+        "2024-2025": {...},
+        "2025-2026": {...}
+      },
+      "career_stats": {
+        "championships": 2,
+        "playoff_appearances": 4,
+        "total_wins": 65,
+        "avg_cap_usage": 97,
+        "transaction_volume": "high"
+      }
+    }
+  },
+  
+  "players": {
+    "Connor McDavid": {
+      "nhl_team": "EDM",
+      "position": "C",
+      "ownership_history": [
+        {
+          "team": "New Oilers Nation",
+          "seasons": ["2022-2023", "2023-2024"],
+          "acquisition": {"type": "auction", "price": 45, "date": "2022-09-01"},
+          "contracts": [
+            {"salary": 45, "years": 2, "seasons": ["2022-2023", "2023-2024"]}
+          ],
+          "performance": {
+            "2022-2023": {"points": 245, "rank": 1},
+            "2023-2024": {"points": 230, "rank": 2}
+          }
+        }
+      ]
+    }
+  },
+  
+  "events": [
+    {
+      "id": "evt_001",
+      "timestamp": "2025-09-08T12:00:00Z",
+      "type": "auction",
+      "stage": "draft_day",
+      "season": "2025-2026",
+      "pick": "1.1",
+      "player": "Connor McDavid",
+      "team": "New Oilers Nation",
+      "details": {"winning_bid": 45, "bidders": 8}
+    },
+    {
+      "id": "evt_002",
+      "timestamp": "2025-09-16T23:00:00Z",
+      "type": "trade",
+      "stage": "waiver_period",
+      "season": "2025-2026",
+      "teams": ["New Oilers Nation", "The Pylons"],
+      "assets": {
+        "New Oilers Nation_receives": [...],
+        "The Pylons_receives": [...]
+      }
+    }
+  ],
+  
+  "analytics": {
+    "by_season": {
+      "2025-2026": {
+        "salary_distribution": {...},
+        "transaction_volume": {...},
+        "competitive_balance": {...},
+        "draft_picks_value": {...}
+      }
+    },
+    "league_trends": {
+      "avg_championship_salary": 97,
+      "avg_transactions_per_team": 52,
+      "rookie_draft_roi": {...}
+    }
+  },
+  
+  "insights": {
+    "can_you_buy_championship": {
+      "correlation": 0.65,
+      "analysis": "Higher spending correlates with success but isn't deterministic",
+      "evidence": [...]
+    },
+    "rebuild_strategies": {
+      "draft_picks": {...},
+      "cap_flexibility": {...}
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "team": "Edmonton Oilers",
+  "season": "20242025",
+  "players": [
+    {
+      "name": "Mattias Janmark",
+      "pos": "F",
+      "max_speed": 24.359,
+      "avg_top_speed": 22.872300000000003,
+      "percentile": 99.33,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Connor McDavid",
+      "pos": "F",
+      "max_speed": 23.969,
+      "avg_top_speed": 23.738,
+      "percentile": 98.67,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Leon Draisaitl",
+      "pos": "F",
+      "max_speed": 23.2,
+      "avg_top_speed": 22.6623,
+      "percentile": 92.33,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Viktor Arvidsson",
+      "pos": "F",
+      "max_speed": 23.106,
+      "avg_top_speed": 22.2408,
+      "percentile": 88.67,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Ryan Nugent-Hopkins",
+      "pos": "F",
+      "max_speed": 22.656,
+      "avg_top_speed": 22.1037,
+      "percentile": 69.67,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Corey Perry",
+      "pos": "F",
+      "max_speed": 22.396,
+      "avg_top_speed": 21.7212,
+      "percentile": 77.66999999999999,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Evan Bouchard",
+      "pos": "D",
+      "max_speed": 22.258,
+      "avg_top_speed": 21.512,
+      "percentile": 73.9,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Darnell Nurse",
+      "pos": "D",
+      "max_speed": 22.03,
+      "avg_top_speed": 21.8478,
+      "percentile": 62.580000000000005,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Zach Hyman",
+      "pos": "F",
+      "max_speed": 21.834,
+      "avg_top_speed": 21.348300000000002,
+      "percentile": 31.669999999999998,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Brett Kulak",
+      "pos": "D",
+      "max_speed": 21.633,
+      "avg_top_speed": 21.1125,
+      "percentile": 23.330000000000002,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Troy Stecher",
+      "pos": "D",
+      "max_speed": 21.6,
+      "avg_top_speed": 21.1583,
+      "percentile": 48.74,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Adam Henrique",
+      "pos": "F",
+      "max_speed": 21.583,
+      "avg_top_speed": 20.8961,
+      "percentile": 47.8,
+      "top_speed_count": 10
+    },
+    {
+      "name": "Mattias Ekholm",
+      "pos": "D",
+      "max_speed": 21.583,
+      "avg_top_speed": 20.8961,
+      "percentile": 47.8,
+      "top_speed_count": 10
+    }
+  ],
+  "summary": {
+    "avg_forward_speed": 22.887875,
+    "avg_defense_speed": 21.8208,
+    "fastest_player": "Mattias Janmark"
+  }
+}

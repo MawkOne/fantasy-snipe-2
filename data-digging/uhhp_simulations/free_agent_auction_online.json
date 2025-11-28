@@ -1,0 +1,3362 @@
+{
+  "2022-2023": {
+    "name": "Free Agent Auction Online",
+    "description": "Daily waivers for pre-season free agent signings (1 year deals only)",
+    "period": {
+      "start": "2022-09-15T23:00:00Z",
+      "end": "2022-10-06T23:59:59Z"
+    },
+    "contract_term": "1 year only",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Jared McCann",
+            "position": "W",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Artturi Lehkonen",
+            "position": "W",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 2,
+          "total_spent": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Philipp Grubauer",
+            "position": "G",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Brock Nelson",
+            "position": "C",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Vincent Trocheck",
+            "position": "C",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Dawson Mercer",
+            "position": "W",
+            "nhl_team": "NJ",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Ty Smith",
+            "position": "D",
+            "nhl_team": "CAR",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Nino Niederreiter",
+            "position": "W",
+            "nhl_team": "WPG",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Rickard Rakell",
+            "position": "W",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 7,
+          "total_spent": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Mason Marchment",
+            "position": "W",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Sean Durzi",
+            "position": "D",
+            "nhl_team": "UTA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 2,
+          "total_spent": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "signings": 0,
+          "total_spent": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [],
+        "stage_summary": {
+          "signings": 0,
+          "total_spent": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Ryan Johansen",
+            "position": "C",
+            "nhl_team": "PHI",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Cam Fowler",
+            "position": "D",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 2,
+          "total_spent": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "signings": 0,
+          "total_spent": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Adam Boqvist",
+            "position": "D",
+            "nhl_team": "NYI",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Ville Husso",
+            "position": "G",
+            "nhl_team": "ANA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Logan Thompson",
+            "position": "G",
+            "nhl_team": "WAS",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Pavel Francouz",
+            "position": "G",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 4,
+          "total_spent": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [],
+        "stage_summary": {
+          "signings": 0,
+          "total_spent": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Chandler Stephenson",
+            "position": "C",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Shane Pinto",
+            "position": "C",
+            "nhl_team": "OTT",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Mike Matheson",
+            "position": "D",
+            "nhl_team": "MON",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Pavel Zacha",
+            "position": "C",
+            "nhl_team": "BOS",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Jeff Skinner",
+            "position": "W",
+            "nhl_team": "SJ",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Carter Hart",
+            "position": "G",
+            "nhl_team": "PHI",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Hampus Lindholm",
+            "position": "D",
+            "nhl_team": "BOS",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Jake Neighbours",
+            "position": "W",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Martin Necas",
+            "position": "W",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 9,
+          "total_spent": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Ivan Barbashev",
+            "position": "W",
+            "nhl_team": "LV",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Max Pacioretty",
+            "position": "W",
+            "nhl_team": "TOR",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Mikael Granlund",
+            "position": "C",
+            "nhl_team": "ANA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Ryan Hartman",
+            "position": "W",
+            "nhl_team": "MIN",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Jaccob Slavin",
+            "position": "D",
+            "nhl_team": "CAR",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Jeff Petry",
+            "position": "D",
+            "nhl_team": "FLA",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Valeri Nichushkin",
+            "position": "W",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 5,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-08T03:40:00Z",
+            "type": "signing",
+            "player": "Tomas Hertl",
+            "position": "C",
+            "nhl_team": "LV",
+            "details": {
+              "salary": 6,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Jonathan Quick",
+            "position": "G",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 9,
+          "total_spent": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Sean Couturier",
+            "position": "C",
+            "nhl_team": "PHI",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Jakub Voracek",
+            "position": "W",
+            "nhl_team": "UTA",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2022-10-09T03:37:00Z",
+            "type": "signing",
+            "player": "Alex Killorn",
+            "position": "W",
+            "nhl_team": "ANA",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 3,
+          "total_spent": 0
+        }
+      }
+    }
+  },
+  "2023-2024": {
+    "name": "Free Agent Auction Online",
+    "description": "Daily waivers for pre-season free agent signings (1 year deals only)",
+    "period": {
+      "start": "2023-09-15T23:00:00Z",
+      "end": "2023-10-06T23:59:59Z"
+    },
+    "contract_term": "1 year only",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Jonathan Drouin",
+            "position": "W",
+            "nhl_team": "NYI",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Mattias Ekholm",
+            "position": "D",
+            "nhl_team": "EDM",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 2,
+          "total_spent": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Valeri Nichushkin",
+            "position": "W",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Brayden Schenn",
+            "position": "C",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Vincent Trocheck",
+            "position": "C",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Janis Moser",
+            "position": "D",
+            "nhl_team": "TB",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Tommy Novak",
+            "position": "C",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Brandt Clarke",
+            "position": "D",
+            "nhl_team": "LA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Ville Husso",
+            "position": "G",
+            "nhl_team": "ANA",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Matthew Poitras",
+            "position": "C",
+            "nhl_team": "BOS",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Seth Jarvis",
+            "position": "W",
+            "nhl_team": "CAR",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Kirill Marchenko",
+            "position": "W",
+            "nhl_team": "CLB",
+            "details": {
+              "salary": 5,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 10,
+          "total_spent": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Dmitry Orlov",
+            "position": "D",
+            "nhl_team": "SJ",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 1,
+          "total_spent": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "signings": 0,
+          "total_spent": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Kaapo Kakko",
+            "position": "W",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Yaroslav Askarov",
+            "position": "G",
+            "nhl_team": "SJ",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Elvis Merzlikins",
+            "position": "G",
+            "nhl_team": "CLB",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 3,
+          "total_spent": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Kevin Hayes",
+            "position": "C",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Petr Mrazek",
+            "position": "G",
+            "nhl_team": "ANA",
+            "details": {
+              "salary": 5,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Brock Boeser",
+            "position": "W",
+            "nhl_team": "VAN",
+            "details": {
+              "salary": 5,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 3,
+          "total_spent": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Jonas Siegenthaler",
+            "position": "D",
+            "nhl_team": "NJ",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 1,
+          "total_spent": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Blake Wheeler",
+            "position": "W",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 1,
+          "total_spent": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Bryan Rust",
+            "position": "W",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Brady Skjei",
+            "position": "D",
+            "nhl_team": "NSH",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Jordan Binnington",
+            "position": "G",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 3,
+          "total_spent": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Kevin Korchinski",
+            "position": "D",
+            "nhl_team": "CHI",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Ivan Barbashev",
+            "position": "W",
+            "nhl_team": "LV",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Cam York",
+            "position": "D",
+            "nhl_team": "PHI",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Barrett Hayton",
+            "position": "C",
+            "nhl_team": "UTA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 4,
+          "total_spent": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Jordan Eberle",
+            "position": "W",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Max Pacioretty",
+            "position": "W",
+            "nhl_team": "TOR",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Cam Fowler",
+            "position": "D",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Matthew Coronato",
+            "position": "W",
+            "nhl_team": "CGY",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Jacob Markstrom",
+            "position": "G",
+            "nhl_team": "NJ",
+            "details": {
+              "salary": 5,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Jamie Benn",
+            "position": "W",
+            "nhl_team": "DAL",
+            "details": {
+              "salary": 6,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Mark Stone",
+            "position": "W",
+            "nhl_team": "LV",
+            "details": {
+              "salary": 6,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 7,
+          "total_spent": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Nick Paul",
+            "position": "W",
+            "nhl_team": "TB",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Jonas Johansson",
+            "position": "G",
+            "nhl_team": "TB",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2023-10-15T04:02:00Z",
+            "type": "signing",
+            "player": "Andrei Svechnikov",
+            "position": "W",
+            "nhl_team": "CAR",
+            "details": {
+              "salary": 16,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 3,
+          "total_spent": 0
+        }
+      }
+    }
+  },
+  "2024-2025": {
+    "name": "Free Agent Auction Online",
+    "description": "Daily waivers for pre-season free agent signings (1 year deals only)",
+    "period": {
+      "start": "2024-09-15T23:00:00Z",
+      "end": "2024-10-06T23:59:59Z"
+    },
+    "contract_term": "1 year only",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Morgan Frost",
+            "position": "C",
+            "nhl_team": "CGY",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Jonathan Drouin",
+            "position": "W",
+            "nhl_team": "NYI",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Cam Fowler",
+            "position": "D",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 3,
+          "total_spent": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Justin Faulk",
+            "position": "D",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Elias Lindholm",
+            "position": "C",
+            "nhl_team": "BOS",
+            "details": {
+              "salary": 6,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 2,
+          "total_spent": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Tyson Barrie",
+            "position": "D",
+            "nhl_team": "CGY",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 1,
+          "total_spent": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Adam Henrique",
+            "position": "C",
+            "nhl_team": "EDM",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Max Domi",
+            "position": "C",
+            "nhl_team": "TOR",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Aaron Ekblad",
+            "position": "D",
+            "nhl_team": "FLA",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 3,
+          "total_spent": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Oliver Bjorkstrand",
+            "position": "W",
+            "nhl_team": "TB",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Pyotr Kochetkov",
+            "position": "G",
+            "nhl_team": "CAR",
+            "details": {
+              "salary": 5,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Thatcher Demko",
+            "position": "G",
+            "nhl_team": "VAN",
+            "details": {
+              "salary": 5,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 3,
+          "total_spent": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Jason Zucker",
+            "position": "W",
+            "nhl_team": "BUF",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Tommy Novak",
+            "position": "C",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Darnell Nurse",
+            "position": "D",
+            "nhl_team": "EDM",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Vladimir Tarasenko",
+            "position": "W",
+            "nhl_team": "MIN",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 4,
+          "total_spent": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "signings": 0,
+          "total_spent": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Logan Couture",
+            "position": "C",
+            "nhl_team": "SJ",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Sean Monahan",
+            "position": "C",
+            "nhl_team": "CLB",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Cam Talbot",
+            "position": "G",
+            "nhl_team": "DET",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Jamie Benn",
+            "position": "W",
+            "nhl_team": "DAL",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 4,
+          "total_spent": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Lukas Dostal",
+            "position": "G",
+            "nhl_team": "ANA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Seth Jones",
+            "position": "D",
+            "nhl_team": "FLA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 2,
+          "total_spent": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Artturi Lehkonen",
+            "position": "W",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Ivan Barbashev",
+            "position": "W",
+            "nhl_team": "LV",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Joonas Korpisalo",
+            "position": "G",
+            "nhl_team": "BOS",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 3,
+          "total_spent": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Travis Sanheim",
+            "position": "D",
+            "nhl_team": "PHI",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Spencer Knight",
+            "position": "G",
+            "nhl_team": "CHI",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Drew Doughty",
+            "position": "D",
+            "nhl_team": "LA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Frank Vatrano",
+            "position": "W",
+            "nhl_team": "ANA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Gabriel Landeskog",
+            "position": "W",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Valeri Nichushkin",
+            "position": "W",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Gustav Nyquist",
+            "position": "W",
+            "nhl_team": "WPG",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Adam Boqvist",
+            "position": "D",
+            "nhl_team": "NYI",
+            "details": {
+              "salary": 6,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Adin Hill",
+            "position": "G",
+            "nhl_team": "LV",
+            "details": {
+              "salary": 7,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 9,
+          "total_spent": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "timestamp": "2024-10-05T07:55:00Z",
+            "type": "signing",
+            "player": "Claude Giroux",
+            "position": "W",
+            "nhl_team": "OTT",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 1,
+          "total_spent": 0
+        }
+      }
+    }
+  },
+  "2025-2026": {
+    "name": "Free Agent Auction Online",
+    "description": "Daily waivers for pre-season free agent signings (1 year deals only)",
+    "period": {
+      "start": "2025-09-16T23:00:00Z",
+      "end": "2025-10-06T23:59:59Z"
+    },
+    "contract_term": "1 year only",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "timestamp": "2025-09-16T23:07:00Z",
+            "type": "signing",
+            "player": "Mikko Rantanen",
+            "position": "W",
+            "nhl_team": "DAL",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:36:00Z",
+            "type": "signing",
+            "player": "Roman Josi",
+            "position": "D",
+            "nhl_team": "NSH",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:40:00Z",
+            "type": "signing",
+            "player": "Charlie McAvoy",
+            "position": "D",
+            "nhl_team": "BOS",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Sergei Bobrovsky",
+            "position": "G",
+            "nhl_team": "FLA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Joel Eriksson Ek",
+            "position": "C",
+            "nhl_team": "MIN",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Patrik Laine",
+            "position": "W",
+            "nhl_team": "MON",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Anthony Cirelli",
+            "position": "C",
+            "nhl_team": "TB",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Joel Eriksson Ek",
+            "position": "C",
+            "nhl_team": "MIN",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Anthony Cirelli",
+            "position": "C",
+            "nhl_team": "TB",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Valeri Nichushkin",
+            "position": "W",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Jimmy Snuggerud",
+            "position": "W",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-25T01:08:00Z",
+            "type": "signing",
+            "player": "Patrik Laine",
+            "position": "W",
+            "nhl_team": "MON",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 12,
+          "total_spent": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [
+          {
+            "timestamp": "2025-09-16T23:07:00Z",
+            "type": "signing",
+            "player": "Connor McDavid",
+            "position": "C",
+            "nhl_team": "EDM",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:37:00Z",
+            "type": "signing",
+            "player": "Jake Guentzel",
+            "position": "W",
+            "nhl_team": "TB",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Mika Zibanejad",
+            "position": "C",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Karel Vejmelka",
+            "position": "G",
+            "nhl_team": "UTA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Rickard Rakell",
+            "position": "W",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Darcy Kuemper",
+            "position": "G",
+            "nhl_team": "LA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Mikael Granlund",
+            "position": "C",
+            "nhl_team": "ANA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "John Gibson",
+            "position": "G",
+            "nhl_team": "DET",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-24T01:08:00Z",
+            "type": "signing",
+            "player": "Tom Wilson",
+            "position": "W",
+            "nhl_team": "WAS",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 9,
+          "total_spent": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "timestamp": "2025-09-16T23:30:00Z",
+            "type": "signing",
+            "player": "Sidney Crosby",
+            "position": "C",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:42:00Z",
+            "type": "signing",
+            "player": "Thomas Chabot",
+            "position": "D",
+            "nhl_team": "OTT",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:55:00Z",
+            "type": "signing",
+            "player": "Adin Hill",
+            "position": "G",
+            "nhl_team": "LV",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Sam Montembeault",
+            "position": "G",
+            "nhl_team": "MON",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Sam Montembeault",
+            "position": "G",
+            "nhl_team": "MON",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:34:00Z",
+            "type": "signing",
+            "player": "Brady Martin",
+            "position": "C",
+            "nhl_team": "NSH",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 6,
+          "total_spent": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "timestamp": "2025-09-16T23:18:00Z",
+            "type": "signing",
+            "player": "Adam Fox",
+            "position": "D",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:36:00Z",
+            "type": "signing",
+            "player": "Tage Thompson",
+            "position": "C",
+            "nhl_team": "BUF",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:41:00Z",
+            "type": "signing",
+            "player": "Frederik Andersen",
+            "position": "G",
+            "nhl_team": "CAR",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:47:00Z",
+            "type": "signing",
+            "player": "Sam Bennett",
+            "position": "C",
+            "nhl_team": "FLA",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Cam Fowler",
+            "position": "D",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Matthew Tkachuk",
+            "position": "W",
+            "nhl_team": "FLA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Gabriel Landeskog",
+            "position": "W",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Rickard Rakell",
+            "position": "W",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-25T01:08:00Z",
+            "type": "signing",
+            "player": "Bryan Rust",
+            "position": "W",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:28:00Z",
+            "type": "signing",
+            "player": "James Hagens",
+            "position": "C",
+            "nhl_team": "BOS",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:28:00Z",
+            "type": "signing",
+            "player": "Michael Misa",
+            "position": "C",
+            "nhl_team": "SJ",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:28:00Z",
+            "type": "signing",
+            "player": "Victor Eklund",
+            "position": "W",
+            "nhl_team": "NYI",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:28:00Z",
+            "type": "signing",
+            "player": "Benjamin Kindel",
+            "position": "C",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 13,
+          "total_spent": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "timestamp": "2025-09-16T23:28:00Z",
+            "type": "signing",
+            "player": "Seth Jones",
+            "position": "D",
+            "nhl_team": "FLA",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:29:00Z",
+            "type": "signing",
+            "player": "Alex DeBrincat",
+            "position": "W",
+            "nhl_team": "DET",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Matt Duchene",
+            "position": "C",
+            "nhl_team": "DAL",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Kaapo Kakko",
+            "position": "W",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:32:00Z",
+            "type": "signing",
+            "player": "Porter Martone",
+            "position": "W",
+            "nhl_team": "PHI",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:33:00Z",
+            "type": "signing",
+            "player": "Matthew Schaefer",
+            "position": "D",
+            "nhl_team": "NYI",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 6,
+          "total_spent": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Anthony Stolarz",
+            "position": "G",
+            "nhl_team": "TOR",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Vincent Trocheck",
+            "position": "C",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Vincent Trocheck",
+            "position": "C",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Anthony Stolarz",
+            "position": "G",
+            "nhl_team": "TOR",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-25T01:08:00Z",
+            "type": "signing",
+            "player": "Mattias Ekholm",
+            "position": "D",
+            "nhl_team": "EDM",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:35:00Z",
+            "type": "signing",
+            "player": "Roger McQueen",
+            "position": "C",
+            "nhl_team": "ANA",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 6,
+          "total_spent": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Cam Fowler",
+            "position": "D",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Tony DeAngelo",
+            "position": "D",
+            "nhl_team": "NYI",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Tony DeAngelo",
+            "position": "D",
+            "nhl_team": "NYI",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T01:08:00Z",
+            "type": "signing",
+            "player": "Gustav Forsling",
+            "position": "D",
+            "nhl_team": "FLA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:34:00Z",
+            "type": "signing",
+            "player": "Caleb Desnoyers",
+            "position": "C",
+            "nhl_team": "UTA",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 5,
+          "total_spent": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "timestamp": "2025-09-16T23:11:00Z",
+            "type": "signing",
+            "player": "Artemi Panarin",
+            "position": "W",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "MacKenzie Blackwood",
+            "position": "G",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Jordan Binnington",
+            "position": "G",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Mark Stone",
+            "position": "W",
+            "nhl_team": "LV",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Bryan Rust",
+            "position": "W",
+            "nhl_team": "PIT",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "MacKenzie Blackwood",
+            "position": "G",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Sergei Bobrovsky",
+            "position": "G",
+            "nhl_team": "FLA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Joey Daccord",
+            "position": "G",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Jordan Binnington",
+            "position": "G",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-25T01:08:00Z",
+            "type": "signing",
+            "player": "Alexander Nikishin",
+            "position": "D",
+            "nhl_team": "CAR",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T01:08:00Z",
+            "type": "signing",
+            "player": "Zeev Buium",
+            "position": "D",
+            "nhl_team": "MIN",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:36:00Z",
+            "type": "signing",
+            "player": "Carter Bear",
+            "position": "W",
+            "nhl_team": "DET",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-10-03T01:11:00Z",
+            "type": "signing",
+            "player": "Chris Kreider",
+            "position": "W",
+            "nhl_team": "ANA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 13,
+          "total_spent": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "timestamp": "2025-09-16T23:08:00Z",
+            "type": "signing",
+            "player": "Auston Matthews",
+            "position": "C",
+            "nhl_team": "TOR",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:36:00Z",
+            "type": "signing",
+            "player": "Mark Scheifele",
+            "position": "C",
+            "nhl_team": "WPG",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Alex Ovechkin",
+            "position": "W",
+            "nhl_team": "WAS",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Alex Tuch",
+            "position": "W",
+            "nhl_team": "BUF",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Alex Ovechkin",
+            "position": "W",
+            "nhl_team": "WAS",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Alex Tuch",
+            "position": "W",
+            "nhl_team": "BUF",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:30:00Z",
+            "type": "signing",
+            "player": "Anton Frondell",
+            "position": "C",
+            "nhl_team": "CHI",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-27T15:30:00Z",
+            "type": "signing",
+            "player": "Jake O'Brien",
+            "position": "C",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 8,
+          "total_spent": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "timestamp": "2025-09-16T23:54:00Z",
+            "type": "signing",
+            "player": "Ilya Sorokin",
+            "position": "G",
+            "nhl_team": "NYI",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:55:00Z",
+            "type": "signing",
+            "player": "Nikolaj Ehlers",
+            "position": "W",
+            "nhl_team": "CAR",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Kevin Fiala",
+            "position": "W",
+            "nhl_team": "LA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Sam Rinzel",
+            "position": "D",
+            "nhl_team": "CHI",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Pavel Buchnevich",
+            "position": "W",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Kevin Fiala",
+            "position": "W",
+            "nhl_team": "LA",
+            "details": {
+              "salary": 4,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Sam Rinzel",
+            "position": "D",
+            "nhl_team": "CHI",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Pavel Buchnevich",
+            "position": "W",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Jake Walman",
+            "position": "D",
+            "nhl_team": "EDM",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 9,
+          "total_spent": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "timestamp": "2025-09-16T23:10:00Z",
+            "type": "signing",
+            "player": "David Pastrnak",
+            "position": "W",
+            "nhl_team": "BOS",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:24:00Z",
+            "type": "signing",
+            "player": "Dylan Larkin",
+            "position": "C",
+            "nhl_team": "DET",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:48:00Z",
+            "type": "signing",
+            "player": "Adrian Kempe",
+            "position": "W",
+            "nhl_team": "LA",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:56:00Z",
+            "type": "signing",
+            "player": "Filip Gustavsson",
+            "position": "G",
+            "nhl_team": "MIN",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:59:00Z",
+            "type": "signing",
+            "player": "Vince Dunn",
+            "position": "D",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:59:00Z",
+            "type": "signing",
+            "player": "Mathew Barzal",
+            "position": "C",
+            "nhl_team": "NYI",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-17T00:00:00Z",
+            "type": "signing",
+            "player": "J.T. Miller",
+            "position": "C",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Nazem Kadri",
+            "position": "C",
+            "nhl_team": "CGY",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Sean Monahan",
+            "position": "C",
+            "nhl_team": "CLB",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-22T01:08:00Z",
+            "type": "signing",
+            "player": "Matthew Tkachuk",
+            "position": "W",
+            "nhl_team": "FLA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Drew Doughty",
+            "position": "D",
+            "nhl_team": "LA",
+            "details": {
+              "salary": 3,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Nazem Kadri",
+            "position": "C",
+            "nhl_team": "CGY",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Sean Monahan",
+            "position": "C",
+            "nhl_team": "CLB",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Mika Zibanejad",
+            "position": "C",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Mark Stone",
+            "position": "W",
+            "nhl_team": "LV",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 15,
+          "total_spent": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "timestamp": "2025-09-16T23:14:00Z",
+            "type": "signing",
+            "player": "Andrei Vasilevskiy",
+            "position": "G",
+            "nhl_team": "TB",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:17:00Z",
+            "type": "signing",
+            "player": "Colton Parayko",
+            "position": "D",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:43:00Z",
+            "type": "signing",
+            "player": "Jordan Kyrou",
+            "position": "W",
+            "nhl_team": "STL",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-16T23:48:00Z",
+            "type": "signing",
+            "player": "Igor Shesterkin",
+            "position": "G",
+            "nhl_team": "NYR",
+            "details": {
+              "salary": 0,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Shane Wright",
+            "position": "C",
+            "nhl_team": "SEA",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Jack Quinn",
+            "position": "W",
+            "nhl_team": "BUF",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-23T01:08:00Z",
+            "type": "signing",
+            "player": "Cole Sillinger",
+            "position": "C",
+            "nhl_team": "CLB",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-24T01:08:00Z",
+            "type": "signing",
+            "player": "Brock Nelson",
+            "position": "C",
+            "nhl_team": "COL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          },
+          {
+            "timestamp": "2025-09-24T01:08:00Z",
+            "type": "signing",
+            "player": "Tyler Seguin",
+            "position": "C",
+            "nhl_team": "DAL",
+            "details": {
+              "salary": 2,
+              "years": 1
+            },
+            "decision_maker": "gm",
+            "note": "Pre-season waiver signing (1 year deal)"
+          }
+        ],
+        "stage_summary": {
+          "signings": 9,
+          "total_spent": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-f'
+      - 'Dockerfile.ingestion'
+      - '-t'
+      - 'gcr.io/fantasy-snipe-ai/nhl-data-ingestion:latest'
+      - '.'
+images:
+  - 'gcr.io/fantasy-snipe-ai/nhl-data-ingestion:latest'
+timeout: 1200s
+
+

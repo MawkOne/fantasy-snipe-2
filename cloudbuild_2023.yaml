@@ -1,0 +1,6 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-f', 'Dockerfile.2023', '-t', 'gcr.io/firstofficer-kwench/nhl-etl-2023:latest', '.']
+images:
+- 'gcr.io/firstofficer-kwench/nhl-etl-2023:latest'
+

@@ -1,0 +1,890 @@
+{
+  "2022-2023": {
+    "name": "Entry Draft (Rookies)",
+    "description": "1 round draft of players from current year's NHL Entry Draft",
+    "date": "2022-09-01",
+    "rounds": 1,
+    "contract_term": "3 years",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 1,
+            "player": "Joshua, Dakota",
+            "position": "C",
+            "nhl_team": "VAN",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 2,
+            "player": "Gauthier, Cutter",
+            "position": "C",
+            "nhl_team": "PHI",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 3,
+            "player": "Frank Nazar,",
+            "position": "C",
+            "nhl_team": "CHI",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 3
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 4,
+            "player": "Kasper, Marco",
+            "position": "C",
+            "nhl_team": "DET",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 5,
+            "player": "Nemec, Simon",
+            "position": "D",
+            "nhl_team": "NJ",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 6,
+            "player": "Slafkovsky, Juraj",
+            "position": "F",
+            "nhl_team": "MON",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 7,
+            "player": "Wright, Shane",
+            "position": "C",
+            "nhl_team": "SEA",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 8,
+            "player": "Conor Geekie,",
+            "position": "C",
+            "nhl_team": "ARI",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 9,
+            "player": "Savoie, Matthew",
+            "position": "F",
+            "nhl_team": "BUF",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 10,
+            "player": "Mateychuk, Denton",
+            "position": "D",
+            "nhl_team": "CLB",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 11,
+            "player": "Lian Bichsel,",
+            "position": "D",
+            "nhl_team": "DAL",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 4
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 12,
+            "player": "Cooley, Logan",
+            "position": "C",
+            "nhl_team": "ARI",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      }
+    }
+  },
+  "2023-2024": {
+    "name": "Entry Draft (Rookies)",
+    "description": "1 round draft of players from current year's NHL Entry Draft",
+    "date": "2023-09-01",
+    "rounds": 1,
+    "contract_term": "3 years",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 1,
+            "player": "Smith, Will",
+            "position": "C",
+            "nhl_team": "SJ",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 2,
+            "player": "Fantilli, Adam",
+            "position": "C",
+            "nhl_team": "CLB",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 3,
+            "player": "Reinbacher, David",
+            "position": "D",
+            "nhl_team": "MON",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 2
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 4,
+            "player": "Lysell, Fabian",
+            "position": "F",
+            "nhl_team": "BOS",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 5,
+            "player": "Michkov, Matvei",
+            "position": "F",
+            "nhl_team": "PHI",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 2
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 6,
+            "player": "Leonard, Ryan",
+            "position": "F",
+            "nhl_team": "WAS",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 7,
+            "player": "Simashev, Dmitriy",
+            "position": "D",
+            "nhl_team": "ARI",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 8,
+            "player": "Carlsson, Leo",
+            "position": "C",
+            "nhl_team": "ANA",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 9,
+            "player": "Moore, Oliver",
+            "position": "C",
+            "nhl_team": "CHI",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 10,
+            "player": "Benson, Zach",
+            "position": "W",
+            "nhl_team": "BUF",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 3
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 11,
+            "player": "Danielson, Nate",
+            "position": "F",
+            "nhl_team": "DET",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 12,
+            "player": "Yager, Brayden",
+            "position": "F",
+            "nhl_team": "PIT",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      }
+    }
+  },
+  "2024-2025": {
+    "name": "Entry Draft (Rookies)",
+    "description": "1 round draft of players from current year's NHL Entry Draft",
+    "date": "2024-09-01",
+    "rounds": 1,
+    "contract_term": "3 years",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 1,
+            "player": "Levshunov, Artyom",
+            "position": "D",
+            "nhl_team": "CHI",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 2,
+            "player": "Zayne Parekh*,",
+            "position": "D",
+            "nhl_team": "CGY",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 3,
+            "player": "Demidov, Ivan",
+            "position": "F",
+            "nhl_team": "MON",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 4,
+            "player": "Dickinson, Sam",
+            "position": "D",
+            "nhl_team": "SJ",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 5,
+            "player": "Cayden Lindstrom*,",
+            "position": "C",
+            "nhl_team": "CLB",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 6,
+            "player": "Iginla, Tij",
+            "position": "F",
+            "nhl_team": "UTA",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 7,
+            "player": "Luchanko, Jett",
+            "position": "C",
+            "nhl_team": "PHI",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 8,
+            "player": "Berkly Catton*,",
+            "position": "C",
+            "nhl_team": "SEA",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 9,
+            "player": "Yakemchuk, Carter",
+            "position": "D",
+            "nhl_team": "OTT",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 10,
+            "player": "Zeev Buium*,",
+            "position": "D",
+            "nhl_team": "MIN",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 4
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 11,
+            "player": "Sennecke, Beckett",
+            "position": "F",
+            "nhl_team": "ANA",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 12,
+            "player": "Celebrini, Macklin",
+            "position": "F",
+            "nhl_team": "SJ",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      }
+    }
+  },
+  "2025-2026": {
+    "name": "Entry Draft (Rookies)",
+    "description": "1 round draft of players from current year's NHL Entry Draft",
+    "date": "2025-09-08",
+    "rounds": 1,
+    "contract_term": "3 years",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 1,
+            "player": "Brady Martin",
+            "position": "F",
+            "nhl_team": "NSH",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 2,
+            "player": "James Hagens",
+            "position": "C",
+            "nhl_team": "BOS",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 3,
+            "player": "Michael Misa",
+            "position": "C",
+            "nhl_team": "SJ",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 4,
+            "player": "Victor Eklund",
+            "position": "F",
+            "nhl_team": "NYI",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 5,
+            "player": "Benjamin Kindel",
+            "position": "F",
+            "nhl_team": "PIT",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 4
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 6,
+            "player": "Porter Martone",
+            "position": "F",
+            "nhl_team": "PHI",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 7,
+            "player": "Draft Pick Used",
+            "position": "Unknown",
+            "nhl_team": "",
+            "years_remaining": 3,
+            "status": "pick_used",
+            "decision_maker": "gm",
+            "note": "Draft pick asset dropped: 2025 Draft Pick NON. Player may have been immediately activated to non-rookie contract, traded, or dropped."
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 2
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 8,
+            "player": "Roger McQueen",
+            "position": "F",
+            "nhl_team": "ANA",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 9,
+            "player": "Caleb Desnoyers",
+            "position": "F",
+            "nhl_team": "UTA",
+            "years_remaining": 3,
+            "status": "reserve",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 10,
+            "player": "Carter Bear",
+            "position": "F",
+            "nhl_team": "DET",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 1
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "type": "entry_draft_pick",
+            "pick": 11,
+            "player": "Anton Frondell",
+            "position": "F",
+            "nhl_team": "CHI",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          },
+          {
+            "type": "entry_draft_pick",
+            "pick": 12,
+            "player": "Jake O'Brien",
+            "position": "F",
+            "nhl_team": "SEA",
+            "years_remaining": 3,
+            "status": "injured",
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "rookies_drafted": 2
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "rookies_drafted": 0
+        }
+      }
+    }
+  }
+}

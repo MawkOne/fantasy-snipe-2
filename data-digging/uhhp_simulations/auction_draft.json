@@ -1,0 +1,3360 @@
+{
+  "2022-2023": {
+    "name": "Free Agent Auction",
+    "description": "Offline auction: Superstar Round (1), UFA Nominations (2 rounds), RFA Poaching (unlimited rounds)",
+    "date": "2022-09-01",
+    "rounds": "3+ (1 Superstar, 2 UFA, unlimited RFA)",
+    "contract_term": "3 years",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "players_acquired": 0,
+          "total_spent": 0
+        }
+      }
+    }
+  },
+  "2023-2024": {
+    "name": "Free Agent Auction",
+    "description": "Offline auction: Superstar Round (1), UFA Nominations (2 rounds), RFA Poaching (unlimited rounds)",
+    "date": "2023-09-01",
+    "rounds": "3+ (1 Superstar, 2 UFA, unlimited RFA)",
+    "contract_term": "3 years",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.1",
+            "player": "Miro Heiskanen D",
+            "nhl_team": "DAL",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 14,
+            "bids": {
+              "The Pylons": 15,
+              "The Dook of Sook": 12,
+              "G' Stars": 20,
+              "re-degeneration X 2.0": 20,
+              "HawtSawwce": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.1",
+            "player": "Zach Hyman W",
+            "nhl_team": "EDM",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 10,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 5
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.10",
+            "player": "Seth Jarvis W",
+            "nhl_team": "CAR",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 6,
+            "bids": {
+              "re-degeneration X 2.0": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.2",
+            "player": "Andrei Svechnikov W",
+            "nhl_team": "CAR",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 7,
+            "bids": {},
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 4,
+          "total_spent": 36
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.6",
+            "player": "Juuse Saros G",
+            "nhl_team": "NSH",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 10,
+              "HawtSawwce": 12
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.8",
+            "player": "Mathew Barzal W",
+            "nhl_team": "NYI",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 13,
+              "The Dook of Sook": 5,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 7
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.5",
+            "player": "Brady Skjei D",
+            "nhl_team": "NSH",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 5,
+            "bids": {
+              "The Dook of Sook": 2,
+              "re-degeneration X 2.0": 5,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.7",
+            "player": "Timo Meier W",
+            "nhl_team": "NJ",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 6,
+            "bids": {
+              "The Dook of Sook": 2,
+              "re-degeneration X 2.0": 3,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.9",
+            "player": "Noah Hanifin D",
+            "nhl_team": "LV",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 5,
+            "bids": {
+              "re-degeneration X 2.0": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.6",
+            "player": "Thomas Harley D",
+            "nhl_team": "DAL",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 6,
+            "bids": {
+              "3sheets Sports Entertainment": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.3",
+            "player": "Logan Stankoven C",
+            "nhl_team": "DAL",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 3,
+            "bids": {},
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 7,
+          "total_spent": 40
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.9",
+            "player": "Dougie Hamilton D",
+            "nhl_team": "NJ",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 12,
+            "bids": {
+              "The Pylons": 7,
+              "The Dook of Sook": 4,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 6,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.3",
+            "player": "Ryan Nugent-Hopkins W",
+            "nhl_team": "EDM",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 6,
+            "bids": {
+              "re-degeneration X 2.0": 5,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.12",
+            "player": "Owen Tippett W",
+            "nhl_team": "PHI",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 4,
+            "bids": {
+              "re-degeneration X 2.0": 2,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.3",
+            "player": "Gabriel Vilardi C",
+            "nhl_team": "WPG",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 4,
+            "bids": {},
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 4,
+          "total_spent": 26
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "3.6",
+            "player": "Ondrej Palat",
+            "nhl_team": "",
+            "nominator": "South Calgary Oilers",
+            "winner": "South Calgary Oilers",
+            "winning_bid": 5,
+            "bids": {},
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.5",
+            "player": "Ukko-Pekka Luukkonen G",
+            "nhl_team": "BUF",
+            "nominator": "South Calgary Oilers",
+            "winner": "South Calgary Oilers",
+            "winning_bid": 3,
+            "bids": {
+              "re-degeneration X 2.0": 4,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.8",
+            "player": "Trevor Zegras C",
+            "nhl_team": "ANA",
+            "nominator": "South Calgary Oilers",
+            "winner": "South Calgary Oilers",
+            "winning_bid": 4,
+            "bids": {
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 3,
+          "total_spent": 12
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.11",
+            "player": "Jason Robertson W",
+            "nhl_team": "DAL",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 13,
+            "bids": {
+              "CinStars": 2,
+              "HawtSawwce": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.4",
+            "player": "MacKenzie Weegar D",
+            "nhl_team": "CGY",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 6,
+              "re-degeneration X 2.0": 3,
+              "CinStars": 2,
+              "HawtSawwce": 8
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.11",
+            "player": "Yaroslav Askarov G",
+            "nhl_team": "SJ",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 0,
+            "bids": {},
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.2",
+            "player": "Simon Edvinsson D",
+            "nhl_team": "DET",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 2,
+            "bids": {},
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.4",
+            "player": "Yegor Sharangovich W",
+            "nhl_team": "CGY",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 4,
+            "bids": {},
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 5,
+          "total_spent": 25
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.12",
+            "player": "Brady Tkachuk W",
+            "nhl_team": "OTT",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 10,
+            "bids": {
+              "The Pylons": 6,
+              "The Dook of Sook": 10,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 3,
+              "HawtSawwce": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "1.5",
+            "player": "Elias Pettersson C",
+            "nhl_team": "VAN",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 16,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 14,
+              "re-degeneration X 2.0": 18,
+              "HawtSawwce": 9
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.6",
+            "player": "Sam Reinhart W",
+            "nhl_team": "FLA",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 10,
+            "bids": {
+              "The Pylons": 6,
+              "The Dook of Sook": 2,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.1",
+            "player": "Filip Forsberg W",
+            "nhl_team": "NSH",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 4,
+              "The Dook of Sook": 2,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 5
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.2",
+            "player": "Carter Verhaeghe W",
+            "nhl_team": "FLA",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 3,
+              "CinStars": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.10",
+            "player": "Matias Maccelli W",
+            "nhl_team": "UTA",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 3,
+            "bids": {},
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.0",
+            "player": "Shane Pinto C",
+            "nhl_team": "OTT",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 3,
+            "bids": {},
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.1",
+            "player": "Josh Norris C",
+            "nhl_team": "OTT",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 3,
+            "bids": {},
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.6",
+            "player": "Joel Farabee W",
+            "nhl_team": "PHI",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 2,
+            "bids": {},
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 9,
+          "total_spent": 62
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.8",
+            "player": "Tim Stutzle C",
+            "nhl_team": "OTT",
+            "nominator": "HawtSawwce",
+            "winner": "HawtSawwce",
+            "winning_bid": 8,
+            "bids": {
+              "re-degeneration X 2.0": 6,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 5,
+              "HawtSawwce": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.12",
+            "player": "Aleksander Barkov C",
+            "nhl_team": "FLA",
+            "nominator": "HawtSawwce",
+            "winner": "HawtSawwce",
+            "winning_bid": 10,
+            "bids": {
+              "The Dook of Sook": 2,
+              "re-degeneration X 2.0": 3,
+              "CinStars": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.11",
+            "player": "Brent Burns D",
+            "nhl_team": "CAR",
+            "nominator": "HawtSawwce",
+            "winner": "HawtSawwce",
+            "winning_bid": 3,
+            "bids": {
+              "The Pylons": 3
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 3,
+          "total_spent": 21
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.10",
+            "player": "Mitchell Marner W",
+            "nhl_team": "TOR",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 13,
+            "bids": {
+              "The Pylons": 10,
+              "The Dook of Sook": 14,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 5,
+              "3sheets Sports Entertainment": 4,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "1.2",
+            "player": "Cale Makar D",
+            "nhl_team": "COL",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 23,
+            "bids": {
+              "The Pylons": 15,
+              "re-degeneration X 2.0": 18,
+              "3sheets Sports Entertainment": 8,
+              "HawtSawwce": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "1.7",
+            "player": "Kyle Connor W",
+            "nhl_team": "WPG",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 11,
+              "re-degeneration X 2.0": 7,
+              "3sheets Sports Entertainment": 8,
+              "HawtSawwce": 12
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.5",
+            "player": "Erik Karlsson D",
+            "nhl_team": "PIT",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 10,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 2,
+              "re-degeneration X 2.0": 3,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.4",
+            "player": "John Tavares C",
+            "nhl_team": "TOR",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 2,
+              "G' Stars": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.6",
+            "player": "Clayton Keller C",
+            "nhl_team": "UTA",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 7,
+            "bids": {
+              "The Pylons": 3,
+              "re-degeneration X 2.0": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.5",
+            "player": "Brandt Clarke D",
+            "nhl_team": "LA",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 3,
+            "bids": {},
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.7",
+            "player": "William Eklund W",
+            "nhl_team": "SJ",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 3,
+            "bids": {},
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 8,
+          "total_spent": 72
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "3.10",
+            "player": "Jacob Markstrom G",
+            "nhl_team": "NJ",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 4,
+            "bids": {
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.11",
+            "player": "Drake Batherson W",
+            "nhl_team": "OTT",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 4,
+            "bids": {
+              "3sheets Sports Entertainment": 3
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 2,
+          "total_spent": 8
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.4",
+            "player": "Leon Draisaitl C",
+            "nhl_team": "EDM",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 19,
+            "bids": {
+              "The Pylons": 10,
+              "G' Stars": 10,
+              "re-degeneration X 2.0": 8,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.2",
+            "player": "Kirill Kaprizov W",
+            "nhl_team": "MIN",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 14,
+            "bids": {
+              "The Pylons": 10,
+              "The Dook of Sook": 12,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 3,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.7",
+            "player": "Jack Eichel C",
+            "nhl_team": "LV",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 7,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 4,
+              "G' Stars": 7,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.3",
+            "player": "Jake Neighbours W",
+            "nhl_team": "STL",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 3,
+            "bids": {
+              "re-degeneration X 2.0": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.7",
+            "player": "Brock Faber D",
+            "nhl_team": "MIN",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 8,
+            "bids": {
+              "re-degeneration X 2.0": 3,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 5,
+          "total_spent": 51
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "2.10",
+            "player": "Travis Konecny W",
+            "nhl_team": "PHI",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 2,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.11",
+            "player": "Steven Stamkos W",
+            "nhl_team": "NSH",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 5,
+            "bids": {
+              "re-degeneration X 2.0": 3,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.12",
+            "player": "Evgeni Malkin C",
+            "nhl_team": "PIT",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 4,
+            "bids": {
+              "G' Stars": 4,
+              "CinStars": 3,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 3,
+          "total_spent": 14
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.3",
+            "player": "Nathan MacKinnon C",
+            "nhl_team": "COL",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 23,
+            "bids": {
+              "The Pylons": 14,
+              "The Dook of Sook": 14,
+              "G' Stars": 19,
+              "re-degeneration X 2.0": 16,
+              "3sheets Sports Entertainment": 10,
+              "HawtSawwce": 8
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.3",
+            "player": "Morgan Rielly D",
+            "nhl_team": "TOR",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 8,
+            "bids": {
+              "The Pylons": 2,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 4,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.9",
+            "player": "Shea Theodore D",
+            "nhl_team": "LV",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 8,
+            "bids": {
+              "The Dook of Sook": 2,
+              "re-degeneration X 2.0": 3,
+              "CinStars": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.8",
+            "player": "John Carlson D",
+            "nhl_team": "WAS",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 6,
+            "bids": {
+              "G' Stars": 3,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 4,
+          "total_spent": 45
+        }
+      }
+    }
+  },
+  "2024-2025": {
+    "name": "Free Agent Auction",
+    "description": "Offline auction: Superstar Round (1), UFA Nominations (2 rounds), RFA Poaching (unlimited rounds)",
+    "date": "2024-09-01",
+    "rounds": "3+ (1 Superstar, 2 UFA, unlimited RFA)",
+    "contract_term": "3 years",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.1",
+            "player": "Miro Heiskanen D",
+            "nhl_team": "DAL",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 14,
+            "bids": {
+              "The Pylons": 10,
+              "G' Stars": 8,
+              "re-degeneration X 2.0": 14,
+              "CinStars": 6,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 8
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.1",
+            "player": "Zach Hyman W",
+            "nhl_team": "EDM",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 6,
+              "The Dook of Sook": 4,
+              "G' Stars": 5,
+              "re-degeneration X 2.0": 8,
+              "CinStars": 4,
+              "3sheets Sports Entertainment": 9,
+              "HawtSawwce": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.10",
+            "player": "Seth Jarvis W",
+            "nhl_team": "CAR",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 0,
+              "G' Stars": 6,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 3,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.2",
+            "player": "Andrei Svechnikov W",
+            "nhl_team": "CAR",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 7,
+            "bids": {
+              "The Dook of Sook": 2,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 5,
+              "CinStars": 3,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 4,
+          "total_spent": 36
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.6",
+            "player": "Juuse Saros G",
+            "nhl_team": "NSH",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 4,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 9,
+              "CinStars": 0,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.8",
+            "player": "Mathew Barzal W",
+            "nhl_team": "NYI",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 4,
+              "The Dook of Sook": 2,
+              "G' Stars": 5,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 5,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.5",
+            "player": "Brady Skjei D",
+            "nhl_team": "NSH",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 5,
+            "bids": {
+              "The Dook of Sook": 2,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 5,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.7",
+            "player": "Timo Meier W",
+            "nhl_team": "NJ",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 2,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 2,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.9",
+            "player": "Noah Hanifin D",
+            "nhl_team": "LV",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 5,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.6",
+            "player": "Thomas Harley D",
+            "nhl_team": "DAL",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 6,
+            "bids": {
+              "The Dook of Sook": 0,
+              "G' Stars": 2,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.3",
+            "player": "Logan Stankoven C",
+            "nhl_team": "DAL",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 3,
+            "bids": {
+              "re-degeneration X 2.0": 2,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 7,
+          "total_spent": 40
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.9",
+            "player": "Dougie Hamilton D",
+            "nhl_team": "NJ",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 12,
+            "bids": {
+              "The Pylons": 9,
+              "The Dook of Sook": 6,
+              "G' Stars": 12,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 6,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 5
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.3",
+            "player": "Ryan Nugent-Hopkins W",
+            "nhl_team": "EDM",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 4,
+              "G' Stars": 6,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 2,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.12",
+            "player": "Owen Tippett W",
+            "nhl_team": "PHI",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 4,
+            "bids": {
+              "The Dook of Sook": 0,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 3,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.3",
+            "player": "Gabriel Vilardi C",
+            "nhl_team": "WPG",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 0,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 4,
+          "total_spent": 26
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "3.6",
+            "player": "Brock Boeser W",
+            "nhl_team": "VAN",
+            "nominator": "South Calgary Oilers",
+            "winner": "South Calgary Oilers",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 2,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 3,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 2,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.5",
+            "player": "Ukko-Pekka Luukkonen G",
+            "nhl_team": "BUF",
+            "nominator": "South Calgary Oilers",
+            "winner": "South Calgary Oilers",
+            "winning_bid": 3,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 1,
+              "G' Stars": 2,
+              "re-degeneration X 2.0": 2,
+              "3sheets Sports Entertainment": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.8",
+            "player": "Trevor Zegras C",
+            "nhl_team": "ANA",
+            "nominator": "South Calgary Oilers",
+            "winner": "South Calgary Oilers",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 1,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 3,
+          "total_spent": 12
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.11",
+            "player": "Jason Robertson W",
+            "nhl_team": "DAL",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 13,
+            "bids": {
+              "The Pylons": 8,
+              "G' Stars": 6,
+              "re-degeneration X 2.0": 9,
+              "CinStars": 12,
+              "3sheets Sports Entertainment": 8,
+              "HawtSawwce": 8
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.4",
+            "player": "MacKenzie Weegar D",
+            "nhl_team": "CGY",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 6,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 0,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 3,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.11",
+            "player": "Yaroslav Askarov G",
+            "nhl_team": "SJ",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 0,
+            "bids": {},
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.2",
+            "player": "Simon Edvinsson D",
+            "nhl_team": "DET",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 2,
+            "bids": {
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.4",
+            "player": "Yegor Sharangovich W",
+            "nhl_team": "CGY",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 4,
+            "bids": {
+              "re-degeneration X 2.0": 4,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 2,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 5,
+          "total_spent": 25
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.12",
+            "player": "Brady Tkachuk W",
+            "nhl_team": "OTT",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 10,
+            "bids": {
+              "The Pylons": 6,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 10,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "1.5",
+            "player": "Elias Pettersson C",
+            "nhl_team": "VAN",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 16,
+            "bids": {
+              "The Pylons": 16,
+              "The Dook of Sook": 8,
+              "G' Stars": 8,
+              "re-degeneration X 2.0": 9,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 10
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.6",
+            "player": "Sam Reinhart W",
+            "nhl_team": "FLA",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 10,
+            "bids": {
+              "The Pylons": 7,
+              "The Dook of Sook": 2,
+              "G' Stars": 8,
+              "re-degeneration X 2.0": 9,
+              "CinStars": 10,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 8
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.1",
+            "player": "Filip Forsberg W",
+            "nhl_team": "NSH",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 6,
+              "The Dook of Sook": 1,
+              "G' Stars": 8,
+              "re-degeneration X 2.0": 8,
+              "CinStars": 9,
+              "3sheets Sports Entertainment": 5,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.2",
+            "player": "Carter Verhaeghe W",
+            "nhl_team": "FLA",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 4,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 5,
+              "CinStars": 6,
+              "3sheets Sports Entertainment": 2,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.10",
+            "player": "Matias Maccelli W",
+            "nhl_team": "UTA",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 3,
+            "bids": {},
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.0",
+            "player": "Shane Pinto C",
+            "nhl_team": "OTT",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 3,
+            "bids": {
+              "The Dook of Sook": 0,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.1",
+            "player": "Josh Norris C",
+            "nhl_team": "OTT",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 3,
+            "bids": {
+              "G' Stars": 0,
+              "CinStars": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.6",
+            "player": "Joel Farabee W",
+            "nhl_team": "PHI",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 2,
+            "bids": {
+              "CinStars": 2
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 9,
+          "total_spent": 62
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.8",
+            "player": "Tim Stutzle C",
+            "nhl_team": "OTT",
+            "nominator": "HawtSawwce",
+            "winner": "HawtSawwce",
+            "winning_bid": 8,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 6,
+              "G' Stars": 6,
+              "re-degeneration X 2.0": 5,
+              "CinStars": 7,
+              "3sheets Sports Entertainment": 8
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.12",
+            "player": "Aleksander Barkov C",
+            "nhl_team": "FLA",
+            "nominator": "HawtSawwce",
+            "winner": "HawtSawwce",
+            "winning_bid": 10,
+            "bids": {
+              "The Pylons": 6,
+              "The Dook of Sook": 2,
+              "G' Stars": 7,
+              "re-degeneration X 2.0": 8,
+              "CinStars": 8,
+              "3sheets Sports Entertainment": 4,
+              "HawtSawwce": 10
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.11",
+            "player": "Brent Burns D",
+            "nhl_team": "CAR",
+            "nominator": "HawtSawwce",
+            "winner": "HawtSawwce",
+            "winning_bid": 3,
+            "bids": {
+              "The Pylons": 1,
+              "The Dook of Sook": 2,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 2,
+              "HawtSawwce": 3
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 3,
+          "total_spent": 21
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.10",
+            "player": "Mitchell Marner W",
+            "nhl_team": "TOR",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 13,
+            "bids": {
+              "The Pylons": 13,
+              "The Dook of Sook": 6,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 12,
+              "CinStars": 10,
+              "3sheets Sports Entertainment": 8,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "1.2",
+            "player": "Cale Makar D",
+            "nhl_team": "COL",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 23,
+            "bids": {
+              "The Dook of Sook": 6,
+              "G' Stars": 19,
+              "re-degeneration X 2.0": 16,
+              "CinStars": 13,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 14
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "1.7",
+            "player": "Kyle Connor W",
+            "nhl_team": "WPG",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 9,
+              "The Dook of Sook": 8,
+              "G' Stars": 5,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 8,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.5",
+            "player": "Erik Karlsson D",
+            "nhl_team": "PIT",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 10,
+            "bids": {
+              "The Pylons": 10,
+              "The Dook of Sook": 2,
+              "G' Stars": 6,
+              "re-degeneration X 2.0": 8,
+              "CinStars": 8,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.4",
+            "player": "John Tavares C",
+            "nhl_team": "TOR",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 4,
+              "The Dook of Sook": 2,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 3,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.6",
+            "player": "Clayton Keller C",
+            "nhl_team": "UTA",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 7,
+            "bids": {
+              "The Dook of Sook": 2,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.5",
+            "player": "Brandt Clarke D",
+            "nhl_team": "LA",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 3,
+            "bids": {
+              "re-degeneration X 2.0": 3,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.7",
+            "player": "William Eklund W",
+            "nhl_team": "SJ",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 3,
+            "bids": {
+              "CinStars": 2
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 8,
+          "total_spent": 72
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "3.10",
+            "player": "Jacob Markstrom G",
+            "nhl_team": "NJ",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 2,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 0,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.11",
+            "player": "Drake Batherson W",
+            "nhl_team": "OTT",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 4,
+            "bids": {
+              "The Dook of Sook": 0,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 3,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 2,
+          "total_spent": 8
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.4",
+            "player": "Leon Draisaitl C",
+            "nhl_team": "EDM",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 19,
+            "bids": {
+              "The Pylons": 18,
+              "The Dook of Sook": 8,
+              "G' Stars": 12,
+              "re-degeneration X 2.0": 16,
+              "CinStars": 16,
+              "3sheets Sports Entertainment": 8,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.2",
+            "player": "Kirill Kaprizov W",
+            "nhl_team": "MIN",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 14,
+            "bids": {
+              "The Pylons": 9,
+              "The Dook of Sook": 4,
+              "G' Stars": 6,
+              "re-degeneration X 2.0": 9,
+              "CinStars": 8,
+              "3sheets Sports Entertainment": 8,
+              "HawtSawwce": 10
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.7",
+            "player": "Jack Eichel C",
+            "nhl_team": "LV",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 7,
+            "bids": {
+              "The Pylons": 4,
+              "The Dook of Sook": 1,
+              "G' Stars": 5,
+              "re-degeneration X 2.0": 5,
+              "CinStars": 5,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.3",
+            "player": "Jake Neighbours W",
+            "nhl_team": "STL",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 3,
+            "bids": {
+              "The Dook of Sook": 1,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 0,
+              "CinStars": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.7",
+            "player": "Brock Faber D",
+            "nhl_team": "MIN",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 8,
+            "bids": {
+              "The Pylons": 6,
+              "The Dook of Sook": 1,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 8,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 6,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 5,
+          "total_spent": 51
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "2.10",
+            "player": "Travis Konecny W",
+            "nhl_team": "PHI",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 1,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 3,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.11",
+            "player": "Steven Stamkos W",
+            "nhl_team": "NSH",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 4,
+              "The Dook of Sook": 1,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 4,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.12",
+            "player": "Evgeni Malkin C",
+            "nhl_team": "PIT",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 1,
+              "The Dook of Sook": 1,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 3,
+          "total_spent": 14
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.3",
+            "player": "Nathan MacKinnon C",
+            "nhl_team": "COL",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 23,
+            "bids": {
+              "The Pylons": 18,
+              "The Dook of Sook": 8,
+              "G' Stars": 10,
+              "re-degeneration X 2.0": 16,
+              "CinStars": 18,
+              "3sheets Sports Entertainment": 8,
+              "HawtSawwce": 18
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.3",
+            "player": "Morgan Rielly D",
+            "nhl_team": "TOR",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 8,
+            "bids": {
+              "The Pylons": 6,
+              "The Dook of Sook": 6,
+              "G' Stars": 6,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 6,
+              "3sheets Sports Entertainment": 6,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.9",
+            "player": "Shea Theodore D",
+            "nhl_team": "LV",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 8,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 2,
+              "G' Stars": 7,
+              "re-degeneration X 2.0": 5,
+              "CinStars": 5,
+              "3sheets Sports Entertainment": 5,
+              "HawtSawwce": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.8",
+            "player": "John Carlson D",
+            "nhl_team": "WAS",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 2,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 5,
+              "HawtSawwce": 3
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 4,
+          "total_spent": 45
+        }
+      }
+    }
+  },
+  "2025-2026": {
+    "name": "Free Agent Auction",
+    "description": "Offline auction: Superstar Round (1), UFA Nominations (2 rounds), RFA Poaching (unlimited rounds)",
+    "date": "2025-09-08",
+    "rounds": "3+ (1 Superstar, 2 UFA, unlimited RFA)",
+    "contract_term": "3 years",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.2",
+            "player": "Evan Bouchard D",
+            "nhl_team": "EDM",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 15,
+            "bids": {
+              "The Pylons": 9,
+              "The Dook of Sook": 5,
+              "G' Stars": 14,
+              "re-degeneration X 2.0": 7,
+              "CinStars": 0,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "1.5",
+            "player": "Mikko Rantanen W",
+            "nhl_team": "COL",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 15,
+            "bids": {
+              "The Pylons": 9,
+              "The Dook of Sook": 6,
+              "G' Stars": 14,
+              "re-degeneration X 2.0": 12,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 15,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.10",
+            "player": "Charlie McAvoy D",
+            "nhl_team": "BOS",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 2,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 0,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 5,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.6",
+            "player": "Roman Josi D",
+            "nhl_team": "NSH",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 7,
+            "bids": {
+              "The Pylons": 1,
+              "The Dook of Sook": 2,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 7,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.6",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0,
+              "3sheets Sports Entertainment": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.6",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.11",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "3sheets Sports Entertainment",
+            "winner": "3sheets Sports Entertainment",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 7,
+          "total_spent": 42
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.1",
+            "player": "Connor McDavid C",
+            "nhl_team": "EDM",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 30,
+            "bids": {
+              "The Pylons": 9,
+              "The Dook of Sook": 5,
+              "G' Stars": 20,
+              "re-degeneration X 2.0": 30,
+              "CinStars": 0,
+              "3sheets Sports Entertainment": 25,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.8",
+            "player": "Jake Guentzel W",
+            "nhl_team": "TB",
+            "nominator": "re-degeneration X 2.0",
+            "winner": "re-degeneration X 2.0",
+            "winning_bid": 10,
+            "bids": {
+              "The Pylons": 7,
+              "The Dook of Sook": 2,
+              "G' Stars": 9,
+              "re-degeneration X 2.0": 10,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 2,
+          "total_spent": 40
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "2.11",
+            "player": "Thomas Chabot D",
+            "nhl_team": "OTT",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 0,
+              "G' Stars": 5,
+              "re-degeneration X 2.0": 0,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.4",
+            "player": "Sidney Crosby C",
+            "nhl_team": "PIT",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 7,
+              "The Dook of Sook": 2,
+              "G' Stars": 9,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 7,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.8",
+            "player": "Adin Hill G",
+            "nhl_team": "LV",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 0,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 3,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.11",
+            "player": "Alexei Protas C",
+            "nhl_team": "WAS",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 2,
+              "G' Stars": 5,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 3,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.8",
+            "player": "Lucas Raymond W",
+            "nhl_team": "DET",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 7,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 2,
+              "G' Stars": 7,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 0,
+              "HawtSawwce": 6
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.2",
+            "player": "Jackson LaCombe D",
+            "nhl_team": "ANA",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "re-degeneration X 2.0": 4,
+              "HawtSawwce": 5
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.0",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "G' Stars",
+            "winner": "G' Stars",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 7,
+          "total_spent": 36
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.11",
+            "player": "Adam Fox D",
+            "nhl_team": "NYR",
+            "nominator": "South Calgary Oilers",
+            "winner": "South Calgary Oilers",
+            "winning_bid": 13,
+            "bids": {
+              "The Pylons": 9,
+              "The Dook of Sook": 5,
+              "G' Stars": 13,
+              "re-degeneration X 2.0": 9,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 6,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.7",
+            "player": "Tage Thompson C",
+            "nhl_team": "BUF",
+            "nominator": "South Calgary Oilers",
+            "winner": "South Calgary Oilers",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 5,
+              "The Dook of Sook": 2,
+              "G' Stars": 6,
+              "re-degeneration X 2.0": 7,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 5,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.9",
+            "player": "Frederik Andersen G",
+            "nhl_team": "CAR",
+            "nominator": "South Calgary Oilers",
+            "winner": "South Calgary Oilers",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.2",
+            "player": "Sam Bennett C",
+            "nhl_team": "FLA",
+            "nominator": "South Calgary Oilers",
+            "winner": "South Calgary Oilers",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 0,
+              "re-degeneration X 2.0": 0,
+              "CinStars": 0,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 4,
+          "total_spent": 32
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "2.2",
+            "player": "Seth Jones D",
+            "nhl_team": "CHI",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 3,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 3,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 0,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.3",
+            "player": "Alex DeBrincat W",
+            "nhl_team": "DET",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 6,
+              "G' Stars": 5,
+              "re-degeneration X 2.0": 0,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.1",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0,
+              "3sheets Sports Entertainment": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.12",
+            "player": "Dustin Wolf G",
+            "nhl_team": "CGY",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 0,
+              "G' Stars": 2,
+              "re-degeneration X 2.0": 2,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.1",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "The Dook of Sook",
+            "winner": "The Dook of Sook",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 5,
+          "total_spent": 13
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.3",
+            "player": "Quinn Hughes D",
+            "nhl_team": "VAN",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 18,
+            "bids": {
+              "The Pylons": 9,
+              "The Dook of Sook": 6,
+              "G' Stars": 15,
+              "re-degeneration X 2.0": 9,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.10",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.2",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "CinStars",
+            "winner": "CinStars",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 3,
+          "total_spent": 18
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "5.6",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "HawtSawwce",
+            "winner": "HawtSawwce",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.4",
+            "player": "Connor McMichael C",
+            "nhl_team": "WAS",
+            "nominator": "HawtSawwce",
+            "winner": "HawtSawwce",
+            "winning_bid": 3,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "7.1",
+            "player": "Pavel Dorofeyev W",
+            "nhl_team": "LV",
+            "nominator": "HawtSawwce",
+            "winner": "HawtSawwce",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 3,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 3,
+          "total_spent": 7
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.8",
+            "player": "Artemi Panarin W",
+            "nhl_team": "NYR",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 11,
+            "bids": {
+              "The Pylons": 11,
+              "The Dook of Sook": 5,
+              "G' Stars": 10,
+              "re-degeneration X 2.0": 7,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 8,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.1",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.9",
+            "player": "Dmitri Voronkov W",
+            "nhl_team": "CLB",
+            "nominator": "The Pylons",
+            "winner": "The Pylons",
+            "winning_bid": 2,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 0,
+              "re-degeneration X 2.0": 0,
+              "CinStars": 2
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 3,
+          "total_spent": 13
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.12",
+            "player": "Jesper Bratt W",
+            "nhl_team": "NJ",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 11,
+            "bids": {
+              "The Pylons": 9,
+              "The Dook of Sook": 5,
+              "G' Stars": 10,
+              "re-degeneration X 2.0": 8,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 5,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "1.4",
+            "player": "Auston Matthews C",
+            "nhl_team": "TOR",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 16,
+            "bids": {
+              "The Pylons": 9,
+              "The Dook of Sook": 6,
+              "G' Stars": 14,
+              "re-degeneration X 2.0": 12,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.5",
+            "player": "Mark Scheifele C",
+            "nhl_team": "WPG",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 9,
+            "bids": {
+              "The Pylons": 5,
+              "The Dook of Sook": 2,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 4,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.1",
+            "player": "Miro Heiskanen D",
+            "nhl_team": "DAL",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "G' Stars": 5,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.3",
+            "player": "Rasmus Dahlin D",
+            "nhl_team": "BUF",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 14,
+            "bids": {
+              "The Pylons": 7,
+              "The Dook of Sook": 0,
+              "G' Stars": 7,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.5",
+            "player": "Owen Power D",
+            "nhl_team": "BUF",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.12",
+            "player": "Morgan Geekie C",
+            "nhl_team": "BOS",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "re-degeneration X 2.0": 2,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "6.3",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "LIP's Lasers",
+            "winner": "LIP's Lasers",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 8,
+          "total_spent": 65
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "3.5",
+            "player": "Ilya Sorokin G",
+            "nhl_team": "NYI",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 0,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.7",
+            "player": "Nikolaj Ehlers W",
+            "nhl_team": "WPG",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 2,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 0,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.4",
+            "player": "Moritz Seider D",
+            "nhl_team": "DET",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 8,
+            "bids": {
+              "The Pylons": 2,
+              "The Dook of Sook": 0,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 8
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.7",
+            "player": "Robert Thomas C",
+            "nhl_team": "STL",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 7,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 2,
+              "G' Stars": 3,
+              "re-degeneration X 2.0": 4,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.9",
+            "player": "Jake Oettinger G",
+            "nhl_team": "DAL",
+            "nominator": "Shazam!!!",
+            "winner": "Shazam!!!",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 5,
+              "The Dook of Sook": 2,
+              "G' Stars": 2,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 3,
+              "3sheets Sports Entertainment": 3,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 5,
+          "total_spent": 30
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.6",
+            "player": "David Pastrnak W",
+            "nhl_team": "BOS",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 15,
+            "bids": {
+              "The Pylons": 11,
+              "The Dook of Sook": 6,
+              "G' Stars": 13,
+              "re-degeneration X 2.0": 10,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 8,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.1",
+            "player": "Dylan Larkin C",
+            "nhl_team": "DET",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 7,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 5,
+              "G' Stars": 4,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 4,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.10",
+            "player": "Vince Dunn D",
+            "nhl_team": "SEA",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 0,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.11",
+            "player": "Mathew Barzal W",
+            "nhl_team": "NYI",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 0,
+              "CinStars": 0,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.12",
+            "player": "J.T. Miller C",
+            "nhl_team": "VAN",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 6,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 2,
+              "G' Stars": 5,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 0,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.3",
+            "player": "Adrian Kempe W",
+            "nhl_team": "LA",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 7,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 0,
+              "3sheets Sports Entertainment": 4,
+              "HawtSawwce": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.9",
+            "player": "Filip Gustavsson G",
+            "nhl_team": "MIN",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 4,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 2,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "7.2",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "The Inglorious Basteeerds",
+            "winner": "The Inglorious Basteeerds",
+            "winning_bid": 0,
+            "bids": {},
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 8,
+          "total_spent": 47
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "type": "auction",
+            "pick": "1.10",
+            "player": "Colton Parayko D",
+            "nhl_team": "STL",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 3,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 0
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "1.7",
+            "player": "Lane Hutson D",
+            "nhl_team": "MON",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 13,
+            "bids": {
+              "The Pylons": 5,
+              "The Dook of Sook": 5,
+              "G' Stars": 12,
+              "re-degeneration X 2.0": 9,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 8,
+              "HawtSawwce": 4
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "1.9",
+            "player": "Andrei Vasilevskiy G",
+            "nhl_team": "TB",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 8,
+            "bids": {
+              "The Pylons": 3,
+              "The Dook of Sook": 2,
+              "G' Stars": 5,
+              "re-degeneration X 2.0": 6,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 3,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "2.12",
+            "player": "Jordan Kyrou W",
+            "nhl_team": "STL",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 2,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 0,
+              "3sheets Sports Entertainment": 3,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "3.4",
+            "player": "Igor Shesterkin G",
+            "nhl_team": "NYR",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 3,
+              "re-degeneration X 2.0": 2,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 3,
+              "HawtSawwce": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "4.2",
+            "player": "Noah Dobson D",
+            "nhl_team": "NYI",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 0,
+              "The Dook of Sook": 0,
+              "G' Stars": 0,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "3sheets Sports Entertainment": 0,
+              "HawtSawwce": 2
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.10",
+            "player": "Kirill Marchenko W",
+            "nhl_team": "CLB",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 5,
+            "bids": {
+              "The Pylons": 1,
+              "The Dook of Sook": 2,
+              "re-degeneration X 2.0": 4,
+              "CinStars": 2,
+              "HawtSawwce": 3
+            },
+            "decision_maker": "gm"
+          },
+          {
+            "type": "auction",
+            "pick": "5.3",
+            "player": "pass",
+            "nhl_team": "",
+            "nominator": "New Oilers Nation",
+            "winner": "New Oilers Nation",
+            "winning_bid": 0,
+            "bids": {
+              "The Pylons": 0
+            },
+            "decision_maker": "gm"
+          }
+        ],
+        "stage_summary": {
+          "players_acquired": 8,
+          "total_spent": 44
+        }
+      }
+    }
+  }
+}

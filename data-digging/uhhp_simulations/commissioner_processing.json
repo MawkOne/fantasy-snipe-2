@@ -1,0 +1,2736 @@
+{
+  "2022-2023": {
+    "name": "Commissioner Processing",
+    "description": "Commissioner processes drops for cap compliance, IR moves, and post-draft cleanup",
+    "period": {
+      "start": "2022-09-01T12:00:00Z",
+      "end": "2022-09-15T23:00:00Z"
+    },
+    "decision_maker": "commissioner",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      }
+    }
+  },
+  "2023-2024": {
+    "name": "Commissioner Processing",
+    "description": "Commissioner processes drops for cap compliance, IR moves, and post-draft cleanup",
+    "period": {
+      "start": "2023-09-01T12:00:00Z",
+      "end": "2023-09-15T23:00:00Z"
+    },
+    "decision_maker": "commissioner",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      }
+    }
+  },
+  "2024-2025": {
+    "name": "Commissioner Processing",
+    "description": "Commissioner processes drops for cap compliance, IR moves, and post-draft cleanup",
+    "period": {
+      "start": "2024-09-01T12:00:00Z",
+      "end": "2024-09-15T23:00:00Z"
+    },
+    "decision_maker": "commissioner",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "drops": 0,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 0,
+          "gm_decisions": 0
+        }
+      }
+    }
+  },
+  "2025-2026": {
+    "name": "Commissioner Processing",
+    "description": "Commissioner processes drops for cap compliance, IR moves, and post-draft cleanup",
+    "period": {
+      "start": "2025-09-08T16:32:00Z",
+      "end": "2025-09-16T23:00:00Z"
+    },
+    "decision_maker": "commissioner",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "timestamp": "2025-09-08T15:57:00Z",
+            "type": "drop",
+            "player": "Anthony Cirelli",
+            "position": "C",
+            "nhl_team": "TB",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T15:57:00Z",
+            "type": "drop",
+            "player": "Jordan Kyrou",
+            "position": "W",
+            "nhl_team": "STL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T15:57:00Z",
+            "type": "drop",
+            "player": "Mason Marchment",
+            "position": "W",
+            "nhl_team": "SEA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T15:57:00Z",
+            "type": "drop",
+            "player": "Mike Matheson",
+            "position": "D",
+            "nhl_team": "MON",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T15:57:00Z",
+            "type": "drop",
+            "player": "Dmitry Orlov",
+            "position": "D",
+            "nhl_team": "SJ",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T15:57:00Z",
+            "type": "drop",
+            "player": "Ivan Provorov",
+            "position": "D",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T15:57:00Z",
+            "type": "drop",
+            "player": "Rickard Rakell",
+            "position": "W",
+            "nhl_team": "PIT",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T15:57:00Z",
+            "type": "drop",
+            "player": "Tage Thompson",
+            "position": "C",
+            "nhl_team": "BUF",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T15:58:00Z",
+            "type": "activation",
+            "player": "Nathan MacKinnon",
+            "position": "C",
+            "nhl_team": "COL",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-08T15:58:00Z",
+            "type": "activation",
+            "player": "John Carlson",
+            "position": "D",
+            "nhl_team": "WAS",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-08T15:58:00Z",
+            "type": "activation",
+            "player": "Alexei Protas",
+            "position": "C",
+            "nhl_team": "WAS",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-15T12:20:00Z",
+            "type": "drop",
+            "player": "Devon Levi",
+            "position": "G",
+            "nhl_team": "BUF",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T13:17:00Z",
+            "type": "drop",
+            "player": "Mikko Rantanen",
+            "position": "W",
+            "nhl_team": "DAL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T13:38:00Z",
+            "type": "drop",
+            "player": "Filip Gustavsson",
+            "position": "G",
+            "nhl_team": "MIN",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          }
+        ],
+        "stage_summary": {
+          "drops": 11,
+          "activations": 3,
+          "trades": 0,
+          "commissioner_actions": 14,
+          "gm_decisions": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [
+          {
+            "timestamp": "2025-09-09T13:55:00Z",
+            "type": "drop",
+            "player": "Bo Horvat",
+            "position": "C",
+            "nhl_team": "NYI",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T13:55:00Z",
+            "type": "drop",
+            "player": "Darcy Kuemper",
+            "position": "G",
+            "nhl_team": "LA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T13:55:00Z",
+            "type": "drop",
+            "player": "Sam Montembeault",
+            "position": "G",
+            "nhl_team": "MON",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T13:55:00Z",
+            "type": "drop",
+            "player": "Brock Nelson",
+            "position": "C",
+            "nhl_team": "COL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T13:55:00Z",
+            "type": "drop",
+            "player": "Tom Wilson",
+            "position": "W",
+            "nhl_team": "WAS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T13:57:00Z",
+            "type": "activation",
+            "player": "Juuse Saros",
+            "position": "G",
+            "nhl_team": "NSH",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-13T10:13:00Z",
+            "type": "activation",
+            "player": "Miro Heiskanen",
+            "position": "D",
+            "nhl_team": "DAL",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-13T10:13:00Z",
+            "type": "benched",
+            "player": "Michael Kesselring",
+            "position": "D",
+            "nhl_team": "BUF",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-13T10:13:00Z",
+            "type": "benched",
+            "player": "Mika Zibanejad",
+            "position": "C",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-13T10:13:00Z",
+            "type": "benched",
+            "player": "Brady Skjei",
+            "position": "D",
+            "nhl_team": "NSH",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-13T10:18:00Z",
+            "type": "benched",
+            "player": "Miro Heiskanen",
+            "position": "D",
+            "nhl_team": "DAL",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-13T10:18:00Z",
+            "type": "benched",
+            "player": "Pavel Dorofeyev",
+            "position": "W",
+            "nhl_team": "LV",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T15:18:00Z",
+            "type": "drop",
+            "player": "Dawson Mercer",
+            "position": "W",
+            "nhl_team": "NJ",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-15T15:18:00Z",
+            "type": "drop",
+            "player": "Brady Skjei",
+            "position": "D",
+            "nhl_team": "NSH",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-15T15:18:00Z",
+            "type": "drop",
+            "player": "Mika Zibanejad",
+            "position": "C",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          }
+        ],
+        "stage_summary": {
+          "drops": 8,
+          "activations": 2,
+          "trades": 0,
+          "commissioner_actions": 15,
+          "gm_decisions": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "timestamp": "2025-09-08T16:09:00Z",
+            "type": "drop",
+            "player": "Jordan Binnington",
+            "position": "G",
+            "nhl_team": "STL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:09:00Z",
+            "type": "drop",
+            "player": "Mattias Ekholm",
+            "position": "D",
+            "nhl_team": "EDM",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:09:00Z",
+            "type": "drop",
+            "player": "Jake Guentzel",
+            "position": "W",
+            "nhl_team": "TB",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:09:00Z",
+            "type": "drop",
+            "player": "Charlie Lindgren",
+            "position": "G",
+            "nhl_team": "WAS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:09:00Z",
+            "type": "drop",
+            "player": "Ryan O'Reilly",
+            "position": "C",
+            "nhl_team": "NSH",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:09:00Z",
+            "type": "drop",
+            "player": "Anthony Stolarz",
+            "position": "G",
+            "nhl_team": "TOR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:09:00Z",
+            "type": "drop",
+            "player": "Troy Terry",
+            "position": "W",
+            "nhl_team": "ANA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:11:00Z",
+            "type": "moved_to_ir",
+            "player": "Will Smith",
+            "position": "C",
+            "nhl_team": "SJ",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:11:00Z",
+            "type": "moved_to_ir",
+            "player": "Frank Nazar",
+            "position": "C",
+            "nhl_team": "CHI",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:11:00Z",
+            "type": "moved_to_ir",
+            "player": "Artyom Levshunov",
+            "position": "D",
+            "nhl_team": "CHI",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:11:00Z",
+            "type": "moved_to_ir",
+            "player": "Cutter Gauthier",
+            "position": "W",
+            "nhl_team": "ANA",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T12:20:00Z",
+            "type": "drop",
+            "player": "Andrei Kuzmenko",
+            "position": "W",
+            "nhl_team": "LA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          }
+        ],
+        "stage_summary": {
+          "drops": 8,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 12,
+          "gm_decisions": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "timestamp": "2025-09-09T14:06:00Z",
+            "type": "drop",
+            "player": "Tyler Bertuzzi",
+            "position": "W",
+            "nhl_team": "CHI",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:06:00Z",
+            "type": "drop",
+            "player": "Pierre-Luc Dubois",
+            "position": "C",
+            "nhl_team": "WAS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:06:00Z",
+            "type": "drop",
+            "player": "Aaron Ekblad",
+            "position": "D",
+            "nhl_team": "FLA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:06:00Z",
+            "type": "drop",
+            "player": "Adam Henrique",
+            "position": "C",
+            "nhl_team": "EDM",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:06:00Z",
+            "type": "drop",
+            "player": "Jonathan Marchessault",
+            "position": "W",
+            "nhl_team": "NSH",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:06:00Z",
+            "type": "drop",
+            "player": "Calvin Pickard",
+            "position": "G",
+            "nhl_team": "EDM",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:08:00Z",
+            "type": "moved_to_ir",
+            "player": "Zayne Parekh*",
+            "position": "D",
+            "nhl_team": "CGY",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-09T14:08:00Z",
+            "type": "moved_to_ir",
+            "player": "David Reinbacher",
+            "position": "D",
+            "nhl_team": "MON",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T12:24:00Z",
+            "type": "drop",
+            "player": "Jeff Skinner",
+            "position": "W",
+            "nhl_team": "SJ",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-15T12:24:00Z",
+            "type": "drop",
+            "player": "Matthew Tkachuk",
+            "position": "W",
+            "nhl_team": "FLA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T18:05:00Z",
+            "type": "activation",
+            "player": "Trevor Zegras",
+            "position": "C",
+            "nhl_team": "PHI",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          }
+        ],
+        "stage_summary": {
+          "drops": 8,
+          "activations": 1,
+          "trades": 0,
+          "commissioner_actions": 11,
+          "gm_decisions": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "timestamp": "2025-09-09T14:12:00Z",
+            "type": "drop",
+            "player": "William Karlsson",
+            "position": "C",
+            "nhl_team": "LV",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:12:00Z",
+            "type": "drop",
+            "player": "Kevin Lankinen",
+            "position": "G",
+            "nhl_team": "VAN",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:12:00Z",
+            "type": "drop",
+            "player": "Anders Lee",
+            "position": "W",
+            "nhl_team": "NYI",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:12:00Z",
+            "type": "drop",
+            "player": "Nick Schmaltz",
+            "position": "C",
+            "nhl_team": "UTA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:13:00Z",
+            "type": "moved_to_ir",
+            "player": "Ivan Demidov",
+            "position": "W",
+            "nhl_team": "MON",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-09T14:13:00Z",
+            "type": "moved_to_ir",
+            "player": "Fabian Lysell",
+            "position": "W",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-11T18:51:00Z",
+            "type": "activation",
+            "player": "Casey Mittelstadt",
+            "position": "C",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-11T18:51:00Z",
+            "type": "activation",
+            "player": "Yegor Sharangovich",
+            "position": "W",
+            "nhl_team": "CGY",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-11T18:51:00Z",
+            "type": "benched",
+            "player": "Pyotr Kochetkov",
+            "position": "G",
+            "nhl_team": "CAR",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-11T18:51:00Z",
+            "type": "activation",
+            "player": "Yaroslav Askarov",
+            "position": "G",
+            "nhl_team": "SJ",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-15T16:58:00Z",
+            "type": "drop",
+            "player": "Alex DeBrincat",
+            "position": "W",
+            "nhl_team": "DET",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-15T16:58:00Z",
+            "type": "drop",
+            "player": "Pyotr Kochetkov",
+            "position": "G",
+            "nhl_team": "CAR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-15T16:58:00Z",
+            "type": "drop",
+            "player": "Casey Mittelstadt",
+            "position": "C",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          }
+        ],
+        "stage_summary": {
+          "drops": 7,
+          "activations": 3,
+          "trades": 0,
+          "commissioner_actions": 13,
+          "gm_decisions": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "timestamp": "2025-09-08T16:03:00Z",
+            "type": "drop",
+            "player": "Sergei Bobrovsky",
+            "position": "G",
+            "nhl_team": "FLA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:03:00Z",
+            "type": "drop",
+            "player": "Gustav Forsling",
+            "position": "D",
+            "nhl_team": "FLA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:03:00Z",
+            "type": "drop",
+            "player": "Tommy Novak",
+            "position": "C",
+            "nhl_team": "PIT",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:03:00Z",
+            "type": "drop",
+            "player": "Darnell Nurse",
+            "position": "D",
+            "nhl_team": "EDM",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:03:00Z",
+            "type": "drop",
+            "player": "Alex Pietrangelo",
+            "position": "D",
+            "nhl_team": "LV",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:03:00Z",
+            "type": "drop",
+            "player": "Jaden Schwartz",
+            "position": "W",
+            "nhl_team": "SEA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:03:00Z",
+            "type": "drop",
+            "player": "Vladimir Tarasenko",
+            "position": "W",
+            "nhl_team": "MIN",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:03:00Z",
+            "type": "drop",
+            "player": "Karel Vejmelka",
+            "position": "G",
+            "nhl_team": "UTA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:03:00Z",
+            "type": "drop",
+            "player": "Jason Zucker",
+            "position": "W",
+            "nhl_team": "BUF",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:04:00Z",
+            "type": "moved_to_ir",
+            "player": "Sam Dickinson",
+            "position": "D",
+            "nhl_team": "SJ",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:04:00Z",
+            "type": "moved_to_ir",
+            "player": "Ryan Leonard",
+            "position": "W",
+            "nhl_team": "WAS",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:04:00Z",
+            "type": "benched",
+            "player": "Quinn Hughes",
+            "position": "D",
+            "nhl_team": "VAN",
+            "decision_maker": "commissioner"
+          }
+        ],
+        "stage_summary": {
+          "drops": 9,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 12,
+          "gm_decisions": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "timestamp": "2025-09-08T16:16:00Z",
+            "type": "drop",
+            "player": "Connor Ingram",
+            "position": "G",
+            "nhl_team": "UTA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:16:00Z",
+            "type": "drop",
+            "player": "Adrian Kempe",
+            "position": "W",
+            "nhl_team": "LA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:16:00Z",
+            "type": "drop",
+            "player": "Alex Nedeljkovic",
+            "position": "G",
+            "nhl_team": "SJ",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:16:00Z",
+            "type": "drop",
+            "player": "Max Pacioretty",
+            "position": "W",
+            "nhl_team": "TOR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:16:00Z",
+            "type": "drop",
+            "player": "Kyle Palmieri",
+            "position": "W",
+            "nhl_team": "NYI",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:17:00Z",
+            "type": "moved_to_ir",
+            "player": "Shane Wright",
+            "position": "C",
+            "nhl_team": "SEA",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:17:00Z",
+            "type": "moved_to_ir",
+            "player": "Cayden Lindstrom*",
+            "position": "C",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:17:00Z",
+            "type": "moved_to_ir",
+            "player": "Dmitriy Simashev",
+            "position": "D",
+            "nhl_team": "UTA",
+            "decision_maker": "commissioner"
+          }
+        ],
+        "stage_summary": {
+          "drops": 5,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 8,
+          "gm_decisions": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "timestamp": "2025-09-08T20:54:00Z",
+            "type": "benched",
+            "player": "Dmitri Voronkov",
+            "position": "W",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T23:23:00Z",
+            "type": "activation",
+            "player": "Dmitri Voronkov",
+            "position": "W",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-08T23:23:00Z",
+            "type": "activation",
+            "player": "Barrett Hayton",
+            "position": "C",
+            "nhl_team": "UTA",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-09T14:26:00Z",
+            "type": "drop",
+            "player": "Pavel Buchnevich",
+            "position": "W",
+            "nhl_team": "STL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:26:00Z",
+            "type": "drop",
+            "player": "Tony DeAngelo",
+            "position": "D",
+            "nhl_team": "NYI",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:26:00Z",
+            "type": "drop",
+            "player": "Justin Faulk",
+            "position": "D",
+            "nhl_team": "STL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:26:00Z",
+            "type": "drop",
+            "player": "Adam Fox",
+            "position": "D",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:26:00Z",
+            "type": "drop",
+            "player": "Tristan Jarry",
+            "position": "G",
+            "nhl_team": "PIT",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:26:00Z",
+            "type": "drop",
+            "player": "Sean Monahan",
+            "position": "C",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:26:00Z",
+            "type": "drop",
+            "player": "David Pastrnak",
+            "position": "W",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-14T20:00:00Z",
+            "type": "moved_to_ir",
+            "player": "Dmitri Voronkov",
+            "position": "W",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-14T20:00:00Z",
+            "type": "moved_to_ir",
+            "player": "Gabe Perreault",
+            "position": "W",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-14T20:00:00Z",
+            "type": "moved_to_ir",
+            "player": "Collin Graf",
+            "position": "C",
+            "nhl_team": "SJ",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-14T20:00:00Z",
+            "type": "moved_to_ir",
+            "player": "Luca Del Bel Belluz",
+            "position": "C",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-14T20:01:00Z",
+            "type": "moved_to_ir",
+            "player": "Igor Shesterkin",
+            "position": "G",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-14T20:01:00Z",
+            "type": "benched",
+            "player": "Dmitri Voronkov",
+            "position": "W",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-14T20:01:00Z",
+            "type": "benched",
+            "player": "Gabe Perreault",
+            "position": "W",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T12:22:00Z",
+            "type": "drop",
+            "player": "Conor Geekie",
+            "position": "C",
+            "nhl_team": "TB",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-15T12:22:00Z",
+            "type": "drop",
+            "player": "Igor Shesterkin",
+            "position": "G",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-15T19:39:00Z",
+            "type": "benched",
+            "player": "Collin Graf",
+            "position": "C",
+            "nhl_team": "SJ",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T19:39:00Z",
+            "type": "benched",
+            "player": "Luca Del Bel Belluz",
+            "position": "C",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T19:39:00Z",
+            "type": "moved_to_ir",
+            "player": "Nate Danielson",
+            "position": "C",
+            "nhl_team": "DET",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T19:39:00Z",
+            "type": "moved_to_ir",
+            "player": "Oliver Moore",
+            "position": "C",
+            "nhl_team": "CHI",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T19:39:00Z",
+            "type": "moved_to_ir",
+            "player": "Leo Carlsson",
+            "position": "C",
+            "nhl_team": "ANA",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T19:39:00Z",
+            "type": "benched",
+            "player": "Marco Kasper",
+            "position": "C",
+            "nhl_team": "DET",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T19:39:00Z",
+            "type": "moved_to_ir",
+            "player": "Zach Benson",
+            "position": "W",
+            "nhl_team": "BUF",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T19:39:00Z",
+            "type": "moved_to_ir",
+            "player": "Tij Iginla",
+            "position": "C",
+            "nhl_team": "UTA",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T19:39:00Z",
+            "type": "benched",
+            "player": "Barrett Hayton",
+            "position": "C",
+            "nhl_team": "UTA",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T19:39:00Z",
+            "type": "activation",
+            "player": "Marco Kasper",
+            "position": "C",
+            "nhl_team": "DET",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-15T19:42:00Z",
+            "type": "moved_to_ir",
+            "player": "Jeremy Swayman",
+            "position": "G",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T20:17:00Z",
+            "type": "activation",
+            "player": "Gabe Perreault",
+            "position": "W",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-15T20:17:00Z",
+            "type": "activation",
+            "player": "Jeremy Swayman",
+            "position": "G",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-15T20:17:00Z",
+            "type": "activation",
+            "player": "Dmitri Voronkov",
+            "position": "W",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-15T20:18:00Z",
+            "type": "benched",
+            "player": "Gabe Perreault",
+            "position": "W",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T20:18:00Z",
+            "type": "benched",
+            "player": "Marco Rossi",
+            "position": "C",
+            "nhl_team": "MIN",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T20:18:00Z",
+            "type": "benched",
+            "player": "Denton Mateychuk",
+            "position": "D",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T20:18:00Z",
+            "type": "benched",
+            "player": "Dmitri Voronkov",
+            "position": "W",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T20:18:00Z",
+            "type": "moved_to_ir",
+            "player": "Jeremy Swayman",
+            "position": "G",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-15T20:18:00Z",
+            "type": "activation",
+            "player": "Jeremy Swayman",
+            "position": "G",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-15T21:46:00Z",
+            "type": "activation",
+            "player": "Marco Rossi",
+            "position": "C",
+            "nhl_team": "MIN",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-15T21:46:00Z",
+            "type": "activation",
+            "player": "Denton Mateychuk",
+            "position": "D",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-16T12:59:00Z",
+            "type": "moved_to_ir",
+            "player": "Luca Del Bel Belluz",
+            "position": "C",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T12:59:00Z",
+            "type": "moved_to_ir",
+            "player": "Gabe Perreault",
+            "position": "W",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T12:59:00Z",
+            "type": "moved_to_ir",
+            "player": "Dmitri Voronkov",
+            "position": "W",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T12:59:00Z",
+            "type": "moved_to_ir",
+            "player": "Jeremy Swayman",
+            "position": "G",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T12:59:00Z",
+            "type": "moved_to_ir",
+            "player": "Collin Graf",
+            "position": "C",
+            "nhl_team": "SJ",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T12:59:00Z",
+            "type": "moved_to_ir",
+            "player": "Barrett Hayton",
+            "position": "C",
+            "nhl_team": "UTA",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T20:59:00Z",
+            "type": "benched",
+            "player": "Denton Mateychuk",
+            "position": "D",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T20:59:00Z",
+            "type": "benched",
+            "player": "Marco Kasper",
+            "position": "C",
+            "nhl_team": "DET",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T21:53:00Z",
+            "type": "activation",
+            "player": "Denton Mateychuk",
+            "position": "D",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-16T21:53:00Z",
+            "type": "activation",
+            "player": "Marco Kasper",
+            "position": "C",
+            "nhl_team": "DET",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          }
+        ],
+        "stage_summary": {
+          "drops": 9,
+          "activations": 11,
+          "trades": 0,
+          "commissioner_actions": 51,
+          "gm_decisions": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Thomas Chabot",
+            "position": "D",
+            "nhl_team": "OTT",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Matt Duchene",
+            "position": "C",
+            "nhl_team": "DAL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Samuel Girard",
+            "position": "D",
+            "nhl_team": "COL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Filip Hronek",
+            "position": "D",
+            "nhl_team": "VAN",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Seth Jones",
+            "position": "D",
+            "nhl_team": "FLA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Patrick Kane",
+            "position": "W",
+            "nhl_team": "DET",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Chris Kreider",
+            "position": "W",
+            "nhl_team": "ANA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Kris Letang",
+            "position": "D",
+            "nhl_team": "PIT",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Connor McDavid",
+            "position": "C",
+            "nhl_team": "EDM",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Alex Ovechkin",
+            "position": "W",
+            "nhl_team": "WAS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Colton Parayko",
+            "position": "D",
+            "nhl_team": "STL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Mark Scheifele",
+            "position": "C",
+            "nhl_team": "WPG",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:23:00Z",
+            "type": "drop",
+            "player": "Andrei Vasilevskiy",
+            "position": "G",
+            "nhl_team": "TB",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:25:00Z",
+            "type": "benched",
+            "player": "Jakob Chychrun",
+            "position": "D",
+            "nhl_team": "WAS",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:25:00Z",
+            "type": "moved_to_ir",
+            "player": "Juraj Slafkovsky",
+            "position": "W",
+            "nhl_team": "MON",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:25:00Z",
+            "type": "moved_to_ir",
+            "player": "Carter Yakemchuk",
+            "position": "D",
+            "nhl_team": "OTT",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:25:00Z",
+            "type": "moved_to_ir",
+            "player": "Jett Luchanko",
+            "position": "C",
+            "nhl_team": "PHI",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:25:00Z",
+            "type": "moved_to_ir",
+            "player": "Zeev Buium*",
+            "position": "D",
+            "nhl_team": "MIN",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-08T16:25:00Z",
+            "type": "moved_to_ir",
+            "player": "Berkly Catton*",
+            "position": "C",
+            "nhl_team": "SEA",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-14T16:40:00Z",
+            "type": "activation",
+            "player": "Jakob Chychrun",
+            "position": "D",
+            "nhl_team": "WAS",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-15T15:18:00Z",
+            "type": "drop",
+            "player": "Jonathan Huberdeau",
+            "position": "W",
+            "nhl_team": "CGY",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T18:06:00Z",
+            "type": "activation",
+            "player": "Kent Johnson",
+            "position": "C",
+            "nhl_team": "CLB",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-16T18:06:00Z",
+            "type": "activation",
+            "player": "Alexis Lafreniere",
+            "position": "W",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-16T18:06:00Z",
+            "type": "activation",
+            "player": "Juraj Slafkovsky",
+            "position": "W",
+            "nhl_team": "MON",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          }
+        ],
+        "stage_summary": {
+          "drops": 14,
+          "activations": 4,
+          "trades": 0,
+          "commissioner_actions": 24,
+          "gm_decisions": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "timestamp": "2025-09-09T14:01:00Z",
+            "type": "drop",
+            "player": "Ivan Barbashev",
+            "position": "W",
+            "nhl_team": "LV",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:01:00Z",
+            "type": "drop",
+            "player": "MacKenzie Blackwood",
+            "position": "G",
+            "nhl_team": "COL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:01:00Z",
+            "type": "drop",
+            "player": "Patrik Laine",
+            "position": "W",
+            "nhl_team": "MON",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:01:00Z",
+            "type": "drop",
+            "player": "Dylan Larkin",
+            "position": "C",
+            "nhl_team": "DET",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:01:00Z",
+            "type": "drop",
+            "player": "Artturi Lehkonen",
+            "position": "W",
+            "nhl_team": "COL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:01:00Z",
+            "type": "drop",
+            "player": "Jared McCann",
+            "position": "W",
+            "nhl_team": "SEA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:01:00Z",
+            "type": "drop",
+            "player": "Neal Pionk",
+            "position": "D",
+            "nhl_team": "WPG",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:01:00Z",
+            "type": "drop",
+            "player": "Alex Tuch",
+            "position": "W",
+            "nhl_team": "BUF",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:01:00Z",
+            "type": "drop",
+            "player": "Jake Walman",
+            "position": "D",
+            "nhl_team": "EDM",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:01:00Z",
+            "type": "moved_to_ir",
+            "player": "Matthew Savoie",
+            "position": "C",
+            "nhl_team": "EDM",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-09T14:05:00Z",
+            "type": "activation",
+            "player": "Charlie McAvoy",
+            "position": "D",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-16T00:54:00Z",
+            "type": "benched",
+            "player": "Brock Faber",
+            "position": "D",
+            "nhl_team": "MIN",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T00:54:00Z",
+            "type": "benched",
+            "player": "Charlie McAvoy",
+            "position": "D",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T00:54:00Z",
+            "type": "benched",
+            "player": "Sidney Crosby",
+            "position": "C",
+            "nhl_team": "PIT",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T00:54:00Z",
+            "type": "activation",
+            "player": "Zach Hyman",
+            "position": "W",
+            "nhl_team": "EDM",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-16T00:55:00Z",
+            "type": "benched",
+            "player": "Dylan Cozens",
+            "position": "C",
+            "nhl_team": "OTT",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T00:55:00Z",
+            "type": "activation",
+            "player": "Owen Power",
+            "position": "D",
+            "nhl_team": "BUF",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-16T13:15:00Z",
+            "type": "drop",
+            "player": "Dylan Cozens",
+            "position": "C",
+            "nhl_team": "OTT",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T13:15:00Z",
+            "type": "drop",
+            "player": "Sidney Crosby",
+            "position": "C",
+            "nhl_team": "PIT",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T13:15:00Z",
+            "type": "drop",
+            "player": "Brock Faber",
+            "position": "D",
+            "nhl_team": "MIN",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T13:15:00Z",
+            "type": "drop",
+            "player": "Charlie McAvoy",
+            "position": "D",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          }
+        ],
+        "stage_summary": {
+          "drops": 13,
+          "activations": 3,
+          "trades": 0,
+          "commissioner_actions": 21,
+          "gm_decisions": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Rasmus Andersson",
+            "position": "D",
+            "nhl_team": "CGY",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Sam Bennett",
+            "position": "C",
+            "nhl_team": "FLA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Drew Doughty",
+            "position": "D",
+            "nhl_team": "LA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Vince Dunn",
+            "position": "D",
+            "nhl_team": "SEA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Nikolaj Ehlers",
+            "position": "W",
+            "nhl_team": "CAR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Joel Eriksson Ek",
+            "position": "C",
+            "nhl_team": "MIN",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Mikael Granlund",
+            "position": "C",
+            "nhl_team": "ANA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Adin Hill",
+            "position": "G",
+            "nhl_team": "LV",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Anze Kopitar",
+            "position": "C",
+            "nhl_team": "LA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Auston Matthews",
+            "position": "C",
+            "nhl_team": "TOR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "J.T. Miller",
+            "position": "C",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Valeri Nichushkin",
+            "position": "W",
+            "nhl_team": "COL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Gustav Nyquist",
+            "position": "W",
+            "nhl_team": "WPG",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Artemi Panarin",
+            "position": "W",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Travis Sanheim",
+            "position": "D",
+            "nhl_team": "PHI",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Ilya Sorokin",
+            "position": "G",
+            "nhl_team": "NYI",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Mark Stone",
+            "position": "W",
+            "nhl_team": "LV",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Vincent Trocheck",
+            "position": "C",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:19:00Z",
+            "type": "drop",
+            "player": "Frank Vatrano",
+            "position": "W",
+            "nhl_team": "ANA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-09T14:20:00Z",
+            "type": "moved_to_ir",
+            "player": "Beckett Sennecke",
+            "position": "W",
+            "nhl_team": "ANA",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-09T14:20:00Z",
+            "type": "moved_to_ir",
+            "player": "Brayden Yager",
+            "position": "C",
+            "nhl_team": "WPG",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-12T16:25:00Z",
+            "type": "activation",
+            "player": "Steven Stamkos",
+            "position": "C",
+            "nhl_team": "NSH",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-12T16:25:00Z",
+            "type": "activation",
+            "player": "Evgeni Malkin",
+            "position": "C",
+            "nhl_team": "PIT",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-14T12:12:00Z",
+            "type": "activation",
+            "player": "Kevin Fiala",
+            "position": "W",
+            "nhl_team": "LA",
+            "decision_maker": "commissioner",
+            "note": "Moving from IR to active roster"
+          },
+          {
+            "timestamp": "2025-09-16T13:24:00Z",
+            "type": "drop",
+            "player": "Kevin Fiala",
+            "position": "W",
+            "nhl_team": "LA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          }
+        ],
+        "stage_summary": {
+          "drops": 20,
+          "activations": 3,
+          "trades": 0,
+          "commissioner_actions": 25,
+          "gm_decisions": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Frederik Andersen",
+            "position": "G",
+            "nhl_team": "CAR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Viktor Arvidsson",
+            "position": "W",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Ross Colton",
+            "position": "C",
+            "nhl_team": "COL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Joey Daccord",
+            "position": "G",
+            "nhl_team": "SEA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Jonathan Drouin",
+            "position": "W",
+            "nhl_team": "NYI",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Oliver Ekman-Larsson",
+            "position": "D",
+            "nhl_team": "TOR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Cam Fowler",
+            "position": "D",
+            "nhl_team": "STL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Conor Garland",
+            "position": "W",
+            "nhl_team": "VAN",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Alexandar Georgiev",
+            "position": "G",
+            "nhl_team": "BUF",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Claude Giroux",
+            "position": "W",
+            "nhl_team": "OTT",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Nazem Kadri",
+            "position": "C",
+            "nhl_team": "CGY",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Elias Lindholm",
+            "position": "C",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Nino Niederreiter",
+            "position": "W",
+            "nhl_team": "WPG",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Jonathan Quick",
+            "position": "G",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Bryan Rust",
+            "position": "W",
+            "nhl_team": "PIT",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Teuvo Teravainen",
+            "position": "C",
+            "nhl_team": "CHI",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Jacob Trouba",
+            "position": "D",
+            "nhl_team": "ANA",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Pavel Zacha",
+            "position": "C",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:32:00Z",
+            "type": "drop",
+            "player": "Mats Zuccarello",
+            "position": "W",
+            "nhl_team": "MIN",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-08T16:33:00Z",
+            "type": "moved_to_ir",
+            "player": "Macklin Celebrini",
+            "position": "C",
+            "nhl_team": "SJ",
+            "decision_maker": "commissioner"
+          },
+          {
+            "timestamp": "2025-09-16T13:40:00Z",
+            "type": "drop",
+            "player": "Mavrik Bourque",
+            "position": "C",
+            "nhl_team": "DAL",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T13:40:00Z",
+            "type": "drop",
+            "player": "Seamus Casey",
+            "position": "D",
+            "nhl_team": "NJ",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T13:40:00Z",
+            "type": "drop",
+            "player": "Mason Lohrei",
+            "position": "D",
+            "nhl_team": "BOS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T13:40:00Z",
+            "type": "drop",
+            "player": "Rasmus Sandin",
+            "position": "D",
+            "nhl_team": "WAS",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          },
+          {
+            "timestamp": "2025-09-16T13:40:00Z",
+            "type": "drop",
+            "player": "Braden Schneider",
+            "position": "D",
+            "nhl_team": "NYR",
+            "decision_maker": "commissioner",
+            "reason": "cap_compliance",
+            "note": "Post-draft cleanup"
+          }
+        ],
+        "stage_summary": {
+          "drops": 24,
+          "activations": 0,
+          "trades": 0,
+          "commissioner_actions": 25,
+          "gm_decisions": 0
+        }
+      }
+    }
+  }
+}

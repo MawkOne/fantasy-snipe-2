@@ -1,0 +1,30 @@
+# Dockerfile for NHL API data ingestion scripts
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the entire data-digging directory structure
+COPY data-digging/ ./data-digging/
+
+# Copy ingestion shell scripts
+COPY run_player_stats_ingestion.sh .
+COPY run_nightly_ingestion.sh .
+RUN chmod +x run_player_stats_ingestion.sh run_nightly_ingestion.sh
+
+# Set PYTHONPATH
+ENV PYTHONPATH="/app/data-digging:$PYTHONPATH"
+
+# Default command (nightly full ingestion)
+CMD ["/bin/bash", "/app/run_nightly_ingestion.sh"]
+

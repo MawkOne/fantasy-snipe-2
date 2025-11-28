@@ -1,0 +1,178 @@
+{
+  "league": {
+    "name": "UHHP Fantasy Hockey League",
+    "rules": {...}
+  },
+  
+  "seasons": {
+    "2025-2026": {
+      "stages": {
+        "1_draft_day": {
+          "name": "Draft Day - Free Agent Auction",
+          "description": "Offline auction where teams nominate and bid on players",
+          "date": "2025-09-08",
+          "decision_maker": "gm",
+          "teams": {
+            "New Oilers Nation": {
+              "gm": "Mark Henderson",
+              "actions": [
+                {
+                  "type": "auction",
+                  "pick": "1.7",
+                  "player": "Lane Hutson D",
+                  "nhl_team": "MON",
+                  "winner": "New Oilers Nation",
+                  "winning_bid": 13,
+                  "decision_maker": "gm",
+                  "bids": {...}
+                }
+              ],
+              "stage_summary": {
+                "total_spent": 89,
+                "players_acquired": 8
+              }
+            }
+          }
+        },
+        
+        "2_commissioner_processing": {
+          "name": "Commissioner Processing",
+          "description": "Commissioner processes drops for cap compliance, IR moves, and post-auction cleanup",
+          "period": {"start": "2025-09-08T16:32:00Z", "end": "2025-09-16T23:00:00Z"},
+          "decision_maker": "commissioner",
+          "teams": {
+            "New Oilers Nation": {
+              "gm": "Mark Henderson",
+              "actions": [
+                {
+                  "type": "drop",
+                  "timestamp": "2025-09-08T16:32:00Z",
+                  "player": "Frederik Andersen",
+                  "nhl_team": "CAR",
+                  "reason": "cap_compliance",
+                  "decision_maker": "commissioner",
+                  "note": "Post-auction cleanup"
+                },
+                {
+                  "type": "activation",
+                  "timestamp": "2025-09-09T15:23:00Z",
+                  "player": "Connor McDavid",
+                  "from": "injured",
+                  "to": "active",
+                  "decision_maker": "commissioner",
+                  "note": "Moving from IR to active roster"
+                },
+                {
+                  "type": "trade",
+                  "timestamp": "2025-09-12T18:45:00Z",
+                  "trade_partner": "The Pylons",
+                  "decision_maker": "gm",
+                  "note": "Pre-season trade",
+                  "team_receives": [...],
+                  "team_sends": [...]
+                }
+              ],
+              "stage_summary": {
+                "drops": 28,
+                "activations": 12,
+                "trades": 2,
+                "commissioner_actions": 40,
+                "gm_decisions": 2
+              }
+            }
+          }
+        },
+        
+        "3_waiver_period": {
+          "name": "Pre-Season Waiver Period",
+          "description": "Teams sign free agents before regular season starts",
+          "period": {"start": "2025-09-16T23:00:00Z", "end": "2025-10-06T23:59:59Z"},
+          "decision_maker": "gm",
+          "teams": {
+            "New Oilers Nation": {
+              "gm": "Mark Henderson",
+              "actions": [
+                {
+                  "type": "signing",
+                  "timestamp": "2025-09-16T23:14:00Z",
+                  "player": "Joe Pavelski",
+                  "nhl_team": "DAL",
+                  "position": "W",
+                  "salary": 3,
+                  "years": 1,
+                  "decision_maker": "gm"
+                }
+              ],
+              "stage_summary": {
+                "signings": 11,
+                "total_spent": 24
+              }
+            }
+          }
+        },
+        
+        "4_regular_season": {
+          "name": "Regular Season",
+          "description": "22 weeks of head-to-head matchups",
+          "period": {"start": "2025-10-07", "end": "2026-03-16"},
+          "decision_maker": "mixed",
+          "teams": {
+            "New Oilers Nation": {
+              "gm": "Mark Henderson",
+              "actions": [
+                {
+                  "type": "weekly_result",
+                  "timestamp": "2025-10-07T00:00:00Z",
+                  "period": 1,
+                  "opponent": "The Pylons",
+                  "result": "W",
+                  "score": "143.8 - 126.2",
+                  "decision_maker": null
+                },
+                {
+                  "type": "signing",
+                  "timestamp": "2025-10-15T22:30:00Z",
+                  "player": "Trevor Zegras",
+                  "nhl_team": "ANA",
+                  "salary": 4,
+                  "years": 1,
+                  "decision_maker": "gm",
+                  "note": "In-season waiver pickup"
+                },
+                {
+                  "type": "drop",
+                  "timestamp": "2025-11-20T10:15:00Z",
+                  "player": "Josh Morrissey",
+                  "reason": "season_ending_injury",
+                  "decision_maker": "commissioner",
+                  "note": "Qualified injury drop per league rules"
+                }
+              ],
+              "stage_summary": {
+                "wins": 18,
+                "losses": 4,
+                "points_for": 2847,
+                "rank": 1,
+                "waiver_pickups": 8,
+                "commissioner_drops": 2
+              },
+              "final_roster": {
+                "active": [...],
+                "reserve": [...],
+                "injured": [...],
+                "totals": {...}
+              }
+            }
+          }
+        }
+      },
+      
+      "season_summary": {
+        "stanley_cup_champion": "New Oilers Nation",
+        "presidente_trophy": "New Oilers Nation",
+        "greene_trophy": "The Pylons",
+        "coca_cola_cup": "CinStars"
+      }
+    }
+  }
+}

@@ -1,0 +1,2760 @@
+{
+  "2022-2023": {
+    "name": "Playoffs",
+    "description": "4-week playoff tournament: Wildcard (Week 23), Semifinals (Week 24), Finals (Weeks 25-26)",
+    "period": {
+      "start": "2023-03-24",
+      "end": "2023-04-18"
+    },
+    "weeks": 4,
+    "rounds": {
+      "week_23": "Wildcard Round",
+      "week_24": "Semifinals",
+      "weeks_25_26": "Finals (2 weeks)"
+    },
+    "decision_maker": "mixed",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "The Pylons",
+            "result": "L",
+            "score_for": 110.7,
+            "score_against": 128.9,
+            "record": {
+              "wins": 13,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 126.7,
+            "score_against": 0.0,
+            "record": {
+              "wins": 14,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 121.1,
+            "score_against": 0.0,
+            "record": {
+              "wins": 15,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 59.4,
+            "score_against": 0.0,
+            "record": {
+              "wins": 16,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "The Dook of Sook",
+            "result": "L",
+            "score_for": 88.3,
+            "score_against": 92.9,
+            "record": {
+              "wins": 6,
+              "losses": 17,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 47.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 7,
+              "losses": 17,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 96.4,
+            "score_against": 0.0,
+            "record": {
+              "wins": 8,
+              "losses": 17,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 25.9,
+            "score_against": 0.0,
+            "record": {
+              "wins": 9,
+              "losses": 17,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 85.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 10,
+              "losses": 13,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "CinStars",
+            "result": "W",
+            "score_for": 146.4,
+            "score_against": 110.2,
+            "record": {
+              "wins": 11,
+              "losses": 13,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "The Inglorious Basteeerds",
+            "result": "W",
+            "score_for": 103.7,
+            "score_against": 90.4,
+            "record": {
+              "wins": 12,
+              "losses": 13,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "The Inglorious Basteeerds",
+            "result": "W",
+            "score_for": 74.7,
+            "score_against": 48.2,
+            "record": {
+              "wins": 13,
+              "losses": 13,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 4,
+          "playoff_losses": 0,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "G' Stars",
+            "result": "W",
+            "score_for": 92.9,
+            "score_against": 88.3,
+            "record": {
+              "wins": 9,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "The Inglorious Basteeerds",
+            "result": "L",
+            "score_for": 108.8,
+            "score_against": 124.8,
+            "record": {
+              "wins": 9,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 98.3,
+            "score_against": 0.0,
+            "record": {
+              "wins": 10,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 81.2,
+            "score_against": 0.0,
+            "record": {
+              "wins": 11,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "New Oilers Nation",
+            "result": "W",
+            "score_for": 102.5,
+            "score_against": 65.1,
+            "record": {
+              "wins": 10,
+              "losses": 13,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "South Calgary Oilers",
+            "result": "L",
+            "score_for": 110.2,
+            "score_against": 146.4,
+            "record": {
+              "wins": 10,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 96.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 11,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 66.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 12,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "LIP's Lasers",
+            "result": "L",
+            "score_for": 94.9,
+            "score_against": 116.7,
+            "record": {
+              "wins": 11,
+              "losses": 12,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 104.4,
+            "score_against": 0.0,
+            "record": {
+              "wins": 12,
+              "losses": 12,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 92.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 13,
+              "losses": 12,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 73.1,
+            "score_against": 0.0,
+            "record": {
+              "wins": 14,
+              "losses": 12,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "3sheets Sports Entertainment",
+            "result": "W",
+            "score_for": 128.9,
+            "score_against": 110.7,
+            "record": {
+              "wins": 13,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "Shazam!!!",
+            "result": "L",
+            "score_for": 71.0,
+            "score_against": 107.5,
+            "record": {
+              "wins": 13,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 67.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 14,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 72.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 15,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "HawtSawwce",
+            "result": "W",
+            "score_for": 116.7,
+            "score_against": 94.9,
+            "record": {
+              "wins": 15,
+              "losses": 8,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "Doomsday Machine",
+            "result": "W",
+            "score_for": 133.1,
+            "score_against": 127.9,
+            "record": {
+              "wins": 16,
+              "losses": 8,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "Shazam!!!",
+            "result": "L",
+            "score_for": 91.0,
+            "score_against": 109.0,
+            "record": {
+              "wins": 16,
+              "losses": 9,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "Shazam!!!",
+            "result": "L",
+            "score_for": 55.9,
+            "score_against": 99.5,
+            "record": {
+              "wins": 16,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 2,
+          "playoff_losses": 2,
+          "rounds_played": 4,
+          "result": "Finals appearance"
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 125.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 19,
+              "losses": 4,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "The Pylons",
+            "result": "W",
+            "score_for": 107.5,
+            "score_against": 71.0,
+            "record": {
+              "wins": 20,
+              "losses": 4,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "LIP's Lasers",
+            "result": "W",
+            "score_for": 109.0,
+            "score_against": 91.0,
+            "record": {
+              "wins": 21,
+              "losses": 4,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "LIP's Lasers",
+            "result": "W",
+            "score_for": 99.5,
+            "score_against": 55.9,
+            "record": {
+              "wins": 22,
+              "losses": 4,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 4,
+          "playoff_losses": 0,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 131.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 11,
+              "losses": 12,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "The Dook of Sook",
+            "result": "W",
+            "score_for": 124.8,
+            "score_against": 108.8,
+            "record": {
+              "wins": 12,
+              "losses": 12,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "South Calgary Oilers",
+            "result": "L",
+            "score_for": 90.4,
+            "score_against": 103.7,
+            "record": {
+              "wins": 12,
+              "losses": 13,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "South Calgary Oilers",
+            "result": "L",
+            "score_for": 48.2,
+            "score_against": 74.7,
+            "record": {
+              "wins": 12,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 2,
+          "playoff_losses": 2,
+          "rounds_played": 4,
+          "result": "Finals appearance"
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "timestamp": "2023-03-20T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/20/23 - 3/26/23",
+            "opponent": "CinStars",
+            "result": "L",
+            "score_for": 65.1,
+            "score_against": 102.5,
+            "record": {
+              "wins": 5,
+              "losses": 18,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-03-27T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/27/23 - 4/2/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 92.3,
+            "score_against": 0.0,
+            "record": {
+              "wins": 6,
+              "losses": 18,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-03T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/3/23 - 4/9/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 77.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 7,
+              "losses": 18,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2023-04-10T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/10/23 - 4/14/23",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 34.5,
+            "score_against": 0.0,
+            "record": {
+              "wins": 8,
+              "losses": 18,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      }
+    }
+  },
+  "2023-2024": {
+    "name": "Playoffs",
+    "description": "4-week playoff tournament: Wildcard (Week 23), Semifinals (Week 24), Finals (Weeks 25-26)",
+    "period": {
+      "start": "2024-03-24",
+      "end": "2024-04-18"
+    },
+    "weeks": 4,
+    "rounds": {
+      "week_23": "Wildcard Round",
+      "week_24": "Semifinals",
+      "weeks_25_26": "Finals (2 weeks)"
+    },
+    "decision_maker": "mixed",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "The Dook of Sook",
+            "result": "W",
+            "score_for": 115.3,
+            "score_against": 99.7,
+            "record": {
+              "wins": 4,
+              "losses": 19,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "Doomsday Machine",
+            "result": "W",
+            "score_for": 133.4,
+            "score_against": 117.1,
+            "record": {
+              "wins": 5,
+              "losses": 19,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "HawtSawwce",
+            "result": "W",
+            "score_for": 116.5,
+            "score_against": 98.3,
+            "record": {
+              "wins": 6,
+              "losses": 19,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "HawtSawwce",
+            "result": "W",
+            "score_for": 132.4,
+            "score_against": 92.1,
+            "record": {
+              "wins": 7,
+              "losses": 19,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 4,
+          "playoff_losses": 0,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "HawtSawwce",
+            "result": "L",
+            "score_for": 94.8,
+            "score_against": 97.6,
+            "record": {
+              "wins": 4,
+              "losses": 19,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 72.3,
+            "score_against": 0.0,
+            "record": {
+              "wins": 5,
+              "losses": 19,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 83.6,
+            "score_against": 0.0,
+            "record": {
+              "wins": 6,
+              "losses": 19,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 115.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 7,
+              "losses": 19,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "The Inglorious Basteeerds",
+            "result": "L",
+            "score_for": 108.7,
+            "score_against": 124.0,
+            "record": {
+              "wins": 12,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 110.3,
+            "score_against": 0.0,
+            "record": {
+              "wins": 13,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 107.3,
+            "score_against": 0.0,
+            "record": {
+              "wins": 14,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 145.7,
+            "score_against": 0.0,
+            "record": {
+              "wins": 15,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "3sheets Sports Entertainment",
+            "result": "L",
+            "score_for": 99.7,
+            "score_against": 115.3,
+            "record": {
+              "wins": 9,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 88.2,
+            "score_against": 0.0,
+            "record": {
+              "wins": 10,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 87.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 11,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 74.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 12,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 143.1,
+            "score_against": 0.0,
+            "record": {
+              "wins": 18,
+              "losses": 5,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "Shazam!!!",
+            "result": "L",
+            "score_for": 94.5,
+            "score_against": 118.0,
+            "record": {
+              "wins": 18,
+              "losses": 6,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 160.3,
+            "score_against": 0.0,
+            "record": {
+              "wins": 19,
+              "losses": 6,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 151.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 20,
+              "losses": 6,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "G' Stars",
+            "result": "W",
+            "score_for": 97.6,
+            "score_against": 94.8,
+            "record": {
+              "wins": 8,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "The Pylons",
+            "result": "W",
+            "score_for": 99.5,
+            "score_against": 72.2,
+            "record": {
+              "wins": 9,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "3sheets Sports Entertainment",
+            "result": "L",
+            "score_for": 98.3,
+            "score_against": 116.5,
+            "record": {
+              "wins": 9,
+              "losses": 16,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "3sheets Sports Entertainment",
+            "result": "L",
+            "score_for": 92.1,
+            "score_against": 132.4,
+            "record": {
+              "wins": 9,
+              "losses": 17,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 2,
+          "playoff_losses": 2,
+          "rounds_played": 4,
+          "result": "Finals appearance"
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 104.5,
+            "score_against": 0.0,
+            "record": {
+              "wins": 10,
+              "losses": 13,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "HawtSawwce",
+            "result": "L",
+            "score_for": 72.2,
+            "score_against": 99.5,
+            "record": {
+              "wins": 10,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 72.4,
+            "score_against": 0.0,
+            "record": {
+              "wins": 11,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 99.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 12,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "Shazam!!!",
+            "result": "L",
+            "score_for": 104.3,
+            "score_against": 108.2,
+            "record": {
+              "wins": 13,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 98.6,
+            "score_against": 0.0,
+            "record": {
+              "wins": 14,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 106.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 15,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 116.2,
+            "score_against": 0.0,
+            "record": {
+              "wins": 16,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "LIP's Lasers",
+            "result": "W",
+            "score_for": 108.2,
+            "score_against": 104.3,
+            "record": {
+              "wins": 15,
+              "losses": 8,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "CinStars",
+            "result": "W",
+            "score_for": 118.0,
+            "score_against": 94.5,
+            "record": {
+              "wins": 16,
+              "losses": 8,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "The Inglorious Basteeerds",
+            "result": "L",
+            "score_for": 115.5,
+            "score_against": 160.3,
+            "record": {
+              "wins": 16,
+              "losses": 9,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "The Inglorious Basteeerds",
+            "result": "W",
+            "score_for": 151.7,
+            "score_against": 148.9,
+            "record": {
+              "wins": 17,
+              "losses": 9,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "South Calgary Oilers",
+            "result": "W",
+            "score_for": 124.0,
+            "score_against": 108.7,
+            "record": {
+              "wins": 17,
+              "losses": 6,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "New Oilers Nation",
+            "result": "W",
+            "score_for": 132.5,
+            "score_against": 84.7,
+            "record": {
+              "wins": 18,
+              "losses": 6,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "Shazam!!!",
+            "result": "W",
+            "score_for": 160.3,
+            "score_against": 115.5,
+            "record": {
+              "wins": 19,
+              "losses": 6,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "Shazam!!!",
+            "result": "L",
+            "score_for": 148.9,
+            "score_against": 151.7,
+            "record": {
+              "wins": 19,
+              "losses": 7,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "timestamp": "2024-03-19T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/19/24 - 3/25/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 128.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 18,
+              "losses": 5,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-03-26T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/26/24 - 4/1/24",
+            "opponent": "The Inglorious Basteeerds",
+            "result": "L",
+            "score_for": 84.7,
+            "score_against": 132.5,
+            "record": {
+              "wins": 18,
+              "losses": 6,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-02T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/2/24 - 4/8/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 117.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 19,
+              "losses": 6,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2024-04-09T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/9/24 - 4/18/24",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 136.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 20,
+              "losses": 6,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      }
+    }
+  },
+  "2024-2025": {
+    "name": "Playoffs",
+    "description": "4-week playoff tournament: Wildcard (Week 23), Semifinals (Week 24), Finals (Weeks 25-26)",
+    "period": {
+      "start": "2025-03-24",
+      "end": "2025-04-18"
+    },
+    "weeks": 4,
+    "rounds": {
+      "week_23": "Wildcard Round",
+      "week_24": "Semifinals",
+      "weeks_25_26": "Finals (2 weeks)"
+    },
+    "decision_maker": "mixed",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 101.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 12,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "The Dook of Sook",
+            "result": "W",
+            "score_for": 103.7,
+            "score_against": 68.8,
+            "record": {
+              "wins": 13,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "re-degeneration X 2.0",
+            "result": "L",
+            "score_for": 88.4,
+            "score_against": 99.7,
+            "record": {
+              "wins": 13,
+              "losses": 12,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "re-degeneration X 2.0",
+            "result": "L",
+            "score_for": 35.6,
+            "score_against": 59.2,
+            "record": {
+              "wins": 13,
+              "losses": 13,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 2,
+          "playoff_losses": 2,
+          "rounds_played": 4,
+          "result": "Finals appearance"
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 89.1,
+            "score_against": 0.0,
+            "record": {
+              "wins": 12,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "South Calgary Oilers",
+            "result": "W",
+            "score_for": 93.3,
+            "score_against": 39.4,
+            "record": {
+              "wins": 13,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "3sheets Sports Entertainment",
+            "result": "W",
+            "score_for": 99.7,
+            "score_against": 88.4,
+            "record": {
+              "wins": 14,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "3sheets Sports Entertainment",
+            "result": "W",
+            "score_for": 59.2,
+            "score_against": 35.6,
+            "record": {
+              "wins": 15,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 4,
+          "playoff_losses": 0,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "The Pylons",
+            "result": "L",
+            "score_for": 108.3,
+            "score_against": 117.3,
+            "record": {
+              "wins": 13,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 95.5,
+            "score_against": 0.0,
+            "record": {
+              "wins": 14,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 75.1,
+            "score_against": 0.0,
+            "record": {
+              "wins": 15,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 49.9,
+            "score_against": 0.0,
+            "record": {
+              "wins": 16,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "New Oilers Nation",
+            "result": "W",
+            "score_for": 78.7,
+            "score_against": 72.7,
+            "record": {
+              "wins": 9,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "re-degeneration X 2.0",
+            "result": "L",
+            "score_for": 39.4,
+            "score_against": 93.3,
+            "record": {
+              "wins": 9,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 92.0,
+            "score_against": 0.0,
+            "record": {
+              "wins": 10,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 44.9,
+            "score_against": 0.0,
+            "record": {
+              "wins": 11,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "HawtSawwce",
+            "result": "W",
+            "score_for": 133.4,
+            "score_against": 83.4,
+            "record": {
+              "wins": 6,
+              "losses": 17,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "3sheets Sports Entertainment",
+            "result": "L",
+            "score_for": 68.8,
+            "score_against": 103.7,
+            "record": {
+              "wins": 6,
+              "losses": 18,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 123.2,
+            "score_against": 0.0,
+            "record": {
+              "wins": 7,
+              "losses": 18,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 54.2,
+            "score_against": 0.0,
+            "record": {
+              "wins": 8,
+              "losses": 18,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "Shazam!!!",
+            "result": "L",
+            "score_for": 93.3,
+            "score_against": 118.5,
+            "record": {
+              "wins": 13,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 115.5,
+            "score_against": 0.0,
+            "record": {
+              "wins": 14,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 73.7,
+            "score_against": 0.0,
+            "record": {
+              "wins": 15,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 46.5,
+            "score_against": 0.0,
+            "record": {
+              "wins": 16,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "The Dook of Sook",
+            "result": "L",
+            "score_for": 83.4,
+            "score_against": 133.4,
+            "record": {
+              "wins": 9,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 82.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 10,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 109.3,
+            "score_against": 0.0,
+            "record": {
+              "wins": 11,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 71.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 12,
+              "losses": 14,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "G' Stars",
+            "result": "W",
+            "score_for": 117.3,
+            "score_against": 108.3,
+            "record": {
+              "wins": 14,
+              "losses": 9,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "LIP's Lasers",
+            "result": "W",
+            "score_for": 133.7,
+            "score_against": 107.5,
+            "record": {
+              "wins": 15,
+              "losses": 9,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "Shazam!!!",
+            "result": "W",
+            "score_for": 102.3,
+            "score_against": 68.8,
+            "record": {
+              "wins": 16,
+              "losses": 9,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "Shazam!!!",
+            "result": "L",
+            "score_for": 52.9,
+            "score_against": 62.4,
+            "record": {
+              "wins": 16,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 110.7,
+            "score_against": 0.0,
+            "record": {
+              "wins": 15,
+              "losses": 8,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "The Pylons",
+            "result": "L",
+            "score_for": 107.5,
+            "score_against": 133.7,
+            "record": {
+              "wins": 15,
+              "losses": 9,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 103.5,
+            "score_against": 0.0,
+            "record": {
+              "wins": 16,
+              "losses": 9,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 48.1,
+            "score_against": 0.0,
+            "record": {
+              "wins": 17,
+              "losses": 9,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "CinStars",
+            "result": "W",
+            "score_for": 118.5,
+            "score_against": 93.3,
+            "record": {
+              "wins": 13,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "The Inglorious Basteeerds",
+            "result": "W",
+            "score_for": 93.5,
+            "score_against": 65.9,
+            "record": {
+              "wins": 14,
+              "losses": 10,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "The Pylons",
+            "result": "L",
+            "score_for": 68.8,
+            "score_against": 102.3,
+            "record": {
+              "wins": 14,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "The Pylons",
+            "result": "W",
+            "score_for": 62.4,
+            "score_against": 52.9,
+            "record": {
+              "wins": 15,
+              "losses": 11,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 150.8,
+            "score_against": 0.0,
+            "record": {
+              "wins": 16,
+              "losses": 7,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "Shazam!!!",
+            "result": "L",
+            "score_for": 65.9,
+            "score_against": 93.5,
+            "record": {
+              "wins": 16,
+              "losses": 8,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 126.7,
+            "score_against": 0.0,
+            "record": {
+              "wins": 17,
+              "losses": 8,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 54.6,
+            "score_against": 0.0,
+            "record": {
+              "wins": 18,
+              "losses": 8,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [
+          {
+            "timestamp": "2025-03-24T00:00:00Z",
+            "type": "weekly_result",
+            "period": 23,
+            "dates": "3/24/25 - 3/30/25",
+            "opponent": "South Calgary Oilers",
+            "result": "L",
+            "score_for": 72.7,
+            "score_against": 78.7,
+            "record": {
+              "wins": 8,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-03-31T00:00:00Z",
+            "type": "weekly_result",
+            "period": 24,
+            "dates": "3/31/25 - 4/6/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 103.3,
+            "score_against": 0.0,
+            "record": {
+              "wins": 9,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-07T00:00:00Z",
+            "type": "weekly_result",
+            "period": 25,
+            "dates": "4/7/25 - 4/13/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 59.3,
+            "score_against": 0.0,
+            "record": {
+              "wins": 10,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          },
+          {
+            "timestamp": "2025-04-14T00:00:00Z",
+            "type": "weekly_result",
+            "period": 26,
+            "dates": "4/14/25 - 4/17/25",
+            "opponent": "TBA",
+            "result": "W",
+            "score_for": 49.1,
+            "score_against": 0.0,
+            "record": {
+              "wins": 11,
+              "losses": 15,
+              "ties": 0
+            },
+            "decision_maker": null
+          }
+        ],
+        "stage_summary": {
+          "playoff_wins": 3,
+          "playoff_losses": 1,
+          "rounds_played": 4,
+          "result": "Champion"
+        }
+      }
+    }
+  },
+  "2025-2026": {
+    "name": "Playoffs",
+    "description": "4-week playoff tournament: Wildcard (Week 23), Semifinals (Week 24), Finals (Weeks 25-26)",
+    "period": {
+      "start": "2026-03-24",
+      "end": "2026-04-18"
+    },
+    "weeks": 4,
+    "rounds": {
+      "week_23": "Wildcard Round",
+      "week_24": "Semifinals",
+      "weeks_25_26": "Finals (2 weeks)"
+    },
+    "decision_maker": "mixed",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "playoff_wins": 0,
+          "playoff_losses": 0,
+          "rounds_played": 0,
+          "result": "Did not qualify"
+        }
+      }
+    }
+  }
+}

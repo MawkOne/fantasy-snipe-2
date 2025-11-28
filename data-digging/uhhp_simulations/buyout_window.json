@@ -1,0 +1,591 @@
+{
+  "2022-2023": {
+    "name": "Buyout Window",
+    "description": "GMs can buyout players with 1 year of cap relief per remaining contract year. Pre-draft roster management.",
+    "period": {
+      "start": "2022-08-15",
+      "end": "2022-09-01"
+    },
+    "contract_term": "n/a",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      }
+    }
+  },
+  "2023-2024": {
+    "name": "Buyout Window",
+    "description": "GMs can buyout players with 1 year of cap relief per remaining contract year. Pre-draft roster management.",
+    "period": {
+      "start": "2023-08-15",
+      "end": "2023-09-01"
+    },
+    "contract_term": "n/a",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      }
+    }
+  },
+  "2024-2025": {
+    "name": "Buyout Window",
+    "description": "GMs can buyout players with 1 year of cap relief per remaining contract year. Pre-draft roster management.",
+    "period": {
+      "start": "2024-08-15",
+      "end": "2024-09-01"
+    },
+    "contract_term": "n/a",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      }
+    }
+  },
+  "2025-2026": {
+    "name": "Buyout Window",
+    "description": "GMs can buyout players with 1 year of cap relief per remaining contract year. Pre-draft roster management.",
+    "period": {
+      "start": "2025-08-15",
+      "end": "2025-09-08"
+    },
+    "contract_term": "n/a",
+    "decision_maker": "gm",
+    "teams": {
+      "3sheets Sports Entertainment": {
+        "gm": "Michael Wong",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "re-degeneration X 2.0": {
+        "gm": "Ken and DK",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "G' Stars": {
+        "gm": "Greg Dowell",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "South Calgary Oilers": {
+        "gm": "ryan bielefeld",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Dook of Sook": {
+        "gm": "Nathan Krentz",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "CinStars": {
+        "gm": "Sean Innes",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "HawtSawwce": {
+        "gm": "Jeff Matsumiya",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Pylons": {
+        "gm": "Jeremy Greene",
+        "actions": [
+          {
+            "timestamp": "2025-08-31T16:55:00Z",
+            "type": "moved_to_ir",
+            "player": "Sean Monahan",
+            "position": "C",
+            "nhl_team": "CLB",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T16:55:00Z",
+            "type": "moved_to_ir",
+            "player": "Pavel Buchnevich",
+            "position": "W",
+            "nhl_team": "STL",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T16:55:00Z",
+            "type": "moved_to_ir",
+            "player": "David Pastrnak",
+            "position": "W",
+            "nhl_team": "BOS",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T17:41:00Z",
+            "type": "moved_to_ir",
+            "player": "Adam Fox",
+            "position": "D",
+            "nhl_team": "NYR",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T17:48:00Z",
+            "type": "moved_to_ir",
+            "player": "Tony DeAngelo",
+            "position": "D",
+            "nhl_team": "NYI",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T17:48:00Z",
+            "type": "activation",
+            "player": "Denton Mateychuk",
+            "position": "D",
+            "nhl_team": "CLB",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T17:48:00Z",
+            "type": "moved_to_ir",
+            "player": "Dmitri Voronkov",
+            "position": "W",
+            "nhl_team": "CLB",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T17:48:00Z",
+            "type": "moved_to_ir",
+            "player": "Justin Faulk",
+            "position": "D",
+            "nhl_team": "STL",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T17:48:00Z",
+            "type": "activation",
+            "player": "Marco Kasper",
+            "position": "C",
+            "nhl_team": "DET",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T17:49:00Z",
+            "type": "moved_to_ir",
+            "player": "Tristan Jarry",
+            "position": "G",
+            "nhl_team": "PIT",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T17:49:00Z",
+            "type": "moved_to_ir",
+            "player": "Jeremy Swayman",
+            "position": "G",
+            "nhl_team": "BOS",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          },
+          {
+            "timestamp": "2025-08-31T17:50:00Z",
+            "type": "activation",
+            "player": "Jeremy Swayman",
+            "position": "G",
+            "nhl_team": "BOS",
+            "decision_maker": "gm",
+            "note": "Pre-draft roster management"
+          }
+        ],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 9,
+          "activations": 3
+        }
+      },
+      "LIP's Lasers": {
+        "gm": "Lorne Pearl",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "Shazam!!!": {
+        "gm": "David Foster",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "The Inglorious Basteeerds": {
+        "gm": "Chris Bache",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      },
+      "New Oilers Nation": {
+        "gm": "Mark Henderson",
+        "actions": [],
+        "stage_summary": {
+          "buyouts": 0,
+          "moved_to_ir": 0,
+          "activations": 0
+        }
+      }
+    }
+  }
+}

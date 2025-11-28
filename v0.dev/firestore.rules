@@ -1,0 +1,59 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Messages collection
+    match /messages/{messageId} {
+      // Anyone can read messages
+      allow read: if true;
+      
+      // Authenticated users can write messages
+      allow create: if request.auth != null;
+      
+      // Users can only delete their own messages
+      allow delete: if request.auth != null && 
+                       request.auth.uid == resource.data.userId;
+    }
+    
+    // Leagues collection
+    match /leagues/{leagueId} {
+      // Anyone can read leagues
+      allow read: if true;
+      
+      // Authenticated users can create leagues
+      allow create: if request.auth != null;
+      
+      // Only league commissioner can update/delete
+      allow update, delete: if request.auth != null && 
+                               request.auth.uid == resource.data.commissionerId;
+    }
+    
+    // Chat rooms collection
+    match /chatRooms/{chatRoomId} {
+      // Anyone can read chat rooms
+      allow read: if true;
+      
+      // Authenticated users can create chat rooms
+      allow create: if request.auth != null;
+      
+      // Messages subcollection within chat rooms
+      match /messages/{messageId} {
+        allow read: if true;
+        allow create: if request.auth != null;
+        allow delete: if request.auth != null && 
+                         request.auth.uid == resource.data.userId;
+      }
+    }
+    
+    // User profiles collection
+    match /users/{userId} {
+      // Users can read any profile
+      allow read: if true;
+      
+      // Users can only write to their own profile
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+

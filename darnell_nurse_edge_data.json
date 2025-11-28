@@ -1,0 +1,841 @@
+{
+  "player": {
+    "id": 8477498,
+    "name": "Darnell Nurse",
+    "season": "20242025"
+  },
+  "speed_detail": {
+    "topSkatingSpeeds": [
+      {
+        "gameCenterLink": "/gamecenter/mtl-vs-edm/2025/03/06/2024020995",
+        "gameDate": "2025-03-06",
+        "gameType": 2,
+        "playerOnHomeTeam": true,
+        "skatingSpeed": {
+          "imperial": 22.03,
+          "metric": 35.454
+        },
+        "timeInPeriod": "02:39",
+        "periodDescriptor": {
+          "number": 4,
+          "periodType": "OT",
+          "maxRegulationPeriods": 3
+        },
+        "homeTeam": {
+          "commonName": {
+            "default": "Oilers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Edmonton",
+            "fr": "d'Edmonton"
+          },
+          "abbrev": "EDM",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+          },
+          "slug": "edmonton-oilers-22"
+        },
+        "awayTeam": {
+          "commonName": {
+            "default": "Canadiens"
+          },
+          "placeNameWithPreposition": {
+            "default": "Montr\u00e9al",
+            "fr": "de Montr\u00e9al"
+          },
+          "abbrev": "MTL",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/MTL_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/MTL_dark.svg"
+          },
+          "slug": "montreal-canadiens-8"
+        }
+      },
+      {
+        "gameCenterLink": "/gamecenter/nyr-vs-edm/2024/11/23/2024020332",
+        "gameDate": "2024-11-23",
+        "gameType": 2,
+        "playerOnHomeTeam": true,
+        "skatingSpeed": {
+          "imperial": 21.933,
+          "metric": 35.298
+        },
+        "timeInPeriod": "09:15",
+        "periodDescriptor": {
+          "number": 2,
+          "periodType": "REG",
+          "maxRegulationPeriods": 3
+        },
+        "homeTeam": {
+          "commonName": {
+            "default": "Oilers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Edmonton",
+            "fr": "d'Edmonton"
+          },
+          "abbrev": "EDM",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+          },
+          "slug": "edmonton-oilers-22"
+        },
+        "awayTeam": {
+          "commonName": {
+            "default": "Rangers"
+          },
+          "placeNameWithPreposition": {
+            "default": "New York",
+            "fr": "de New York"
+          },
+          "abbrev": "NYR",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/NYR_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/NYR_dark.svg"
+          },
+          "slug": "new-york-rangers-3"
+        }
+      },
+      {
+        "gameCenterLink": "/gamecenter/cbj-vs-edm/2024/12/05/2024020418",
+        "gameDate": "2024-12-05",
+        "gameType": 2,
+        "playerOnHomeTeam": true,
+        "skatingSpeed": {
+          "imperial": 21.895,
+          "metric": 35.237
+        },
+        "timeInPeriod": "17:54",
+        "periodDescriptor": {
+          "number": 2,
+          "periodType": "REG",
+          "maxRegulationPeriods": 3
+        },
+        "homeTeam": {
+          "commonName": {
+            "default": "Oilers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Edmonton",
+            "fr": "d'Edmonton"
+          },
+          "abbrev": "EDM",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+          },
+          "slug": "edmonton-oilers-22"
+        },
+        "awayTeam": {
+          "commonName": {
+            "default": "Blue Jackets"
+          },
+          "placeNameWithPreposition": {
+            "default": "Columbus",
+            "fr": "de Columbus"
+          },
+          "abbrev": "CBJ",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/CBJ_dark.svg"
+          },
+          "slug": "columbus-blue-jackets-29"
+        }
+      },
+      {
+        "gameCenterLink": "/gamecenter/edm-vs-van/2024/11/09/2024020235",
+        "gameDate": "2024-11-09",
+        "gameType": 2,
+        "playerOnHomeTeam": false,
+        "skatingSpeed": {
+          "imperial": 21.879,
+          "metric": 35.211
+        },
+        "timeInPeriod": "17:28",
+        "periodDescriptor": {
+          "number": 2,
+          "periodType": "REG",
+          "maxRegulationPeriods": 3
+        },
+        "homeTeam": {
+          "commonName": {
+            "default": "Canucks"
+          },
+          "placeNameWithPreposition": {
+            "default": "Vancouver",
+            "fr": "de Vancouver"
+          },
+          "abbrev": "VAN",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/VAN_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/VAN_dark.svg"
+          },
+          "slug": "vancouver-canucks-23"
+        },
+        "awayTeam": {
+          "commonName": {
+            "default": "Oilers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Edmonton",
+            "fr": "d'Edmonton"
+          },
+          "abbrev": "EDM",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+          },
+          "slug": "edmonton-oilers-22"
+        }
+      },
+      {
+        "gameCenterLink": "/gamecenter/edm-vs-det/2024/10/27/2024020136",
+        "gameDate": "2024-10-27",
+        "gameType": 2,
+        "playerOnHomeTeam": false,
+        "skatingSpeed": {
+          "imperial": 21.867,
+          "metric": 35.191
+        },
+        "timeInPeriod": "10:07",
+        "periodDescriptor": {
+          "number": 1,
+          "periodType": "REG",
+          "maxRegulationPeriods": 3
+        },
+        "homeTeam": {
+          "commonName": {
+            "default": "Red Wings"
+          },
+          "placeNameWithPreposition": {
+            "default": "Detroit",
+            "fr": "de Detroit"
+          },
+          "abbrev": "DET",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/DET_dark.svg"
+          },
+          "slug": "detroit-red-wings-17"
+        },
+        "awayTeam": {
+          "commonName": {
+            "default": "Oilers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Edmonton",
+            "fr": "d'Edmonton"
+          },
+          "abbrev": "EDM",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+          },
+          "slug": "edmonton-oilers-22"
+        }
+      },
+      {
+        "gameCenterLink": "/gamecenter/stl-vs-edm/2025/04/09/2024021248",
+        "gameDate": "2025-04-09",
+        "gameType": 2,
+        "playerOnHomeTeam": true,
+        "skatingSpeed": {
+          "imperial": 21.848,
+          "metric": 35.16
+        },
+        "timeInPeriod": "19:27",
+        "periodDescriptor": {
+          "number": 3,
+          "periodType": "REG",
+          "maxRegulationPeriods": 3
+        },
+        "homeTeam": {
+          "commonName": {
+            "default": "Oilers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Edmonton",
+            "fr": "d'Edmonton"
+          },
+          "abbrev": "EDM",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+          },
+          "slug": "edmonton-oilers-22"
+        },
+        "awayTeam": {
+          "commonName": {
+            "default": "Blues"
+          },
+          "placeNameWithPreposition": {
+            "default": "St. Louis",
+            "fr": "de St. Louis"
+          },
+          "abbrev": "STL",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/STL_20082009-20242025_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/STL_20082009-20242025_dark.svg"
+          },
+          "slug": "st-louis-blues-19"
+        }
+      },
+      {
+        "gameCenterLink": "/gamecenter/vgk-vs-edm/2024/11/06/2024020207",
+        "gameDate": "2024-11-06",
+        "gameType": 2,
+        "playerOnHomeTeam": true,
+        "skatingSpeed": {
+          "imperial": 21.831,
+          "metric": 35.134
+        },
+        "timeInPeriod": "05:44",
+        "periodDescriptor": {
+          "number": 2,
+          "periodType": "REG",
+          "maxRegulationPeriods": 3
+        },
+        "homeTeam": {
+          "commonName": {
+            "default": "Oilers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Edmonton",
+            "fr": "d'Edmonton"
+          },
+          "abbrev": "EDM",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+          },
+          "slug": "edmonton-oilers-22"
+        },
+        "awayTeam": {
+          "commonName": {
+            "default": "Golden Knights"
+          },
+          "placeNameWithPreposition": {
+            "default": "Vegas",
+            "fr": "de Vegas"
+          },
+          "abbrev": "VGK",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/VGK_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/VGK_dark.svg"
+          },
+          "slug": "vegas-golden-knights-54"
+        }
+      },
+      {
+        "gameCenterLink": "/gamecenter/fla-vs-edm/2024/12/16/2024020495",
+        "gameDate": "2024-12-16",
+        "gameType": 2,
+        "playerOnHomeTeam": true,
+        "skatingSpeed": {
+          "imperial": 21.792,
+          "metric": 35.07
+        },
+        "timeInPeriod": "01:59",
+        "periodDescriptor": {
+          "number": 2,
+          "periodType": "REG",
+          "maxRegulationPeriods": 3
+        },
+        "homeTeam": {
+          "commonName": {
+            "default": "Oilers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Edmonton",
+            "fr": "d'Edmonton"
+          },
+          "abbrev": "EDM",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+          },
+          "slug": "edmonton-oilers-22"
+        },
+        "awayTeam": {
+          "commonName": {
+            "default": "Panthers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Florida",
+            "fr": "de la Floride"
+          },
+          "abbrev": "FLA",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/FLA_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/FLA_dark.svg"
+          },
+          "slug": "florida-panthers-13"
+        }
+      },
+      {
+        "gameCenterLink": "/gamecenter/edm-vs-ana/2024/12/29/2024020578",
+        "gameDate": "2024-12-29",
+        "gameType": 2,
+        "playerOnHomeTeam": false,
+        "skatingSpeed": {
+          "imperial": 21.774,
+          "metric": 35.042
+        },
+        "timeInPeriod": "09:54",
+        "periodDescriptor": {
+          "number": 2,
+          "periodType": "REG",
+          "maxRegulationPeriods": 3
+        },
+        "homeTeam": {
+          "commonName": {
+            "default": "Ducks"
+          },
+          "placeNameWithPreposition": {
+            "default": "Anaheim",
+            "fr": "d'Anaheim"
+          },
+          "abbrev": "ANA",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/ANA_dark.svg"
+          },
+          "slug": "anaheim-ducks-24"
+        },
+        "awayTeam": {
+          "commonName": {
+            "default": "Oilers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Edmonton",
+            "fr": "d'Edmonton"
+          },
+          "abbrev": "EDM",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+          },
+          "slug": "edmonton-oilers-22"
+        }
+      },
+      {
+        "gameCenterLink": "/gamecenter/edm-vs-ana/2025/04/07/2024021232",
+        "gameDate": "2025-04-07",
+        "gameType": 2,
+        "playerOnHomeTeam": false,
+        "skatingSpeed": {
+          "imperial": 21.629,
+          "metric": 34.809
+        },
+        "timeInPeriod": "00:51",
+        "periodDescriptor": {
+          "number": 1,
+          "periodType": "REG",
+          "maxRegulationPeriods": 3
+        },
+        "homeTeam": {
+          "commonName": {
+            "default": "Ducks"
+          },
+          "placeNameWithPreposition": {
+            "default": "Anaheim",
+            "fr": "d'Anaheim"
+          },
+          "abbrev": "ANA",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/ANA_dark.svg"
+          },
+          "slug": "anaheim-ducks-24"
+        },
+        "awayTeam": {
+          "commonName": {
+            "default": "Oilers"
+          },
+          "placeNameWithPreposition": {
+            "default": "Edmonton",
+            "fr": "d'Edmonton"
+          },
+          "abbrev": "EDM",
+          "teamLogo": {
+            "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+          },
+          "slug": "edmonton-oilers-22"
+        }
+      }
+    ],
+    "skatingSpeedDetails": {
+      "maxSkatingSpeed": {
+        "imperial": 22.03,
+        "metric": 35.454,
+        "percentile": 0.6258,
+        "leagueAvg": {
+          "imperial": 21.5917,
+          "metric": 34.7484
+        },
+        "overlay": {
+          "player": {
+            "firstName": {
+              "default": "Darnell"
+            },
+            "lastName": {
+              "default": "Nurse"
+            }
+          },
+          "gameDate": "2025-03-06",
+          "awayTeam": {
+            "abbrev": "MTL",
+            "score": 2
+          },
+          "homeTeam": {
+            "abbrev": "EDM",
+            "score": 3
+          },
+          "gameOutcome": {
+            "lastPeriodType": "OT",
+            "otPeriods": 1
+          },
+          "periodDescriptor": {
+            "maxRegulationPeriods": 3,
+            "number": 4,
+            "periodType": "OT"
+          },
+          "timeInPeriod": "02:39",
+          "gameType": 2
+        }
+      },
+      "burstsOver22": {
+        "value": 1,
+        "percentile": 0.6226,
+        "leagueAvg": 1.0815
+      },
+      "bursts20To22": {
+        "value": 93,
+        "percentile": 0.9528,
+        "leagueAvg": 28.2727
+      },
+      "bursts18To20": {
+        "value": 395,
+        "percentile": 0.9245,
+        "leagueAvg": 178.3542
+      }
+    }
+  },
+  "overall_edge_data": {
+    "player": {
+      "id": 8477498,
+      "firstName": {
+        "default": "Darnell"
+      },
+      "lastName": {
+        "default": "Nurse"
+      },
+      "birthDate": "1995-02-04",
+      "shootsCatches": "L",
+      "sweaterNumber": 25,
+      "position": "D",
+      "slug": "darnell-nurse-8477498",
+      "headshot": "https://assets.nhle.com/mugs/nhl/20242025/EDM/8477498.png",
+      "goals": 5,
+      "assists": 28,
+      "points": 33,
+      "gamesPlayed": 76,
+      "team": {
+        "commonName": {
+          "default": "Oilers"
+        },
+        "placeNameWithPreposition": {
+          "default": "Edmonton",
+          "fr": "d'Edmonton"
+        },
+        "abbrev": "EDM",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+        }
+      }
+    },
+    "seasonsWithEdgeStats": [
+      {
+        "id": 20212022,
+        "gameTypes": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": 20222023,
+        "gameTypes": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": 20232024,
+        "gameTypes": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": 20242025,
+        "gameTypes": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": 20252026,
+        "gameTypes": [
+          2
+        ]
+      }
+    ],
+    "topShotSpeed": {
+      "imperial": 98.24,
+      "metric": 158.102,
+      "percentile": 0.918,
+      "leagueAvg": {
+        "imperial": 89.6942,
+        "metric": 144.3488
+      },
+      "overlay": {
+        "player": {
+          "firstName": {
+            "default": "Darnell"
+          },
+          "lastName": {
+            "default": "Nurse"
+          }
+        },
+        "gameDate": "2025-03-10",
+        "awayTeam": {
+          "abbrev": "EDM",
+          "score": 2
+        },
+        "homeTeam": {
+          "abbrev": "BUF",
+          "score": 3
+        },
+        "gameOutcome": {
+          "lastPeriodType": "REG"
+        },
+        "periodDescriptor": {
+          "maxRegulationPeriods": 3,
+          "number": 1,
+          "periodType": "REG"
+        },
+        "timeInPeriod": "09:31",
+        "gameType": 2
+      }
+    },
+    "skatingSpeed": {
+      "speedMax": {
+        "imperial": 22.03,
+        "metric": 35.454,
+        "percentile": 0.6258,
+        "leagueAvg": {
+          "imperial": 21.5917,
+          "metric": 34.7484
+        },
+        "overlay": {
+          "player": {
+            "firstName": {
+              "default": "Darnell"
+            },
+            "lastName": {
+              "default": "Nurse"
+            }
+          },
+          "gameDate": "2025-03-06",
+          "awayTeam": {
+            "abbrev": "MTL",
+            "score": 2
+          },
+          "homeTeam": {
+            "abbrev": "EDM",
+            "score": 3
+          },
+          "gameOutcome": {
+            "lastPeriodType": "OT",
+            "otPeriods": 1
+          },
+          "periodDescriptor": {
+            "maxRegulationPeriods": 3,
+            "number": 4,
+            "periodType": "OT"
+          },
+          "timeInPeriod": "02:39",
+          "gameType": 2
+        }
+      },
+      "burstsOver20": {
+        "value": 94,
+        "percentile": 0.9497,
+        "leagueAvg": {
+          "value": 29.3542
+        }
+      }
+    },
+    "totalDistanceSkated": {
+      "imperial": 240.0138,
+      "metric": 386.2458,
+      "percentile": 0.8774,
+      "leagueAvg": {
+        "imperial": 135.9015,
+        "metric": 218.7017
+      }
+    },
+    "sogSummary": [
+      {
+        "locationCode": "all",
+        "shots": 188,
+        "shotsPercentile": 0.9686,
+        "shotsLeagueAvg": 65.4107,
+        "goals": 5,
+        "goalsPercentile": 0.7107,
+        "goalsLeagueAvg": 3.5674,
+        "shootingPctg": 0.0266,
+        "shootingPctgPercentile": 0.0412,
+        "shootingPctgLeagueAvg": 0.0545
+      },
+      {
+        "locationCode": "high",
+        "shots": 11,
+        "shotsPercentile": 0.9308,
+        "shotsLeagueAvg": 3.5925,
+        "goals": 0,
+        "goalsPercentile": 0.0,
+        "goalsLeagueAvg": 0.6144,
+        "shootingPctg": 0.0,
+        "shootingPctgPercentile": 0.0,
+        "shootingPctgLeagueAvg": 0.171
+      },
+      {
+        "locationCode": "long",
+        "shots": 91,
+        "shotsPercentile": 0.9497,
+        "shotsLeagueAvg": 34.3605,
+        "goals": 1,
+        "goalsPercentile": 0.4874,
+        "goalsLeagueAvg": 1.1567,
+        "shootingPctg": 0.011,
+        "shootingPctgPercentile": 0.1959,
+        "shootingPctgLeagueAvg": 0.0337
+      },
+      {
+        "locationCode": "mid",
+        "shots": 26,
+        "shotsPercentile": 0.8616,
+        "shotsLeagueAvg": 12.5266,
+        "goals": 2,
+        "goalsPercentile": 0.6824,
+        "goalsLeagueAvg": 1.3511,
+        "shootingPctg": 0.0769,
+        "shootingPctgPercentile": 0.3814,
+        "shootingPctgLeagueAvg": 0.1079
+      }
+    ],
+    "sogDetails": [
+      {
+        "area": "Behind the Net",
+        "shots": 0,
+        "shotsPercentile": 0.0
+      },
+      {
+        "area": "Beyond Red Line",
+        "shots": 12,
+        "shotsPercentile": 0.9497
+      },
+      {
+        "area": "Center Point",
+        "shots": 32,
+        "shotsPercentile": 0.8994
+      },
+      {
+        "area": "Crease",
+        "shots": 0,
+        "shotsPercentile": 0.0
+      },
+      {
+        "area": "High Slot",
+        "shots": 10,
+        "shotsPercentile": 0.8836
+      },
+      {
+        "area": "L Circle",
+        "shots": 11,
+        "shotsPercentile": 0.8616
+      },
+      {
+        "area": "L Corner",
+        "shots": 0,
+        "shotsPercentile": 0.0
+      },
+      {
+        "area": "L Net Side",
+        "shots": 4,
+        "shotsPercentile": 0.9528
+      },
+      {
+        "area": "L Point",
+        "shots": 46,
+        "shotsPercentile": 0.9811
+      },
+      {
+        "area": "Low Slot",
+        "shots": 11,
+        "shotsPercentile": 0.9465
+      },
+      {
+        "area": "Offensive Neutral Zone",
+        "shots": 16,
+        "shotsPercentile": 1.0
+      },
+      {
+        "area": "Outside L",
+        "shots": 21,
+        "shotsPercentile": 0.978
+      },
+      {
+        "area": "Outside R",
+        "shots": 3,
+        "shotsPercentile": 0.6258
+      },
+      {
+        "area": "R Circle",
+        "shots": 5,
+        "shotsPercentile": 0.6918
+      },
+      {
+        "area": "R Corner",
+        "shots": 0,
+        "shotsPercentile": 0.0
+      },
+      {
+        "area": "R Net Side",
+        "shots": 4,
+        "shotsPercentile": 0.9623
+      },
+      {
+        "area": "R Point",
+        "shots": 13,
+        "shotsPercentile": 0.6918
+      }
+    ],
+    "zoneTimeDetails": {
+      "offensiveZonePctg": 0.41584424,
+      "offensiveZonePercentile": 0.4763948497854,
+      "offensiveZoneLeagueAvg": 0.41878266,
+      "neutralZonePctg": 0.172501,
+      "neutralZonePercentile": 0.1115879828326,
+      "neutralZoneLeagueAvg": 0.17862522,
+      "defensiveZonePctg": 0.41165476,
+      "defensiveZonePercentile": 0.3776824034335,
+      "defensiveZoneLeagueAvg": 0.40259211
+    }
+  }
+}

@@ -1,0 +1,1452 @@
+
+====================================================================================================
+  🏒 NHL EDGE API - COMPLETE DATA CATALOG 🏒
+====================================================================================================
+
+====================================================================================================
+  🏃 SKATER EDGE DATA
+====================================================================================================
+
+----------------------------------------------------------------------------------------------------
+  1. skater_detail() - Complete skater Edge stats
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 8 keys
+🔑 Keys: ['player', 'seasonsWithEdgeStats', 'topShotSpeed', 'skatingSpeed', 'totalDistanceSkated', 'sogSummary', 'sogDetails', 'zoneTimeDetails']
+
+📝 Sample Data:
+{
+  "player": {
+    "id": 8478402,
+    "firstName": {
+      "default": "Connor"
+    },
+    "lastName": {
+      "default": "McDavid"
+    },
+    "birthDate": "1997-01-13",
+    "shootsCatches": "L",
+    "sweaterNumber": 97,
+    "position": "C",
+    "slug": "connor-mcdavid-8478402",
+    "headshot": "https://assets.nhle.com/mugs/nhl/20242025/EDM/8478402.png",
+    "goals": 26,
+    "assists": 74,
+    "points": 100,
+    "gamesPlayed": 67,
+    "team": {
+      "commonName": {
+        "default": "Oilers"
+      },
+      "placeNameWithPreposition": {
+        "default": "Edmonton",
+        "fr": "d'Edmonton"
+      },
+      "abbrev": "EDM",
+      "teamLogo": {
+        "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+        "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+      }
+    }
+  },
+  "seasonsWithEdgeStats": [
+    {
+      "id": 20212022,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20222023,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20232024,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20242025,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20252026,
+      "gameTypes": [
+        2
+      ]
+    }
+  ],
+  "topShotSpeed": {
+    "imperial": 88.0,
+    "metric": 141.6223,
+    "percentile": 0.6633,
+    "leagueAvg": {
+      "imperial": 83.9219,
+      "metric": 135.0592
+    },
+    "overlay": {
+      "player": {
+        "firstName": {
+          "d
+
+... (truncated, total size: 4545 chars)
+
+----------------------------------------------------------------------------------------------------
+  2. cat_skater_detail() - CAT (Catching and Tackling?) skater stats
+----------------------------------------------------------------------------------------------------
+   Parameters: ['player_id', 'season', 'game_type']
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 8 keys
+🔑 Keys: ['player', 'seasonsWithEdgeStats', 'topShotSpeed', 'skatingSpeed', 'totalDistanceSkated', 'sogSummary', 'sogDetails', 'zoneTimeDetails']
+
+📝 Sample Data:
+{
+  "player": {
+    "id": 8478402,
+    "firstName": {
+      "default": "Connor"
+    },
+    "lastName": {
+      "default": "McDavid"
+    },
+    "birthDate": "1997-01-13",
+    "shootsCatches": "L",
+    "sweaterNumber": 97,
+    "position": "C",
+    "slug": "connor-mcdavid-8478402",
+    "headshot": "https://assets.nhle.com/mugs/nhl/20242025/EDM/8478402.png",
+    "goals": 26,
+    "assists": 74,
+    "points": 100,
+    "gamesPlayed": 67,
+    "team": {
+      "commonName": {
+        "default": "Oilers"
+      },
+      "placeNameWithPreposition": {
+        "default": "Edmonton",
+        "fr": "d'Edmonton"
+      },
+      "abbrev": "EDM",
+      "teamLogo": {
+        "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+        "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+      }
+    }
+  },
+  "seasonsWithEdgeStats": [
+    {
+      "id": 20212022,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20222023,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20232024,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20242025,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20252026,
+      "gameTypes": [
+        2
+      ]
+    }
+  ],
+  "topShotSpeed": {
+    "imperial": 88.0,
+    "metric": 141.6223,
+    "percentile": 0.6633,
+    "leagueAvg": {
+      "imperial": 83.9219,
+      "metric": 135.0592
+    },
+    "overlay": {}
+  },
+  "skatingSpeed": {
+    "speedMax": {
+      "im
+
+... (truncated, total size: 3934 chars)
+
+----------------------------------------------------------------------------------------------------
+  3. skater_skating_speed_detail() - Speed tracking data
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['topSkatingSpeeds', 'skatingSpeedDetails']
+
+📝 Sample Data:
+{
+  "topSkatingSpeeds": [
+    {
+      "gameCenterLink": "/gamecenter/uta-vs-edm/2024/12/31/2024020601",
+      "gameDate": "2024-12-31",
+      "gameType": 2,
+      "playerOnHomeTeam": true,
+      "skatingSpeed": {
+        "imperial": 23.969,
+        "metric": 38.574
+      },
+      "timeInPeriod": "08:49",
+      "periodDescriptor": {
+        "number": 2,
+        "periodType": "REG",
+        "maxRegulationPeriods": 3
+      },
+      "homeTeam": {
+        "commonName": {
+          "default": "Oilers"
+        },
+        "placeNameWithPreposition": {
+          "default": "Edmonton",
+          "fr": "d'Edmonton"
+        },
+        "abbrev": "EDM",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+        },
+        "slug": "edmonton-oilers-22"
+      },
+      "awayTeam": {
+        "commonName": {
+          "default": "Utah Hockey Club",
+          "fr": "Club de hockey de l'Utah"
+        },
+        "placeNameWithPreposition": {
+          "default": "Utah",
+          "fr": "de l'Utah"
+        },
+        "abbrev": "UTA",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/UTA_20242025-20242025_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/UTA_20242025-20242025_dark.svg"
+        },
+        "slug": "utah--hockey-club-59"
+      }
+    },
+    {
+      "gameCenterLink": "/gamecenter/wpg-vs-edm/2025/03/20/2024021099",
+      "gameD
+
+... (truncated, total size: 10312 chars)
+
+----------------------------------------------------------------------------------------------------
+  4. skater_skating_distance_detail() - Distance covered data
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['skatingDistanceLast10', 'skatingDistanceDetails']
+
+📝 Sample Data:
+{
+  "skatingDistanceLast10": [
+    {
+      "gameCenterLink": "/gamecenter/edm-vs-sjs/2025/04/16/2024021306",
+      "gameDate": "2025-04-16",
+      "playerOnHomeTeam": false,
+      "distanceSkatedAll": {
+        "imperial": 3.1379,
+        "metric": 5.0499
+      },
+      "toiAll": 1051,
+      "distanceSkatedEven": {
+        "imperial": 2.6574,
+        "metric": 4.2766
+      },
+      "toiEven": 874,
+      "distanceSkatedPP": {
+        "imperial": 0.4805,
+        "metric": 0.7734
+      },
+      "toiPP": 177,
+      "homeTeam": {
+        "commonName": {
+          "default": "Sharks"
+        },
+        "placeNameWithPreposition": {
+          "default": "San Jose",
+          "fr": "de San Jose"
+        },
+        "abbrev": "SJS",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/SJS_dark.svg"
+        },
+        "slug": "san-jose-sharks-28"
+      },
+      "awayTeam": {
+        "commonName": {
+          "default": "Oilers"
+        },
+        "placeNameWithPreposition": {
+          "default": "Edmonton",
+          "fr": "d'Edmonton"
+        },
+        "abbrev": "EDM",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+        },
+        "slug": "edmonton-oilers-22"
+      }
+    },
+    {
+      "gameCenterLink": "/gamecenter/edm-vs-wpg/2025/04/13/2024021282",
+      "gameDat
+
+... (truncated, total size: 15272 chars)
+
+----------------------------------------------------------------------------------------------------
+  5. skater_shot_speed_detail() - Shot velocity data
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['hardestShots', 'shotSpeedDetails']
+
+📝 Sample Data:
+{
+  "hardestShots": [
+    {
+      "gameCenterLink": "/gamecenter/sjs-vs-edm/2025/04/11/2024021263",
+      "gameDate": "2025-04-11",
+      "gameType": 2,
+      "playerOnHomeTeam": true,
+      "shotSpeed": {
+        "imperial": 88.0,
+        "metric": 141.6223
+      },
+      "timeInPeriod": "10:27",
+      "periodDescriptor": {
+        "number": 3,
+        "periodType": "REG",
+        "maxRegulationPeriods": 3
+      },
+      "homeTeam": {
+        "commonName": {
+          "default": "Oilers"
+        },
+        "placeNameWithPreposition": {
+          "default": "Edmonton",
+          "fr": "d'Edmonton"
+        },
+        "abbrev": "EDM",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+        },
+        "slug": "edmonton-oilers-22"
+      },
+      "awayTeam": {
+        "commonName": {
+          "default": "Sharks"
+        },
+        "placeNameWithPreposition": {
+          "default": "San Jose",
+          "fr": "de San Jose"
+        },
+        "abbrev": "SJS",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/SJS_dark.svg"
+        },
+        "slug": "san-jose-sharks-28"
+      }
+    },
+    {
+      "gameCenterLink": "/gamecenter/edm-vs-wpg/2025/04/13/2024021282",
+      "gameDate": "2025-04-13",
+      "gameType": 2,
+      "playerOnHomeTeam": false,
+      "shotSpeed": 
+
+... (truncated, total size: 10275 chars)
+
+----------------------------------------------------------------------------------------------------
+  6. skater_zone_time() - Time in offensive/defensive zones
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['zoneTimeDetails', 'zoneStarts']
+
+📝 Sample Data:
+{
+  "zoneTimeDetails": [
+    {
+      "strengthCode": "all",
+      "offensiveZonePctg": 0.49282734,
+      "offensiveZonePercentile": 0.9950617283951,
+      "offensiveZoneLeagueAvg": 0.4234038,
+      "neutralZonePctg": 0.17138219,
+      "neutralZonePercentile": 0.1111111111111,
+      "neutralZoneLeagueAvg": 0.17830407,
+      "defensiveZonePctg": 0.33579046,
+      "defensiveZonePercentile": 0.9901234567901,
+      "defensiveZoneLeagueAvg": 0.39829213
+    },
+    {
+      "strengthCode": "es",
+      "offensiveZonePctg": 0.46624967,
+      "offensiveZonePercentile": 0.9802469135802,
+      "offensiveZoneLeagueAvg": 0.41293798,
+      "neutralZonePctg": 0.17802124,
+      "neutralZonePercentile": 0.0913580246914,
+      "neutralZoneLeagueAvg": 0.18482812,
+      "defensiveZonePctg": 0.35572909,
+      "defensiveZonePercentile": 0.9703703703704,
+      "defensiveZoneLeagueAvg": 0.4022339
+    },
+    {
+      "strengthCode": "pp",
+      "offensiveZonePctg": 0.64560148,
+      "offensiveZonePercentile": 0.9672131147541,
+      "offensiveZoneLeagueAvg": 0.58389297,
+      "neutralZonePctg": 0.13237486,
+      "neutralZonePercentile": 0.1967213114754,
+      "neutralZoneLeagueAvg": 0.13950939,
+      "defensiveZonePctg": 0.22202366,
+      "defensiveZonePercentile": 0.983606557377,
+      "defensiveZoneLeagueAvg": 0.27659764
+    },
+    {
+      "strengthCode": "pk",
+      "offensiveZonePctg": 0.63499221,
+      "offensiveZonePercentile": 1.0,
+      "offensiveZoneLeagueAvg": 0.29693378,
+      "neutralZonePctg"
+
+... (truncated, total size: 1698 chars)
+
+----------------------------------------------------------------------------------------------------
+  7. skater_shot_location_detail() - Shot heat map data
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['shotLocationDetails', 'shotLocationTotals']
+
+📝 Sample Data:
+{
+  "shotLocationDetails": [
+    {
+      "area": "Behind the Net",
+      "sog": 7,
+      "goals": 0,
+      "shootingPctg": 0.0,
+      "sogPercentile": 0.9983,
+      "goalsPercentile": 0.0,
+      "shootingPctgPercentile": 0.0
+    },
+    {
+      "area": "Beyond Red Line",
+      "sog": 0,
+      "goals": 0,
+      "shootingPctg": 0.0,
+      "sogPercentile": 0.0,
+      "goalsPercentile": 0.0,
+      "shootingPctgPercentile": 0.0
+    },
+    {
+      "area": "Center Point",
+      "sog": 3,
+      "goals": 0,
+      "shootingPctg": 0.0,
+      "sogPercentile": 0.5783,
+      "goalsPercentile": 0.0,
+      "shootingPctgPercentile": 0.0
+    },
+    {
+      "area": "Crease",
+      "sog": 13,
+      "goals": 2,
+      "shootingPctg": 0.1538,
+      "sogPercentile": 0.9667,
+      "goalsPercentile": 0.7133,
+      "shootingPctgPercentile": 0.3467
+    },
+    {
+      "area": "High Slot",
+      "sog": 22,
+      "goals": 3,
+      "shootingPctg": 0.1364,
+      "sogPercentile": 0.895,
+      "goalsPercentile": 0.7883,
+      "shootingPctgPercentile": 0.4833
+    },
+    {
+      "area": "L Circle",
+      "sog": 28,
+      "goals": 3,
+      "shootingPctg": 0.1071,
+      "sogPercentile": 0.9383,
+      "goalsPercentile": 0.8733,
+      "shootingPctgPercentile": 0.5533
+    },
+    {
+      "area": "L Corner",
+      "sog": 0,
+      "goals": 0,
+      "shootingPctg": 0.0,
+      "sogPercentile": 0.0,
+      "goalsPercentile": 0.0,
+      "shootingPctgPercentile": 0.0
+    },
+    {
+      "area": "L Net Side",
+      "sog": 14,
+  
+
+... (truncated, total size: 3556 chars)
+
+----------------------------------------------------------------------------------------------------
+  8. skater_landing() - Skater landing page data
+----------------------------------------------------------------------------------------------------
+   Parameters: ['season', 'game_type']
+❌ ERROR: Request to edge/skater-landing/8478402/2 failed
+
+----------------------------------------------------------------------------------------------------
+  9. skater_comparison() - Compare two skaters
+----------------------------------------------------------------------------------------------------
+   Parameters: ['player_id', 'season', 'game_type']
+❌ ERROR: Request to edge/skater-comparison/8478402/8477934/20242025 failed
+
+====================================================================================================
+  🥅 GOALIE EDGE DATA
+====================================================================================================
+
+----------------------------------------------------------------------------------------------------
+  10. goalie_detail() - Complete goalie Edge stats
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 5 keys
+🔑 Keys: ['player', 'seasonsWithEdgeStats', 'stats', 'shotLocationSummary', 'shotLocationDetails']
+
+📝 Sample Data:
+{
+  "player": {
+    "id": 8480045,
+    "firstName": {
+      "default": "Ukko-Pekka"
+    },
+    "lastName": {
+      "default": "Luukkonen"
+    },
+    "birthDate": "1999-03-09",
+    "shootsCatches": "L",
+    "sweaterNumber": 1,
+    "slug": "ukko-pekka-luukkonen-8480045",
+    "headshot": "https://assets.nhle.com/mugs/nhl/20242025/BUF/8480045.png",
+    "wins": 24,
+    "losses": 24,
+    "overtimeLosses": 5,
+    "goalsAgainstAvg": 3.196503,
+    "savePctg": 0.886577,
+    "gamesPlayed": 55,
+    "team": {
+      "commonName": {
+        "default": "Sabres"
+      },
+      "placeNameWithPreposition": {
+        "default": "Buffalo",
+        "fr": "de Buffalo"
+      },
+      "abbrev": "BUF",
+      "teamLogo": {
+        "light": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg",
+        "dark": "https://assets.nhle.com/logos/nhl/svg/BUF_dark.svg"
+      }
+    }
+  },
+  "seasonsWithEdgeStats": [
+    {
+      "id": 20212022,
+      "gameTypes": [
+        2
+      ]
+    },
+    {
+      "id": 20222023,
+      "gameTypes": [
+        2
+      ]
+    },
+    {
+      "id": 20232024,
+      "gameTypes": [
+        2
+      ]
+    },
+    {
+      "id": 20242025,
+      "gameTypes": [
+        2
+      ]
+    },
+    {
+      "id": 20252026,
+      "gameTypes": [
+        2
+      ]
+    }
+  ],
+  "stats": {
+    "goalsAgainstAvg": {
+      "value": 3.1965,
+      "percentile": 0.0588,
+      "leagueAvg": 2.929
+    },
+    "gamesAbove900": {
+      "value": 0.4546,
+      "percentile": 0.1569,
+      "leagueAvg": 0.5164
+    },
+    
+
+... (truncated, total size: 4352 chars)
+
+----------------------------------------------------------------------------------------------------
+  11. cat_goalie_detail() - CAT goalie stats
+----------------------------------------------------------------------------------------------------
+   Parameters: ['player_id', 'season', 'game_type']
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 5 keys
+🔑 Keys: ['player', 'seasonsWithEdgeStats', 'stats', 'shotLocationSummary', 'shotLocationDetails']
+
+📝 Sample Data:
+{
+  "player": {
+    "id": 8480045,
+    "firstName": {
+      "default": "Ukko-Pekka"
+    },
+    "lastName": {
+      "default": "Luukkonen"
+    },
+    "birthDate": "1999-03-09",
+    "shootsCatches": "L",
+    "sweaterNumber": 1,
+    "slug": "ukko-pekka-luukkonen-8480045",
+    "headshot": "https://assets.nhle.com/mugs/nhl/20242025/BUF/8480045.png",
+    "wins": 24,
+    "losses": 24,
+    "overtimeLosses": 5,
+    "goalsAgainstAvg": 3.196503,
+    "savePctg": 0.886577,
+    "gamesPlayed": 55,
+    "team": {
+      "commonName": {
+        "default": "Sabres"
+      },
+      "placeNameWithPreposition": {
+        "default": "Buffalo",
+        "fr": "de Buffalo"
+      },
+      "abbrev": "BUF",
+      "teamLogo": {
+        "light": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg",
+        "dark": "https://assets.nhle.com/logos/nhl/svg/BUF_dark.svg"
+      }
+    }
+  },
+  "seasonsWithEdgeStats": [
+    {
+      "id": 20212022,
+      "gameTypes": [
+        2
+      ]
+    },
+    {
+      "id": 20222023,
+      "gameTypes": [
+        2
+      ]
+    },
+    {
+      "id": 20232024,
+      "gameTypes": [
+        2
+      ]
+    },
+    {
+      "id": 20242025,
+      "gameTypes": [
+        2
+      ]
+    },
+    {
+      "id": 20252026,
+      "gameTypes": [
+        2
+      ]
+    }
+  ],
+  "stats": {
+    "goalsAgainstAvg": {
+      "value": 3.1965,
+      "percentile": 0.0588,
+      "leagueAvg": 2.929
+    },
+    "gamesAbove900": {
+      "value": 0.4546,
+      "percentile": 0.1569,
+      "leagueAvg": 0.5164
+    },
+    
+
+... (truncated, total size: 4232 chars)
+
+----------------------------------------------------------------------------------------------------
+  12. goalie_5v5_detail() - 5-on-5 goalie performance
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['savePctg5v5Last10', 'savePctg5v5Details']
+
+📝 Sample Data:
+{
+  "savePctg5v5Last10": [
+    {
+      "gameCenterLink": "/gamecenter/tor-vs-buf/2025/04/15/2024021292",
+      "savePctg": 0.8929,
+      "gameDate": "2025-04-15",
+      "decision": "L",
+      "playerOnHomeTeam": true,
+      "homeTeam": {
+        "commonName": {
+          "default": "Sabres"
+        },
+        "placeNameWithPreposition": {
+          "default": "Buffalo",
+          "fr": "de Buffalo"
+        },
+        "abbrev": "BUF",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/BUF_dark.svg"
+        },
+        "slug": "buffalo-sabres-7"
+      },
+      "awayTeam": {
+        "commonName": {
+          "default": "Maple Leafs"
+        },
+        "placeNameWithPreposition": {
+          "default": "Toronto",
+          "fr": "de Toronto"
+        },
+        "abbrev": "TOR",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/TOR_dark.svg"
+        },
+        "slug": "toronto-maple-leafs-10"
+      }
+    },
+    {
+      "gameCenterLink": "/gamecenter/buf-vs-fla/2025/04/12/2024021268",
+      "savePctg": 0.92,
+      "gameDate": "2025-04-12",
+      "decision": "O",
+      "playerOnHomeTeam": false,
+      "homeTeam": {
+        "commonName": {
+          "default": "Panthers"
+        },
+        "placeNameWithPreposition": {
+          "default": "Florida",
+          "fr": "de la Floride"
+  
+
+... (truncated, total size: 8211 chars)
+
+----------------------------------------------------------------------------------------------------
+  13. goalie_save_percentage_detail() - Save % breakdown
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['savePctgLast10', 'savePctgDetails']
+
+📝 Sample Data:
+{
+  "savePctgLast10": [
+    {
+      "gameCenterLink": "/gamecenter/buf-vs-tor/2025/04/15/2024021292",
+      "savePctg": 0.903226,
+      "gameDate": "2025-04-15",
+      "decision": "L",
+      "playerOnHomeTeam": true,
+      "homeTeam": {
+        "commonName": {
+          "default": "Sabres"
+        },
+        "placeNameWithPreposition": {
+          "default": "Buffalo",
+          "fr": "de Buffalo"
+        },
+        "abbrev": "BUF",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/BUF_dark.svg"
+        }
+      },
+      "awayTeam": {
+        "commonName": {
+          "default": "Maple Leafs"
+        },
+        "placeNameWithPreposition": {
+          "default": "Toronto",
+          "fr": "de Toronto"
+        },
+        "abbrev": "TOR",
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/TOR_dark.svg"
+        }
+      }
+    },
+    {
+      "gameCenterLink": "/gamecenter/fla-vs-buf/2025/04/12/2024021268",
+      "savePctg": 0.941176,
+      "gameDate": "2025-04-12",
+      "decision": "O",
+      "playerOnHomeTeam": false,
+      "homeTeam": {
+        "commonName": {
+          "default": "Panthers"
+        },
+        "placeNameWithPreposition": {
+          "default": "Florida",
+          "fr": "de la Floride"
+        },
+        "abbrev": "FLA",
+        "teamLogo": {
+          "light": 
+
+... (truncated, total size: 7485 chars)
+
+----------------------------------------------------------------------------------------------------
+  14. goalie_shot_location_detail() - Where goalies face shots
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['shotLocationDetails', 'shotLocationTotals']
+
+📝 Sample Data:
+{
+  "shotLocationDetails": [
+    {
+      "area": "Behind the Net",
+      "shotsAgainst": 8,
+      "saves": 7,
+      "goalsAgainst": 1,
+      "savePctg": 0.875,
+      "shotsAgainstPercentile": 0.7059,
+      "savesPercentile": 0.7059,
+      "goalsAgainstPercentile": 0.6961,
+      "savePctgPercentile": 0.1923
+    },
+    {
+      "area": "Beyond Red Line",
+      "shotsAgainst": 43,
+      "saves": 43,
+      "goalsAgainst": 0,
+      "savePctg": 1.0,
+      "shotsAgainstPercentile": 0.8627,
+      "savesPercentile": 0.8627,
+      "goalsAgainstPercentile": 0.0,
+      "savePctgPercentile": 0.0385
+    },
+    {
+      "area": "Center Point",
+      "shotsAgainst": 121,
+      "saves": 116,
+      "goalsAgainst": 5,
+      "savePctg": 0.958678,
+      "shotsAgainstPercentile": 0.902,
+      "savesPercentile": 0.8922,
+      "goalsAgainstPercentile": 0.7941,
+      "savePctgPercentile": 0.5192
+    },
+    {
+      "area": "Crease",
+      "shotsAgainst": 54,
+      "saves": 37,
+      "goalsAgainst": 17,
+      "savePctg": 0.685185,
+      "shotsAgainstPercentile": 0.9216,
+      "savesPercentile": 0.8922,
+      "goalsAgainstPercentile": 0.9804,
+      "savePctgPercentile": 0.2308
+    },
+    {
+      "area": "High Slot",
+      "shotsAgainst": 149,
+      "saves": 128,
+      "goalsAgainst": 21,
+      "savePctg": 0.85906,
+      "shotsAgainstPercentile": 0.9216,
+      "savesPercentile": 0.9118,
+      "goalsAgainstPercentile": 0.9314,
+      "savePctgPercentile": 0.5192
+    },
+    {
+      "area": "L Circle",
+      "
+
+... (truncated, total size: 5223 chars)
+
+----------------------------------------------------------------------------------------------------
+  15. goalie_landing() - Goalie landing page data
+----------------------------------------------------------------------------------------------------
+   Parameters: ['season', 'game_type']
+❌ ERROR: Request to edge/goalie-landing/8480045/2 failed
+
+----------------------------------------------------------------------------------------------------
+  16. goalie_comparison() - Compare two goalies
+----------------------------------------------------------------------------------------------------
+   Parameters: ['player_id', 'season', 'game_type']
+❌ ERROR: Request to edge/goalie-comparison/8480045/8476945/20242025 failed
+
+====================================================================================================
+  🏆 TEAM EDGE DATA
+====================================================================================================
+
+----------------------------------------------------------------------------------------------------
+  17. team_detail() - Complete team Edge stats
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 8 keys
+🔑 Keys: ['team', 'seasonsWithEdgeStats', 'shotSpeed', 'skatingSpeed', 'distanceSkated', 'sogSummary', 'sogDetails', 'zoneTimeDetails']
+
+📝 Sample Data:
+{
+  "team": {
+    "id": 22,
+    "commonName": {
+      "default": "Oilers"
+    },
+    "placeNameWithPreposition": {
+      "default": "Edmonton",
+      "fr": "d'Edmonton"
+    },
+    "abbrev": "EDM",
+    "teamLogo": {
+      "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+      "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+    },
+    "slug": "edmonton-oilers-22",
+    "conference": "Western",
+    "division": "Pacific",
+    "wins": 48,
+    "losses": 29,
+    "otLosses": 5,
+    "gamesPlayed": 82,
+    "points": 101
+  },
+  "seasonsWithEdgeStats": [
+    {
+      "id": 20212022,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20222023,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20232024,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20242025,
+      "gameTypes": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 20252026,
+      "gameTypes": [
+        2
+      ]
+    }
+  ],
+  "shotSpeed": {
+    "shotAttemptsOver90": {
+      "value": 136,
+      "rank": 1
+    },
+    "topShotSpeed": {
+      "imperial": 98.96,
+      "metric": 159.2607,
+      "rank": 18,
+      "leagueAvg": {
+        "imperial": 99.8084,
+        "metric": 160.6261
+      },
+      "overlay": {
+        "player": {
+          "firstName": {
+            "default": "Viktor"
+          },
+          "lastName": {
+            "default": "Arvidsson"
+          }
+        },
+        "gameDate": "2025-03-29",
+        "awayTea
+
+... (truncated, total size: 4142 chars)
+
+----------------------------------------------------------------------------------------------------
+  18. team_skating_speed_detail() - Team skating speeds
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['topSkatingSpeeds', 'skatingSpeedDetails']
+
+📝 Sample Data:
+{
+  "topSkatingSpeeds": [
+    {
+      "player": {
+        "id": 8477406,
+        "firstName": {
+          "default": "Mattias"
+        },
+        "lastName": {
+          "default": "Janmark"
+        },
+        "slug": "mattias-janmark-8477406"
+      },
+      "gameCenterLink": "/gamecenter/edm-vs-col/2024/11/30/2024020385",
+      "gameDate": "2024-11-30",
+      "gameType": 2,
+      "isHomeTeam": false,
+      "skatingSpeed": {
+        "imperial": 24.359,
+        "metric": 39.202
+      },
+      "timeInPeriod": "02:25",
+      "periodDescriptor": {
+        "number": 2,
+        "periodType": "REG",
+        "maxRegulationPeriods": 3
+      },
+      "homeTeam": {
+        "commonName": {
+          "default": "Avalanche"
+        },
+        "placeNameWithPreposition": {
+          "default": "Colorado",
+          "fr": "du Colorado"
+        },
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/COL_dark.svg"
+        }
+      },
+      "awayTeam": {
+        "commonName": {
+          "default": "Oilers"
+        },
+        "placeNameWithPreposition": {
+          "default": "Edmonton",
+          "fr": "d'Edmonton"
+        },
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+        }
+      }
+    },
+    {
+      "player": {
+        "id": 8478402,
+        "firstName": {
+          "de
+
+... (truncated, total size: 12019 chars)
+
+----------------------------------------------------------------------------------------------------
+  19. team_skating_distance_detail() - Team skating distances
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['skatingDistanceLast10', 'skatingDistanceDetails']
+
+📝 Sample Data:
+{
+  "skatingDistanceLast10": [
+    {
+      "gameCenterLink": "/gamecenter/edm-vs-sjs/2025/04/16/2024021306",
+      "gameDate": "2025-04-16",
+      "isHomeTeam": false,
+      "toiAll": 17922,
+      "distanceSkatedAll": {
+        "imperial": 45.5146,
+        "metric": 73.2484
+      },
+      "toiEven": 16226,
+      "distanceSkatedEven": {
+        "imperial": 41.8931,
+        "metric": 67.4202
+      },
+      "toiPP": 1200,
+      "distanceSkatedPP": {
+        "imperial": 2.5742,
+        "metric": 4.1428
+      },
+      "toiPK": 496,
+      "distanceSkatedPK": {
+        "imperial": 1.0473,
+        "metric": 1.6854
+      },
+      "homeTeam": {
+        "commonName": {
+          "default": "Sharks"
+        },
+        "placeNameWithPreposition": {
+          "default": "San Jose",
+          "fr": "de San Jose"
+        },
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/SJS_dark.svg"
+        }
+      },
+      "awayTeam": {
+        "commonName": {
+          "default": "Oilers"
+        },
+        "placeNameWithPreposition": {
+          "default": "Edmonton",
+          "fr": "d'Edmonton"
+        },
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+        }
+      }
+    },
+    {
+      "gameCenterLink": "/gamecenter/lak-vs-edm/2025/04/14/2024021289",
+      "gameDate": "2025-04-1
+
+... (truncated, total size: 22708 chars)
+
+----------------------------------------------------------------------------------------------------
+  20. team_shot_speed_detail() - Team shot speeds
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['hardestShots', 'shotSpeedDetails']
+
+📝 Sample Data:
+{
+  "hardestShots": [
+    {
+      "player": {
+        "id": 8478042,
+        "firstName": {
+          "default": "Viktor"
+        },
+        "lastName": {
+          "default": "Arvidsson"
+        },
+        "slug": "viktor-arvidsson-8478042"
+      },
+      "gameCenterLink": "/gamecenter/cgy-vs-edm/2025/03/29/2024021167",
+      "gameDate": "2025-03-29",
+      "gameType": 2,
+      "isHomeTeam": true,
+      "shotSpeed": {
+        "imperial": 98.96,
+        "metric": 159.2607
+      },
+      "timeInPeriod": "18:05",
+      "periodDescriptor": {
+        "number": 3,
+        "periodType": "REG",
+        "maxRegulationPeriods": 3
+      },
+      "homeTeam": {
+        "commonName": {
+          "default": "Oilers"
+        },
+        "placeNameWithPreposition": {
+          "default": "Edmonton",
+          "fr": "d'Edmonton"
+        },
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/EDM_dark.svg"
+        }
+      },
+      "awayTeam": {
+        "commonName": {
+          "default": "Flames"
+        },
+        "placeNameWithPreposition": {
+          "default": "Calgary",
+          "fr": "de Calgary"
+        },
+        "teamLogo": {
+          "light": "https://assets.nhle.com/logos/nhl/svg/CGY_light.svg",
+          "dark": "https://assets.nhle.com/logos/nhl/svg/CGY_dark.svg"
+        }
+      }
+    },
+    {
+      "player": {
+        "id": 8480803,
+        "firstName": {
+          "default": "E
+
+... (truncated, total size: 12331 chars)
+
+----------------------------------------------------------------------------------------------------
+  21. team_shot_location_detail() - Team shot locations
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['shotLocationDetails', 'shotLocationTotals']
+
+📝 Sample Data:
+{
+  "shotLocationDetails": [
+    {
+      "area": "Behind the Net",
+      "sog": 20,
+      "sogRank": 5,
+      "goals": 0,
+      "goalsRank": 25,
+      "shootingPctg": 0.0,
+      "shootingPctgRank": 25
+    },
+    {
+      "area": "Beyond Red Line",
+      "sog": 63,
+      "sogRank": 25,
+      "goals": 3,
+      "goalsRank": 23,
+      "shootingPctg": 0.0476,
+      "shootingPctgRank": 23
+    },
+    {
+      "area": "Center Point",
+      "sog": 223,
+      "sogRank": 1,
+      "goals": 6,
+      "goalsRank": 24,
+      "shootingPctg": 0.0269,
+      "shootingPctgRank": 29
+    },
+    {
+      "area": "Crease",
+      "sog": 111,
+      "sogRank": 1,
+      "goals": 26,
+      "goalsRank": 1,
+      "shootingPctg": 0.2342,
+      "shootingPctgRank": 24
+    },
+    {
+      "area": "High Slot",
+      "sog": 215,
+      "sogRank": 14,
+      "goals": 31,
+      "goalsRank": 19,
+      "shootingPctg": 0.1442,
+      "shootingPctgRank": 20
+    },
+    {
+      "area": "L Circle",
+      "sog": 215,
+      "sogRank": 22,
+      "goals": 19,
+      "goalsRank": 24,
+      "shootingPctg": 0.0884,
+      "shootingPctgRank": 24
+    },
+    {
+      "area": "L Corner",
+      "sog": 3,
+      "sogRank": 13,
+      "goals": 0,
+      "goalsRank": 8,
+      "shootingPctg": 0.0,
+      "shootingPctgRank": 8
+    },
+    {
+      "area": "L Net Side",
+      "sog": 87,
+      "sogRank": 2,
+      "goals": 6,
+      "goalsRank": 13,
+      "shootingPctg": 0.069,
+      "shootingPctgRank": 23
+    },
+    {
+      "area": "L Point",
+      "sog": 2
+
+... (truncated, total size: 4980 chars)
+
+----------------------------------------------------------------------------------------------------
+  22. team_zone_time_details() - Team zone time
+----------------------------------------------------------------------------------------------------
+✅ SUCCESS
+
+📊 Data Type: Dictionary with 2 keys
+🔑 Keys: ['zoneTimeDetails', 'shotDifferential']
+
+📝 Sample Data:
+{
+  "zoneTimeDetails": [
+    {
+      "strengthCode": "all",
+      "offensiveZonePctg": 0.4291742,
+      "offensiveZoneRank": 3,
+      "offensiveZoneLeagueAvg": 0.410504,
+      "neutralZonePctg": 0.1731538,
+      "neutralZoneRank": 30,
+      "neutralZoneLeagueAvg": 0.1789921,
+      "defensiveZonePctg": 0.397672,
+      "defensiveZoneRank": 5,
+      "defensiveZoneLeagueAvg": 0.410504
+    },
+    {
+      "strengthCode": "es",
+      "offensiveZonePctg": 0.4249663,
+      "offensiveZoneRank": 4,
+      "offensiveZoneLeagueAvg": 0.4072952,
+      "neutralZonePctg": 0.1786736,
+      "neutralZoneRank": 30,
+      "neutralZoneLeagueAvg": 0.1854096,
+      "defensiveZonePctg": 0.3963601,
+      "defensiveZoneRank": 6,
+      "defensiveZoneLeagueAvg": 0.4072952
+    },
+    {
+      "strengthCode": "pp",
+      "offensiveZonePctg": 0.6172135,
+      "offensiveZoneRank": 4,
+      "offensiveZoneLeagueAvg": 0.5873286,
+      "neutralZonePctg": 0.1362425,
+      "neutralZoneRank": 24,
+      "neutralZoneLeagueAvg": 0.1420598,
+      "defensiveZonePctg": 0.246544,
+      "defensiveZoneRank": 4,
+      "defensiveZoneLeagueAvg": 0.2706116
+    },
+    {
+      "strengthCode": "pk",
+      "offensiveZonePctg": 0.2884245,
+      "offensiveZoneRank": 3,
+      "offensiveZoneLeagueAvg": 0.2706116,
+      "neutralZonePctg": 0.1418427,
+      "neutralZoneRank": 13,
+      "neutralZoneLeagueAvg": 0.1420598,
+      "defensiveZonePctg": 0.5697328,
+      "defensiveZoneRank": 6,
+      "defensiveZoneLeagueAvg": 0.5873286
+    }
+  ],
+  
+
+... (truncated, total size: 1358 chars)
+
+----------------------------------------------------------------------------------------------------
+  23. team_landing() - Team landing page data
+----------------------------------------------------------------------------------------------------
+   Parameters: ['season', 'game_type']
+❌ ERROR: Request to edge/team-landing/22/2 failed
+
+====================================================================================================
+  📊 SUMMARY
+====================================================================================================
+
+✅ WORKING ENDPOINTS (18):
+   ✓ skater_detail
+   ✓ cat_skater_detail
+   ✓ skater_skating_speed_detail
+   ✓ skater_skating_distance_detail
+   ✓ skater_shot_speed_detail
+   ✓ skater_zone_time
+   ✓ skater_shot_location_detail
+   ✓ goalie_detail
+   ✓ cat_goalie_detail
+   ✓ goalie_5v5_detail
+   ✓ goalie_save_percentage_detail
+   ✓ goalie_shot_location_detail
+   ✓ team_detail
+   ✓ team_skating_speed_detail
+   ✓ team_skating_distance_detail
+   ✓ team_shot_speed_detail
+   ✓ team_shot_location_detail
+   ✓ team_zone_time_details
+
+❌ FAILED ENDPOINTS (5):
+   ✗ skater_landing: Request to edge/skater-landing/8478402/2 failed
+   ✗ skater_comparison: Request to edge/skater-comparison/8478402/8477934/20242025 failed
+   ✗ goalie_landing: Request to edge/goalie-landing/8480045/2 failed
+   ✗ goalie_comparison: Request to edge/goalie-comparison/8480045/8476945/20242025 failed
+   ✗ team_landing: Request to edge/team-landing/22/2 failed
+
+📈 Success Rate: 18/23 endpoints working
+
+====================================================================================================
+  🎉 CATALOG COMPLETE
+====================================================================================================

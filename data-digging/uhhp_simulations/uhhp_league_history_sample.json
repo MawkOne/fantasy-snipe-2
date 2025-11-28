@@ -1,0 +1,254 @@
+{
+  "league_name": "UHHP Fantasy Hockey League",
+  "seasons": {
+    "2022-2023": {
+      "teams": {
+        "3sheets Sports Entertainment": {
+          "gm": "Michael Wong",
+          "actions": [
+            {
+              "timestamp": "2022-10-07T00:00:00Z",
+              "type": "weekly_result",
+              "period": 1,
+              "dates": "10/7/22 - 10/16/22",
+              "opponent": "South Calgary Oilers",
+              "result": "W",
+              "score_for": 96.0,
+              "score_against": 75.0,
+              "record": {
+                "wins": 1,
+                "losses": 0,
+                "ties": 0
+              }
+            },
+            {
+              "timestamp": "2022-10-08T03:40:00Z",
+              "type": "signing",
+              "player": "Jared McCann",
+              "position": "W",
+              "nhl_team": "SEA",
+              "details": {
+                "salary": 2,
+                "years": 1
+              }
+            },
+            {
+              "timestamp": "2022-10-08T03:40:00Z",
+              "type": "signing",
+              "player": "Artturi Lehkonen",
+              "position": "W",
+              "nhl_team": "COL",
+              "details": {
+                "salary": 2,
+                "years": 1
+              }
+            },
+            {
+              "timestamp": "2022-10-11T03:44:00Z",
+              "type": "signing",
+              "player": "Vitali Kravtsov",
+              "position": "W",
+              "nhl_team": "VAN",
+              "details": {
+                "salary": 2,
+                "years": 1
+              }
+            },
+            {
+              "timestamp": "2022-10-17T00:00:00Z",
+              "type": "weekly_result",
+              "period": 2,
+              "dates": "10/17/22 - 10/23/22",
+              "opponent": "Shazam!!!",
+              "result": "W",
+              "score_for": 122.8,
+              "score_against": 84.8,
+              "record": {
+                "wins": 2,
+                "losses": 0,
+                "ties": 0
+              }
+            },
+            {
+              "timestamp": "2022-10-24T00:00:00Z",
+              "type": "weekly_result",
+              "period": 3,
+              "dates": "10/24/22 - 10/30/22",
+              "opponent": "The Inglorious Basteeerds",
+              "result": "W",
+              "score_for": 85.7,
+              "score_against": 80.0,
+              "record": {
+                "wins": 3,
+                "losses": 0,
+                "ties": 0
+              }
+            },
+            {
+              "timestamp": "2022-10-31T14:34:00Z",
+              "type": "benched",
+              "player": "Vincent Trocheck",
+              "position": "C",
+              "nhl_team": "NYR"
+            },
+            {
+              "timestamp": "2022-10-31T14:34:00Z",
+              "type": "trade",
+              "description": "Vincent Trocheck C \u2022 NYR - Traded from re-degeneration X 2.0"
+            },
+            {
+              "timestamp": "2022-11-28T18:13:00Z",
+              "type": "trade",
+              "description": "Logan Thompson G \u2022 WAS - Traded from The Pylons"
+            },
+            {
+              "timestamp": "2023-01-23T14:42:00Z",
+              "type": "trade",
+              "description": "Darcy Kuemper G \u2022 LA - Traded from New Oilers Nation"
+            },
+            {
+              "timestamp": "2023-03-20T11:24:00Z",
+              "type": "drop",
+              "player": "Vitali Kravtsov",
+              "position": "W",
+              "nhl_team": "VAN"
+            },
+            {
+              "timestamp": "2023-04-10T11:23:00Z",
+              "type": "drop",
+              "player": "Spencer Knight",
+              "position": "G",
+              "nhl_team": "CHI"
+            }
+          ],
+          "final_roster": {
+            "active": [
+              {
+                "name": "Larkin, Dylan",
+                "position": "C",
+                "nhl_team": "DET",
+                "salary": 4,
+                "years": 3
+              },
+              {
+                "name": "Point, Brayden",
+                "position": "C",
+                "nhl_team": "TB",
+                "salary": 16,
+                "years": 2
+              },
+              {
+                "name": "Trocheck, Vincent",
+                "position": "F",
+                "nhl_team": "NYR",
+                "salary": 4,
+                "years": 1
+              },
+              {
+                "name": "Verhaeghe, Carter",
+                "position": "F",
+                "nhl_team": "FLA",
+                "salary": 2,
+                "years": 2
+              },
+              {
+                "name": "Kyrou, Jordan",
+                "position": "F",
+                "nhl_team": "STL",
+                "salary": 4,
+                "years": 3
+              },
+              {
+                "name": "Mercer, Dawson",
+                "position": "F",
+                "nhl_team": "NJ",
+                "salary": 2,
+                "years": 1
+              },
+              {
+                "name": "Letang, Kris",
+                "position": "D",
+                "nhl_team": "PIT",
+                "salary": 8,
+                "years": 1
+              },
+              {
+                "name": "Hedman, Victor",
+                "position": "D",
+                "nhl_team": "TB",
+                "salary": 15,
+                "years": 2
+              },
+              {
+                "name": "Ekholm, Mattias",
+                "position": "D",
+                "nhl_team": "EDM",
+                "salary": 2,
+                "years": 1
+              },
+              {
+                "name": "Makar, Cale",
+                "position": "D",
+                "nhl_team": "COL",
+                "salary": 20,
+                "years": 2
+              },
+              {
+                "name": "Kuemper, Darcy",
+                "position": "G",
+                "nhl_team": "WAS",
+                "salary": 5,
+                "years": 1
+              },
+              {
+                "name": "Campbell, Jack",
+                "position": "G",
+                "nhl_team": "EDM",
+                "salary": 3,
+                "years": 1
+              }
+            ],
+            "reserve": [
+              {
+                "name": "Kempe, Adrian",
+                "position": "F",
+                "nhl_team": "LA",
+                "salary": 3,
+                "years": 3
+              },
+              {
+                "name": "Lundell, Anton",
+                "position": "F",
+                "nhl_team": "FLA",
+                "salary": 2,
+                "years": 2
+              },
+              {
+                "name": "Orlov, Dmitry",
+                "position": "D",
+                "nhl_team": "BOS",
+                "salary": 2,
+                "years": 1
+              },
+              {
+                "name": "Thompson, Logan",
+                "position": "G",
+                "nhl_team": "LV",
+                "salary": 3,
+                "years": 1
+              }
+            ],
+            "injured": [],
+            "totals": {
+              "active_count": 15,
+              "reserve_count": 6,
+              "injured_count": 5,
+              "active_salary": 113,
+              "total_salary": 136
+            }
+          }
+        }
+      }
+    }
+  }
+}

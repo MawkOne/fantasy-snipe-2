@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NHL Edge Visualization</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; position: relative; }
+        canvas { background: #fff; border: 1px solid #ccc; margin-top: 10px; }
+        .controls { margin-top: 15px; }
+        button { padding: 8px 16px; margin: 0 5px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #0056b3; }
+        
+        /* Tooltip for Player Info */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            display: none;
+            z-index: 100;
+            text-align: left;
+        }
+        .tooltip img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .tooltip-content {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Goal Visualization & Speed Tracking</h2>
+        <div id="playerTooltip" class="tooltip"></div>
+        <canvas id="rinkCanvas" width="1200" height="510"></canvas>
+        <div class="controls">
+            <button onclick="togglePlay()">Play/Pause</button>
+            <button onclick="resetAnimation()">Replay</button>
+            <div>Frame: <span id="frameDisplay">0</span></div>
+        </div>
+    </div>
+    <script>
+        // Load the ENRICHED JSON data directly
+        // In a real app, you would fetch this via fetch()
+        // For this local demo, we will inject it via Python or expect it to be served
+        
+        let gameData = null;
+        let frames = [];
+        let metaPlayers = [];
+        const canvas = document.getElementById('rinkCanvas');
+        const ctx = canvas.getContext('2d');
+        const tooltip = document.getElementById('playerTooltip');
+        const SCALE = 0.5; 
+        let currentFrameIdx = 0;
+        let isPlaying = true;
+        let smoothedSpeeds = {};
+
+        const TEAM_COLORS = { 'DAL': '#006847', 'EDM': '#FF4C00', '': '#000000' };
+
+        // --- DATA LOADING ---
+        fetch('nhl_edge/game_2025020360/final/goal_97_complete.json')
+            .then(response => response.json())
+            .then(data => {
+                gameData = data;
+                frames = data.data;
+                metaPlayers = data.players;
+                
+                // Update UI with Event Context
+                const evt = data.event;
+                const game = data.game;
+                document.querySelector('h2').innerText = `${game.away_team} @ ${game.home_team} (${game.date})`;
+                
+                const infoDiv = document.createElement('div');
+                infoDiv.innerHTML = `
+                    <h3>Goal: ${evt.time} - Period ${evt.period}</h3>
+                    <p>Score: ${game.away_team} ${evt.score_away} - ${game.home_team} ${evt.score_home}</p>
+                `;
+                document.querySelector('.container').insertBefore(infoDiv, document.getElementById('rinkCanvas'));
+                
+                // Add Speed Control UI
+                const controls = document.querySelector('.controls');
+                const fpsDiv = document.createElement('div');
+                fpsDiv.innerHTML = `
+                    <label>FPS Assumption: <input type="number" id="fpsInput" value="${gameData.config.fps}" style="width:50px"></label>
+                    <button onclick="updateFPS()">Update Physics</button>
+                    <div id="maxSpeedDisplay" style="margin-top: 10px; font-weight: bold;"></div>
+                `;
+                controls.appendChild(fpsDiv);
+                
+                // Calculate Max Speeds
+                calculateMaxSpeeds();
+
+                init();
+            })
+            .catch(err => {
+                console.error("Failed to load data:", err);
+                // Fallback for direct file opening (CORS issues locally sometimes)
+                alert("Please run this via 'python3 -m http.server 8000' to load the JSON.");
+            });
+
+        function init() {
+            animate();
+            
+            // Mouse hover for tooltip
+            canvas.addEventListener('mousemove', handleMouseMove);
+        }
+        
+        function calculateMaxSpeeds() {
+            let maxSpeeds = {}; // playerId -> maxMph
+            
+            // Initialize
+            metaPlayers.forEach(p => maxSpeeds[p.id] = 0);
+            
+            // Scan all frames
+            for (let f = 0; f < frames.length; f++) {
+                metaPlayers.forEach((p, idx) => {
+                    const speed = calculateSpeed(idx, f);
+                    if (speed > maxSpeeds[p.id]) {
+                        maxSpeeds[p.id] = speed;
+                    }
+                });
+            }
+            
+            // Find Top 3 Skaters (excluding Puck ID 1)
+            const sorted = metaPlayers
+                .filter(p => p.id !== 1)
+                .sort((a, b) => maxSpeeds[b.id] - maxSpeeds[a.id])
+                .slice(0, 5);
+                
+            let html = "Top Speeds in this Clip:<br>";
+            sorted.forEach(p => {
+                html += `${p.name} (${p.team}): ${maxSpeeds[p.id].toFixed(2)} MPH<br>`;
+            });
+            
+            document.getElementById('maxSpeedDisplay').innerHTML = html;
+        }
+
+        function updateFPS() {
+            const val = parseInt(document.getElementById('fpsInput').value);
+            if (val > 0) {
+                gameData.config.fps = val;
+                calculateMaxSpeeds(); // Re-calc with new physics
+            }
+        }
+
+        function getPlayerCoords(frame, playerIdx) {
+            // NEW Frame format: [ts, p0_x, p0_y, p0_v, p1_x, p1_y, p1_v, ...]
+            // Player 0 coords: index 1, 2 (speed at 3)
+            // Player k coords: index 1 + (k*3), 1 + (k*3) + 1
+            const baseIdx = 1 + (playerIdx * 3);
+            return { 
+                x: frame[baseIdx], 
+                y: frame[baseIdx + 1],
+                v: frame[baseIdx + 2] // Pre-calculated Velocity (MPH)
+            };
+        }
+
+        function calculateSpeed(playerIdx, frameIdx) {
+            // Now we just read the baked value!
+            const frame = frames[frameIdx];
+            if (!frame) return 0.0;
+            
+            const p = getPlayerCoords(frame, playerIdx);
+            return p.v || 0.0;
+        }
+
+        function drawRink() {
+            ctx.clearRect(0,0,1200,510);
+            ctx.fillStyle = '#fff'; ctx.fillRect(0,0,1200,510);
+            ctx.strokeStyle = '#333'; ctx.lineWidth = 2;
+            ctx.strokeRect(0,0,1200,510); 
+            // Center Line
+            ctx.strokeStyle = 'red'; ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.moveTo(600,0); ctx.lineTo(600,510); ctx.stroke();
+            // Goal Lines
+            ctx.beginPath(); ctx.moveTo(66,0); ctx.lineTo(66,510); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(1134,0); ctx.lineTo(1134,510); ctx.stroke();
+        }
+
+        function drawFrame(idx) {
+            drawRink();
+            if (!frames[idx]) return;
+
+            const frame = frames[idx];
+            document.getElementById('frameDisplay').innerText = idx;
+            
+            // Loop through all players in metadata
+            metaPlayers.forEach((player, i) => {
+                const coords = getPlayerCoords(frame, i);
+                if (coords.x === null) return; // Skip if not on ice
+                
+                const x = coords.x * SCALE;
+                const y = coords.y * SCALE;
+                const isPuck = player.id === 1;
+                
+                // Speed Calc
+                let speed = calculateSpeed(i, idx);
+                if (!smoothedSpeeds[player.id]) smoothedSpeeds[player.id] = 0;
+                smoothedSpeeds[player.id] = (smoothedSpeeds[player.id] * 0.8) + (speed * 0.2);
+
+                ctx.beginPath();
+                if (isPuck) {
+                    ctx.fillStyle = '#000'; ctx.arc(x, y, 4, 0, 2*Math.PI); ctx.fill();
+                } else {
+                    ctx.fillStyle = TEAM_COLORS[player.team] || '#999'; 
+                    ctx.arc(x, y, 10, 0, 2*Math.PI); ctx.fill();
+                    
+                    // Number
+                    ctx.fillStyle = '#fff'; ctx.font = '10px Arial'; ctx.textAlign='center'; 
+                    ctx.textBaseline='middle'; ctx.fillText(player.num, x, y);
+                    
+                    // Speed Label & Name (Simplified)
+                    ctx.fillStyle = '#333'; ctx.font = '10px Arial';
+                    let label = smoothedSpeeds[player.id].toFixed(1) + ' mph';
+                    ctx.fillText(label, x, y - 15);
+                    
+                    // Name Label (below)
+                    ctx.fillStyle = '#555'; ctx.font = '9px Arial';
+                    // Only show last name for cleaner view
+                    const lastName = player.name.split(' ').pop(); 
+                    ctx.fillText(lastName, x, y + 15);
+                }
+            });
+        }
+        
+        function handleMouseMove(e) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            let hoveredPlayer = null;
+            
+            // Check collision with any player
+            if (gameData && frames[currentFrameIdx]) {
+                metaPlayers.forEach((player, i) => {
+                    const coords = getPlayerCoords(frames[currentFrameIdx], i);
+                    if (coords.x === null) return;
+                    
+                    const px = coords.x * SCALE;
+                    const py = coords.y * SCALE;
+                    
+                    // Distance check (radius 15)
+                    const dist = Math.sqrt((mouseX-px)**2 + (mouseY-py)**2);
+                    if (dist < 15) {
+                        hoveredPlayer = player;
+                    }
+                });
+            }
+            
+            if (hoveredPlayer) {
+                tooltip.style.display = 'block';
+                tooltip.style.left = (e.pageX + 10) + 'px';
+                tooltip.style.top = (e.pageY + 10) + 'px';
+                
+                const imgHtml = hoveredPlayer.img ? `<img src="${hoveredPlayer.img}">` : '';
+                tooltip.innerHTML = `
+                    ${imgHtml}
+                    <div class="tooltip-content">
+                        <strong>${hoveredPlayer.name}</strong><br>
+                        #${hoveredPlayer.num} | ${hoveredPlayer.pos} | ${hoveredPlayer.team}
+                    </div>
+                `;
+            } else {
+                tooltip.style.display = 'none';
+            }
+        }
+
+        function animate() {
+            if (!isPlaying) return;
+            drawFrame(currentFrameIdx);
+            currentFrameIdx++;
+            if (currentFrameIdx >= frames.length) { 
+                isPlaying = false; 
+                currentFrameIdx = frames.length - 1; 
+            } else { 
+                // Dynamic FPS from config to ensure Real-Time playback
+                // If data is 30fps, and we play at 30fps, motion is 1:1 real-time
+                const fps = (gameData && gameData.config && gameData.config.fps) ? gameData.config.fps : 30;
+                setTimeout(() => requestAnimationFrame(animate), 1000 / fps); 
+            }
+        }
+        
+        function togglePlay() { isPlaying = !isPlaying; if(isPlaying) animate(); }
+        function resetAnimation() { currentFrameIdx = 0; smoothedSpeeds={}; isPlaying=true; animate(); }
+    </script>
+</body>
+</html>
