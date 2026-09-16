@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "FantasySnipe",
+    "slug": "fantasysnipe",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "fantasysnipe",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0A1420",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fantasysnipe.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0A1420",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["expo-router"]
+  }
+}
