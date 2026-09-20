@@ -4794,6 +4794,829 @@ async def list_content_assets(job_id: int) -> Dict[str, Any]:
         ), {"id": int(job_id)}).fetchall()
         return {"assets": [dict(r._mapping) for r in rows]}
 
+# ============================================================
+# COMMISSIONER TOOLS
+# ============================================================
+
+import json as _json
+
+async def get_current_user(request: Request) -> FantasyUser:
+    """Authenticate current user via Kinde JWT or API key fallback."""
+    auth = request.headers.get('authorization', '')
+    api_key = request.headers.get('x-api-key', '')
+    
+    # Try Kinde JWT auth first (Bearer token)
+    if auth.lower().startswith('bearer '):
+        try:
+            token = auth.split(' ', 1)[1].strip()
+            payload = kinde_auth.verify_token(token)
+            sub = payload.get('sub', '')
+            email = payload.get('email', '').lower()
+            with get_fantasy_session() as session:
+                user = session.query(FantasyUser).filter(
+                    FantasyUser.external_auth_id == sub
+                ).first()
+                if user and user.is_active:
+                    return user
+                # Create user if first time
+                if email:
+                    user = session.query(FantasyUser).filter(
+                        FantasyUser.email == email
+                    ).first()
+                    if user:
+                        user.external_auth_id = sub
+                        session.flush()
+                        return user
+                    user = FantasyUser(
+                        external_auth_id=sub, email=email or f'{sub}@kinde.com',
+                        display_name=payload.get('name', ''),
+                        is_active=True, is_verified=True, email_verified=True
+                    )
+                    session.add(user)
+                    session.flush()
+                    return user
+        except Exception:
+            pass
+    
+    # Fallback: site user API key auth
+    if not api_key:
+        if auth.lower().startswith('apikey '):
+            api_key = auth.split(' ', 1)[1].strip()
+    if api_key:
+        from sqlalchemy import text as sa_text
+        with get_fantasy_session() as session:
+            row = session.execute(sa_text(
+                "SELECT id, email FROM site_users WHERE api_key = :k AND is_active = true"),
+                {"k": api_key}
+            ).fetchone()
+            if row:
+                user = session.query(FantasyUser).filter(
+                    FantasyUser.email == row.email
+                ).first()
+                if user:
+                    return user
+                # Create fantasy user for site user
+                user = FantasyUser(
+                    email=row.email, is_active=True,
+                    external_auth_id=f'site:{row.id}'
+                )
+                session.add(user)
+                session.flush()
+                return user
+    
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication required")
+
+# --- Commissioner auth middleware ---
+def _require_commissioner(
+    league_id: int,
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Verify the current user has commissioner-level access to this league."""
+    with get_fantasy_session() as session:
+        if current_user.role in ('admin', 'commissioner'):
+            return True
+        membership = session.query(FantasyUserLeague).filter(
+            FantasyUserLeague.user_id == current_user.id,
+            FantasyUserLeague.league_id == league_id
+        ).first()
+        if membership and (membership.role in ('owner', 'commissioner') or membership.can_manage_league):
+            return True
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Commissioner access required")
+
+async def require_commissioner_role(
+    league_id: int,
+    current_user: FantasyUser = Depends(get_current_user)
+) -> bool:
+    """Check commissioner access to a league (raises 403 if denied)."""
+    _require_commissioner(league_id, current_user)
+    return True
+
+
+def _log_commissioner_action(session, league_id: int, user_id: int, action_type: str, description: str, details: dict = None):
+    """Log a commissioner action for audit trail."""
+    from sqlalchemy import text as sa_text
+    try:
+        session.execute(sa_text(
+            """
+            INSERT INTO commissioner_action_log (league_id, user_id, action_type, description, details)
+            VALUES (:lid, :uid, :act, :desc, :det::jsonb)
+            """
+        ), {"lid": league_id, "uid": user_id, "act": action_type, "desc": description, "det": _json.dumps(details or {})})
+        session.flush()
+    except Exception as e:
+        logger.warning(f"Failed to log commissioner action: {e}")
+
+
+# --- League Settings ---
+
+@app.put("/api/leagues/{league_id}/settings")
+async def update_league_settings(
+    league_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: update league settings."""
+    _require_commissioner(league_id, current_user)
+    with get_fantasy_session() as session:
+        settings = session.query(FantasyLeagueSettings).filter(
+            FantasyLeagueSettings.league_id == league_id
+        ).first()
+        if not settings:
+            raise HTTPException(status_code=404, detail="Settings not found")
+        updatable = [
+            'roster_positions', 'max_roster_size',
+            'waiver_period_days', 'waiver_run_days', 'waiver_type', 'faab_budget',
+            'trade_approval_required', 'trade_review_period_hours',
+            'lineup_changes',
+            'playoff_teams', 'playoff_start_period', 'playoff_weeks', 'playoff_tiebreaker',
+            'regular_season_weeks', 'divisions'
+        ]
+        changed = []
+        for field in updatable:
+            if field in payload:
+                setattr(settings, field, payload[field])
+                changed.append(field)
+        settings.updated_at = func.now()
+        settings.last_updated_by = current_user.id
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'update_settings',
+            f"Updated settings: {', '.join(changed)}",
+            {"changed_fields": changed, "payload": {k: payload[k] for k in changed}})
+        return {"ok": True, "updated_fields": changed}
+
+
+@app.get("/api/leagues/{league_id}/settings")
+async def get_league_settings(league_id: int):
+    """Get league settings."""
+    with get_fantasy_session() as session:
+        settings = session.query(FantasyLeagueSettings).filter(
+            FantasyLeagueSettings.league_id == league_id
+        ).first()
+        if not settings:
+            raise HTTPException(status_code=404, detail="Settings not found")
+        return {
+            "id": settings.id,
+            "league_id": settings.league_id,
+            "roster_positions": settings.roster_positions,
+            "max_roster_size": settings.max_roster_size,
+            "waiver_period_days": settings.waiver_period_days,
+            "waiver_run_days": settings.waiver_run_days,
+            "waiver_type": getattr(settings, 'waiver_type', 'standard'),
+            "faab_budget": getattr(settings, 'faab_budget', 100),
+            "trade_approval_required": settings.trade_approval_required,
+            "trade_review_period_hours": getattr(settings, 'trade_review_period_hours', 48),
+            "lineup_changes": getattr(settings, 'lineup_changes', 'weekly'),
+            "playoff_start_period": settings.playoff_start_period,
+            "playoff_weeks": settings.playoff_weeks,
+            "playoff_tiebreaker": settings.playoff_tiebreaker,
+            "playoff_teams": getattr(settings, 'playoff_teams', 4),
+            "regular_season_weeks": getattr(settings, 'regular_season_weeks'),
+            "divisions": getattr(settings, 'divisions'),
+            "season_status": getattr(settings, 'season_status', 'draft'),
+            "created_at": settings.created_at.isoformat(),
+            "updated_at": settings.updated_at.isoformat()
+        }
+
+
+# --- Scoring Rules ---
+
+@app.put("/api/leagues/{league_id}/scoring-rules")
+async def update_scoring_rules(
+    league_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: batch update scoring rules."""
+    _require_commissioner(league_id, current_user)
+    rules_data = payload.get("rules", [])
+    if not isinstance(rules_data, list):
+        raise HTTPException(status_code=400, detail="rules must be an array")
+    with get_fantasy_session() as session:
+        session.query(FantasyScoringRule).filter(
+            FantasyScoringRule.league_id == league_id
+        ).delete()
+        for rule in rules_data:
+            stat_name = str(rule.get("stat_name", "") or "")
+            stat_desc = str(rule.get("stat_description", "") or "")
+            points = float(rule.get("points", 0))
+            if not stat_name:
+                continue
+            session.add(FantasyScoringRule(
+                league_id=league_id, stat_name=stat_name,
+                stat_description=stat_desc, points=points
+            ))
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'update_scoring_rules',
+            f"Updated {len(rules_data)} scoring rules")
+        return {"ok": True, "count": len(rules_data)}
+
+
+@app.get("/api/leagues/{league_id}/scoring-rules")
+async def get_scoring_rules(league_id: int):
+    """Get scoring rules for a league."""
+    with get_fantasy_session() as session:
+        rules = session.query(FantasyScoringRule).filter(
+            FantasyScoringRule.league_id == league_id
+        ).all()
+        return {"rules": [
+            {"id": r.id, "stat_name": r.stat_name,
+             "stat_description": r.stat_description, "points": r.points}
+            for r in rules
+        ]}
+
+
+# --- League Status Management ---
+
+@app.put("/api/leagues/{league_id}/status")
+async def set_league_status(
+    league_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: change league status."""
+    _require_commissioner(league_id, current_user)
+    new_status = (payload.get("status") or "").strip().lower()
+    valid_statuses = {"draft", "pre-season", "active", "playoffs", "completed", "archived"}
+    if new_status not in valid_statuses:
+        raise HTTPException(status_code=400,
+            detail=f"Invalid status. Must be one of: {', '.join(sorted(valid_statuses))}")
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        session.execute(sa_text(
+            "UPDATE fantasy_league_settings SET season_status = :s, updated_at = NOW(), last_updated_by = :uid WHERE league_id = :lid"
+        ), {"s": new_status, "uid": current_user.id, "lid": league_id})
+        session.execute(sa_text(
+            "UPDATE fantasy_leagues SET updated_at = NOW() WHERE id = :lid"), {"lid": league_id})
+        _log_commissioner_action(session, league_id, current_user.id, 'set_status',
+            f"Changed league status to {new_status}")
+        return {"ok": True, "status": new_status}
+
+
+# --- League Details Update ---
+
+@app.put("/api/leagues/{league_id}")
+async def update_league(
+    league_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: update league details."""
+    _require_commissioner(league_id, current_user)
+    with get_fantasy_session() as session:
+        league = session.query(FantasyLeague).filter(FantasyLeague.id == league_id).first()
+        if not league:
+            raise HTTPException(status_code=404, detail="League not found")
+        updatable = ['name', 'sport', 'scoring_system', 'draft_type', 'draft_rounds', 'base_url', 'is_public']
+        changed = []
+        for field in updatable:
+            if field in payload:
+                setattr(league, field, payload[field])
+                changed.append(field)
+        if 'trade_deadline' in payload and payload['trade_deadline']:
+            from datetime import datetime as _dt
+            try:
+                league.trade_deadline = _dt.fromisoformat(payload['trade_deadline'])
+                changed.append('trade_deadline')
+            except (ValueError, TypeError):
+                raise HTTPException(status_code=400, detail="Invalid trade_deadline format. Use ISO 8601.")
+        league.updated_at = func.now()
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'update_league',
+            f"Updated league: {', '.join(changed)}", {"changed_fields": changed})
+        return {"ok": True, "updated_fields": changed}
+
+
+# --- Member Management ---
+
+@app.get("/api/leagues/{league_id}/members")
+async def get_league_members(league_id: int):
+    """Get all members of a league."""
+    with get_fantasy_session() as session:
+        memberships = session.query(FantasyUserLeague).filter(
+            FantasyUserLeague.league_id == league_id
+        ).all()
+        members = []
+        for m in memberships:
+            user = session.query(FantasyUser).filter(FantasyUser.id == m.user_id).first()
+            members.append({
+                "user_id": m.user_id,
+                "email": user.email if user else None,
+                "display_name": user.display_name if user else None,
+                "role": m.role,
+                "permissions": {
+                    "can_view_rosters": m.can_view_rosters,
+                    "can_make_transactions": m.can_make_transactions,
+                    "can_trade": m.can_trade,
+                    "can_manage_league": m.can_manage_league,
+                    "can_invite_users": m.can_invite_users,
+                },
+                "joined_at": m.joined_at.isoformat() if m.joined_at else None
+            })
+        return {"members": members}
+
+
+@app.post("/api/leagues/{league_id}/members")
+async def add_league_member(
+    league_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: add a user to this league."""
+    _require_commissioner(league_id, current_user)
+    target_user_id = int(payload.get("user_id", 0))
+    if not target_user_id:
+        raise HTTPException(status_code=400, detail="user_id required")
+    role = str(payload.get("role", "member"))
+    permissions = payload.get("permissions") or {}
+    with get_fantasy_session() as session:
+        user = session.query(FantasyUser).filter(FantasyUser.id == target_user_id).first()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        existing = session.query(FantasyUserLeague).filter(
+            FantasyUserLeague.user_id == target_user_id,
+            FantasyUserLeague.league_id == league_id
+        ).first()
+        if existing:
+            raise HTTPException(status_code=409, detail="User is already a member of this league")
+        membership = FantasyUserLeague(
+            user_id=target_user_id, league_id=league_id, role=role,
+            can_view_rosters=permissions.get('can_view_rosters', True),
+            can_make_transactions=permissions.get('can_make_transactions', True),
+            can_trade=permissions.get('can_trade', True),
+            can_manage_league=permissions.get('can_manage_league', False),
+            can_invite_users=permissions.get('can_invite_users', False),
+            invited_by=current_user.id
+        )
+        session.add(membership)
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'add_member',
+            f"Added user {user.email} as {role}",
+            {"target_user_id": target_user_id, "role": role})
+        return {"ok": True, "user_id": target_user_id, "role": role}
+
+
+@app.put("/api/leagues/{league_id}/members/{user_id}")
+async def update_league_member(
+    league_id: int, user_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: update member role/permissions."""
+    _require_commissioner(league_id, current_user)
+    with get_fantasy_session() as session:
+        membership = session.query(FantasyUserLeague).filter(
+            FantasyUserLeague.user_id == user_id,
+            FantasyUserLeague.league_id == league_id
+        ).first()
+        if not membership:
+            raise HTTPException(status_code=404, detail="Membership not found")
+        changed = []
+        if 'role' in payload:
+            membership.role = str(payload['role'])
+            if membership.role == 'commissioner':
+                membership.can_manage_league = True
+                membership.can_invite_users = True
+            changed.append('role')
+        perm_fields = ['can_view_rosters', 'can_make_transactions', 'can_trade', 'can_manage_league', 'can_invite_users']
+        for field in perm_fields:
+            if field in payload:
+                setattr(membership, field, bool(payload[field]))
+                changed.append(field)
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'update_member',
+            f"Updated member {user_id}: {', '.join(changed)}")
+        return {"ok": True, "updated_fields": changed}
+
+
+@app.delete("/api/leagues/{league_id}/members/{user_id}")
+async def remove_league_member(
+    league_id: int, user_id: int,
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: remove a member from this league."""
+    _require_commissioner(league_id, current_user)
+    if current_user.id == user_id:
+        raise HTTPException(status_code=400, detail="Cannot remove yourself. Transfer commissioner role first.")
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        membership = session.query(FantasyUserLeague).filter(
+            FantasyUserLeague.user_id == user_id,
+            FantasyUserLeague.league_id == league_id
+        ).first()
+        if not membership:
+            raise HTTPException(status_code=404, detail="Membership not found")
+        session.execute(sa_text(
+            "UPDATE fantasy_teams SET owner_id = NULL WHERE owner_id = :uid AND league_id = :lid"),
+            {"uid": user_id, "lid": league_id})
+        session.delete(membership)
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'remove_member',
+            f"Removed member {user_id}")
+        return {"ok": True}
+
+
+# --- Invitation Management ---
+
+@app.get("/api/leagues/{league_id}/invitations")
+async def list_league_invitations(league_id: int):
+    """List all invitations for a league."""
+    with get_fantasy_session() as session:
+        invitations = session.query(FantasyLeagueInvitation).filter(
+            FantasyLeagueInvitation.league_id == league_id
+        ).all()
+        return {"invitations": [
+            {"id": inv.id, "invited_email": inv.invited_email,
+             "role": inv.role, "is_accepted": inv.is_accepted,
+             "is_expired": inv.is_expired,
+             "expires_at": inv.expires_at.isoformat() if inv.expires_at else None,
+             "invited_by": inv.invited_by,
+             "created_at": inv.created_at.isoformat(),
+             "invitation_code": inv.invitation_code}
+            for inv in invitations
+        ]}
+
+
+@app.post("/api/leagues/{league_id}/invitations")
+async def create_league_invitation(
+    league_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: create a league invitation."""
+    _require_commissioner(league_id, current_user)
+    email = (payload.get("email") or "").strip().lower()
+    if not email:
+        raise HTTPException(status_code=400, detail="email required")
+    role = str(payload.get("role", "member"))
+    import secrets, datetime as _dt
+    with get_fantasy_session() as session:
+        existing = session.query(FantasyLeagueInvitation).filter(
+            FantasyLeagueInvitation.league_id == league_id,
+            FantasyLeagueInvitation.invited_email == email,
+            FantasyLeagueInvitation.is_accepted == False,
+            FantasyLeagueInvitation.is_expired == False
+        ).first()
+        if existing:
+            raise HTTPException(status_code=409, detail="Active invitation already exists for this email")
+        target_user = session.query(FantasyUser).filter(FantasyUser.email == email).first()
+        if target_user:
+            existing_member = session.query(FantasyUserLeague).filter(
+                FantasyUserLeague.user_id == target_user.id,
+                FantasyUserLeague.league_id == league_id
+            ).first()
+            if existing_member:
+                raise HTTPException(status_code=409, detail="User is already a member of this league")
+        invitation = FantasyLeagueInvitation(
+            league_id=league_id, invited_email=email, role=role,
+            permissions=payload.get("permissions"),
+            invited_by=current_user.id,
+            invitation_code=secrets.token_urlsafe(16),
+            expires_at=_dt.datetime.utcnow() + _dt.timedelta(days=7))
+        session.add(invitation)
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'create_invitation',
+            f"Invited {email} as {role}")
+        return {"ok": True, "invitation": {
+            "id": invitation.id, "email": email, "role": role,
+            "invitation_code": invitation.invitation_code,
+            "expires_at": invitation.expires_at.isoformat()
+        }}
+
+
+@app.delete("/api/leagues/{league_id}/invitations/{invitation_id}")
+async def revoke_league_invitation(
+    league_id: int, invitation_id: int,
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: revoke a pending invitation."""
+    _require_commissioner(league_id, current_user)
+    with get_fantasy_session() as session:
+        invitation = session.query(FantasyLeagueInvitation).filter(
+            FantasyLeagueInvitation.id == invitation_id,
+            FantasyLeagueInvitation.league_id == league_id
+        ).first()
+        if not invitation:
+            raise HTTPException(status_code=404, detail="Invitation not found")
+        invitation.is_expired = True
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'revoke_invitation',
+            f"Revoked invitation for {invitation.invited_email}")
+        return {"ok": True}
+
+
+@app.post("/api/leagues/invitations/accept")
+async def accept_league_invitation(
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Accept a league invitation using invitation code."""
+    code = (payload.get("code") or "").strip()
+    if not code:
+        raise HTTPException(status_code=400, detail="code required")
+    from datetime import datetime as _dt
+    with get_fantasy_session() as session:
+        invitation = session.query(FantasyLeagueInvitation).filter(
+            FantasyLeagueInvitation.invitation_code == code,
+            FantasyLeagueInvitation.is_accepted == False,
+            FantasyLeagueInvitation.is_expired == False
+        ).first()
+        if not invitation:
+            raise HTTPException(status_code=404, detail="Invitation not found or expired")
+        if invitation.expires_at and invitation.expires_at < _dt.utcnow():
+            invitation.is_expired = True
+            session.flush()
+            raise HTTPException(status_code=400, detail="Invitation has expired")
+        if current_user.email.lower() != invitation.invited_email.lower():
+            raise HTTPException(status_code=403, detail="This invitation was sent to a different email address")
+        existing = session.query(FantasyUserLeague).filter(
+            FantasyUserLeague.user_id == current_user.id,
+            FantasyUserLeague.league_id == invitation.league_id
+        ).first()
+        if existing:
+            raise HTTPException(status_code=409, detail="You are already a member of this league")
+        perms = invitation.permissions or {}
+        membership = FantasyUserLeague(
+            user_id=current_user.id, league_id=invitation.league_id,
+            role=invitation.role,
+            can_view_rosters=perms.get('can_view_rosters', True),
+            can_make_transactions=perms.get('can_make_transactions', True),
+            can_trade=perms.get('can_trade', True),
+            can_manage_league=perms.get('can_manage_league', False),
+            can_invite_users=perms.get('can_invite_users', False),
+            invited_by=invitation.invited_by)
+        session.add(membership)
+        invitation.is_accepted = True
+        invitation.accepted_at = _dt.utcnow()
+        session.flush()
+        return {"ok": True, "league_id": invitation.league_id, "role": invitation.role}
+
+
+# --- Team Management ---
+
+@app.post("/api/leagues/{league_id}/teams")
+async def add_league_team(
+    league_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: add a team to the league."""
+    _require_commissioner(league_id, current_user)
+    team_name = (payload.get("team_name") or "").strip()
+    if not team_name:
+        raise HTTPException(status_code=400, detail="team_name required")
+    with get_fantasy_session() as session:
+        team = FantasyTeam(league_id=league_id, team_name=team_name,
+            owner_name=payload.get("owner_name"),
+            owner_id=payload.get("owner_id"),
+            division=payload.get("division"), is_active=True)
+        session.add(team)
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'add_team',
+            f"Added team '{team_name}'")
+        return {"ok": True, "team_id": team.id, "team_name": team_name}
+
+
+@app.put("/api/leagues/{league_id}/teams/{team_id}")
+async def update_league_team(
+    league_id: int, team_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: update a team's details."""
+    _require_commissioner(league_id, current_user)
+    with get_fantasy_session() as session:
+        team = session.query(FantasyTeam).filter(
+            FantasyTeam.id == team_id, FantasyTeam.league_id == league_id
+        ).first()
+        if not team:
+            raise HTTPException(status_code=404, detail="Team not found")
+        updatable = ['team_name', 'owner_name', 'owner_id', 'logo_url', 'is_active', 'division', 'commissioner_notes']
+        changed = []
+        for field in updatable:
+            if field in payload:
+                setattr(team, field, payload[field])
+                changed.append(field)
+        team.updated_at = func.now()
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'update_team',
+            f"Updated team {team_id}: {', '.join(changed)}")
+        return {"ok": True, "updated_fields": changed}
+
+
+@app.delete("/api/leagues/{league_id}/teams/{team_id}")
+async def remove_league_team(
+    league_id: int, team_id: int,
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: remove a team from the league."""
+    _require_commissioner(league_id, current_user)
+    with get_fantasy_session() as session:
+        team = session.query(FantasyTeam).filter(
+            FantasyTeam.id == team_id, FantasyTeam.league_id == league_id
+        ).first()
+        if not team:
+            raise HTTPException(status_code=404, detail="Team not found")
+        session.query(FantasyPlayer).filter(FantasyPlayer.team_id == team_id).delete()
+        session.delete(team)
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'remove_team',
+            f"Removed team '{team.team_name}' (id={team_id})")
+        return {"ok": True}
+
+
+@app.post("/api/leagues/{league_id}/teams/{team_id}/assign-owner")
+async def assign_team_owner(
+    league_id: int, team_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: assign or change a team's owner."""
+    _require_commissioner(league_id, current_user)
+    owner_id = int(payload.get("user_id", 0))
+    if not owner_id:
+        raise HTTPException(status_code=400, detail="user_id required")
+    with get_fantasy_session() as session:
+        team = session.query(FantasyTeam).filter(
+            FantasyTeam.id == team_id, FantasyTeam.league_id == league_id
+        ).first()
+        if not team:
+            raise HTTPException(status_code=404, detail="Team not found")
+        user = session.query(FantasyUser).filter(FantasyUser.id == owner_id).first()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        old_owner = team.owner_id
+        team.owner_id = owner_id
+        team.owner_name = user.display_name or user.email
+        team.updated_at = func.now()
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'assign_owner',
+            f"Assigned team {team_id} to user {owner_id} (was {old_owner})")
+        return {"ok": True, "team_id": team_id, "owner_id": owner_id, "owner_name": team.owner_name}
+
+
+# --- Transaction Approval ---
+
+@app.get("/api/leagues/{league_id}/transactions/pending")
+async def get_pending_transactions(
+    league_id: int,
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: get pending transactions requiring approval."""
+    _require_commissioner(league_id, current_user)
+    with get_fantasy_session() as session:
+        pending = session.query(FantasyTransaction).filter(
+            FantasyTransaction.league_id == league_id,
+            FantasyTransaction.is_processed == False,
+            FantasyTransaction.status == 'pending'
+        ).all()
+        return {"pending_transactions": [
+            {"id": t.id, "type": t.transaction_type,
+             "player_id": t.player_id,
+             "from_team_id": t.from_team_id,
+             "to_team_id": t.to_team_id,
+             "transaction_date": t.transaction_date.isoformat() if t.transaction_date else None,
+             "waiver_priority": t.waiver_priority,
+             "notes": t.transaction_notes,
+             "created_at": t.created_at.isoformat(),
+             "status": getattr(t, 'status', 'pending')}
+            for t in pending
+        ]}
+
+
+@app.post("/api/leagues/{league_id}/transactions/{transaction_id}/approve")
+async def approve_transaction(
+    league_id: int, transaction_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: approve a pending transaction."""
+    _require_commissioner(league_id, current_user)
+    from datetime import datetime as _dt
+    with get_fantasy_session() as session:
+        txn = session.query(FantasyTransaction).filter(
+            FantasyTransaction.id == transaction_id,
+            FantasyTransaction.league_id == league_id
+        ).first()
+        if not txn:
+            raise HTTPException(status_code=404, detail="Transaction not found")
+        if txn.is_processed or getattr(txn, 'status', 'pending') != 'pending':
+            raise HTTPException(status_code=400, detail="Transaction already processed")
+        txn.is_processed = True
+        txn.processed_date = _dt.utcnow()
+        txn.status = 'approved'
+        txn.approved_by = current_user.id
+        txn.approved_at = _dt.utcnow()
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'approve_transaction',
+            f"Approved transaction {transaction_id} ({txn.transaction_type})")
+        return {"ok": True, "status": "approved"}
+
+
+@app.post("/api/leagues/{league_id}/transactions/{transaction_id}/reject")
+async def reject_transaction(
+    league_id: int, transaction_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: reject a pending transaction."""
+    _require_commissioner(league_id, current_user)
+    from datetime import datetime as _dt
+    with get_fantasy_session() as session:
+        txn = session.query(FantasyTransaction).filter(
+            FantasyTransaction.id == transaction_id,
+            FantasyTransaction.league_id == league_id
+        ).first()
+        if not txn:
+            raise HTTPException(status_code=404, detail="Transaction not found")
+        if txn.is_processed or getattr(txn, 'status', 'pending') != 'pending':
+            raise HTTPException(status_code=400, detail="Transaction already processed")
+        txn.status = 'rejected'
+        txn.rejection_reason = str(payload.get("reason", ""))
+        txn.approved_by = current_user.id
+        txn.approved_at = _dt.utcnow()
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'reject_transaction',
+            f"Rejected transaction {transaction_id}: {txn.rejection_reason}")
+        return {"ok": True, "status": "rejected"}
+
+
+# --- Waiver Order Management ---
+
+@app.get("/api/leagues/{league_id}/waivers/order")
+async def get_waiver_order(league_id: int):
+    """Get the current waiver order for a league."""
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        rows = session.execute(sa_text(
+            """SELECT w.team_id, t.team_name, w.waiver_priority, w.last_waiver_use
+              FROM league_waiver_order w
+              JOIN fantasy_teams t ON t.id = w.team_id
+             WHERE w.league_id = :lid
+             ORDER BY w.waiver_priority ASC"""
+        ), {"lid": league_id}).fetchall()
+        return {"waiver_order": [
+            {"team_id": r.team_id, "team_name": r.team_name,
+             "waiver_priority": r.waiver_priority,
+             "last_waiver_use": str(r.last_waiver_use) if r.last_waiver_use else None}
+            for r in rows
+        ]}
+
+
+@app.put("/api/leagues/{league_id}/waivers/order")
+async def set_waiver_order(
+    league_id: int,
+    payload: Dict[str, Any],
+    current_user: FantasyUser = Depends(get_current_user)
+):
+    """Commissioner: set the waiver order."""
+    _require_commissioner(league_id, current_user)
+    order_list = payload.get("order", [])
+    if not isinstance(order_list, list) or not order_list:
+        raise HTTPException(status_code=400, detail="order array required")
+    from sqlalchemy import text as sa_text
+    with get_fantasy_session() as session:
+        session.execute(sa_text("DELETE FROM league_waiver_order WHERE league_id = :lid"), {"lid": league_id})
+        for entry in order_list:
+            team_id = int(entry.get("team_id", 0))
+            priority = int(entry.get("waiver_priority", 0))
+            session.execute(sa_text(
+                "INSERT INTO league_waiver_order (league_id, team_id, waiver_priority) VALUES (:lid, :tid, :pri)"
+            ), {"lid": league_id, "tid": team_id, "pri": priority})
+        session.flush()
+        _log_commissioner_action(session, league_id, current_user.id, 'set_waiver_order',
+            f"Set waiver order for {len(order_list)} teams")
+        return {"ok": True, "count": len(order_list)}
+
+
+# --- Commissioner Action Log ---
+
+@app.get("/api/leagues/{league_id}/commissioner/log")
+async def get_commissioner_log(
+    league_id: int,
+    current_user: FantasyUser = Depends(get_current_user),
+    limit: int = 50
+):
+    """Get the commissioner action log."""
+    _require_commissioner(league_id, current_user)
+    from sqlalchemy import text as sa_text
+    limit = max(1, min(200, int(limit)))
+    with get_fantasy_session() as session:
+        rows = session.execute(sa_text(
+            """SELECT l.id, l.user_id, u.display_name AS user_name, l.action_type,
+                      l.description, l.details, l.created_at
+              FROM commissioner_action_log l
+              LEFT JOIN fantasy_users u ON u.id = l.user_id
+             WHERE l.league_id = :lid
+             ORDER BY l.created_at DESC LIMIT :lim"""
+        ), {"lid": league_id, "lim": limit}).fetchall()
+        return {"actions": [
+            {"id": r.id, "user_id": r.user_id, "user_name": r.user_name,
+             "action_type": r.action_type, "description": r.description,
+             "details": r.details, "created_at": str(r.created_at)}
+            for r in rows
+        ]}
+
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    uvicorn.run(app, host="0.0.0.0", port=8000)

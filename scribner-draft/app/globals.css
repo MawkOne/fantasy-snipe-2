@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-ink-900 text-fg font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-ink-850 border border-ink-700 rounded-card;
+  }
+  .card-elevated {
+    @apply bg-ink-800 border border-ink-700 rounded-card;
+  }
+  .btn-primary {
+    @apply rounded-full py-3.5 bg-accent text-ink-900 font-bold text-[15px] flex items-center justify-center gap-2 transition-colors;
+  }
+  .btn-secondary {
+    @apply rounded-full py-3.5 items-center border border-ink-600 bg-ink-850 text-fg font-bold text-[15px] flex items-center justify-center gap-2 transition-colors;
+  }
+  .badge {
+    @apply rounded-full px-2.5 py-1 text-[10px] font-bold tracking-widest;
+  }
+  .badge-live {
+    @apply badge bg-accent text-ink-900;
+  }
+  .badge-done {
+    @apply badge bg-win/15 text-win;
+  }
+  .badge-upcoming {
+    @apply badge bg-ink-700 text-fg-faint;
+  }
+  .badge-warn {
+    @apply badge bg-warn/15 text-warn;
+  }
+  .badge-loss {
+    @apply badge bg-loss/15 text-loss;
+  }
+  .section-label {
+    @apply text-fg-faint text-[11px] font-bold tracking-widest;
+  }
+  .input-field {
+    @apply w-full bg-ink-800 border border-ink-600 rounded-lg px-3 py-2.5 text-fg text-sm placeholder:text-fg-faint outline-none focus:border-accent/60 transition-colors;
+  }
+}
