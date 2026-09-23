@@ -599,7 +599,7 @@ def nominate_player(
     actor_role: str,
     player_pool_id: str,
 ) -> dict[str, Any]:
-    """Open a sealed-bid auction for a player. Current nominator only."""
+    """Open a sealed-bid auction for a player. Current nominator (or commissioner) only."""
     draft = _load_draft(session, draft_id)
     if draft.status != DRAFT_STATUS_ACTIVE:
         raise AuctionServiceError("Draft is not active", 409)
@@ -607,10 +607,11 @@ def nominate_player(
         raise AuctionServiceError("Draft is completed", 409)
 
     current = _current_nominator(session, draft)
-    if current is None or current["team_id"] != actor_team_id:
-        raise AuctionServiceError(
-            "It is not this team's turn to nominate", 403
-        )
+    if not (current is not None and current["team_id"] == actor_team_id):
+        if actor_role not in ("admin", "commissioner"):
+            raise AuctionServiceError(
+                "It is not this team's turn to nominate", 403
+            )
 
     # One active nomination enforced both here and by a partial unique index.
     active = _load_active_nomination(session, str(draft_id))
