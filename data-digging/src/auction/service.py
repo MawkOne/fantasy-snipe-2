@@ -563,6 +563,36 @@ def pause_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, An
     return {"ok": True, "status": "paused"}
 
 
+def void_nomination(session: Any, draft_id: str, nomination_id: str, *, actor_role: str) -> dict[str, Any]:
+    """Void a nomination that hasn't been revealed yet. Commissioner only."""
+    if actor_role not in ("admin", "commissioner"):
+        raise AuctionServiceError("Only a commissioner can void a nomination", 403)
+    nomination = _load_nomination(session, nomination_id)
+    if nomination.status not in ("awaiting_nomination", "sealed_bidding"):
+        raise AuctionServiceError(
+            "Can only void nominations that have not been revealed", 409
+        )
+    session.execute(
+        text(
+            """
+            UPDATE uhhp_auction_nominations
+               SET status = 'void', version = version + 1, updated_at = NOW()
+             WHERE id = :nomination_id
+            """
+        ),
+        {"nomination_id": str(nomination_id)},
+    )
+    _append_event(
+        session,
+        str(draft_id),
+        int(nomination.league_id),
+        "nomination_voided",
+        nomination_id=str(nomination_id),
+        actor_type="user",
+        actor_id=str(actor_role),
+    )
+    return {"ok": True, "status": "voided"}
+
 def resume_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, Any]:
     """Resume a paused draft. Commissioner only."""
     if actor_role not in ("admin", "commissioner"):

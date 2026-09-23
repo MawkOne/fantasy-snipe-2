@@ -449,6 +449,21 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       try { await refreshCapSummary() } catch {}
     } catch { toast.error('Reveal failed') }
   }
+
+  async function voidNomination() {
+    if (!currentAuctionId) { toast.error('No active nomination'); return }
+    try {
+      const apiBase = getApiBase()
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/void`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ nomination_id: String(currentAuctionId) }) })
+      if (!res.ok) {
+        const txt = await res.text().catch(() => '')
+        toast.error(`Void failed ${txt ? `- ${txt}` : ''}`)
+        return
+      }
+      toast.success('Nomination voided')
+      await loadAuctionState()
+    } catch { toast.error('Void failed') }
+  }
   const [wsConnected, setWsConnected] = useState<boolean>(false)
   const wsRef = useRef<WebSocket | null>(null)
   const [statusById, setStatusById] = useState<Record<number, "UFA" | "RFA">>({})
@@ -2011,7 +2026,20 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                   </div>
                   <div className="min-w-0">
                     <div className="text-sm font-semibold">
-                      {nominated ? nominated.player : "Bidding Controls"}
+                      {nominated ? (
+                        <span className="inline-flex items-center gap-1">
+                          {nominated.player}
+                          {auctionState?.viewer?.is_commissioner === true && auctionState?.active_nomination?.status === 'sealed_bidding' && (
+                            <button
+                              className="ml-0.5 text-slate-400 hover:text-red-500 transition-colors"
+                              onClick={(e) => { e.stopPropagation(); voidNomination() }}
+                              title="Cancel this nomination"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </span>
+                      ) : "Bidding Controls"}
                     </div>
                     <div className="text-xs text-slate-500">
                       {nominated ? (

@@ -20,6 +20,7 @@ from src.auction.service import (
     resume_draft,
     reveal_nomination,
     submit_bid,
+    void_nomination,
 )
 from src.database.fantasy_connection import get_fantasy_session
 
@@ -1058,6 +1059,27 @@ def build_uhhp_auction_router(
             ),
         )
         await _emit(slug, "auction_revealed", nomination_id=nomination_id)
+        return result
+
+    @router.post("/void", response_model=dict)
+    async def void_nomination_endpoint(
+        slug: str,
+        payload: Dict[str, Any],
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        """Commissioner voids the current nomination entirely (mistake recovery)."""
+        nomination_id = str(_require_value(payload, "nomination_id"))
+        result = _run_mutation(
+            slug, draft_year, current_user,
+            lambda session, draft, membership: void_nomination(
+                session,
+                draft_id=str(draft.id),
+                nomination_id=nomination_id,
+                actor_role=membership["role"],
+            ),
+        )
+        await _emit(slug, "nomination_voided", nomination_id=nomination_id)
         return result
 
     @router.post("/pass-remaining", response_model=dict)
