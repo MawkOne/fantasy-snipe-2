@@ -167,14 +167,17 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null)
   // ... existing code ...
 
-  // Real league teams from draft_state capTeams
+  // Real league teams from draft_state capTeams (left-to-right = nomination order)
   const teams: Team[] = useMemo(() => {
     if (Array.isArray(capTeams) && capTeams.length) {
-      return capTeams.map((t: any) => ({
+      const rows = capTeams.map((t: any) => ({
         id: String(t.team_id),
         name: String(t.team_name),
         abbrev: String(t?.abbrev || ''),
+        nominationOrder: Number(t?.nomination_order || 0),
       }))
+      rows.sort((a, b) => ((a.nominationOrder || 999) - (b.nominationOrder || 999)))
+      return rows
     }
     return []
   }, [capTeams])
