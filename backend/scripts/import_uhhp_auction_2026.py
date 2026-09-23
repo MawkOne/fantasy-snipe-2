@@ -1934,9 +1934,12 @@ def upsert_current_rosters(
         entry_type = str(player.get("entry_type") or "")
         if entry_type not in ("player", "rookie"):
             continue
-        roster_team_id = player.get("roster_team_id")
+        roster_team_key = player.get("roster_team_key")
         cbs_player_id = player.get("cbs_player_id")
-        if not roster_team_id or not cbs_player_id:
+        if not roster_team_key or not cbs_player_id:
+            continue
+        roster_team_id = team_ids.get(str(roster_team_key))
+        if not roster_team_id:
             continue
         positions = player.get("positions") or player.get("position")
         slot_type = None
@@ -1990,6 +1993,21 @@ def upsert_current_rosters(
         ) from exc
 
     try:
+        # Snapshot rows use a managed lifecycle: delete all rows from the
+        # previous import, then insert the current snapshot. Auction-created
+        # contract rows (uhhp_auction_nomination_id IS NOT NULL) are never
+        # deleted. The unique index includes effective_from, so a plain upsert
+        # cannot be idempotent across imports; delete-then-insert avoids
+        # duplicates while preserving auction rows.
+        cursor.execute(
+            """
+            DELETE FROM public.cbs_rosters
+             WHERE league_id = %s
+               AND uhhp_auction_nomination_id IS NULL
+               AND source_url = 'uhhp-auction-import-2026'
+            """,
+            (league_id,),
+        )
         extras.execute_batch(
             cursor,
             """
@@ -2001,55 +2019,14 @@ def upsert_current_rosters(
               %s, %s, NULL, %s, %s, %s, %s, %s, %s, %s, NOW(),
               'uhhp-auction-import-2026', NULL
             )
-            ON CONFLICT (league_id, team_id, cbs_player_id, effective_from)
-            DO UPDATE SET
-              nhl_player_id = EXCLUDED.nhl_player_id,
-              slot_type = EXCLUDED.slot_type,
-              status = EXCLUDED.status,
-              salary = EXCLUDED.salary,
-              years = EXCLUDED.years,
-              rookie = EXCLUDED.rookie,
-              captured_at = NOW()
             """,
             rows,
             page_size=200,
         )
     except Exception as exc:
         raise ApplyError(
-            f"Could not upsert cbs_rosters snapshot ({type(exc).__name__})."
+            f"Could not write cbs_rosters snapshot ({type(exc).__name__})."
         ) from exc
-
-    # Remove snapshot roster rows for players no longer on the team (leaves
-    # auction-created rows untouched because they have a nomination reference
-    # and a different source_url).
-    pairs = [(str(r[1]), str(r[3])) for r in rows]
-    cursor.execute(
-        """
-        CREATE TEMP TABLE _uhhp_roster_snapshot (
-          team_id TEXT NOT NULL,
-          cbs_player_id TEXT NOT NULL
-        ) ON COMMIT DROP
-        """
-    )
-    extras.execute_batch(
-        cursor,
-        "INSERT INTO _uhhp_roster_snapshot (team_id, cbs_player_id) VALUES (%s, %s)",
-        pairs,
-        page_size=200,
-    )
-    cursor.execute(
-        """
-        DELETE FROM public.cbs_rosters AS r
-         WHERE r.league_id = %s
-           AND r.uhhp_auction_nomination_id IS NULL
-           AND r.source_url = 'uhhp-auction-import-2026'
-           AND NOT EXISTS (
-             SELECT 1 FROM _uhhp_roster_snapshot AS s
-              WHERE s.team_id = r.team_id AND s.cbs_player_id = r.cbs_player_id
-           )
-        """,
-        (league_id,),
-    )
 
     return len(rows), 0
 
