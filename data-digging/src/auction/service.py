@@ -535,6 +535,62 @@ def activate_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str,
     return {"ok": True, "status": "active"}
 
 
+def pause_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, Any]:
+    """Pause an active draft. Commissioner only; blocks nominations and bids."""
+    if actor_role not in ("admin", "commissioner"):
+        raise AuctionServiceError("Only a commissioner can pause the draft", 403)
+    draft = _load_draft(session, draft_id)
+    if draft.status != DRAFT_STATUS_ACTIVE:
+        raise AuctionServiceError("Only an active draft can be paused", 409)
+    session.execute(
+        text(
+            """
+            UPDATE uhhp_auction_drafts
+               SET status = 'paused', version = version + 1, updated_at = NOW()
+             WHERE id = :draft_id
+            """
+        ),
+        {"draft_id": str(draft_id)},
+    )
+    _append_event(
+        session,
+        str(draft_id),
+        int(draft.league_id),
+        "draft_paused",
+        actor_type="user",
+        actor_id=str(actor_role),
+    )
+    return {"ok": True, "status": "paused"}
+
+
+def resume_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, Any]:
+    """Resume a paused draft. Commissioner only."""
+    if actor_role not in ("admin", "commissioner"):
+        raise AuctionServiceError("Only a commissioner can resume the draft", 403)
+    draft = _load_draft(session, draft_id)
+    if draft.status != "paused":
+        raise AuctionServiceError("Only a paused draft can be resumed", 409)
+    session.execute(
+        text(
+            """
+            UPDATE uhhp_auction_drafts
+               SET status = 'active', version = version + 1, updated_at = NOW()
+             WHERE id = :draft_id
+            """
+        ),
+        {"draft_id": str(draft_id)},
+    )
+    _append_event(
+        session,
+        str(draft_id),
+        int(draft.league_id),
+        "draft_resumed",
+        actor_type="user",
+        actor_id=str(actor_role),
+    )
+    return {"ok": True, "status": "active"}
+
+
 def nominate_player(
     session: Any,
     *,
@@ -658,6 +714,8 @@ def submit_bid(
     """Submit an initial sealed bid ($0 or whole units >= 2)."""
     draft = _load_draft(session, draft_id)
     nomination = _load_nomination(session, nomination_id)
+    if str(draft.status) != DRAFT_STATUS_ACTIVE:
+        raise AuctionServiceError("Draft is not active", 409)
     if nomination.status != "sealed_bidding":
         raise AuctionServiceError("Bidding is not open for this nomination", 409)
 
@@ -719,6 +777,8 @@ def replace_bid(
     """Replace an existing sealed bid (allowed any time before reveal)."""
     draft = _load_draft(session, draft_id)
     nomination = _load_nomination(session, nomination_id)
+    if str(draft.status) != DRAFT_STATUS_ACTIVE:
+        raise AuctionServiceError("Draft is not active", 409)
     if nomination.status != "sealed_bidding":
         raise AuctionServiceError("Bidding is not open for this nomination", 409)
     try:
@@ -778,6 +838,8 @@ def cancel_bid(
     """Cancel the team's effective bid; returns it to $0. Allowed before reveal."""
     draft = _load_draft(session, draft_id)
     nomination = _load_nomination(session, nomination_id)
+    if str(draft.status) != DRAFT_STATUS_ACTIVE:
+        raise AuctionServiceError("Draft is not active", 409)
     if nomination.status != "sealed_bidding":
         raise AuctionServiceError("Bidding is not open for this nomination", 409)
     prior = _bid_target_exists(session, nomination_id, actor_team_id)
@@ -840,6 +902,8 @@ def reveal_nomination(
     if actor_role not in ("admin", "commissioner"):
         raise AuctionServiceError("Only a commissioner can reveal", 403)
     draft = _load_draft(session, draft_id)
+    if str(draft.status) not in (DRAFT_STATUS_ACTIVE, "paused"):
+        raise AuctionServiceError("Draft is not active", 409)
     nomination = _load_nomination(session, nomination_id)
     if nomination.status != "sealed_bidding":
         raise AuctionServiceError("This nomination is not accepting reveal", 409)
@@ -1058,6 +1122,8 @@ def pass_remaining_nominations(
 ) -> dict[str, Any]:
     """Permanently remove a team from the RFA Poaching nomination rotation."""
     draft = _load_draft(session, draft_id)
+    if str(draft.status) != DRAFT_STATUS_ACTIVE:
+        raise AuctionServiceError("Draft is not active", 409)
     if draft.stage != "rfa_poaching":
         raise AuctionServiceError("Can only pass remaining nominations during RFA Poaching", 400)
 
@@ -1106,6 +1172,8 @@ def resolve_rfa(
 ) -> dict[str, Any]:
     """Controlling team matches or passes on a revealed RFA bid."""
     draft = _load_draft(session, draft_id)
+    if str(draft.status) != DRAFT_STATUS_ACTIVE:
+        raise AuctionServiceError("Draft is not active", 409)
     nomination = _load_nomination(session, nomination_id)
     if nomination.status != "rfa_match_pending":
         raise AuctionServiceError("This nomination is not awaiting an RFA decision", 409)

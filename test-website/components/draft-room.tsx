@@ -268,7 +268,6 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
 
   // Bid aggregation state (must be declared before reveal logic)
   const [gmBids, setGmBids] = useState<Record<string, number>>({})
-  const [revealTimer, setRevealTimer] = useState<number | null>(null)
   const [revealed, setRevealed] = useState<boolean>(false)
   // Draft pick nomination order (team_id list)
   const [auctionOrder, setAuctionOrder] = useState<string[]>([])
@@ -276,96 +275,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   const [tieOrder, setTieOrder] = useState<string[]>([])
   const [tieAudit, setTieAudit] = useState<Array<{ pick: number; winners: string[]; advantage: string | null }>>([])
 
-  // 3s reveal countdown when all bids submitted
-  const allSubmitted = useMemo(() => teams.every((t) => gmBids[t.id] !== undefined), [teams, gmBids])
-  // Do NOT auto-start reveal on load; start only when admin clicks Reveal
-  useEffect(() => {
-    if (revealTimer === null) return
-    if (revealTimer <= 0) {
-      setRevealTimer(null)
-      setRevealed(true)
-      // Auto-assign the won player into the winner's roster active slots
-      try {
-        const top = (() => {
-          const vals = Object.values(gmBids)
-          if (!vals.length) return null as number | null
-          return Math.max(...vals)
-        })()
-        if (top != null && nominated) {
-          const winners = teams.filter((t) => gmBids[t.id] === top)
-          let finalWinnerId: string | null = winners[0]?.id || null
-          if (winners.length > 1 && (tieOrder || []).length) {
-            // Decide by whoever is higher (lower index) in current tie-break order by team_id
-            let bestIdx = Infinity
-            let advId: string | null = null
-            for (const t of winners) {
-              const tid = t.id
-              const idx = tieOrder.indexOf(tid)
-              if (idx >= 0 && idx < bestIdx) { bestIdx = idx; advId = tid }
-            }
-            if (advId) {
-              finalWinnerId = advId
-              // Move the winner to the bottom of the order
-              setTieOrder((prev) => {
-                const i = prev.indexOf(advId as string)
-                if (i < 0) return prev
-                const copy = [...prev]
-                const [moved] = copy.splice(i, 1)
-                copy.push(moved)
-                return copy
-              })
-              // Audit log entry (by names for display)
-              const idToName: Record<string, string> = {}
-              teams.forEach((t) => { idToName[t.id] = t.name })
-              const tiedNames = winners.map((t) => t.name)
-              const advName = idToName[advId]
-              setTieAudit((prev) => ([...prev, { pick: (uhhpPicks?.length || 0) + 1, winners: tiedNames, advantage: advName || null }]))
-            }
-          }
-          if (finalWinnerId) {
-            const newPick = { team: teamAbbr(teams.find((t) => t.id === finalWinnerId)?.name || ""), player: nominated.player, pos: (nominated.pos || "").toString().toUpperCase(), price: top }
-            setUhhpPicks((prev) => ([...(prev || []), newPick]))
-            // Also add the won player to the winner's roster in My Team (local view)
-            try {
-              const winnerTeamName = (nameById[finalWinnerId] || teams.find((t) => t.id === finalWinnerId)?.name || "").toString()
-              setStage1Teams((prev) => {
-                const copy = Array.isArray(prev) ? [...prev] : []
-                for (let i = 0; i < copy.length; i++) {
-                  const row: any = copy[i]
-                  if ((row?.team_name || "") === winnerTeamName) {
-                    const players: any[] = Array.isArray(row.players) ? [...row.players] : []
-                    players.push({
-                      player: nominated.player,
-                      pos: (nominated.pos || "").toString().toUpperCase(),
-                      salary: Number(top || 0),
-                      price: Number(top || 0),
-                      years: 1,
-                      team: String(row?.team_id || ""),
-                      nhl_player_id: (nominated as any)?.nhl_player_id ?? undefined,
-                      status: (() => {
-                        try {
-                          const pid = (nominated as any)?.nhl_player_id
-                          return pid ? (statusById[Number(pid)] || undefined) : undefined
-                        } catch { return undefined }
-                      })(),
-                      team_abbr: (nominated as any)?.team_abbr || "",
-                      birthdate: (nominated as any)?.birthdate || null,
-                    })
-                    copy[i] = { ...row, players }
-                    break
-                  }
-                }
-                return copy
-              })
-            } catch {}
-          }
-        }
-      } catch (e) {}
-      return
-    }
-    const id = setTimeout(() => setRevealTimer((v) => (v ?? 0) - 1), 1000)
-    return () => clearTimeout(id)
-  }, [revealTimer])
+  // Suggestions + rankings (derived from projections)
+  const [suggestions, setSuggestions] = useState<Player[]>([])
+  const [rankings, setRankings] = useState<Player[]>([])
 
   const topBid = useMemo(() => {
     if (!revealed) return null as number | null
@@ -393,10 +305,6 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     }
     return tieTeams[0] ?? null
   }, [tieTeams, tieOrder, teams])
-
-  // Suggestions + rankings (derived from projections)
-  const [suggestions, setSuggestions] = useState<Player[]>([])
-  const [rankings, setRankings] = useState<Player[]>([])
 
   // Left rail tabs state
   const [leftTab, setLeftTab] = useState<"rankings" | "teams" | "queue">("rankings")
@@ -477,6 +385,60 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     // Legacy shape fallback
     return auctionState?.open_auctions?.[0]?.id ?? null
   }, [auctionState])
+
+  // All responders submitted = every team in the active nomination has a bid
+  const allSubmitted = useMemo(() => {
+    const nomination = auctionState?.active_nomination
+    if (nomination && Array.isArray(nomination.responses) && nomination.responses.length) {
+      return nomination.responses.every((r: any) => !!r.responded)
+    }
+    return teams.every((t) => gmBids[t.id] !== undefined)
+  }, [auctionState, teams, gmBids])
+
+  // Admin draft controls (wired to the auction-2026 backend)
+  async function startDraft() {
+    try {
+      const apiBase = getApiBase()
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/activate`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() } })
+      if (!res.ok) {
+        const txt = await res.text().catch(() => '')
+        toast.error(`Start failed ${txt ? `- ${txt}` : ''}`)
+        return
+      }
+      toast.success('Draft started')
+      await loadAuctionState()
+    } catch { toast.error('Start failed') }
+  }
+
+  async function toggleDraftPause(pause: boolean) {
+    try {
+      const apiBase = getApiBase()
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/${pause ? 'pause' : 'resume'}`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() } })
+      if (!res.ok) {
+        const txt = await res.text().catch(() => '')
+        toast.error(`${pause ? 'Pause' : 'Resume'} failed ${txt ? `- ${txt}` : ''}`)
+        return
+      }
+      toast.success(pause ? 'Draft paused' : 'Draft resumed')
+      await loadAuctionState()
+    } catch { toast.error(`${pause ? 'Pause' : 'Resume'} failed`) }
+  }
+
+  async function revealBids() {
+    if (!currentAuctionId) { toast.error('No open auction to reveal'); return }
+    try {
+      const apiBase = getApiBase()
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/reveal`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ nomination_id: String(currentAuctionId), confirm_nonresponses: true }) })
+      if (!res.ok) {
+        const txt = await res.text().catch(() => '')
+        toast.error(`Reveal failed ${txt ? `- ${txt}` : ''}`)
+        return
+      }
+      toast.success('Bids revealed')
+      await loadAuctionState()
+      try { await refreshCapSummary() } catch {}
+    } catch { toast.error('Reveal failed') }
+  }
   const [wsConnected, setWsConnected] = useState<boolean>(false)
   const wsRef = useRef<WebSocket | null>(null)
   const [statusById, setStatusById] = useState<Record<number, "UFA" | "RFA">>({})
@@ -519,17 +481,24 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       if (!res.ok) return
       const json = await res.json()
       setAuctionState(json)
-      // Seed bid responses from viewer-safe state where available
+      // Seed bid responses from viewer-safe state
       try {
         const nomination = json?.active_nomination
+        const viewerTeamId = json?.viewer?.team_id
+        setRevealed(!!(nomination && nomination.amounts_revealed === true))
         if (nomination && Array.isArray(nomination.responses)) {
-          const viewerTeamId = json?.viewer?.team_id
-          if (viewerTeamId) {
-            const mine = nomination.responses.find((r: any) => r.team_id === viewerTeamId)
-            if (mine && mine.responded) {
-              setBidSubmitted((prev) => ({ ...prev, [viewerTeamId]: true }))
+          const amountsRevealed = nomination.amounts_revealed === true
+          const nextBids: Record<string, number> = {}
+          const nextSubmitted: Record<string, boolean> = {}
+          for (const r of nomination.responses) {
+            const tid = String(r.team_id)
+            nextSubmitted[tid] = !!r.responded
+            if (amountsRevealed || (viewerTeamId && tid === String(viewerTeamId))) {
+              if (typeof r.effective_bid === 'number') nextBids[tid] = r.effective_bid
             }
           }
+          setBidSubmitted((prev) => ({ ...prev, ...nextSubmitted }))
+          setGmBids((prev) => ({ ...prev, ...nextBids }))
         }
       } catch {}
       // Only toast once on first successful load to avoid repeated messages
@@ -547,110 +516,69 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   async function nominatePlayerByProjection(p: Player) {
     try {
       const apiBase = getApiBase()
-      const nhlId = parseInt(String(p.id), 10)
-      const body: any = { nhl_player_id: Number.isFinite(nhlId) ? nhlId : undefined, team_id: actionTeamId }
-      const tokensStr = (typeof window !== 'undefined') ? localStorage.getItem('kinde_tokens') : null
-      let authHeader: Record<string,string> = { 'Content-Type': 'application/json' }
-      try {
-        const tk = tokensStr ? JSON.parse(tokensStr) : null
-        const at = tk && typeof tk.access_token === 'string' ? tk.access_token : null
-        if (at) authHeader = { ...authHeader, Authorization: `Bearer ${at}` }
-      } catch {}
-      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/nominate`, { method: 'POST', headers: { ...authHeader, ...getAuthHeaders() }, body: JSON.stringify(body) })
+      const poolId = String((p as any)?.pool_id || p?.id || '').trim()
+      if (!poolId) { toast.error('Missing player pool id'); return }
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/nominate`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ player_pool_id: poolId }) })
       if (res.ok) {
         toast.success('Nominated')
-        // Optimistically set banner so the UI reflects the nomination immediately
-        try {
-          const pid = Number.isFinite(nhlId) ? nhlId : NaN
-          const posRaw = (p.pos || '').toString().toUpperCase()
-          const pos = (posRaw === 'LW' || posRaw === 'RW') ? 'W' : posRaw
-          const type = Number.isFinite(pid) ? (statusById[pid] || '—') : '—'
-          setNominated({ player: p.name || (p as any)?.player || '', nhl_player_id: pid, pos, type })
-          // Also set current auction id immediately so bidding is enabled without waiting for state poll
-          try {
-            const json = await res.clone().json().catch(() => null)
-            const aid = json && typeof json.auction_id === 'number' ? json.auction_id : null
-            if (aid) {
-              setAuctionState((prev: any) => ({
-                ...(prev || {}),
-                open_auctions: [{ id: aid, nhl_player_id: pid }, ...((prev && prev.open_auctions) || [])],
-              }))
-            }
-          } catch {}
-        } catch {}
         await loadAuctionState()
       } else {
-        toast.error('Nomination failed')
+        const txt = await res.text().catch(() => '')
+        toast.error(`Nomination failed ${txt ? `- ${txt}` : ''}`)
       }
     } catch { toast.error('Nomination failed') }
   }
 
-  async function submitBid(amount: number) {
+  async function submitBid(amount: number, isRebid = false) {
     if (!currentAuctionId || !actionTeamId) { toast.error('No auction or team'); return }
     try {
       const apiBase = getApiBase()
       const amt = Math.max(0, Math.floor(Number(amount || 0)))
-      const yourTeamKey = String(actionTeamId)
-      const isRebid = !!bidSubmitted[yourTeamKey] || !!revealed
-      const body: any = { auction_id: Number(currentAuctionId), team_id: yourTeamKey, amount: amt }
-      if (isRebid) { body.rebid = true; if (revealed) body.tiebreak = true }
-      try { console.log('[BID]', { auctionId: currentAuctionId, teamId: yourTeamKey, amt, isRebid, revealed }) } catch {}
-      try { toast.message(`Submitting bid $${amt} (auction ${currentAuctionId}, team ${yourTeamKey})`) } catch {}
-      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/bid`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(body) })
+      const idempotencyKey = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
+      const body: any = { nomination_id: String(currentAuctionId), amount: amt, idempotency_key: idempotencyKey }
+      const url = isRebid ? 'bids/replace' : 'bids'
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/${url}`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(body) })
       if (res.ok) {
-        const js = await res.json().catch(() => ({} as any))
-        const top = js && js.top_bid ? js.top_bid : null
-        if (top && top.team_id) {
-          setGmBids((prev) => ({ ...prev, [String(top.team_id)]: Number(top.amount) }))
-          setBidSubmitted((prev) => ({ ...prev, [String(top.team_id)]: true }))
-        } else {
-          setGmBids((prev) => ({ ...prev, [yourTeamKey]: amt }))
-          setBidSubmitted((prev) => ({ ...prev, [yourTeamKey]: true }))
-        }
-        toast.success('Bid submitted')
+        toast.success(isRebid ? 'Bid replaced' : 'Bid submitted')
         await loadAuctionState()
       } else {
         const txt = await res.text().catch(() => '')
-        toast.error(`Bid failed ${txt ? `– ${txt}` : ''}`)
+        toast.error(`Bid failed ${txt ? `- ${txt}` : ''}`)
         await loadAuctionState()
       }
     } catch { toast.error('Bid failed') }
   }
 
-  async function matchRfa() {
-    if (!currentAuctionId || !teamMembership?.team_id) { toast.error('No auction or team'); return }
+  async function cancelBid() {
+    if (!currentAuctionId || !actionTeamId) { toast.error('No auction or team'); return }
     try {
       const apiBase = getApiBase()
-      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/match`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ auction_id: currentAuctionId, team_id: teamMembership.team_id }) })
+      const idempotencyKey = `${Date.now()}-cancel-${Math.random().toString(36).slice(2, 10)}`
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/bids/cancel`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ nomination_id: String(currentAuctionId), idempotency_key: idempotencyKey }) })
       if (res.ok) {
-        toast.success('Matched')
+        toast.success('Bid cancelled')
         await loadAuctionState()
       } else {
-        toast.error('Match failed')
+        const txt = await res.text().catch(() => '')
+        toast.error(`Cancel failed ${txt ? `- ${txt}` : ''}`)
       }
-    } catch { toast.error('Match failed') }
+    } catch { toast.error('Cancel failed') }
   }
 
-  // Persist the auction result server-side and refresh
-  async function finalizeAuction() {
+  async function decideRfa(decision: 'match' | 'pass') {
+    if (!currentAuctionId) { toast.error('No open auction'); return }
     try {
-      if (!currentAuctionId) { toast.error('No auction'); return }
       const apiBase = getApiBase()
-      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/finalize`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ auction_id: currentAuctionId })
-      })
-      if (!res.ok) { toast.error('Finalize failed'); return }
-      toast.success('Auction finalized')
-      // Reload state and draft data
-      await loadAuctionState()
-      try { await refreshCapSummary() } catch {}
-      try { await loadAuctionHistory() } catch {}
-      // Clear local bidding state
-      setGmBids({})
-      setBidSubmitted({})
-      setRevealed(false)
-      setNominated(null)
-    } catch { toast.error('Finalize failed') }
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/rfa-decision`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ nomination_id: String(currentAuctionId), decision }) })
+      if (res.ok) {
+        toast.success(decision === 'match' ? 'RFA matched' : 'RFA passed')
+        await loadAuctionState()
+        try { await refreshCapSummary() } catch {}
+      } else {
+        const txt = await res.text().catch(() => '')
+        toast.error(`${decision === 'match' ? 'Match' : 'Pass'} failed ${txt ? `- ${txt}` : ''}`)
+      }
+    } catch { toast.error('RFA decision failed') }
   }
 
   // Connect WebSocket for event-driven updates; fall back to polling if not connected
@@ -737,20 +665,22 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     return () => clearInterval(id)
   }, [wsConnected])
 
-  // Admin-triggered reveal countdown (3s)
+  // Admin-triggered actions dispatched from the top nav
   useEffect(() => {
-    function onReveal() {
-      setRevealTimer((v) => (v === null ? 3 : v))
-    }
+    function onReveal() { revealBids() }
+    function onStart() { startDraft() }
+    function onPause() { toggleDraftPause(true) }
+    function onResume() { toggleDraftPause(false) }
     window.addEventListener('uhhp:reveal', onReveal)
-    return () => window.removeEventListener('uhhp:reveal', onReveal)
-  }, [])
-
-  // Admin-triggered finalize
-  useEffect(() => {
-    function onFinalize() { finalizeAuction() }
-    window.addEventListener('uhhp:finalize', onFinalize)
-    return () => window.removeEventListener('uhhp:finalize', onFinalize)
+    window.addEventListener('uhhp:start', onStart)
+    window.addEventListener('uhhp:pause', onPause)
+    window.addEventListener('uhhp:resume', onResume)
+    return () => {
+      window.removeEventListener('uhhp:reveal', onReveal)
+      window.removeEventListener('uhhp:start', onStart)
+      window.removeEventListener('uhhp:pause', onPause)
+      window.removeEventListener('uhhp:resume', onResume)
+    }
   }, [currentAuctionId])
 
   // Hydrate picks list from backend auction history
@@ -1117,6 +1047,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           }
           nextProj.push({
             nhl_player_id: Number.isFinite(pid) ? pid : undefined,
+            pool_id: String(it?.id || ''),
             player: name,
             pos,
             team,
@@ -1791,7 +1722,12 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             </div>
           </div>
 
-          <DraftTopbarAuth />
+          <DraftTopbarAuth
+            draftStatus={auctionState?.draft?.status}
+            draftStage={auctionState?.draft?.stage}
+            isCommissioner={auctionState?.viewer?.is_commissioner === true}
+            activeNominationStatus={auctionState?.active_nomination?.status}
+          />
         </div>
       </div>
 
@@ -2065,10 +2001,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                 </div>
                 <div className="flex items-center gap-2">
                   {(() => {
-                    const isRfa = (nominated?.type || "").toString().toUpperCase() === "RFA"
-                    const key = (nominated?.player || "").toString().trim().toLowerCase()
-                    const rfaTaken = (uhhpPicks || []).some((r: any) => ((r?.player || "").toString().trim().toLowerCase()) === key)
-                    const canAct = isRfa && rfaTaken
+                    const rfaPending = (auctionState?.active_nomination?.status || '') === 'rfa_match_pending'
+                    const canAct = rfaPending && auctionState?.actions?.can_decide_rfa === true
                     return (
                       <div className="flex items-center gap-2 mr-2">
                         <Button
@@ -2076,7 +2010,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                           variant="outline"
                           disabled={!canAct}
                           className={cn(!canAct ? "opacity-50 text-slate-400" : undefined)}
-                          onClick={() => toast.message("RFA Matched")}
+                          onClick={() => decideRfa('match')}
                         >
                           Match
                         </Button>
@@ -2085,7 +2019,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                           variant="outline"
                           disabled={!canAct}
                           className={cn(!canAct ? "opacity-50 text-slate-400" : undefined)}
-                          onClick={() => toast.message("RFA Released")}
+                          onClick={() => decideRfa('pass')}
                         >
                           Release
                         </Button>
@@ -2096,9 +2030,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                           disabled={!currentAuctionId}
                           onClick={() => {
                             if (!currentAuctionId) { toast.message("No open auction"); return }
-                            if (revealed && !tieTeams.includes(yourTeamId)) return
-                            setBidAmount("0")
-                            submitBid(0)
+                            if (revealed) return
+                            if (!!bidSubmitted[yourTeamId]) { cancelBid() } else { submitBid(0) }
                           }}
                         >
                           Pass
@@ -2130,27 +2063,21 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     />
                   </div>
                   {(() => {
-                    const isSubmitted = !!bidSubmitted[yourTeamId]
-                    const youInTie = revealed && tieTeams.includes(yourTeamId)
+                    const isSubmitted = !!bidSubmitted[yourTeamId] && !revealed
                     const disabled = !currentAuctionId
-                    const label = (isSubmitted && !revealed) ? "Cancel" : (youInTie ? "Re-Bid" : "Submit Bid")
+                    const label = isSubmitted ? "Cancel" : "Submit Bid"
                     const baseCls = "ml-2"
-                    const stateCls = youInTie
-                      ? "bg-orange-500 hover:bg-orange-600 text-white"
-                      : (isSubmitted && !revealed)
-                            ? "bg-rose-600 hover:bg-rose-700 text-white"
-                        : undefined
+                    const stateCls = isSubmitted
+                          ? "bg-rose-600 hover:bg-rose-700 text-white"
+                      : undefined
                     return (
                       <Button
                         className={cn(baseCls, stateCls, disabled ? "opacity-50 cursor-not-allowed" : undefined)}
                         disabled={disabled}
                         onClick={() => {
                           if (!currentAuctionId) return
-                          const isSub = !!bidSubmitted[yourTeamId]
-                          if (isSub && !revealed) {
-                            setBidSubmitted((prev) => ({ ...prev, [yourTeamId]: false }))
-                            setGmBids((prev) => { const cp = { ...prev }; delete cp[yourTeamId]; return cp })
-                            toast.message("Bid cancelled")
+                          if (isSubmitted) {
+                            cancelBid()
                             return
                           }
                           const amt = Math.floor(Number(bidAmount || "0"))
@@ -2166,7 +2093,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
               </div>
               {/* GM bid status */}
               <div className="mt-3">
-                <div className="text-xs text-slate-500 mb-1">GM Bids {revealed ? "(revealed)" : (revealTimer !== null ? `(revealing in ${revealTimer}s)` : "(hidden until all submit)")}</div>
+                <div className="text-xs text-slate-500 mb-1">GM Bids {revealed ? "(revealed)" : "(hidden until all submit)"}</div>
                 <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap py-1">
                   {teams.map((t) => {
                     const submitted = !!bidSubmitted[t.id]
@@ -3226,7 +3153,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                               size="sm"
                               variant="outline"
                               className="h-7 transition-colors hover:bg-blue-600 hover:text-white"
-                                onClick={() => nominatePlayerByProjection({ ...p, id: String((p as any).nhl_player_id || p.player || p.name || '') } as any)}
+                                onClick={() => nominatePlayerByProjection({ ...p, id: String((p as any)?.pool_id || (p as any)?.id || (p as any)?.nhl_player_id || p.player || p.name || '') } as any)}
                               >
                                 Nominate
                             </Button>
@@ -3956,7 +3883,17 @@ function Stat({ title, value }: { title: string; value: string }) {
   )
 }
 
-function DraftTopbarAuth() {
+function DraftTopbarAuth({
+  draftStatus = '',
+  draftStage = '',
+  isCommissioner = false,
+  activeNominationStatus = '',
+}: {
+  draftStatus?: string
+  draftStage?: string
+  isCommissioner?: boolean
+  activeNominationStatus?: string
+}) {
   const { user, teamMembership, logout } = useAuth()
   const [open, setOpen] = useState(false)
   const [impersonate, setImpersonate] = useState<string>("")
@@ -3974,42 +3911,75 @@ function DraftTopbarAuth() {
     }
     loadTeams()
   }, [])
+  const isAdmin = isCommissioner || teamMembership?.is_admin === true
+  const emit = (event: string) => {
+    try {
+      window.dispatchEvent(new CustomEvent(event, {}))
+    } catch {}
+  }
+  const stageLabel = draftStage ? ` · ${draftStage.replace('_', ' ')}` : ''
   return (
     <div className="flex items-center gap-3">
-      {user ? (
+      {isAdmin ? (
+        <div className="hidden md:flex items-center gap-2 text-sm">
+          <span className="text-xs text-slate-400 uppercase tracking-wide">
+            Draft: {(draftStatus || 'setup')}{stageLabel}
+          </span>
+          {draftStatus === 'setup' && (
+            <Button
+              size="sm"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              onClick={() => emit('uhhp:start')}
+            >
+              Start
+            </Button>
+          )}
+          {draftStatus === 'active' && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-yellow-400 text-yellow-300 hover:bg-yellow-900"
+              onClick={() => emit('uhhp:pause')}
+            >
+              Pause
+            </Button>
+          )}
+          {draftStatus === 'paused' && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-emerald-400 text-emerald-300 hover:bg-emerald-900"
+              onClick={() => emit('uhhp:resume')}
+            >
+              Resume
+            </Button>
+          )}
+          {activeNominationStatus === 'sealed_bidding' && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-amber-400 text-amber-300 hover:bg-amber-900"
+              onClick={() => emit('uhhp:reveal')}
+            >
+              Reveal
+            </Button>
+          )}
+          {user && (
+            <>
+              {teamMembership?.team_name && <span className="text-orange-400">{teamMembership.team_name}</span>}
+              <span className="text-gray-300">{user?.email}</span>
+              <Button onClick={() => logout()} variant="outline" size="sm" className="border-gray-600 text-gray-300 hover:bg-gray-800">
+                Logout
+              </Button>
+            </>
+          )}
+        </div>
+      ) : user ? (
         <div className="hidden md:flex items-center gap-3 text-sm">
           {teamMembership?.team_name && (
             <span className="text-orange-400">{teamMembership.team_name}</span>
           )}
           <span className="text-gray-300">{user?.email}</span>
-          {/* Admin-only Reveal button */}
-          {teamMembership?.is_admin && (
-            <Button
-              size="sm"
-              variant="outline"
-              className="mx-4 border-amber-400 text-amber-300 hover:bg-amber-900"
-              onClick={() => {
-                try {
-                  const evt = new CustomEvent('uhhp:reveal', {})
-                  window.dispatchEvent(evt)
-                } catch {}
-              }}
-            >
-              Reveal
-            </Button>
-          )}
-          {teamMembership?.is_admin && (
-            <Button
-              size="sm"
-              variant="outline"
-              className="border-emerald-400 text-emerald-300 hover:bg-emerald-900"
-              onClick={() => {
-                try { window.dispatchEvent(new CustomEvent('uhhp:finalize', {})) } catch {}
-              }}
-            >
-              Finalize
-            </Button>
-          )}
           <Button onClick={() => logout()} variant="outline" size="sm" className="border-gray-600 text-gray-300 hover:bg-gray-800">
             Logout
           </Button>

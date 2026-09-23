@@ -14,8 +14,10 @@ from src.auction.service import (
     cancel_bid,
     nominate_player,
     pass_remaining_nominations,
+    pause_draft,
     replace_bid,
     resolve_rfa,
+    resume_draft,
     reveal_nomination,
     submit_bid,
 )
@@ -156,13 +158,28 @@ def _serialize_team_bid(
     return response
 
 
-def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> APIRouter:
-    """Build the router without creating a circular import with ``main.py``."""
+def build_uhhp_auction_router(
+    current_user_dependency: Callable[..., Any],
+    broadcast: Optional[Callable[..., Any]] = None,
+) -> APIRouter:
+    """Build the router without creating a circular import with ``main.py``.
+
+    ``broadcast(slug, message)`` is an optional async WebSocket fan-out hook;
+    the live room ignores it when not provided (e.g. in tests).
+    """
 
     router = APIRouter(
         prefix="/api/cbs/league/{slug}/auction-2026",
         tags=["UHHP 2026 Auction"],
     )
+
+    async def _emit(slug: str, event: str, **extra: Any) -> None:
+        if broadcast is None:
+            return
+        try:
+            await broadcast(slug, {"event": event, **extra})
+        except Exception:
+            logger.warning("WS broadcast failed for %s", event, exc_info=True)
 
     @router.get("/state", response_model=dict)
     async def get_viewer_safe_state(
@@ -892,9 +909,37 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
         current_user: Any = Depends(current_user_dependency),
     ) -> Dict[str, Any]:
         """Commissioner activates the draft for the season."""
-        return _run_mutation(slug, draft_year, current_user, lambda session, draft, membership: (
+        result = _run_mutation(slug, draft_year, current_user, lambda session, draft, membership: (
             activate_draft(session, str(draft.id), actor_role=membership["role"])
         ))
+        await _emit(slug, "draft_activated")
+        return result
+
+    @router.post("/pause", response_model=dict)
+    async def pause_draft_endpoint(
+        slug: str,
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        """Commissioner pauses an active draft (blocks nominations and bids)."""
+        result = _run_mutation(slug, draft_year, current_user, lambda session, draft, membership: (
+            pause_draft(session, str(draft.id), actor_role=membership["role"])
+        ))
+        await _emit(slug, "draft_paused")
+        return result
+
+    @router.post("/resume", response_model=dict)
+    async def resume_draft_endpoint(
+        slug: str,
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        """Commissioner resumes a paused draft."""
+        result = _run_mutation(slug, draft_year, current_user, lambda session, draft, membership: (
+            resume_draft(session, str(draft.id), actor_role=membership["role"])
+        ))
+        await _emit(slug, "draft_resumed")
+        return result
 
     @router.post("/nominate", response_model=dict)
     async def nominate_endpoint(
@@ -904,7 +949,7 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
         current_user: Any = Depends(current_user_dependency),
     ) -> Dict[str, Any]:
         player_pool_id = str(_require_value(payload, "player_pool_id"))
-        return _run_mutation(
+        result = _run_mutation(
             slug, draft_year, current_user,
             lambda session, draft, membership: nominate_player(
                 session,
@@ -914,6 +959,8 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
                 player_pool_id=player_pool_id,
             ),
         )
+        await _emit(slug, "auction_nominated", player_pool_id=player_pool_id)
+        return result
 
     @router.post("/bids", response_model=dict)
     async def submit_bid_endpoint(
@@ -927,7 +974,7 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
         idempotency_key = str(payload.get("idempotency_key") or "")
         if not idempotency_key:
             idempotency_key = str(uuid_mod.uuid4().hex)
-        return _run_mutation(
+        result = _run_mutation(
             slug, draft_year, current_user,
             lambda session, draft, membership: submit_bid(
                 session,
@@ -938,6 +985,8 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
                 idempotency_key=idempotency_key,
             ),
         )
+        await _emit(slug, "bid_placed", nomination_id=nomination_id)
+        return result
 
     @router.post("/bids/replace", response_model=dict)
     async def replace_bid_endpoint(
@@ -951,7 +1000,7 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
         idempotency_key = str(payload.get("idempotency_key") or "")
         if not idempotency_key:
             idempotency_key = str(uuid_mod.uuid4().hex)
-        return _run_mutation(
+        result = _run_mutation(
             slug, draft_year, current_user,
             lambda session, draft, membership: replace_bid(
                 session,
@@ -962,6 +1011,8 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
                 idempotency_key=idempotency_key,
             ),
         )
+        await _emit(slug, "bid_replaced", nomination_id=nomination_id)
+        return result
 
     @router.post("/bids/cancel", response_model=dict)
     async def cancel_bid_endpoint(
@@ -974,7 +1025,7 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
         idempotency_key = str(payload.get("idempotency_key") or "")
         if not idempotency_key:
             idempotency_key = str(uuid_mod.uuid4().hex)
-        return _run_mutation(
+        result = _run_mutation(
             slug, draft_year, current_user,
             lambda session, draft, membership: cancel_bid(
                 session,
@@ -984,6 +1035,8 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
                 idempotency_key=idempotency_key,
             ),
         )
+        await _emit(slug, "bid_cancelled", nomination_id=nomination_id)
+        return result
 
     @router.post("/reveal", response_model=dict)
     async def reveal_endpoint(
@@ -994,7 +1047,7 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
     ) -> Dict[str, Any]:
         nomination_id = str(_require_value(payload, "nomination_id"))
         confirm_nonresponses = bool(payload.get("confirm_nonresponses", False))
-        return _run_mutation(
+        result = _run_mutation(
             slug, draft_year, current_user,
             lambda session, draft, membership: reveal_nomination(
                 session,
@@ -1004,6 +1057,8 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
                 confirm_nonresponses=confirm_nonresponses,
             ),
         )
+        await _emit(slug, "auction_revealed", nomination_id=nomination_id)
+        return result
 
     @router.post("/pass-remaining", response_model=dict)
     async def pass_remaining_endpoint(
@@ -1029,7 +1084,7 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
     ) -> Dict[str, Any]:
         nomination_id = str(_require_value(payload, "nomination_id"))
         decision = str(_require_value(payload, "decision"))
-        return _run_mutation(
+        result = _run_mutation(
             slug, draft_year, current_user,
             lambda session, draft, membership: resolve_rfa(
                 session,
@@ -1039,6 +1094,8 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
                 decision=decision,
             ),
         )
+        await _emit(slug, "rfa_decided", nomination_id=nomination_id, decision=decision)
+        return result
 
     return router
 

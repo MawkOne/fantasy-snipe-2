@@ -471,7 +471,9 @@ async def get_current_user(request: Request) -> FantasyUser:
 
 from src.api.uhhp_auction_routes import build_uhhp_auction_router
 
-app.include_router(build_uhhp_auction_router(get_current_user))
+app.include_router(
+    build_uhhp_auction_router(get_current_user, broadcast=ws_manager.broadcast)
+)
 
 
 @app.get("/")
