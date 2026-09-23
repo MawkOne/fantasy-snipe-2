@@ -466,6 +466,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   const [projPosByName, setProjPosByName] = useState<Record<string, string>>({})
   const [vorpById, setVorpById] = useState<Record<number, number>>({})
   const [vorpSalaryById, setVorpSalaryById] = useState<Record<number, number>>({})
+  const [vorpSalaryByName, setVorpSalaryByName] = useState<Record<string, number>>({})
   // Admin tools moved to Settings modal
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false)
   const [scoringRules, setScoringRules] = useState<any[] | null>(null)
@@ -1066,11 +1067,17 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
         const nextProjIdFP: Record<number, number> = {}
         const nextProjPosById: Record<number, string> = {}
         const nextProjPosByName: Record<string, string> = {}
+        const nextVorpById: Record<number, number> = {}
+        const nextVorpSalaryById: Record<number, number> = {}
+        const nextVorpSalaryByName: Record<string, number> = {}
         const nextRankings: Player[] = []
 
         all.forEach((it: any, idx: number) => {
           const pid = Number(it?.nhl_player_id)
           const st = String(it?.eligibility || '').toUpperCase()
+          const projObj = (it?.projection && typeof it.projection === 'object') ? it.projection : {}
+          const vorpVal = Number(projObj?.vorp ?? NaN)
+          const vorpSalVal = Number(projObj?.vorp_salary ?? NaN)
           if (Number.isFinite(pid) && pid > 0) {
             if (st === 'UFA' || st === 'RFA') {
               nextStatus[pid] = st
@@ -1079,6 +1086,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             nextAvailableSet.add(pid)
             const fpVal = it?.projected_fantasy_points
             if (typeof fpVal === 'number') nextProjIdFP[pid] = fpVal
+            if (Number.isFinite(vorpVal)) nextVorpById[pid] = vorpVal
+            if (Number.isFinite(vorpSalVal)) nextVorpSalaryById[pid] = vorpSalVal
             const positions = Array.isArray(it?.positions) ? it.positions : []
             const posRaw = String(positions[0] || '').toUpperCase()
             const pos = (posRaw === 'LW' || posRaw === 'RW') ? 'W' : posRaw
@@ -1092,8 +1101,19 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           const team = String(it?.nhl_team || '')
           const fpVal = it?.projected_fantasy_points
           if (name) {
-            nextFpMap[name.trim().toLowerCase()] = typeof fpVal === 'number' ? Number(fpVal) : 0
-            if (pos) nextProjPosByName[name.trim().toLowerCase()] = pos
+            const nameKey = name.trim().toLowerCase()
+            const normKey = normalizeName(name)
+            const fpN = typeof fpVal === 'number' ? Number(fpVal) : 0
+            nextFpMap[nameKey] = fpN
+            if (normKey && normKey !== nameKey) nextFpMap[normKey] = fpN
+            if (pos) {
+              nextProjPosByName[nameKey] = pos
+              if (normKey && normKey !== nameKey) nextProjPosByName[normKey] = pos
+            }
+            if (Number.isFinite(vorpSalVal)) {
+              nextVorpSalaryByName[nameKey] = vorpSalVal
+              if (normKey && normKey !== nameKey) nextVorpSalaryByName[normKey] = vorpSalVal
+            }
           }
           nextProj.push({
             nhl_player_id: Number.isFinite(pid) ? pid : undefined,
@@ -1101,8 +1121,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             pos,
             team,
             fp: typeof fpVal === 'number' ? Number(fpVal) : undefined,
-            vorp: undefined,
-            vorp_salary: undefined,
+            vorp: Number.isFinite(vorpVal) ? vorpVal : undefined,
+            vorp_salary: Number.isFinite(vorpSalVal) ? vorpSalVal : undefined,
           })
           nextRankings.push({
             id: String(it?.id || idx),
@@ -1123,6 +1143,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
         setProjPosById((prev) => ({ ...prev, ...nextProjPosById }))
         setProjPosByName((prev) => ({ ...prev, ...nextProjPosByName }))
         setFpMap((prev) => ({ ...prev, ...nextFpMap }))
+        setVorpById((prev) => ({ ...prev, ...nextVorpById }))
+        setVorpSalaryById((prev) => ({ ...prev, ...nextVorpSalaryById }))
+        setVorpSalaryByName((prev) => ({ ...prev, ...nextVorpSalaryByName }))
         // Only replace projections/rankings if the legacy API has not provided them
         setProjections((prev) => (Array.isArray(prev) && prev.length ? prev : nextProj))
         setRankings((prev) => (Array.isArray(prev) && prev.length ? prev : nextRankings))
@@ -1361,6 +1384,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           status: r?.status,
           team_abbr: (r as any)?.nhl_team_abbr || '',
           birthdate: (r as any)?.birthdate || null,
+          fp: (typeof (r as any)?.projected_fantasy_points === 'number' ? (r as any).projected_fantasy_points : undefined),
+          vorp_salary: ((r as any)?.vorp_salary != null ? Number((r as any).vorp_salary) : undefined),
         })
       }
       setStatusById(nextStatus)
@@ -1471,6 +1496,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             type: (r as any)?.status,
             team_abbr: (r as any)?.nhl_team_abbr || '',
             birthdate: (r as any)?.birthdate || null,
+            fp: (typeof (r as any)?.projected_fantasy_points === 'number' ? (r as any).projected_fantasy_points : undefined),
+            vorp_salary: ((r as any)?.vorp_salary != null ? Number((r as any).vorp_salary) : undefined),
           })
         }
         const stageTeams = (Array.isArray(data?.teams) ? data.teams as any[] : []).map((t) => ({
@@ -1525,6 +1552,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     type: p?.status,
                     team_abbr: p?.nhl_team_abbr || '',
                     birthdate: p?.birthdate || null,
+                    fp: (typeof p?.projected_fantasy_points === 'number' ? p.projected_fantasy_points : undefined),
+                    vorp_salary: (p?.vorp_salary != null ? Number(p.vorp_salary) : undefined),
                   })
                 }
               }
@@ -2287,6 +2316,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     type: p?.status || p?.type,
                     team_abbr: p?.team_abbr || p?.nhl_team_abbr || '',
                     birthdate: p?.birthdate || null,
+                    fp: (typeof p?.fp === 'number' ? p.fp : (typeof p?.projected_fantasy_points === 'number' ? p.projected_fantasy_points : undefined)),
+                    vorp: (typeof p?.vorp === 'number' ? p.vorp : undefined),
+                    vorp_salary: (p?.vorp_salary != null ? Number(p.vorp_salary) : undefined),
                   }))
                   const byPos: Record<string, any[]> = { C: [], W: [], F: [], D: [], G: [] }
                   const reserves: any[] = []
@@ -2509,7 +2541,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                         .map((p: any) => {
                                           const fpv = typeof p.fp === "number" ? p.fp : (fpMap[normalizeName(p.player)] || 0)
                                           const pid = Number(p?.nhl_player_id)
-                                          const vorpPrice = Number.isFinite(pid) ? clientVorpSalaryById[pid] : undefined
+                                          const vorpPrice = (vorpSalaryByName[normalizeName(String(p?.player || ''))] ?? (Number.isFinite(pid) ? clientVorpSalaryById[pid] : undefined))
                                           const price = (typeof vorpPrice === 'number' && vorpPrice > 0)
                                             ? vorpPrice
                                             : Math.max(2, Math.min(30, Math.round((fpv || 0) / 18)))
@@ -2617,8 +2649,12 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                   })()
                                   const fpKey = (playerName || "").toString().trim().toLowerCase()
                                   let fpVal = undefined as number | undefined
+                                  // Prefer the projection served on the roster row itself
+                                  if (typeof (pl as any)?.fp === 'number' && Number.isFinite((pl as any).fp)) {
+                                    fpVal = (pl as any).fp
+                                  }
                                   // Prefer ID-based FP when available
-                                  if (typeof pl?.nhl_player_id === 'number' && projIdFP[Number(pl.nhl_player_id)] != null) {
+                                  if (fpVal == null && typeof pl?.nhl_player_id === 'number' && projIdFP[Number(pl.nhl_player_id)] != null) {
                                     fpVal = projIdFP[Number(pl.nhl_player_id)]
                                   }
                                   if (fpVal == null && typeof fpMap[fpKey] === "number") {
@@ -2676,7 +2712,11 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                       <div className="px-3 py-2 text-sm text-center">{contractStr}</div>
                                       {(() => {
                                         const pid = Number((pl as any)?.nhl_player_id)
-                                        const vRaw = Number.isFinite(pid) ? (clientVorpSalaryById[pid] ?? (vorpSalaryById as any)?.[pid]) : undefined
+                                        const ownVorp = (pl as any)?.vorp_salary
+                                        const nameVorp = vorpSalaryByName[normalizeName(String((pl as any)?.player || ''))]
+                                        const vRaw = (typeof ownVorp === 'number' && Number.isFinite(ownVorp) && ownVorp > 0) ? ownVorp
+                                          : (typeof nameVorp === 'number' && nameVorp > 0) ? nameVorp
+                                          : (Number.isFinite(pid) ? (clientVorpSalaryById[pid] ?? (vorpSalaryById as any)?.[pid]) : undefined)
                                         const vPrice = (typeof vRaw === 'number' && Number.isFinite(vRaw) && vRaw > 0) ? Math.round(vRaw) : null
                                         return (
                                           <div className="px-3 py-2 text-sm font-semibold tabular-nums text-center">{vPrice != null ? `$${vPrice}` : '—'}</div>
@@ -2796,7 +2836,11 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                   <div className="px-3 py-2 text-sm text-center">{contractStr}</div>
                                   {(() => {
                                     const pid = Number((r as any)?.nhl_player_id)
-                                    const vRaw = Number.isFinite(pid) ? (clientVorpSalaryById[pid] ?? (vorpSalaryById as any)?.[pid]) : undefined
+                                    const ownVorp = (r as any)?.vorp_salary
+                                    const nameVorp = vorpSalaryByName[normalizeName(String((r as any)?.player || ''))]
+                                    const vRaw = (typeof ownVorp === 'number' && Number.isFinite(ownVorp) && ownVorp > 0) ? ownVorp
+                                      : (typeof nameVorp === 'number' && nameVorp > 0) ? nameVorp
+                                      : (Number.isFinite(pid) ? (clientVorpSalaryById[pid] ?? (vorpSalaryById as any)?.[pid]) : undefined)
                                     const vPrice = (typeof vRaw === 'number' && Number.isFinite(vRaw) && vRaw > 0) ? Math.round(vRaw) : null
                                     return (
                                       <div className="px-3 py-2 text-sm font-semibold tabular-nums text-center">{vPrice != null ? `$${vPrice}` : '—'}</div>
@@ -3117,7 +3161,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                           const fpStr = typeof fp === "number" ? fp.toFixed(1) : "—"
                           // Prefer VORP-calibrated price when available
                           const pid = Number((p as any)?.nhl_player_id)
-                          const vorpCalced = Number.isFinite(pid) ? (clientVorpSalaryById[pid] ?? (vorpSalaryById as any)?.[pid]) : undefined
+                          const nameVorp = vorpSalaryByName[normalizeName(String((p as any)?.player || ''))]
+                          const vorpCalced = (nameVorp ?? (Number.isFinite(pid) ? (clientVorpSalaryById[pid] ?? (vorpSalaryById as any)?.[pid]) : undefined))
                           const projPrice = (typeof vorpCalced === 'number' && vorpCalced > 0)
                             ? Math.round(vorpCalced)
                             : (typeof fp === 'number' ? Math.max(2, Math.min(22, Math.round(fp / 20))) : null)
