@@ -3443,6 +3443,11 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
         teams={Array.isArray(capTeams) ? capTeams : []}
         scoringRules={Array.isArray(scoringRules) ? scoringRules : []}
         onRefreshCaps={refreshCapSummary}
+        onUpdateTeamAdmin={(tid, isAdmin) => {
+          setCapTeams((prev) => (Array.isArray(prev)
+            ? prev.map((t: any) => String(t?.team_id) === String(tid) ? { ...t, is_admin: isAdmin } : t)
+            : prev))
+        }}
       />
     </div>
   )
@@ -3729,12 +3734,14 @@ function LeagueSettingsModal({
   teams,
   scoringRules,
   onRefreshCaps,
+  onUpdateTeamAdmin,
 }: {
   open: boolean
   onOpenChange: (o: boolean) => void
   teams: Array<{ team_id: string; team_name: string; owner_id?: string | null; owner_name?: string | null }>
   scoringRules: any[]
   onRefreshCaps: () => Promise<void>
+  onUpdateTeamAdmin?: (team_id: string, is_admin: boolean) => void
 }) {
   const [tab, setTab] = useState<'teams' | 'scoring' | 'history' | 'caps'>('teams')
   const [history, setHistory] = useState<any[]>([])
@@ -3817,6 +3824,21 @@ function LeagueSettingsModal({
     loadCaps()
     return () => { ignore = true }
   }, [open, tab])
+
+  // Persist the Admin flag immediately and propagate it so the system picks it up
+  const saveAdmin = async (tid: string, isAdmin: boolean) => {
+    setTeamsLocal((prev) => (prev || []).map((r: any) => String(r?.team_id) === String(tid) ? { ...r, is_admin: isAdmin } : r))
+    try {
+      const row = (teamsLocal || []).find((r: any) => String(r?.team_id) === String(tid))
+      const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/gm_credentials`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ creds: [{ team_id: String(tid), login: row?.login || row?.attached_email || null, password: row?._pwd || '', is_admin: isAdmin }] }),
+      })
+      toast.success(res.ok ? 'Admin setting saved' : 'Failed to save admin setting')
+    } catch { toast.error('Failed to save admin setting') }
+    onUpdateTeamAdmin?.(String(tid), isAdmin)
+  }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[98vw] sm:max-w-none w-[2200px] max-h-[85vh] overflow-auto" style={{ maxWidth: '98vw', width: '2200px' }}>
@@ -3836,7 +3858,7 @@ function LeagueSettingsModal({
               {/* Team links: every GM opens their own scoped URL */}
               <div className="rounded border">
                 <div className="px-3 py-2 border-b bg-slate-50 text-xs font-semibold text-slate-600 flex items-center justify-between gap-2">
-                  <div>Team Links — send each GM their own URL</div>
+                  <div>Team Links — send each GM their own URL <span className="font-normal text-slate-500">(Admin box = can control any team)</span></div>
                   <Button size="sm" variant="outline" onClick={async () => {
                     try {
                       const lines = (teamsLocal || []).map((t: any) =>
@@ -3851,8 +3873,17 @@ function LeagueSettingsModal({
                   {(teamsLocal || []).map((t: any) => {
                     const url = `${window.location.origin}/draft-room-uhhp?team=${encodeURIComponent(String(t.team_id))}`
                     return (
-                      <div key={String(t.team_id)} className="flex items-center gap-2 px-3 py-1.5">
-                        <span className="w-44 shrink-0 truncate text-sm">{t.team_name}</span>
+                      <div key={String(t.team_id)} className="flex items-center gap-3 px-3 py-1.5">
+                        <span className="w-36 shrink-0 truncate text-sm">{t.team_name}</span>
+                        <label className="flex items-center gap-1.5 text-xs text-slate-600 shrink-0" title="Admin: can act on behalf of every team">
+                          <input
+                            type="checkbox"
+                            className="h-4 w-4"
+                            checked={!!t.is_admin}
+                            onChange={(e) => saveAdmin(String(t.team_id), e.target.checked)}
+                          />
+                          Admin
+                        </label>
                         <span className="min-w-0 flex-1 truncate text-xs text-slate-500 font-mono" title={url}>{url}</span>
                         <Button size="sm" variant="outline" onClick={async () => {
                           try {
@@ -3868,20 +3899,19 @@ function LeagueSettingsModal({
                   )}
                 </div>
               </div>
-            <div className="rounded border">
-              <div className="grid grid-cols-[minmax(0,1fr)_220px_280px_240px_110px_140px] gap-3 items-center bg-slate-50 border-b text-xs font-semibold text-slate-600">
+            <div className="mt-3 rounded border">
+              <div className="grid grid-cols-[minmax(0,1fr)_220px_280px_240px_140px] gap-3 items-center bg-slate-50 border-b text-xs font-semibold text-slate-600">
                 <div className="px-3 py-2">Team (drag to reorder = Pick Order)</div>
                 <div className="px-3 py-2">Assign</div>
                 <div className="px-3 py-2">Login</div>
                 <div className="px-3 py-2">Password</div>
-                <div className="px-3 py-2">Admin</div>
                 <div className="px-3 py-2 text-right">Action</div>
               </div>
               <div>
                 {(teamsLocal || []).map((t: any, i: number) => (
                   <div
                     key={`${t.team_id}-${i}`}
-                    className="grid grid-cols-[minmax(0,1fr)_220px_280px_240px_110px_140px] gap-3 items-center border-b"
+                    className="grid grid-cols-[minmax(0,1fr)_220px_280px_240px_140px] gap-3 items-center border-b"
                     draggable
                     onDragStart={(e) => { e.dataTransfer.setData('text/plain', String(i)) }}
                     onDragOver={(e) => e.preventDefault()}
@@ -3954,14 +3984,6 @@ function LeagueSettingsModal({
                           const v = e.target.value
                           setTeamsLocal((prev) => prev.map((row, idx) => idx===i ? { ...row, _pwd: v } : row))
                         }}
-                      />
-                    </div>
-                    <div className="px-3 py-2">
-                      <input
-                        type="checkbox"
-                        className="h-4 w-4"
-                        checked={!!t.is_admin}
-                        onChange={(e) => setTeamsLocal((prev) => prev.map((row, idx) => idx===i ? { ...row, is_admin: e.target.checked } : row))}
                       />
                     </div>
                     <div className="px-3 py-2 text-right">
