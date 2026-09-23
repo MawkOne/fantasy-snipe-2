@@ -1,5 +1,7 @@
 ### UHHP Backend and API Plan (multi-pool, Kinde-auth)
 
+> **Implementation note:** Canonical 2026 auction behavior is defined in `docs/UHHP_AUCTION_RULES_2026.md` and `backend/config/uhhp_auction_rules_2026.json`. This plan remains useful for architecture and rotating tie-break order, but any conflicting open-bid or legacy API behavior is superseded.
+
 #### Goals
 - Support multiple independent pools (leagues) per season.
 - Split data stores: Railway (fantasy, read/write, realtime) and GCP Postgres (NHL historical, read-only).

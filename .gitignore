@@ -1,2 +1,17 @@
 node_modules/
 .next/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+!env.example
+public/gms.md
+
+# Python and TypeScript build artifacts
+__pycache__/
+*.py[cod]
+*.tsbuildinfo
+
+# macOS metadata
+.DS_Store

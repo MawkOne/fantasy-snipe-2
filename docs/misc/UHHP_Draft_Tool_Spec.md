@@ -1,5 +1,7 @@
 ## UHHP Draft Tool – Architecture and Implementation Spec
 
+> **Superseded auction mechanics:** This document contains an older open, increasing-bid timer design. For the canonical 2026 silent-auction behavior, use `docs/UHHP_AUCTION_RULES_2026.md` and `backend/config/uhhp_auction_rules_2026.json`. Where this file conflicts with those sources, the canonical 2026 rules take precedence.
+
 ### Goals
 - Build a robust auction draft tool for UHHP where GMs can join by email, participate live, manage budgets, and see cap impact in real time.
 - Support multiple projection lists (JSON) selectable per GM.

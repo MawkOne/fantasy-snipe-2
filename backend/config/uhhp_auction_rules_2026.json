@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "rules_version": "2026.1",
+  "league_slug": "uhhp",
+  "draft_year": 2026,
+  "status": "canonical",
+  "money": {
+    "whole_units_only": true,
+    "salary_cap": 100,
+    "over_cap_policy": "warning_only",
+    "minimum_positive_bid": 2,
+    "zero_bid_allowed": true,
+    "one_unit_bid_allowed": false
+  },
+  "contracts": {
+    "draft_acquisition_years": 3,
+    "winning_salary_source": "final_winning_bid"
+  },
+  "free_agency": {
+    "classification_requires_expired_contract": true,
+    "expired_contract_years_value": 0,
+    "age_cutoff": {
+      "month": 7,
+      "day": 1,
+      "timezone": "date_only",
+      "rfa_max_age": 26,
+      "ufa_min_age": 27
+    },
+    "rfa": {
+      "retains_controlling_team": true,
+      "match_required_after_positive_winning_bid": true,
+      "decision_timeout": null,
+      "decisions": [
+        "match",
+        "pass"
+      ]
+    },
+    "missing_birthdate_policy": "commissioner_review"
+  },
+  "stages": [
+    {
+      "key": "superstar",
+      "rounds": 1,
+      "nomination_order": "owner_by_owner",
+      "eligible_player_statuses": [
+        "UFA",
+        "RFA"
+      ]
+    },
+    {
+      "key": "ufa",
+      "rounds": 2,
+      "nomination_order": "owner_by_owner",
+      "eligible_player_statuses": [
+        "UFA"
+      ]
+    },
+    {
+      "key": "rfa_poaching",
+      "rounds": null,
+      "round_policy": "continue_until_all_eligible_gms_pass_or_rfas_exhausted",
+      "nomination_order": "owner_by_owner",
+      "eligible_player_statuses": [
+        "RFA"
+      ],
+      "nomination_pass": {
+        "permanent_for_stage": true,
+        "may_continue_bidding": true,
+        "may_match_owned_rfas": true
+      }
+    }
+  ],
+  "nomination": {
+    "one_active_auction_per_league": true,
+    "only_current_nominator_may_nominate": true,
+    "auction_opens_immediately_after_nomination": true
+  },
+  "sealed_bidding": {
+    "default_effective_bid": 0,
+    "non_response_effective_bid": 0,
+    "explicit_zero_bid_allowed": true,
+    "positive_bid_minimum": 2,
+    "positive_bids_must_be_whole_units": true,
+    "one_effective_bid_per_team": true,
+    "amounts_hidden_before_reveal": true,
+    "leading_team_hidden_before_reveal": true,
+    "gm_can_view_own_bid_before_reveal": true,
+    "cancel_before_reveal": true,
+    "replacement_after_cancel_before_reveal": true,
+    "changes_after_reveal": false,
+    "close_authority": "commissioner",
+    "all_responses_required_to_reveal": false,
+    "warn_commissioner_about_non_responses": true
+  },
+  "reveal": {
+    "server_authoritative": true,
+    "locks_bids_atomically": true,
+    "non_responses_become_zero": true,
+    "zero_submissions_and_non_responses_are_distinguishable_in_audit": true,
+    "pre_reveal_gm_status": "response_only_no_amount"
+  },
+  "no_sale": {
+    "condition": "highest_effective_bid_is_zero",
+    "award_player": false,
+    "create_contract": false,
+    "run_tie_break": false,
+    "player_remains_available": true,
+    "advance_nomination_order": true
+  },
+  "tie_break": {
+    "applies_only_to_positive_high_bid_ties": true,
+    "initial_order_source": "auction_nomination_order",
+    "winner_rule": "highest_priority_team_among_tied_teams",
+    "winning_salary": "tied_high_bid",
+    "after_win": "move_advantage_team_to_bottom",
+    "rebid": false,
+    "audit_required": true
+  },
+  "rfa_resolution": {
+    "positive_bid_transition": "rfa_match_pending",
+    "only_controlling_team_may_decide": true,
+    "commissioner_may_bypass": false,
+    "match_result_owner": "controlling_team",
+    "pass_result_owner": "highest_bidder",
+    "salary": "revealed_winning_bid",
+    "contract_years": 3,
+    "zero_high_bid_result": "no_sale"
+  },
+  "roster_compliance": {
+    "required_by": "week_1_start",
+    "required_during_draft": false,
+    "over_cap_during_draft_allowed": true,
+    "show_warnings": true,
+    "show_negative_cap_space": true
+  },
+  "special_roster_entries": {
+    "rookie": "protected_not_auction_eligible_unless_released",
+    "draft_pick_placeholder": "asset_not_player",
+    "cap_hit_placeholder": "cap_obligation_not_player"
+  },
+  "audit": {
+    "append_only": true,
+    "record_bid_submit": true,
+    "record_bid_cancel": true,
+    "record_bid_replacement": true,
+    "record_reveal": true,
+    "record_non_response": true,
+    "record_tie_resolution": true,
+    "record_rfa_decision": true,
+    "record_no_sale": true,
+    "record_commissioner_correction": true
+  },
+  "frontend": {
+    "canonical_route": "/draft-room-uhhp",
+    "preserve_existing_visual_design": true,
+    "gm_response_strip_location": "existing_gm_bids_section",
+    "remove_public_controlling_team_dropdown": true,
+    "response_icon_submitted": "check",
+    "response_icon_waiting": "neutral",
+    "show_bid_amounts_after_reveal_only": true
+  },
+  "data_sources": {
+    "rosters": "public/fantasy_hockey_rosters_2026_structured.json",
+    "skater_projections": "public/uhhp-sept-22.csv",
+    "goalie_projections": "public/goalies.csv",
+    "gm_directory": "public/gms.md"
+  }
+}

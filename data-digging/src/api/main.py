@@ -123,54 +123,55 @@ class KindeAuth:
     """Kinde authentication handler"""
     
     def __init__(self):
-        self.domain = KINDE_DOMAIN
+        self.domain = (KINDE_DOMAIN or "").strip().removeprefix("https://").rstrip("/")
         self.client_id = KINDE_CLIENT_ID
         self.client_secret = KINDE_CLIENT_SECRET
         self.audience = KINDE_AUDIENCE
-    
+        self._jwks_client = None
+
     def verify_token(self, token: str) -> Dict[str, Any]:
-        """Verify Kinde JWT token"""
+        """Verify a Kinde RS256 JWT against the issuer's current signing key."""
+        if not self.domain:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="Kinde authentication is not configured",
+            )
         try:
-            # Decode token without verification first to get the issuer
             unverified_payload = jwt.decode(token, options={"verify_signature": False})
-            issuer = unverified_payload.get("iss")
-            
-            if not issuer or not issuer.startswith(f"https://{self.domain}"):
+            expected_issuer = f"https://{self.domain}"
+            if unverified_payload.get("iss") != expected_issuer:
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Invalid token issuer"
+                    detail="Invalid token issuer",
                 )
-            
-            # Get the public key from Kinde
-            jwks_url = f"https://{self.domain}/.well-known/jwks.json"
-            import requests
-            jwks_response = requests.get(jwks_url)
-            jwks_response.raise_for_status()
-            jwks = jwks_response.json()
-            
-            # Verify the token
-            payload = jwt.decode(
+
+            if self._jwks_client is None:
+                self._jwks_client = jwt.PyJWKClient(
+                    f"{expected_issuer}/.well-known/jwks.json",
+                    cache_keys=True,
+                )
+            signing_key = self._jwks_client.get_signing_key_from_jwt(token).key
+            return jwt.decode(
                 token,
-                jwks,
+                signing_key,
                 algorithms=["RS256"],
                 audience=self.audience,
-                issuer=f"https://{self.domain}"
+                issuer=expected_issuer,
             )
-            
-            return payload
-            
-        except jwt.InvalidTokenError as e:
-            logger.error(f"Token verification failed: {e}")
+        except HTTPException:
+            raise
+        except jwt.InvalidTokenError as exc:
+            logger.warning("Kinde token verification failed: %s", type(exc).__name__)
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid token"
-            )
-        except Exception as e:
-            logger.error(f"Authentication error: {e}")
+                detail="Invalid token",
+            ) from exc
+        except Exception as exc:
+            logger.error("Kinde authentication failed: %s", type(exc).__name__)
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Authentication failed"
-            )
+                detail="Authentication failed",
+            ) from exc
 
 # Initialize Kinde auth (kept for future use but not required for current user-scoped endpoints)
 kinde_auth = KindeAuth()
@@ -381,6 +382,97 @@ async def get_current_site_user(request: Request) -> Dict[str, Any]:
         if not row or getattr(row, 'is_active', False) is False:
             raise HTTPException(status_code=401, detail="invalid_api_key")
         return {"id": int(row.id), "email": str(row.email)}
+
+
+async def get_current_user(request: Request) -> FantasyUser:
+    """Authenticate the current fantasy user via Kinde JWT or site API key."""
+    auth = request.headers.get("authorization", "")
+    api_key = request.headers.get("x-api-key", "")
+
+    if auth.lower().startswith("bearer "):
+        token = auth.split(" ", 1)[1].strip()
+        try:
+            payload = kinde_auth.verify_token(token)
+        except HTTPException:
+            raise
+        except Exception as exc:
+            logger.warning("Kinde token verification failed: %s", type(exc).__name__)
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid authentication token",
+            ) from exc
+
+        subject = str(payload.get("sub") or "").strip()
+        email = str(payload.get("email") or "").strip().lower()
+        if not subject or not email:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Authentication token is missing subject or email",
+            )
+        with get_fantasy_session() as session:
+            user = session.query(FantasyUser).filter(
+                FantasyUser.external_auth_id == subject
+            ).first()
+            if not user:
+                user = session.query(FantasyUser).filter(FantasyUser.email == email).first()
+            if not user:
+                user = FantasyUser(
+                    external_auth_id=subject,
+                    email=email,
+                    display_name=str(payload.get("name") or "").strip() or None,
+                    is_active=True,
+                    is_verified=True,
+                    email_verified=True,
+                )
+                session.add(user)
+            else:
+                user.external_auth_id = subject
+            session.flush()
+            if not user.is_active:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="User account is inactive",
+                )
+            session.expunge(user)
+            return user
+
+    if not api_key and auth.lower().startswith("apikey "):
+        api_key = auth.split(" ", 1)[1].strip()
+    if api_key:
+        from sqlalchemy import text as sa_text
+        with get_fantasy_session() as session:
+            row = session.execute(sa_text(
+                "SELECT id, email FROM site_users WHERE api_key = :key AND is_active = TRUE"
+            ), {"key": api_key}).fetchone()
+            if row:
+                email = str(row.email).strip().lower()
+                user = session.query(FantasyUser).filter(FantasyUser.email == email).first()
+                if not user:
+                    user = FantasyUser(
+                        email=email,
+                        is_active=True,
+                        external_auth_id=f"site:{row.id}",
+                    )
+                    session.add(user)
+                    session.flush()
+                if not user.is_active:
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail="User account is inactive",
+                    )
+                session.expunge(user)
+                return user
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Authentication required",
+    )
+
+
+from src.api.uhhp_auction_routes import build_uhhp_auction_router
+
+app.include_router(build_uhhp_auction_router(get_current_user))
+
 
 # Health check endpoint
 @app.get("/health")
@@ -4799,72 +4891,6 @@ async def list_content_assets(job_id: int) -> Dict[str, Any]:
 # ============================================================
 
 import json as _json
-
-async def get_current_user(request: Request) -> FantasyUser:
-    """Authenticate current user via Kinde JWT or API key fallback."""
-    auth = request.headers.get('authorization', '')
-    api_key = request.headers.get('x-api-key', '')
-    
-    # Try Kinde JWT auth first (Bearer token)
-    if auth.lower().startswith('bearer '):
-        try:
-            token = auth.split(' ', 1)[1].strip()
-            payload = kinde_auth.verify_token(token)
-            sub = payload.get('sub', '')
-            email = payload.get('email', '').lower()
-            with get_fantasy_session() as session:
-                user = session.query(FantasyUser).filter(
-                    FantasyUser.external_auth_id == sub
-                ).first()
-                if user and user.is_active:
-                    return user
-                # Create user if first time
-                if email:
-                    user = session.query(FantasyUser).filter(
-                        FantasyUser.email == email
-                    ).first()
-                    if user:
-                        user.external_auth_id = sub
-                        session.flush()
-                        return user
-                    user = FantasyUser(
-                        external_auth_id=sub, email=email or f'{sub}@kinde.com',
-                        display_name=payload.get('name', ''),
-                        is_active=True, is_verified=True, email_verified=True
-                    )
-                    session.add(user)
-                    session.flush()
-                    return user
-        except Exception:
-            pass
-    
-    # Fallback: site user API key auth
-    if not api_key:
-        if auth.lower().startswith('apikey '):
-            api_key = auth.split(' ', 1)[1].strip()
-    if api_key:
-        from sqlalchemy import text as sa_text
-        with get_fantasy_session() as session:
-            row = session.execute(sa_text(
-                "SELECT id, email FROM site_users WHERE api_key = :k AND is_active = true"),
-                {"k": api_key}
-            ).fetchone()
-            if row:
-                user = session.query(FantasyUser).filter(
-                    FantasyUser.email == row.email
-                ).first()
-                if user:
-                    return user
-                # Create fantasy user for site user
-                user = FantasyUser(
-                    email=row.email, is_active=True,
-                    external_auth_id=f'site:{row.id}'
-                )
-                session.add(user)
-                session.flush()
-                return user
-    
-    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication required")
 
 # --- Commissioner auth middleware ---
 def _require_commissioner(
