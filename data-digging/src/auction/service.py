@@ -1281,12 +1281,14 @@ def reveal_nomination(
     # A positive tie starts the tie-break re-bid round; nothing concludes yet.
     if result.tie_was_resolved and result.winner is not None:
         tied_ids = [str(t) for t in result.audit.tie_break.tied_teams]
+        # high_bid_amount/team stay NULL (the DB requires a team when amount
+        # is non-zero); the tied amount lives in the outcome JSON instead.
         session.execute(
             text(
                 """
                 UPDATE uhhp_auction_nominations
                    SET status = 'tie_break_bidding', revealed_at = :revealed_at,
-                       high_bid_team_id = NULL, high_bid_amount = :amount,
+                       high_bid_team_id = NULL, high_bid_amount = NULL,
                        winning_team_id = NULL, winning_bid_amount = NULL,
                        outcome = CAST(:outcome AS JSONB),
                        version = version + 1, updated_at = NOW()
@@ -1295,7 +1297,6 @@ def reveal_nomination(
             ),
             {
                 "revealed_at": _now(),
-                "amount": int(high_bid),
                 "outcome": json.dumps({
                     "result": "tie_break_bidding",
                     "tie_break": {"amount": int(high_bid), "team_ids": tied_ids, "round": 1},
