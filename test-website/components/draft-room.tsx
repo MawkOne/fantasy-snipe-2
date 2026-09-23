@@ -401,25 +401,29 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     return null
   }, [auctionState?.viewer?.team_id, teamMembership?.team_id])
 
-  // Admins (commissioner role, Kinde admin, or the own-team Admin checkbox in
-  // League Settings) can act on behalf of every team; everyone else is locked
-  // to their own team in the controlling-team dropdown.
+  // Admins (Kinde admin, or the own-team 'Admin' checkbox in League
+  // Settings) can act on behalf of every team; everyone else is locked to
+  // their own team in the controlling-team dropdown.
   const canControlAnyTeam = useMemo(() => {
-    if (auctionState?.viewer?.is_commissioner) return true
     if (teamMembership?.is_admin) return true
     if (viewerTeamId && Array.isArray(capTeams)) {
       const row = capTeams.find((t: any) => String(t?.team_id) === viewerTeamId)
       if (row && row.is_admin) return true
     }
     return false
-  }, [auctionState?.viewer?.is_commissioner, teamMembership?.is_admin, viewerTeamId, capTeams])
+  }, [teamMembership?.is_admin, viewerTeamId, capTeams])
 
-  // Non-admins are always clamped to their own team (a ?team= URL cannot
-  // override their identity).
+  // Non-admins are locked to the team in the URL (?team=) if present,
+  // otherwise their own team (a ?team= URL cannot switch teams beyond that).
   useEffect(() => {
     if (canControlAnyTeam) return
-    if (viewerTeamId && selectedTeamId !== viewerTeamId) {
-      setSelectedTeamId(viewerTeamId)
+    let lockTo: string | null = null
+    try {
+      lockTo = new URLSearchParams(window.location.search).get('team')
+    } catch {}
+    if (!lockTo) lockTo = viewerTeamId
+    if (lockTo && selectedTeamId !== lockTo) {
+      setSelectedTeamId(lockTo)
     }
   }, [canControlAnyTeam, viewerTeamId, selectedTeamId])
 
@@ -1878,10 +1882,11 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                 <select
                   disabled
                   className="h-8 bg-slate-800 border border-slate-700 text-white text-sm rounded px-2 opacity-80"
-                  value={viewerTeamId || ''}
+                  value={selectedTeamId || viewerTeamId || ''}
                 >
-                  <option value={viewerTeamId || ''}>
-                    {(Array.isArray(capTeams) ? capTeams : []).find((t: any) => String(t?.team_id) === (viewerTeamId || ''))?.team_name || viewerTeamId || '—'}
+                  <option value={selectedTeamId || viewerTeamId || ''}>
+                    {(Array.isArray(capTeams) ? capTeams : []).find((t: any) => String(t?.team_id) === (selectedTeamId || viewerTeamId || ''))?.team_name
+                      || (selectedTeamId || viewerTeamId || '—')}
                   </option>
                 </select>
               )}
