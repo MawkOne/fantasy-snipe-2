@@ -40,6 +40,7 @@ type Pick = {
 type Team = {
   id: string
   name: string
+  abbrev?: string
   needs?: string[]
 }
 
@@ -169,7 +170,11 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   // Real league teams from draft_state capTeams
   const teams: Team[] = useMemo(() => {
     if (Array.isArray(capTeams) && capTeams.length) {
-      return capTeams.map((t: any) => ({ id: String(t.team_id), name: String(t.team_name) }))
+      return capTeams.map((t: any) => ({
+        id: String(t.team_id),
+        name: String(t.team_name),
+        abbrev: String(t?.abbrev || ''),
+      }))
     }
     return []
   }, [capTeams])
@@ -1187,6 +1192,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
         map[abbrRaw] = url
       } else {
         const derived = teamAbbr((t?.team_name || "").toString())
+        const real = (t?.abbrev || "").toString().trim()
+        if (real) map[real] = url
         if (derived) map[derived] = url
       }
     }
@@ -2190,7 +2197,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     const hasAdv = revealed && tieAdvantageTeamId === t.id && isTie
                     const displayName = nameById[t.id] || t.name
                     const normName = (displayName || "").toString().trim().toLowerCase()
-                    const logoUrl = logoByTeamName[normName] || logoByAbbr[teamAbbr(displayName)]
+                    const logoUrl = logoByTeamName[normName] || logoByAbbr[String((t as any)?.abbrev || '')] || logoByAbbr[teamAbbr(displayName)]
                     return (
                       <div key={t.id} className="inline-flex items-center flex-col">
                         {logoUrl ? (
@@ -2214,7 +2221,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                           )}
                             title={displayName}
                         >
-                            {teamAbbr(displayName)}
+                            {(t as any)?.abbrev || teamAbbr(displayName)}
                         </div>
                         )}
                         {!revealed && (
@@ -2266,7 +2273,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                           <th className="text-left px-3 py-2">Nominator</th>
                           <th className="text-left px-3 py-2">Winner</th>
                           {teams.map((t) => (
-                            <th key={t.id} className="text-right px-2 py-2 whitespace-nowrap">{teamAbbr(t.name)}</th>
+                            <th key={t.id} className="text-right px-2 py-2 whitespace-nowrap">{(t as any)?.abbrev || teamAbbr(t.name)}</th>
                           ))}
                         </tr>
                       </thead>
