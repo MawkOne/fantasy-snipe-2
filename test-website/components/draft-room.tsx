@@ -1601,10 +1601,10 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     }
   }, [rankings, vorpById, stage1Teams])
   const uhhpFilled50 = useMemo(() => {
-    // Build 50 slots; completed auction results fill the numbered slots first,
+    // Build 75 slots; completed auction results fill the numbered slots first,
     // then the current nomination, then the pending rotation.
     const list: Array<{ kind: "taken" | "pending" | "nominated"; data?: any; team?: string }> = []
-    const total = 50
+    const total = 75
     const history = Array.isArray(resultsHistory) ? resultsHistory : []
     const takenCount = Math.min(history.length, total)
     for (let i = 0; i < takenCount; i++) {
@@ -1630,7 +1630,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   useEffect(() => {
     try {
       const taken = Array.isArray(resultsHistory) ? resultsHistory.length : 0
-      const idx = Math.max(1, Math.min(50, taken + 1))
+      const idx = Math.max(1, Math.min(75, taken + 1))
       setCurrentPickNum(idx)
     } catch {}
   }, [resultsHistory, nominated])
