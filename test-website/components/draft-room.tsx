@@ -2188,7 +2188,6 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
               </div>
               {/* GM bid status */}
               <div className="mt-3">
-                <div className="text-xs text-slate-500 mb-1">GM Bids {revealed ? "(revealed)" : "(hidden until all submit)"}</div>
                 <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap py-1">
                   {teams.map((t) => {
                     const submitted = !!bidSubmitted[t.id]
