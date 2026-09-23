@@ -1868,7 +1868,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                           </span>
                                         ) : null}
                                         {teamName ? (
-                                          <div className="text-[12px] text-slate-600 break-words">{teamName}</div>
+                                          <div className="text-[12px] text-slate-600 truncate" title={teamName}>{teamName}</div>
                                         ) : null}
                                       </div>
                                     </>
@@ -1889,12 +1889,12 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                   >
                                     {entry.data?.pos || ""}
                                   </span>
-                                  <div className="text-[12px] text-slate-600 break-words">{nameById[String(entry.team || "")] || ""}</div>
+                                  <div className="text-[12px] text-slate-600 truncate" title={String(nameById[String(entry.team || "")] || "")}>{nameById[String(entry.team || "")] || ""}</div>
                                 </div>
                               </>
                             ) : (
                               <>
-                                <div className="text-[12px] text-slate-600 break-words">{nameById[String(entry.team || "")] || ""}</div>
+                                <div className="text-[12px] text-slate-600 truncate" title={String(nameById[String(entry.team || "")] || "")}>{nameById[String(entry.team || "")] || ""}</div>
                               </>
                             )}
                           </div>
