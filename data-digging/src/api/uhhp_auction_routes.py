@@ -3,11 +3,22 @@
 from __future__ import annotations
 
 import logging
+import uuid as uuid_mod
 from typing import Any, Callable, Dict, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import text
 
+from src.auction.service import (
+    activate_draft,
+    cancel_bid,
+    nominate_player,
+    pass_remaining_nominations,
+    replace_bid,
+    resolve_rfa,
+    reveal_nomination,
+    submit_bid,
+)
 from src.database.fantasy_connection import get_fantasy_session
 
 logger = logging.getLogger(__name__)
@@ -623,4 +634,202 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
                 "players": players,
             }
 
+    # ------------------------------------------------------------------
+    # Mutations
+    # ------------------------------------------------------------------
+
+    @router.post("/activate", response_model=dict)
+    async def activate_draft_endpoint(
+        slug: str,
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        """Commissioner activates the draft for the season."""
+        return _run_mutation(slug, draft_year, current_user, lambda session, draft, membership: (
+            activate_draft(session, str(draft.id), actor_role=membership["role"])
+        ))
+
+    @router.post("/nominate", response_model=dict)
+    async def nominate_endpoint(
+        slug: str,
+        payload: Dict[str, Any],
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        player_pool_id = str(_require_value(payload, "player_pool_id"))
+        return _run_mutation(
+            slug, draft_year, current_user,
+            lambda session, draft, membership: nominate_player(
+                session,
+                draft_id=str(draft.id),
+                actor_team_id=membership["team_id"],
+                actor_role=membership["role"],
+                player_pool_id=player_pool_id,
+            ),
+        )
+
+    @router.post("/bids", response_model=dict)
+    async def submit_bid_endpoint(
+        slug: str,
+        payload: Dict[str, Any],
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        nomination_id = str(_require_value(payload, "nomination_id"))
+        amount = payload.get("amount", 0)
+        idempotency_key = str(payload.get("idempotency_key") or "")
+        if not idempotency_key:
+            idempotency_key = str(uuid_mod.uuid4().hex)
+        return _run_mutation(
+            slug, draft_year, current_user,
+            lambda session, draft, membership: submit_bid(
+                session,
+                draft_id=str(draft.id),
+                nomination_id=nomination_id,
+                actor_team_id=membership["team_id"],
+                amount=amount,
+                idempotency_key=idempotency_key,
+            ),
+        )
+
+    @router.post("/bids/replace", response_model=dict)
+    async def replace_bid_endpoint(
+        slug: str,
+        payload: Dict[str, Any],
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        nomination_id = str(_require_value(payload, "nomination_id"))
+        amount = payload.get("amount", 0)
+        idempotency_key = str(payload.get("idempotency_key") or "")
+        if not idempotency_key:
+            idempotency_key = str(uuid_mod.uuid4().hex)
+        return _run_mutation(
+            slug, draft_year, current_user,
+            lambda session, draft, membership: replace_bid(
+                session,
+                draft_id=str(draft.id),
+                nomination_id=nomination_id,
+                actor_team_id=membership["team_id"],
+                amount=amount,
+                idempotency_key=idempotency_key,
+            ),
+        )
+
+    @router.post("/bids/cancel", response_model=dict)
+    async def cancel_bid_endpoint(
+        slug: str,
+        payload: Dict[str, Any],
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        nomination_id = str(_require_value(payload, "nomination_id"))
+        idempotency_key = str(payload.get("idempotency_key") or "")
+        if not idempotency_key:
+            idempotency_key = str(uuid_mod.uuid4().hex)
+        return _run_mutation(
+            slug, draft_year, current_user,
+            lambda session, draft, membership: cancel_bid(
+                session,
+                draft_id=str(draft.id),
+                nomination_id=nomination_id,
+                actor_team_id=membership["team_id"],
+                idempotency_key=idempotency_key,
+            ),
+        )
+
+    @router.post("/reveal", response_model=dict)
+    async def reveal_endpoint(
+        slug: str,
+        payload: Dict[str, Any],
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        nomination_id = str(_require_value(payload, "nomination_id"))
+        confirm_nonresponses = bool(payload.get("confirm_nonresponses", False))
+        return _run_mutation(
+            slug, draft_year, current_user,
+            lambda session, draft, membership: reveal_nomination(
+                session,
+                draft_id=str(draft.id),
+                nomination_id=nomination_id,
+                actor_role=membership["role"],
+                confirm_nonresponses=confirm_nonresponses,
+            ),
+        )
+
+    @router.post("/pass-remaining", response_model=dict)
+    async def pass_remaining_endpoint(
+        slug: str,
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        return _run_mutation(
+            slug, draft_year, current_user,
+            lambda session, draft, membership: pass_remaining_nominations(
+                session,
+                draft_id=str(draft.id),
+                actor_team_id=membership["team_id"],
+            ),
+        )
+
+    @router.post("/rfa-decision", response_model=dict)
+    async def rfa_decision_endpoint(
+        slug: str,
+        payload: Dict[str, Any],
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        nomination_id = str(_require_value(payload, "nomination_id"))
+        decision = str(_require_value(payload, "decision"))
+        return _run_mutation(
+            slug, draft_year, current_user,
+            lambda session, draft, membership: resolve_rfa(
+                session,
+                draft_id=str(draft.id),
+                nomination_id=nomination_id,
+                actor_team_id=membership["team_id"],
+                decision=decision,
+            ),
+        )
+
     return router
+
+
+def _require_value(payload: Dict[str, Any], key: str) -> Any:
+    value = payload.get(key)
+    if value is None or str(value).strip() == "":
+        raise HTTPException(status_code=400, detail=f"{key} is required")
+    return value
+
+
+def _run_mutation(slug: str, draft_year: int, current_user: Any, fn: Any) -> Dict[str, Any]:
+    """Resolve league/draft/membership, then run a mutation handler."""
+    from src.auction.service import AuctionServiceError
+    with get_fantasy_session() as session:
+        if not _schema_ready(session):
+            raise HTTPException(status_code=503, detail="UHHP auction schema is not installed")
+        league = session.execute(
+            text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug LIMIT 1"),
+            {"slug": slug},
+        ).fetchone()
+        if not league:
+            raise HTTPException(status_code=404, detail="League not found")
+        draft = session.execute(
+            text(
+                """
+                SELECT id, league_id, draft_year, status, stage, stage_round, version
+                  FROM uhhp_auction_drafts
+                 WHERE league_id = :league_id AND draft_year = :draft_year
+                 LIMIT 1
+                """
+            ),
+            {"league_id": int(league.id), "draft_year": int(draft_year)},
+        ).fetchone()
+        if not draft:
+            raise HTTPException(status_code=404, detail="Auction draft not initialized")
+        membership = _resolve_membership(session, int(league.id), current_user)
+        try:
+            return fn(session, draft, membership)
+        except AuctionServiceError as exc:
+            raise HTTPException(status_code=exc.http_status, detail=str(exc)) from exc
