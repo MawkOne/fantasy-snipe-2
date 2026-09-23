@@ -162,45 +162,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   // capTeams must be declared before teams
   const [capTeams, setCapTeams] = useState<any[] | null>(null)
   // Public mode: allow a visitor to select which team they control for writes
+  // (no persistence — the authenticated viewer team is preferred for writes)
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null)
-  useEffect(() => {
-    try {
-      const v = localStorage.getItem('uhhp_action_team_id')
-      if (v) setSelectedTeamId(v)
-    } catch {}
-  }, [])
-  useEffect(() => {
-    try {
-      if (selectedTeamId) localStorage.setItem('uhhp_action_team_id', selectedTeamId)
-    } catch {}
-  }, [selectedTeamId])
-  // Resolve an actionable team_id for write actions (nominate/bid)
-  const actionTeamId: string | null = useMemo(() => {
-    try {
-      if (selectedTeamId) return String(selectedTeamId)
-      if (teamMembership?.team_id) return String(teamMembership.team_id)
-      // Fallback by team name when present
-      const tn = (teamMembership as any)?.team_name
-      if (tn && Array.isArray(capTeams)) {
-        const hit = capTeams.find((t: any) => (t?.team_name || '') === tn)
-        if (hit?.team_id != null) return String(hit.team_id)
-      }
-      // Fallback by user email against login/attached_email
-      const email = (user as any)?.email
-      if (email && Array.isArray(capTeams)) {
-        const hit = capTeams.find((t: any) => (t?.login === email) || (t?.attached_email === email))
-        if (hit?.team_id != null) return String(hit.team_id)
-      }
-    } catch {}
-    return null
-  }, [selectedTeamId, teamMembership?.team_id, (teamMembership as any)?.team_name, (user as any)?.email, capTeams])
-
-  // If no selection yet and teams are loaded, default to the first team
-  useEffect(() => {
-    if (!selectedTeamId && Array.isArray(capTeams) && capTeams.length) {
-      setSelectedTeamId(String(capTeams[0].team_id))
-    }
-  }, [capTeams, selectedTeamId])
   // ... existing code ...
 
   // Real league teams from draft_state capTeams
@@ -236,15 +199,6 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   // current pick index (0-based). You are 1.10 (index 9)
   const [currentIdx, setCurrentIdx] = useState(9)
   const currentPick = picks[currentIdx]
-  const yourTeamId = useMemo(() => {
-    // Use attached team if available
-    try {
-      // Lazy import auth to avoid re-ordering
-    } catch {}
-    // Fallback to first team
-    return teams[0]?.id || ""
-  }, [teams])
-  const isYouOnClock = currentPick?.teamId === yourTeamId
 
   // Timer state (30s countdown with pause)
   const [timeLeft, setTimeLeft] = useState<number>(30)
@@ -387,6 +341,42 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     // Legacy shape fallback
     return auctionState?.open_auctions?.[0]?.id ?? null
   }, [auctionState])
+
+  // Resolve an actionable team_id for write actions (nominate/bid): explicit
+  // dropdown choice wins, otherwise the authenticated viewer's team.
+  const actionTeamId: string | null = useMemo(() => {
+    try {
+      if (selectedTeamId) return String(selectedTeamId)
+      const viewerTeam = auctionState?.viewer?.team_id
+      if (viewerTeam) return String(viewerTeam)
+      if (teamMembership?.team_id) return String(teamMembership.team_id)
+      const tn = (teamMembership as any)?.team_name
+      if (tn && Array.isArray(capTeams)) {
+        const hit = capTeams.find((t: any) => (t?.team_name || '') === tn)
+        if (hit?.team_id != null) return String(hit.team_id)
+      }
+      const email = (user as any)?.email
+      if (email && Array.isArray(capTeams)) {
+        const hit = capTeams.find((t: any) => (t?.login === email) || (t?.attached_email === email))
+        if (hit?.team_id != null) return String(hit.team_id)
+      }
+    } catch {}
+    return null
+  }, [selectedTeamId, auctionState?.viewer?.team_id, teamMembership?.team_id, (teamMembership as any)?.team_name, (user as any)?.email, capTeams])
+
+  // Only auto-default to the first team when there is no authenticated team
+  useEffect(() => {
+    if (!selectedTeamId && !auctionState?.viewer?.team_id && !teamMembership?.team_id && Array.isArray(capTeams) && capTeams.length) {
+      setSelectedTeamId(String(capTeams[0].team_id))
+    }
+  }, [capTeams, selectedTeamId, auctionState?.viewer?.team_id, teamMembership?.team_id])
+
+  const yourTeamId = useMemo(() => {
+    if (auctionState?.viewer?.team_id) return String(auctionState.viewer.team_id)
+    if (teamMembership?.team_id) return String(teamMembership.team_id)
+    return teams[0]?.id || ""
+  }, [auctionState?.viewer?.team_id, teamMembership?.team_id, teams])
+  const isYouOnClock = currentPick?.teamId === yourTeamId
 
   // All responders submitted = every team in the active nomination has a bid
   const allSubmitted = useMemo(() => {
