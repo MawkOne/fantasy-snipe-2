@@ -642,7 +642,10 @@ def submit_bid(
     if nomination.status != "sealed_bidding":
         raise AuctionServiceError("Bidding is not open for this nomination", 409)
 
-    validated = validate_bid(int(amount)) if isinstance(amount, (int, float, str)) else validate_bid(amount)
+    try:
+        validated = validate_bid(int(amount)) if isinstance(amount, (int, float, str)) else validate_bid(amount)
+    except (BidValidationError, TypeError, ValueError) as exc:
+        raise AuctionServiceError("Invalid bid amount: " + str(exc), 400) from exc
 
     prior = _bid_target_exists(session, nomination_id, actor_team_id)
     if prior is not None:
@@ -699,7 +702,10 @@ def replace_bid(
     nomination = _load_nomination(session, nomination_id)
     if nomination.status != "sealed_bidding":
         raise AuctionServiceError("Bidding is not open for this nomination", 409)
-    validated = validate_bid(int(amount)) if isinstance(amount, (int, float, str)) else validate_bid(amount)
+    try:
+        validated = validate_bid(int(amount)) if isinstance(amount, (int, float, str)) else validate_bid(amount)
+    except (BidValidationError, TypeError, ValueError) as exc:
+        raise AuctionServiceError("Invalid bid amount: " + str(exc), 400) from exc
     prior = _bid_target_exists(session, nomination_id, actor_team_id)
     if prior is None:
         raise AuctionServiceError("No bid exists to replace; submit an initial bid instead", 409)
