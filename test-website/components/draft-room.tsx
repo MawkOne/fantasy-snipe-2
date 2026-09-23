@@ -2476,6 +2476,10 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                   })()
                   const myTeamEmail = (myTeamInfo as any)?.attached_email || null
                   const youAbbr = teamAbbr(myTeamName)
+                  // Only the controlling team may adjust dress/sit; viewing any
+                  // other roster is read-only.
+                  const viewedTeamId = String((myTeamInfo as any)?.team_id || '')
+                  const canEditRoster = !!viewedTeamId && !!yourTeamId && viewedTeamId === yourTeamId
                   const stage1Roster = (() => {
                     const t = (stage1Teams || []).find((tt: any) => (tt?.team_name || "") === myTeamName)
                     const players: any[] = (t?.players as any[]) || []
@@ -2875,6 +2879,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                       <div className="px-3 py-2">
                                         <div className="flex items-center gap-2 min-w-0">
                                           <div className="font-medium text-sm truncate">{playerName}</div>
+                                          {canEditRoster && (
                                           <button
                                             className="h-6 px-2 text-[11px] rounded border hover:bg-slate-50"
                                             onClick={() => { toggleBench(playerName); setEmptySlots((prev)=>{ const s=new Set(prev); s.add(slotId); return s }); markDirty() }}
@@ -2882,6 +2887,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                           >
                                             Sit
                   </button>
+                                          )}
                                           <span className="ml-2 text-xs text-slate-500">{posMeta}</span>
                                         </div>
                                       </div>
@@ -2988,6 +2994,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                   <div className="px-3 py-2 text-xs font-semibold text-slate-600">Res</div>
                                   <div className="px-3 py-2">
                                     <div className="flex items-center gap-2 min-w-0">
+                                      {canEditRoster && (
                                       <button
                                         disabled={!hasOpenFor(r.pos || '')}
                                         className="h-6 px-2 text-[11px] rounded border hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -3016,6 +3023,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                       >
                                         Dress
                   </button>
+                                      )}
                                       <div className="font-medium text-sm truncate">{playerName}</div>
                                       <span className="ml-2 text-xs text-slate-500">{posMeta}</span>
                 </div>
