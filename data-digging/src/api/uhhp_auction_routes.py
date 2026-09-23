@@ -1094,7 +1094,7 @@ def build_uhhp_auction_router(
             lambda session, draft, membership: nominate_player(
                 session,
                 draft_id=str(draft.id),
-                actor_team_id=membership["team_id"],
+                actor_team_id=_actor_team(membership, payload.get("team_id")),
                 actor_role=membership["role"],
                 player_pool_id=player_pool_id,
             ),
@@ -1120,7 +1120,7 @@ def build_uhhp_auction_router(
                 session,
                 draft_id=str(draft.id),
                 nomination_id=nomination_id,
-                actor_team_id=membership["team_id"],
+                actor_team_id=_actor_team(membership, payload.get("team_id")),
                 amount=amount,
                 idempotency_key=idempotency_key,
             ),
@@ -1146,7 +1146,7 @@ def build_uhhp_auction_router(
                 session,
                 draft_id=str(draft.id),
                 nomination_id=nomination_id,
-                actor_team_id=membership["team_id"],
+                actor_team_id=_actor_team(membership, payload.get("team_id")),
                 amount=amount,
                 idempotency_key=idempotency_key,
             ),
@@ -1171,7 +1171,7 @@ def build_uhhp_auction_router(
                 session,
                 draft_id=str(draft.id),
                 nomination_id=nomination_id,
-                actor_team_id=membership["team_id"],
+                actor_team_id=_actor_team(membership, payload.get("team_id")),
                 idempotency_key=idempotency_key,
             ),
         )
@@ -1251,7 +1251,7 @@ def build_uhhp_auction_router(
                 session,
                 draft_id=str(draft.id),
                 nomination_id=nomination_id,
-                actor_team_id=membership["team_id"],
+                actor_team_id=_actor_team(membership, payload.get("team_id")),
                 decision=decision,
             ),
         )
@@ -1266,6 +1266,14 @@ def _require_value(payload: Dict[str, Any], key: str) -> Any:
     if value is None or str(value).strip() == "":
         raise HTTPException(status_code=400, detail=f"{key} is required")
     return value
+
+
+def _actor_team(membership: Dict[str, Any], override: Any = None) -> str:
+    """Resolve the acting team: commissioners may act on behalf of any team."""
+    candidate = str(override or "").strip() if override is not None else ""
+    if candidate and membership.get("is_commissioner"):
+        return candidate
+    return str(membership.get("team_id") or "")
 
 
 def _run_mutation(slug: str, draft_year: int, current_user: Any, fn: Any) -> Dict[str, Any]:

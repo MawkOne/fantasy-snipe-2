@@ -380,10 +380,12 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   }, [capTeams, selectedTeamId, auctionState?.viewer?.team_id, teamMembership?.team_id])
 
   const yourTeamId = useMemo(() => {
+    // Explicit dropdown selection (commissioner acting on behalf of a team) wins
+    if (selectedTeamId) return String(selectedTeamId)
     if (auctionState?.viewer?.team_id) return String(auctionState.viewer.team_id)
     if (teamMembership?.team_id) return String(teamMembership.team_id)
     return teams[0]?.id || ""
-  }, [auctionState?.viewer?.team_id, teamMembership?.team_id, teams])
+  }, [selectedTeamId, auctionState?.viewer?.team_id, teamMembership?.team_id, teams])
   const isYouOnClock = currentPick?.teamId === yourTeamId
 
   // All responders submitted = every team in the active nomination has a bid
@@ -556,7 +558,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       const apiBase = getApiBase()
       const poolId = String((p as any)?.pool_id || p?.id || '').trim()
       if (!poolId) { toast.error('Missing player pool id'); return }
-      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/nominate`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ player_pool_id: poolId }) })
+      const body: any = { player_pool_id: poolId }
+      if (actionTeamId) body.team_id = String(actionTeamId)
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/nominate`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(body) })
       if (res.ok) {
         toast.success('Nominated')
         await loadAuctionState()
@@ -574,6 +578,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       const amt = Math.max(0, Math.floor(Number(amount || 0)))
       const idempotencyKey = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
       const body: any = { nomination_id: String(currentAuctionId), amount: amt, idempotency_key: idempotencyKey }
+      if (actionTeamId) body.team_id = String(actionTeamId)
       const url = isRebid ? 'bids/replace' : 'bids'
       const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/${url}`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(body) })
       if (res.ok) {
@@ -592,7 +597,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     try {
       const apiBase = getApiBase()
       const idempotencyKey = `${Date.now()}-cancel-${Math.random().toString(36).slice(2, 10)}`
-      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/bids/cancel`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ nomination_id: String(currentAuctionId), idempotency_key: idempotencyKey }) })
+      const body: any = { nomination_id: String(currentAuctionId), idempotency_key: idempotencyKey }
+      if (actionTeamId) body.team_id = String(actionTeamId)
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/bids/cancel`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(body) })
       if (res.ok) {
         toast.success('Bid cancelled')
         await loadAuctionState()
@@ -607,7 +614,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     if (!currentAuctionId) { toast.error('No open auction'); return }
     try {
       const apiBase = getApiBase()
-      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/rfa-decision`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ nomination_id: String(currentAuctionId), decision }) })
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/rfa-decision`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ nomination_id: String(currentAuctionId), decision, ...(actionTeamId ? { team_id: actionTeamId } : {}) }) })
       if (res.ok) {
         toast.success(decision === 'match' ? 'RFA matched' : 'RFA passed')
         await loadAuctionState()
