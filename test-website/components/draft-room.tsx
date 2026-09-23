@@ -470,7 +470,12 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false)
   const [scoringRules, setScoringRules] = useState<any[] | null>(null)
   const [auctionState, setAuctionState] = useState<any | null>(null)
-  const currentAuctionId = useMemo(() => (auctionState?.open_auctions?.[0]?.id ?? null), [auctionState])
+  const currentAuctionId = useMemo(() => {
+    // New API shape: active_nomination.id
+    if (auctionState?.active_nomination?.id) return auctionState.active_nomination.id
+    // Legacy shape fallback
+    return auctionState?.open_auctions?.[0]?.id ?? null
+  }, [auctionState])
   const [wsConnected, setWsConnected] = useState<boolean>(false)
   const wsRef = useRef<WebSocket | null>(null)
   const [statusById, setStatusById] = useState<Record<number, "UFA" | "RFA">>({})
@@ -485,6 +490,20 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
 
   const getApiBase = () => ((process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith("http")) ? (process.env.NEXT_PUBLIC_API_BASE as string) : "http://localhost:8000")
 
+  const getApiKey = () => {
+    try {
+      const v = localStorage.getItem('uhhp_api_key')
+      if (v) return v
+    } catch {}
+    // Dev/config fallback
+    const envKey = (process.env.NEXT_PUBLIC_UHHP_API_KEY || '').trim()
+    return envKey || ''
+  }
+  const getAuthHeaders = (): Record<string, string> => {
+    const apiKey = getApiKey()
+    return apiKey ? { 'x-api-key': apiKey } : {}
+  }
+
   const auctionStateLoadingRef = useRef(false)
   const auctionStateToastedRef = useRef(false)
   const lastAuctionFetchRef = useRef<number>(0)
@@ -495,18 +514,21 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       if (now - lastAuctionFetchRef.current < 750) return
       auctionStateLoadingRef.current = true
       const apiBase = getApiBase()
-      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/state`, { cache: "no-store" })
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/state`, { cache: "no-store", headers: { ...getAuthHeaders() } })
       if (!res.ok) return
       const json = await res.json()
       setAuctionState(json)
-      // Seed GM bids/bidSubmitted from server top bid so reconnect shows live state
+      // Seed bid responses from viewer-safe state where available
       try {
-        const open = (json?.open_auctions || [])[0]
-        if (open && (open.top_team_id != null) && (open.top_amount != null)) {
-          const tid = String(open.top_team_id)
-          const amt = Number(open.top_amount)
-          setGmBids((prev) => ({ ...prev, [tid]: amt }))
-          setBidSubmitted((prev) => ({ ...prev, [tid]: true }))
+        const nomination = json?.active_nomination
+        if (nomination && Array.isArray(nomination.responses)) {
+          const viewerTeamId = json?.viewer?.team_id
+          if (viewerTeamId) {
+            const mine = nomination.responses.find((r: any) => r.team_id === viewerTeamId)
+            if (mine && mine.responded) {
+              setBidSubmitted((prev) => ({ ...prev, [viewerTeamId]: true }))
+            }
+          }
         }
       } catch {}
       // Only toast once on first successful load to avoid repeated messages
@@ -533,7 +555,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
         const at = tk && typeof tk.access_token === 'string' ? tk.access_token : null
         if (at) authHeader = { ...authHeader, Authorization: `Bearer ${at}` }
       } catch {}
-      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/nominate`, { method: 'POST', headers: authHeader, body: JSON.stringify(body) })
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/nominate`, { method: 'POST', headers: { ...authHeader, ...getAuthHeaders() }, body: JSON.stringify(body) })
       if (res.ok) {
         toast.success('Nominated')
         // Optimistically set banner so the UI reflects the nomination immediately
@@ -573,7 +595,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       if (isRebid) { body.rebid = true; if (revealed) body.tiebreak = true }
       try { console.log('[BID]', { auctionId: currentAuctionId, teamId: yourTeamKey, amt, isRebid, revealed }) } catch {}
       try { toast.message(`Submitting bid $${amt} (auction ${currentAuctionId}, team ${yourTeamKey})`) } catch {}
-      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/bid`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/bid`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(body) })
       if (res.ok) {
         const js = await res.json().catch(() => ({} as any))
         const top = js && js.top_bid ? js.top_bid : null
@@ -598,7 +620,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     if (!currentAuctionId || !teamMembership?.team_id) { toast.error('No auction or team'); return }
     try {
       const apiBase = getApiBase()
-      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/match`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auction_id: currentAuctionId, team_id: teamMembership.team_id }) })
+      const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/match`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ auction_id: currentAuctionId, team_id: teamMembership.team_id }) })
       if (res.ok) {
         toast.success('Matched')
         await loadAuctionState()
@@ -614,7 +636,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       if (!currentAuctionId) { toast.error('No auction'); return }
       const apiBase = getApiBase()
       const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/finalize`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ auction_id: currentAuctionId })
+        method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify({ auction_id: currentAuctionId })
       })
       if (!res.ok) { toast.error('Finalize failed'); return }
       toast.success('Auction finalized')
@@ -671,13 +693,26 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   // Derive/refresh the nominated banner from server state
   useEffect(() => {
     try {
-      const a = auctionState?.open_auctions?.[0] || null
+      const a = auctionState?.active_nomination || auctionState?.open_auctions?.[0] || null
       if (!a) { setNominated(null); return }
+      // new shape: active_nomination.player.{name, positions, eligibility}
+      if (auctionState?.active_nomination?.player) {
+        const p = auctionState.active_nomination.player
+        const name = String(p?.name || '')
+        const positions = Array.isArray(p?.positions) ? p.positions : []
+        const pos = positions[0] ? String(positions[0]).toUpperCase() : ''
+        const pidRaw = p?.nhl_player_id
+        const pid = Number(pidRaw)
+        if (name) {
+          setNominated({ player: name, nhl_player_id: Number.isFinite(pid) && pid > 0 ? pid : undefined, pos, type: String(p?.eligibility || '—') })
+          return
+        }
+      }
+      // legacy shape fallback
       const pid = Number(a?.nhl_player_id)
       let name = ''
       let pos = ''
       if (Number.isFinite(pid)) {
-        // name/pos from projections by id
         const ppos = (projPosById[pid] || '').toString().toUpperCase()
         pos = (ppos === 'LW' || ppos === 'RW') ? 'W' : (ppos || '')
         if (Array.isArray(rankings) && rankings.length) {
@@ -685,7 +720,6 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           if (hit) name = String((hit as any)?.name || (hit as any)?.player || '')
         }
       }
-      // fallback by name key if present in state
       if (!name) name = String(a?.player_name || a?.nhl_player_id || '')
       const type = (Number.isFinite(pid) && statusById[pid]) ? statusById[pid] : '—'
       setNominated({ player: name, nhl_player_id: Number.isFinite(pid) ? pid : undefined, pos, type })
@@ -976,52 +1010,114 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     fetchProjFP()
   }, [leagueIdEnv, projectionSource, availableReady, availableSet])
 
-  // Enrich status map using available endpoint so UFAs/RFAs appear for unrostered players
+  // Enrich status map using the new auction-2026 player pool so UFAs/RFAs
+  // appear for unrostered players, and populate the projections panel (the
+  // legacy /api/projections and /auction/available endpoints are not available
+  // on the new backend).
+  const auctionPlayersLoadingRef = useRef(false)
   useEffect(() => {
     if (availableLoadedRef.current) return
-    const loadAvailable = async () => {
+    const loadAuctionPlayers = async () => {
+      if (auctionPlayersLoadingRef.current) return
+      auctionPlayersLoadingRef.current = true
       try {
-        const apiBase = (process.env.NEXT_PUBLIC_API_BASE && process.env.NEXT_PUBLIC_API_BASE.startsWith("http"))
-          ? (process.env.NEXT_PUBLIC_API_BASE as string)
-          : "http://localhost:8000"
-        const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/available?season=2025&limit=10000`, { cache: "no-store" })
-        if (!res.ok) return
-        const json = await res.json()
-        const items = Array.isArray(json?.available) ? json.available : []
-        if (!items.length) return
-        setStatusById((prev) => {
-          const copy = { ...prev }
-          for (const it of items) {
-            const pid = Number(it?.nhl_player_id)
-            const st = (it?.status || '').toString().toUpperCase()
-            if (Number.isFinite(pid) && (st === 'UFA' || st === 'RFA')) copy[pid] = st
-          }
-          return copy
-        })
-        setAvailableById(() => {
-          const map: Record<number, { status: "UFA" | "RFA"; controlling_team_id: string | null }> = {}
-          for (const it of items) {
-            const pid = Number(it?.nhl_player_id)
-            const st = (it?.status || '').toString().toUpperCase()
-            if (Number.isFinite(pid) && (st === 'UFA' || st === 'RFA')) {
-              map[pid] = { status: st as any, controlling_team_id: it?.controlling_team_id || null }
+        const apiBase = getApiBase()
+        const headers = { ...getAuthHeaders() }
+        const all: any[] = []
+        let offset = 0
+        const pageSize = 500
+        for (let guard = 0; guard < 8; guard++) {
+          const res = await fetch(
+            `${apiBase}/api/cbs/league/uhhp/auction-2026/players?limit=${pageSize}&offset=${offset}`,
+            { cache: "no-store", headers },
+          )
+          if (!res.ok) break
+          const json = await res.json()
+          const items = Array.isArray(json?.players) ? json.players : []
+          all.push(...items)
+          const total = Number(json?.total ?? 0)
+          if (all.length >= total || items.length === 0) break
+          offset += items.length
+        }
+        if (!all.length) return
+
+        // status / availability maps keyed by nhl_player_id where available
+        const nextStatus: Record<number, "UFA" | "RFA"> = {}
+        const nextAvailable: Record<number, { status: "UFA" | "RFA"; controlling_team_id: string | null }> = {}
+        const nextAvailableSet = new Set<number>()
+        const nextProj: any[] = []
+        const nextFpMap: Record<string, number> = {}
+        const nextProjIdFP: Record<number, number> = {}
+        const nextProjPosById: Record<number, string> = {}
+        const nextProjPosByName: Record<string, string> = {}
+        const nextRankings: Player[] = []
+
+        all.forEach((it: any, idx: number) => {
+          const pid = Number(it?.nhl_player_id)
+          const st = String(it?.eligibility || '').toUpperCase()
+          if (Number.isFinite(pid) && pid > 0) {
+            if (st === 'UFA' || st === 'RFA') {
+              nextStatus[pid] = st
+              nextAvailable[pid] = { status: st as any, controlling_team_id: it?.controlling_team?.team_id || it?.controlling_team_id || null }
             }
+            nextAvailableSet.add(pid)
+            const fpVal = it?.projected_fantasy_points
+            if (typeof fpVal === 'number') nextProjIdFP[pid] = fpVal
+            const positions = Array.isArray(it?.positions) ? it.positions : []
+            const posRaw = String(positions[0] || '').toUpperCase()
+            const pos = (posRaw === 'LW' || posRaw === 'RW') ? 'W' : posRaw
+            if (pos) nextProjPosById[pid] = pos
           }
-          return map
-        })
-        setAvailableSet(() => {
-          const s = new Set<number>()
-          for (const it of items) {
-            const pid = Number(it?.nhl_player_id)
-            if (Number.isFinite(pid)) s.add(pid)
+
+          const name = String(it?.name || '')
+          const positions = Array.isArray(it?.positions) ? it.positions : []
+          const posRaw = String(positions[0] || '').toUpperCase()
+          const pos = (posRaw === 'LW' || posRaw === 'RW') ? 'W' : posRaw
+          const team = String(it?.nhl_team || '')
+          const fpVal = it?.projected_fantasy_points
+          if (name) {
+            nextFpMap[name.trim().toLowerCase()] = typeof fpVal === 'number' ? Number(fpVal) : 0
+            if (pos) nextProjPosByName[name.trim().toLowerCase()] = pos
           }
-          return s
+          nextProj.push({
+            nhl_player_id: Number.isFinite(pid) ? pid : undefined,
+            player: name,
+            pos,
+            team,
+            fp: typeof fpVal === 'number' ? Number(fpVal) : undefined,
+            vorp: undefined,
+            vorp_salary: undefined,
+          })
+          nextRankings.push({
+            id: String(it?.id || idx),
+            name,
+            team,
+            pos,
+            bye: 0,
+            overall: idx + 1,
+            adp: idx + 1,
+            expertPct: 0,
+          })
         })
+
+        setStatusById((prev) => ({ ...prev, ...nextStatus }))
+        setAvailableById(nextAvailable)
+        setAvailableSet(nextAvailableSet)
+        setProjIdFP((prev) => ({ ...prev, ...nextProjIdFP }))
+        setProjPosById((prev) => ({ ...prev, ...nextProjPosById }))
+        setProjPosByName((prev) => ({ ...prev, ...nextProjPosByName }))
+        setFpMap((prev) => ({ ...prev, ...nextFpMap }))
+        // Only replace projections/rankings if the legacy API has not provided them
+        setProjections((prev) => (Array.isArray(prev) && prev.length ? prev : nextProj))
+        setRankings((prev) => (Array.isArray(prev) && prev.length ? prev : nextRankings))
         setAvailableReady(true)
         availableLoadedRef.current = true
       } catch {}
+      finally {
+        auctionPlayersLoadingRef.current = false
+      }
     }
-    loadAvailable()
+    loadAuctionPlayers()
   }, [])
 
   // Load league-wide cap totals for all 12 teams (fallback only; draft_state already sets capTeams)
@@ -1101,13 +1197,62 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       const apiBase = (process.env.NEXT_PUBLIC_API_BASE && process.env.NEXT_PUBLIC_API_BASE.startsWith("http"))
         ? (process.env.NEXT_PUBLIC_API_BASE as string)
         : "http://localhost:8000"
-      // Use consolidated draft_state endpoint
-      const url = `${apiBase}/api/public/cbs/league/uhhp/draft_state`
-      const res = await fetch(url, { cache: "no-store" })
-      if (!res.ok) throw new Error("draft_state failed")
-      const data = await res.json()
-      // Cap Summary teams (merge in attached_email/login from /teams)
-      const teamsArr = Array.isArray(data?.teams) ? data.teams : []
+      // Prefer the consolidated draft_state endpoint, fall back to /teams + auction-2026/state
+      let data: any = null
+      let draftStateOk = false
+      try {
+        const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/draft_state`, { cache: "no-store" })
+        if (res.ok) {
+          data = await res.json()
+          draftStateOk = true
+        }
+      } catch {}
+
+      // Fallback team load: /teams + new auction-2026/state
+      let teamsArr: any[] = Array.isArray(data?.teams) ? data.teams : []
+      let rosterRows: any[] = Array.isArray(data?.rosters) ? data.rosters : []
+      if (!draftStateOk) {
+        try {
+          const [teamsRes, stateRes] = await Promise.all([
+            fetch(`${apiBase}/api/public/cbs/league/uhhp/teams`, { cache: 'no-store', headers: { ...getAuthHeaders() } }),
+            fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/state`, { cache: 'no-store', headers: { ...getAuthHeaders() } }),
+          ])
+          if (teamsRes.ok) {
+            const tdata = await teamsRes.json()
+            teamsArr = Array.isArray(tdata?.teams) ? tdata.teams : []
+          }
+          if (stateRes.ok) {
+            const sdata = await stateRes.json()
+            if (Array.isArray(sdata?.teams)) {
+              // Merge nomination/tie order and cap info into team rows
+              teamsArr = sdata.teams.map((t: any) => {
+                const old = teamsArr.find((x: any) => String(x?.team_id) === String(t?.team_id))
+                return {
+                  ...(old || {}),
+                  ...t,
+                  team_id: t.team_id,
+                  team_name: t.team_name,
+                  log_url: t.logo_url,
+                  logo_url: t.logo_url,
+                  nomination_order: t.nomination_order,
+                  tie_break_priority: t.tie_break_priority,
+                  cap_space: t.cap?.cap_space,
+                  committed_salary: t.cap?.committed_salary,
+                }
+              })
+            }
+            // Hydrate auction order from new state
+            if (Array.isArray(sdata?.teams) && sdata.teams.length && !auctionOrder.length) {
+              const ordered = [...sdata.teams].sort((a: any, b: any) => Number(a.nomination_order) - Number(b.nomination_order))
+              const orderIds = ordered.map((t: any) => String(t.team_id)).filter(Boolean)
+              if (orderIds.length) {
+                setAuctionOrder(orderIds)
+                setTieOrder(orderIds)
+              }
+            }
+          }
+        } catch {}
+      }
       try {
         const teamsRes = await fetch(`${apiBase}/api/public/cbs/league/uhhp/teams`, { cache: 'no-store' })
         if (teamsRes.ok) {
@@ -1152,7 +1297,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
         }
       } catch {}
       // Build stage1Teams from roster payload for My Team
-      const rosters = Array.isArray(data?.rosters) ? data.rosters as any[] : []
+      const rosters = rosterRows
       const byTeam: Record<string, any[]> = {}
       const nextStatus: Record<number, "UFA" | "RFA"> = {}
       const locked = new Set<number>()
@@ -1186,7 +1331,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       }
       setStatusById(nextStatus)
       setContractLockedIds(locked)
-      const stageTeams = (Array.isArray(data?.teams) ? data.teams as any[] : []).map((t) => ({
+      const stageTeams = teamsArr.map((t) => ({
         team_id: t.team_id,
         team_name: t.team_name,
         players: byTeam[String(t.team_id)] || [],
