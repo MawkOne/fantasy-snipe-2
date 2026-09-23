@@ -2755,7 +2755,18 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                 return "—"
                               })()
                               const fpKey = (playerName || "").toString().trim().toLowerCase()
-                              let fpVal = typeof fpMap[fpKey] === "number" ? fpMap[fpKey] : undefined
+                              let fpVal = undefined as number | undefined
+                              // Prefer the projection served on the roster row itself
+                              if (typeof (r as any)?.fp === 'number' && Number.isFinite((r as any).fp)) {
+                                fpVal = (r as any).fp
+                              }
+                              // Prefer ID-based FP when available
+                              if (fpVal == null && typeof (r as any)?.nhl_player_id === 'number' && projIdFP[Number((r as any).nhl_player_id)] != null) {
+                                fpVal = projIdFP[Number((r as any).nhl_player_id)]
+                              }
+                              if (fpVal == null && typeof fpMap[fpKey] === "number") {
+                                fpVal = fpMap[fpKey]
+                              }
                               if (fpVal == null) {
                                 const proj = (projections || []).find((p: any) => ((p.player || "").toString().trim().toLowerCase()) === fpKey)
                                 if (proj && typeof (proj as any).fp === "number") {
