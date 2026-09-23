@@ -730,6 +730,8 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
                            COALESCE(pool.birthdate, player.birthdate) AS birthdate,
                            pool.eligibility AS pool_eligibility,
                            pool.projected_fantasy_points,
+                           pool.projection ->> 'vorp' AS vorp,
+                           pool.projection ->> 'vorp_salary' AS vorp_salary,
                            CASE
                              WHEN roster.years IN (1, 2, 3) THEN NULL
                              WHEN roster.rookie THEN 'RFA'
@@ -820,6 +822,8 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
                         if row.projected_fantasy_points is not None
                         else None
                     ),
+                    "vorp": float(row.vorp) if row.vorp is not None else None,
+                    "vorp_salary": float(row.vorp_salary) if row.vorp_salary is not None else None,
                     "auction_contract": bool(row.auction_contract),
                 })
 
