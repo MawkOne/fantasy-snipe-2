@@ -521,6 +521,18 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       if (!res.ok) return
       const json = await res.json()
       setAuctionState(json)
+      // Keep the tie-break order in sync with the server's rotating priority
+      try {
+        if (Array.isArray(json?.teams) && json.teams.length) {
+          const ordered = [...json.teams].sort(
+            (a: any, b: any) => Number(a.tie_break_priority ?? 0) - Number(b.tie_break_priority ?? 0),
+          )
+          const ids = ordered.map((t: any) => String(t?.team_id)).filter(Boolean)
+          if (ids.length && JSON.stringify(ids) !== JSON.stringify(tieOrder)) {
+            setTieOrder(ids)
+          }
+        }
+      } catch {}
       // Seed bid responses from viewer-safe state
       try {
         const nomination = json?.active_nomination
@@ -2032,10 +2044,10 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                 <div>
                   <div className="text-sm font-semibold mb-1">Current Tie-Break Order</div>
                   <ol className="space-y-1 text-sm">
-                    {(auctionOrder || []).map((n, i) => (
+                    {(tieOrder && tieOrder.length ? tieOrder : auctionOrder || []).map((n, i) => (
                       <li key={`${n}-${i}`} className="flex items-center gap-2">
                         <span className="w-6 text-right tabular-nums text-slate-500">{i + 1}.</span>
-                        <span>{n}</span>
+                        <span>{nameById[n] || n}</span>
                       </li>
                     ))}
                   </ol>
@@ -2043,16 +2055,24 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                 <div>
                   <div className="text-sm font-semibold mb-1">Tie-Break Audit Log</div>
                   <div className="rounded border divide-y">
-                    {(tieAudit || []).length === 0 && (
-                      <div className="px-3 py-2 text-xs text-slate-500">No tie-breaks yet.</div>
-                    )}
-                    {(tieAudit || []).map((t, i) => (
-                      <div key={i} className="px-3 py-2 text-xs">
-                        <div className="font-medium">Pick #{t.pick}</div>
-                        <div>Contenders: {t.winners.join(", ")}</div>
-                        <div>Advantage: {t.advantage || "—"}</div>
-                  </div>
-                    ))}
+                    {(() => {
+                      const tieLog = (resultsHistory || []).filter((r: any) => r?.tie_break && Array.isArray(r.tie_break.tied_team_ids))
+                      if (!tieLog.length) {
+                        return <div className="px-3 py-2 text-xs text-slate-500">No tie-breaks yet.</div>
+                      }
+                      return tieLog.map((r: any, i: number) => {
+                        const tb = r.tie_break
+                        const tiedNames = (tb.tied_team_ids || []).map((id: string) => nameById[id] || id).join(", ")
+                        const winnerName = r.winning_team_name || nameById[r.winning_team_id] || r.winning_team_id || "—"
+                        return (
+                          <div key={i} className="px-3 py-2 text-xs">
+                            <div className="font-medium">{r.player_name}</div>
+                            <div>Contenders: {tiedNames}</div>
+                            <div>Winner: {winnerName} (${r.winning_bid ?? tb.amount ?? 0})</div>
+                          </div>
+                        )
+                      })
+                    })()}
                 </div>
               </div>
               </div>
