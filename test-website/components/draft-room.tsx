@@ -307,7 +307,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   }, [tieTeams, tieOrder, teams])
 
   // Left rail tabs state
-  const [leftTab, setLeftTab] = useState<"rankings" | "teams" | "queue" | "history">("rankings")
+  const [leftTab, setLeftTab] = useState<"rankings" | "queue">("rankings")
   const [resultsHistory, setResultsHistory] = useState<any[] | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [modalPlayer, setModalPlayer] = useState<Player | null>(null)
@@ -1611,14 +1611,19 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     }
   }, [rankings, vorpById, stage1Teams])
   const uhhpFilled50 = useMemo(() => {
-    // Build 50 slots; associate each slot's team from auctionOrder
+    // Build 50 slots; completed auction results fill the numbered slots first,
+    // then the current nomination, then the pending rotation.
     const list: Array<{ kind: "taken" | "pending" | "nominated"; data?: any; team?: string }> = []
     const total = 50
-    const takenCount = Math.min(uhhpPicks.length, total)
+    const history = Array.isArray(resultsHistory) ? resultsHistory : []
+    const takenCount = Math.min(history.length, total)
     for (let i = 0; i < takenCount; i++) {
-      const taken = uhhpPicks[i]
-      const team = taken?.team_id || (auctionOrder.length ? auctionOrder[i % auctionOrder.length] : undefined)
-      list.push({ kind: "taken", data: taken, team })
+      const r = history[i]
+      list.push({
+        kind: "taken",
+        data: r,
+        team: r?.winning_team_id || (auctionOrder.length ? auctionOrder[i % auctionOrder.length] : undefined),
+      })
     }
     for (let i = takenCount; i < total; i++) {
       const nomTeam = auctionOrder.length ? auctionOrder[i % auctionOrder.length] : "Nomination"
@@ -1629,16 +1634,16 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       }
     }
     return list
-  }, [uhhpPicks, auctionOrder, nominated])
+  }, [resultsHistory, auctionOrder, nominated])
 
   // Keep the highlighted pick in sync with the current draft progress
   useEffect(() => {
     try {
-      const taken = Array.isArray(uhhpPicks) ? uhhpPicks.length : 0
+      const taken = Array.isArray(resultsHistory) ? resultsHistory.length : 0
       const idx = Math.max(1, Math.min(50, taken + 1))
       setCurrentPickNum(idx)
     } catch {}
-  }, [uhhpPicks, nominated])
+  }, [resultsHistory, nominated])
 
   function openPlayer(p: Player) {
     setModalPlayer(p)
@@ -1779,11 +1784,10 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           {/* Tabs header (Auction | Tie Break) */}
           <div className="p-3 border-b">
             <div className="flex items-center gap-2">
-              {(["rankings", "queue", "history"] as const).map((t) => {
+              {(["rankings", "queue"] as const).map((t) => {
                 const labels: Record<typeof t, string> = {
                   rankings: "Auction",
                   queue: "Tie Break",
-                  history: "Results",
                 } as const
                 const active = leftTab === t
                 return (
@@ -1838,15 +1842,21 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                               <>
                                 {(() => {
                                   const r = entry.data
+                                  const playerName = r?.player_name || r?.player || `Result ${idx + 1}`
+                                  const posRaw = Array.isArray(r?.positions)
+                                    ? String(r.positions[0] || '').toUpperCase()
+                                    : ((r?.pos || '').toString().toUpperCase())
+                                  const pos = (posRaw === 'LW' || posRaw === 'RW') ? 'W' : posRaw
+                                  const teamName = r?.winning_team_name || r?.winning_team_abbrev || nameById[String(entry.team || '')] || ''
                                   return (
                                     <>
                                       <button
                                         type="button"
                                         onClick={() => openPlayer({
-                                          id: r.nhl_player_id || r.player,
-                                          name: r.player,
+                                          id: r?.nhl_player_id || playerName,
+                                          name: playerName,
                                           team: "",
-                                          pos: r.pos || "",
+                                          pos: pos || 'F',
                                           bye: 0,
                                           overall: idx + 1,
                                           adp: idx + 1,
@@ -1854,20 +1864,21 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                         })}
                                         className="font-semibold leading-snug text-[13px] break-words text-left hover:underline focus:outline-none focus:underline"
                                       >
-                                        {r.player || `#${r.pick || (idx + 1)}`}
+                                        {playerName}
                                       </button>
                                       <div className="mt-1 flex items-center gap-2">
-                                        <span
-                                          className={cn(
-                                            "inline-flex items-center rounded-full px-1.5 py-[2px] text-[10px] font-semibold",
-                                            posPillClass(r.pos || ""),
-                                          )}
-                                        >
-                                          {r.pos || ""}
-                                        </span>
-                                        <div className="text-[12px] text-slate-600 break-words">{nameById[String(entry.team || "")] || nameById[String(r.team_id || "")] || ""}</div>
-                                        {r.pick ? (
-                                          <div className="text-[12px] text-slate-500">Pick {r.pick}</div>
+                                        {pos ? (
+                                          <span
+                                            className={cn(
+                                              "inline-flex items-center rounded-full px-1.5 py-[2px] text-[10px] font-semibold",
+                                              posPillClass(pos),
+                                            )}
+                                          >
+                                            {pos}
+                                          </span>
+                                        ) : null}
+                                        {teamName ? (
+                                          <div className="text-[12px] text-slate-600 break-words">{teamName}</div>
                                         ) : null}
                                       </div>
                                     </>
@@ -1902,9 +1913,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                           {entry.kind === "taken" ? (
                             (() => {
                               const r = entry.data
-                              const key = (r.player || "").toString().trim().toLowerCase()
-                              const fp = fpMap[key]
-                              const priceStr = `$${r.price}`
+                              const priceStr = `$${r?.winning_bid ?? r?.price ?? 0}`
                               return (
                                 <div className="self-center text-right pr-1">
                                   <div className="text-sm font-semibold text-emerald-600">{priceStr}</div>
@@ -1995,24 +2004,6 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     ))}
                 </div>
               </div>
-              </div>
-            )}
-
-            {leftTab === "history" && (
-              <div className="p-3 space-y-3 overflow-y-auto">
-                <div className="text-sm font-semibold mb-1">Auction Results</div>
-                {(!Array.isArray(resultsHistory) || resultsHistory.length === 0) && (
-                  <div className="text-xs text-slate-500">No completed auctions yet.</div>
-                )}
-                {(resultsHistory || []).map((r: any, i: number) => (
-                  <div key={i} className="rounded border px-2 py-1.5 text-xs flex items-center justify-between gap-2">
-                    <div className="min-w-0">
-                      <div className="font-medium truncate">{r.player_name || '—'}</div>
-                      <div className="text-slate-500 truncate">{r.winning_team_name || r.winning_team_abbrev || r.winning_team_id || '—'}</div>
-                    </div>
-                    <div className="font-semibold tabular-nums shrink-0">${r.winning_bid ?? 0}</div>
-                  </div>
-                ))}
               </div>
             )}
           </div>
