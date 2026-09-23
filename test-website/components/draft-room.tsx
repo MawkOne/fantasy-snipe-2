@@ -165,6 +165,13 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   // Public mode: allow a visitor to select which team they control for writes
   // (no persistence — the authenticated viewer team is preferred for writes)
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null)
+  // Team-scoped URL (?team=<team_id>): pre-select that team for this session
+  useEffect(() => {
+    try {
+      const teamParam = new URLSearchParams(window.location.search).get('team')
+      if (teamParam) setSelectedTeamId(teamParam)
+    } catch {}
+  }, [])
   // ... existing code ...
 
   // Real league teams from draft_state capTeams (left-to-right = nomination order)
@@ -1418,8 +1425,15 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
         players: byTeam[String(t.team_id)] || [],
       }))
       setStage1Teams(stageTeams)
-      // Default selected
-      const prefer = stageTeams.find((t: any) => (t?.team_name || "") === "New Oilers Nation")
+      // Default selected: honor a ?team= URL override, else New Oilers Nation
+      let prefer = stageTeams.find((t: any) => (t?.team_name || "") === "New Oilers Nation")
+      try {
+        const urlTeam = new URLSearchParams(window.location.search).get('team')
+        if (urlTeam) {
+          const hit = stageTeams.find((t: any) => String(t?.team_id || '') === urlTeam)
+          if (hit) prefer = hit
+        }
+      } catch {}
       setSelectedTeamName(prefer ? String(prefer.team_name) : (stageTeams[0]?.team_name || "New Oilers Nation"))
       // Build projection FP map by nhl id
       const projMap: Record<number, number> = {}
@@ -3873,10 +3887,10 @@ function LeagueSettingsModal({
                     </div>
                     <div className="px-3 py-2 text-right">
                       <Button size="sm" variant="outline" onClick={() => {
-                        const url = '/callback'
-                        try { navigator.clipboard?.writeText(window.location.origin + url) } catch {}
-                        alert(`Send this link to invite the GM to login: ${window.location.origin + url}`)
-                      }}>Invite</Button>
+                        const url = `${window.location.origin}/draft-room-uhhp?team=${encodeURIComponent(String(t.team_id))}`
+                        try { navigator.clipboard?.writeText(url) } catch {}
+                        alert(`Link for ${t.team_name}:\n\n${url}`)
+                      }}>Team Link</Button>
                     </div>
                   </div>
                 ))}
@@ -3890,6 +3904,15 @@ function LeagueSettingsModal({
                 )}
               </div>
               <div className="flex items-center justify-end gap-2 p-2">
+                <Button size="sm" variant="outline" onClick={async () => {
+                  try {
+                    const lines = (teamsLocal || []).map((t: any) =>
+                      `${t.team_name}: ${window.location.origin}/draft-room-uhhp?team=${encodeURIComponent(String(t.team_id))}`
+                    ).join('\n')
+                    await navigator.clipboard?.writeText(lines)
+                    alert('Copied all team links')
+                  } catch {}
+                }}>Copy Team Links</Button>
                 <Button size="sm" variant="secondary" onClick={async () => {
                   // Persist GM credentials
                   try {
