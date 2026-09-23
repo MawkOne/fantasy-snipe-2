@@ -1656,6 +1656,19 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     return list
   }, [resultsHistory, auctionOrder, nominated])
 
+  // Players that can no longer be nominated: sold at auction, or the player
+  // in the currently active nomination. Voided/No-Sale players stay available.
+  const unavailableNames = useMemo(() => {
+    const set = new Set<string>()
+    for (const r of (Array.isArray(resultsHistory) ? resultsHistory : [])) {
+      if (r?.status === 'no_sale') continue
+      if (r?.player_name) set.add(normalizeName(String(r.player_name)))
+    }
+    const activeName = auctionState?.active_nomination?.player?.name
+    if (activeName) set.add(normalizeName(String(activeName)))
+    return set
+  }, [resultsHistory, auctionState?.active_nomination?.player?.name])
+
   // Keep the highlighted pick in sync with the current draft progress
   useEffect(() => {
     try {
@@ -3151,10 +3164,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             {projections ? (
               <div className="space-y-2">
                 {(() => {
-                  const takenSet = new Set<string>()
-                  ;(uhhpPicks || []).forEach((r: any) => {
-                    if (Number(r?.price) > 0) takenSet.add(((r?.player || "").toString().trim().toLowerCase()))
-                  })
+                  const takenSet = unavailableNames
                   return (
                     projections
                       .filter((p) => (posFilter === "All" ? true : ((p.pos || "").toString().toUpperCase() === posFilter)))
@@ -3164,7 +3174,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                         const st = Number.isFinite(pid) ? (availableById[pid]?.status || statusById[pid]) : undefined
                         return (st || "").toString().toUpperCase() === faFilter
                       })
-                      .filter((p) => (showAvailable ? !takenSet.has(((p.player || "").toString().trim().toLowerCase())) : true))
+                      .filter((p) => (showAvailable ? !takenSet.has(normalizeName(String((p as any)?.player || ""))) : true))
                       .filter((p) => {
                         const pid = Number((p as any)?.nhl_player_id)
                         return !(Number.isFinite(pid) && contractLockedIds.has(pid))
@@ -3231,15 +3241,28 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                         })()}
                         {(() => {
                           const key = (p.player || "").toString().trim().toLowerCase()
-                          const match = (uhhpPicks || []).find((r: any) => ((r?.player || "").toString().trim().toLowerCase()) === key && Number(r?.price) > 0)
-                          const taken = !!match
-                          if (taken) {
+                          const normKey = normalizeName(String(p?.player || ''))
+                          const taken = unavailableNames.has(normKey)
+                          const soldMatch = (Array.isArray(resultsHistory) ? resultsHistory : []).find(
+                            (r: any) => normalizeName(String(r?.player_name || '')) === normKey
+                              && Number(r?.winning_bid ?? 0) > 0
+                              && r?.status !== 'no_sale',
+                          )
+                          // Currently nominated (not yet revealed): show a disabled badge
+                          if (taken && !soldMatch) {
+                            return (
+                              <div className="h-7 px-2 rounded border text-xs font-semibold inline-flex items-center justify-center bg-amber-50 text-amber-700 border-amber-300" title="Currently nominated — no longer available">
+                                Nominated
+                              </div>
+                            )
+                          }
+                          if (soldMatch) {
                             const fp = typeof p.fp === "number" ? p.fp : fpMap[key]
                             const proj = typeof fp === "number" ? Math.max(2, Math.min(22, Math.round(fp / 20))) : null
-                            const won = Number(match?.price)
+                            const won = Number(soldMatch?.winning_bid ?? 0)
                             if (proj == null) {
                               return (
-                                <div className="h-7 px-2 rounded border text-xs font-semibold inline-flex items-center justify-center bg-slate-200">
+                                <div className="h-7 px-2 rounded border text-xs font-semibold inline-flex items-center justify-center bg-slate-200" title="Sold — no longer available">
                                   ${won}
                                 </div>
                               )
@@ -3252,13 +3275,13 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                             if (diff > 0) {
                               // overpay: green->red gradient intensity
                               const redIntensity = t >= 0.66 ? "bg-red-300 text-red-900 border-red-400" : t >= 0.33 ? "bg-red-200 text-red-800 border-red-300" : "bg-red-100 text-red-700 border-red-300"
-                              return <div className={`${baseClasses} ${redIntensity}`}>${won}</div>
+                              return <div className={`${baseClasses} ${redIntensity}`} title="Sold — no longer available">${won}</div>
                             } else {
                               // under or equal: green shades; equal should be strongest green
                               const greenIntensity = diff === 0
                                 ? "bg-green-300 text-green-900 border-green-400"
                                 : (t >= 0.66 ? "bg-green-300 text-green-900 border-green-400" : t >= 0.33 ? "bg-green-200 text-green-800 border-green-300" : "bg-green-100 text-green-700 border-green-300")
-                              return <div className={`${baseClasses} ${greenIntensity}`}>${won}</div>
+                              return <div className={`${baseClasses} ${greenIntensity}`} title="Sold — no longer available">${won}</div>
                             }
                           }
                           return (
