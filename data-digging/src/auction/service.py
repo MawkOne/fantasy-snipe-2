@@ -966,6 +966,32 @@ def reveal_nomination(
 
     result = resolve_reveal(events_by_team, tie_order)
 
+    # Per-team effective bids for the reveal display (all draft teams).
+    bid_summary = session.execute(
+        text(
+            """
+            SELECT team_id, effective_amount, responded, canceled
+              FROM uhhp_auction_latest_effective_bids
+             WHERE nomination_id = :nomination_id
+             ORDER BY team_id
+            """
+        ),
+        {"nomination_id": str(nomination_id)},
+    ).fetchall()
+    bids_payload = [
+        {
+            "team_id": str(row.team_id),
+            "effective_bid": (
+                int(row.effective_amount)
+                if row.effective_amount is not None
+                else None
+            ),
+            "responded": bool(row.responded),
+            "canceled": bool(row.canceled),
+        }
+        for row in bid_summary
+    ]
+
     # Record revealed amount / high bidder (viewer-safe API still hides until reveal).
     high_bid = int(result.winning_bid)
     high_bid_team = result.winner if high_bid > 0 else None
@@ -1054,6 +1080,7 @@ def reveal_nomination(
             "winner": None,
             "winning_bid": 0,
             "status": "no_sale",
+            "bids": bids_payload,
         }
 
     # Positive bid: RFA goes pending, UFA finalizes.
@@ -1107,6 +1134,7 @@ def reveal_nomination(
             "winning_bid": high_bid,
             "status": "rfa_match_pending",
             "high_bid_team_id": str(high_bid_team),
+            "bids": bids_payload,
         }
 
     # UFA: finalize immediately.
@@ -1128,6 +1156,7 @@ def reveal_nomination(
         "winning_bid": high_bid,
         "status": "finalized",
         "contract": contract,
+        "bids": bids_payload,
     }
 
 

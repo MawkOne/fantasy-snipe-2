@@ -429,6 +429,19 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       const body = await res.json().catch(() => ({}) as any)
       // Show a durable result so the bid panel doesn't go blank immediately
       setRevealResult(body)
+      // Seed per-team bids + submitted flags so the GM circles show amounts
+      if (Array.isArray(body.bids)) {
+        const nextBids: Record<string, number> = {}
+        const nextSubmitted: Record<string, boolean> = {}
+        for (const b of body.bids) {
+          const tid = String(b?.team_id || '')
+          if (!tid) continue
+          nextSubmitted[tid] = !!b?.responded
+          if (typeof b?.effective_bid === 'number') nextBids[tid] = b.effective_bid
+        }
+        setBidSubmitted((prev) => ({ ...prev, ...nextSubmitted }))
+        setGmBids((prev) => ({ ...prev, ...nextBids }))
+      }
       if (body.result === 'sold') {
         toast.success(`Sold to ${body.winner || ''} at $${body.winning_bid || 0}`)
       } else if (body.result === 'rfa_match_pending') {
@@ -502,7 +515,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       try {
         const nomination = json?.active_nomination
         const viewerTeamId = json?.viewer?.team_id
-        setRevealed(!!(nomination && nomination.amounts_revealed === true))
+        setRevealed(!!(nomination && nomination.amounts_revealed === true) || !!revealResult)
         if (nomination && Array.isArray(nomination.responses)) {
           const amountsRevealed = nomination.amounts_revealed === true
           const nextBids: Record<string, number> = {}
@@ -2208,7 +2221,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                           <div className="mt-1 h-[14px] text-[11px] text-slate-500">{submitted ? "●" : "–"}</div>
                         )}
                         {revealed && (
-                          <div className="mt-1 text-[11px] text-slate-600 tabular-nums">{bid != null ? `$${bid}` : "—"}</div>
+                          <div className="mt-1 text-[11px] text-slate-600 tabular-nums">{submitted ? `$${bid ?? 0}` : "—"}</div>
                         )}
                       </div>
                     )
