@@ -279,6 +279,7 @@ def build_uhhp_auction_router(
                        AND nomination.status IN (
                          'awaiting_nomination',
                          'sealed_bidding',
+                         'tie_break_bidding',
                          'revealed',
                          'rfa_match_pending'
                        )
