@@ -3,15 +3,10 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { X, User, LogOut } from "lucide-react"
-import { useAuth } from "@/lib/auth-context"
-import LoginModal from "@/components/login-modal"
+import { X } from "lucide-react"
 
 export default function Header() {
   const [showPrivacyBanner, setShowPrivacyBanner] = useState(false)
-  const [showLoginModal, setShowLoginModal] = useState(false)
-  const { user, teamMembership, logout } = useAuth()
-  const syncHref = user ? "/sync" : "/login"
 
   useEffect(() => {
     // Check if user has already accepted terms
@@ -28,14 +23,6 @@ export default function Header() {
 
   const handleDismiss = () => {
     setShowPrivacyBanner(false)
-  }
-
-  const handleLogin = () => {
-    setShowLoginModal(true)
-  }
-
-  const handleLogout = () => {
-    logout()
   }
 
   return (
@@ -75,70 +62,6 @@ export default function Header() {
           </div>
         </div>
       )}
-
-      {/* Main Header */}
-      <header className="bg-slate-900 text-white">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link href="/" className="text-2xl font-bold text-orange-400">
-              FantasySnipe.ai
-            </Link>
-
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/my-playbook" className="hover:text-orange-400 transition-colors">
-                My Playbook
-              </Link>
-              <Link href="/research" className="hover:text-orange-400 transition-colors">
-                Research
-              </Link>
-              <Link href="/podcast" className="hover:text-orange-400 transition-colors">
-                Snipe Podcast
-              </Link>
-              <Link href="/chat" className="hover:text-orange-400 transition-colors">
-                Snipe Chat
-              </Link>
-            </nav>
-
-            {/* Right Side */}
-            <div className="flex items-center space-x-4">
-              <Link href={syncHref}>
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                  Sync League
-                </Button>
-              </Link>
-
-              {user ? (
-                <div className="flex items-center space-x-3">
-                  <Link href="/account">
-                    <User className="w-5 h-5 text-gray-300 hover:text-white" />
-                  </Link>
-                  <button
-                    onClick={() => { try { localStorage.removeItem('fantasy_api_key'); localStorage.removeItem('fantasy_user'); } catch {}; logout(); window.location.href = '/'; }}
-                    className="text-gray-300 hover:text-white flex items-center"
-                    aria-label="Logout"
-                  >
-                    <LogOut className="w-5 h-5" />
-                  </button>
-                </div>
-              ) : (
-                <Link href="/login">
-                  <Button className="bg-orange-500 hover:bg-orange-600">
-                    Get Started
-                  </Button>
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Login Modal */}
-      <LoginModal 
-        isOpen={showLoginModal} 
-        onClose={() => setShowLoginModal(false)} 
-      />
     </>
   )
 }
