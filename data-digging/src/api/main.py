@@ -474,8 +474,9 @@ from src.api.uhhp_auction_routes import build_uhhp_auction_router
 app.include_router(build_uhhp_auction_router(get_current_user))
 
 
-# Health check endpoint
-@app.get("/health")
+@app.get("/")
+async def root_redirect():
+    return {"app": "UHHP Auction API", "status": "running", "docs": "/docs"}
 async def health_check():
     """Health check endpoint"""
     return {
