@@ -381,6 +381,25 @@ def _create_contract_roster(
     ).fetchone()
     season = int(row.draft_year) if row else None
 
+    # The CBS roster schema requires a non-null cbs_player_id. Pool rows imported
+    # from projections may lack one, so synthesize a stable key and ensure the
+    # linked cbs_players row exists for the foreign key.
+    if not cbs_player_id:
+        cbs_player_id = "uhhp-auction-" + str(nomination_id)[:12]
+        try:
+            session.execute(
+                text(
+                    """
+                    INSERT INTO cbs_players (cbs_player_id, full_name, pos_primary)
+                    VALUES (:cid, :full_name, :pos)
+                    ON CONFLICT (cbs_player_id) DO NOTHING
+                    """
+                ),
+                {"cid": cbs_player_id, "full_name": player_name, "pos": position},
+            )
+        except Exception as exc:  # pragma: no cover - defensive
+            logger.warning("Placeholder cbs_players insert failed: %s", type(exc).__name__)
+
     inserted = session.execute(
         text(
             """
