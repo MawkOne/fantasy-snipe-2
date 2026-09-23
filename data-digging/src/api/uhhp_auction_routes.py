@@ -20,6 +20,7 @@ from src.auction.service import (
     resume_draft,
     reveal_nomination,
     submit_bid,
+    submit_tiebreak_bid,
     void_nomination,
 )
 from src.database.fantasy_connection import get_fantasy_session
@@ -29,10 +30,12 @@ logger = logging.getLogger(__name__)
 ACTIVE_NOMINATION_STATUSES = (
     "awaiting_nomination",
     "sealed_bidding",
+    "tie_break_bidding",
     "revealed",
     "rfa_match_pending",
 )
 REVEALED_NOMINATION_STATUSES = (
+    "tie_break_bidding",
     "revealed",
     "rfa_match_pending",
     "finalized",
@@ -438,6 +441,18 @@ def build_uhhp_auction_router(
                         1 for response in bid_responses if response["responded"]
                     ),
                     "team_count": len(bid_responses),
+                    "tie_break": (
+                        {
+                            "tied_team_ids": list(
+                                ((active_nomination.outcome or {}).get("tie_break") or {}).get("team_ids") or []
+                            ),
+                            "amount": int(
+                                ((active_nomination.outcome or {}).get("tie_break") or {}).get("amount") or 0
+                            ),
+                        }
+                        if active_nomination.status == "tie_break_bidding"
+                        else None
+                    ),
                 }
 
             viewer_team_id = membership["team_id"]
@@ -452,7 +467,7 @@ def build_uhhp_auction_router(
             can_reveal = bool(
                 membership["is_commissioner"]
                 and active_nomination
-                and active_nomination.status == "sealed_bidding"
+                and active_nomination.status in ("sealed_bidding", "tie_break_bidding")
             )
             can_decide_rfa = bool(
                 viewer_team_id
@@ -1152,6 +1167,32 @@ def build_uhhp_auction_router(
             ),
         )
         await _emit(slug, "bid_replaced", nomination_id=nomination_id)
+        return result
+
+    @router.post("/bids/tiebreak", response_model=dict)
+    async def submit_tiebreak_bid_endpoint(
+        slug: str,
+        payload: Dict[str, Any],
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        nomination_id = str(_require_value(payload, "nomination_id"))
+        amount = payload.get("amount", 0)
+        idempotency_key = str(payload.get("idempotency_key") or "")
+        if not idempotency_key:
+            idempotency_key = str(uuid_mod.uuid4().hex)
+        result = _run_mutation(
+            slug, draft_year, current_user,
+            lambda session, draft, membership: submit_tiebreak_bid(
+                session,
+                draft_id=str(draft.id),
+                nomination_id=nomination_id,
+                actor_team_id=_actor_team(membership, payload.get("team_id")),
+                amount=amount,
+                idempotency_key=idempotency_key,
+            ),
+        )
+        await _emit(slug, "tiebreak_bid_placed", nomination_id=nomination_id)
         return result
 
     @router.post("/bids/cancel", response_model=dict)

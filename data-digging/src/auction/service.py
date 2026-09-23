@@ -35,6 +35,7 @@ logger = logging.getLogger(__name__)
 ACTIVE_NOMINATION_STATUSES = (
     "awaiting_nomination",
     "sealed_bidding",
+    "tie_break_bidding",
     "revealed",
     "rfa_match_pending",
 )
@@ -913,6 +914,283 @@ def cancel_bid(
     return {"ok": True, "status": "cancelled", "effective_bid": 0, "responded": True}
 
 
+def _rotate_priority_winner(
+    session: Any,
+    draft_id: str,
+    league_id: int,
+    nomination_id: str,
+    winner: str,
+    *,
+    tied_teams: Sequence[str],
+    order_before: Sequence[str],
+    audit_amount: Optional[int],
+) -> None:
+    """Move the winner to the bottom of the tie-break order and persist it.
+
+    The winner always moves to the last position. A tie-audit row is written
+    only when an actual tie was resolved (>= 2 tied teams).
+    """
+    order_after = [t for t in order_before if t != winner] + [winner]
+    if audit_amount is not None and len(tied_teams) >= 2 and winner in tied_teams:
+        session.execute(
+            text(
+                """
+                INSERT INTO uhhp_auction_tie_audits (
+                  nomination_id, draft_id, league_id, tied_amount,
+                  tied_team_ids, winning_team_id,
+                  old_tie_break_order, new_tie_break_order
+                ) VALUES (
+                  :nomination_id, :draft_id, :league_id, :tied_amount,
+                  :tied_team_ids, :winning_team_id,
+                  :old_order, :new_order
+                )
+                """
+            ),
+            {
+                "nomination_id": str(nomination_id),
+                "draft_id": str(draft_id),
+                "league_id": int(league_id),
+                "tied_amount": int(audit_amount),
+                "tied_team_ids": list(tied_teams),
+                "winning_team_id": str(winner),
+                "old_order": list(order_before),
+                "new_order": order_after,
+            },
+        )
+    # Two-phase update so the unique (draft_id, tie_break_priority) index is
+    # never transiently violated while teams swap priorities.
+    session.execute(
+        text(
+            """
+            UPDATE uhhp_auction_draft_teams
+               SET tie_break_priority = tie_break_priority + 1000,
+                   updated_at = NOW()
+             WHERE draft_id = :draft_id
+            """
+        ),
+        {"draft_id": str(draft_id)},
+    )
+    for priority, tid in enumerate(order_after, start=1):
+        session.execute(
+            text(
+                """
+                UPDATE uhhp_auction_draft_teams
+                   SET tie_break_priority = :priority, updated_at = NOW()
+                 WHERE draft_id = :draft_id AND team_id = :team_id
+                """
+            ),
+            {"priority": priority, "draft_id": str(draft_id), "team_id": str(tid)},
+        )
+
+
+def _resolve_tie_break_round(
+    session: Any,
+    draft: Any,
+    nomination: Any,
+    teams: List[Dict[str, Any]],
+    tie_order: Sequence[str],
+) -> dict[str, Any]:
+    """Second reveal: resolve the tie-break re-bid round.
+
+    The highest re-bid above the tied amount wins; if nobody raised, the
+    rotating tie-break order decides among the tied teams. The winner always
+    moves to the bottom of the order.
+    """
+    draft_id = str(draft.id)
+    nomination_id = str(nomination.id)
+    outcome = nomination.outcome or {}
+    tb = outcome.get("tie_break") or {}
+    tie_amount = int(tb.get("amount") or 0)
+    tied_ids = [str(t) for t in (tb.get("team_ids") or [])]
+    if tie_amount <= 0 or len(tied_ids) < 2:
+        raise AuctionServiceError("Tie-break state is inconsistent", 409)
+
+    rows = session.execute(
+        text(
+            """
+            SELECT team_id, amount
+              FROM uhhp_auction_tiebreak_bids
+             WHERE nomination_id = :nomination_id
+            """
+        ),
+        {"nomination_id": nomination_id},
+    ).fetchall()
+    rebids = {str(r.team_id): int(r.amount) for r in rows}
+    max_rebid = max(rebids.values()) if rebids else 0
+
+    if max_rebid > tie_amount:
+        leaders = [tid for tid in tied_ids if rebids.get(tid, 0) == max_rebid]
+        winner = min(leaders, key=lambda t: tie_order.index(t))
+        winning_bid = max_rebid
+    else:
+        winner = min(tied_ids, key=lambda t: tie_order.index(t))
+        winning_bid = tie_amount
+
+    _rotate_priority_winner(
+        session,
+        draft_id,
+        int(draft.league_id),
+        nomination_id,
+        winner,
+        tied_teams=tuple(tied_ids),
+        order_before=list(tie_order),
+        audit_amount=tie_amount,
+    )
+
+    player = _load_player(session, draft_id, _seq_str(nomination.player_pool_id))
+    is_rfa = player is not None and str(player.eligibility) == "RFA"
+    bids_payload = [
+        {
+            "team_id": tid,
+            "effective_bid": rebids.get(tid),
+            "responded": tid in rebids,
+            "canceled": False,
+        }
+        for tid in tied_ids
+    ]
+
+    if is_rfa:
+        session.execute(
+            text(
+                """
+                UPDATE uhhp_auction_nominations
+                   SET status = 'rfa_match_pending', revealed_at = :revealed_at,
+                       high_bid_team_id = :high_bid_team_id,
+                       high_bid_amount = :high_bid_amount,
+                       winning_team_id = NULL, winning_bid_amount = NULL,
+                       contract_years = 3,
+                       outcome = CAST(:outcome AS JSONB),
+                       version = version + 1, updated_at = NOW()
+                 WHERE id = :nomination_id
+                """
+            ),
+            {
+                "revealed_at": _now(),
+                "high_bid_team_id": str(winner),
+                "high_bid_amount": int(winning_bid),
+                "outcome": json.dumps(
+                    {
+                        "result": "rfa_match_pending",
+                        "high_bid_team_id": str(winner),
+                        "high_bid_amount": int(winning_bid),
+                        "tie_break_applied": True,
+                        "controlling_team_id": _seq_str(
+                            player.controlling_team_id if player else None
+                        ),
+                    }
+                ),
+                "nomination_id": nomination_id,
+            },
+        )
+        _append_event(
+            session,
+            draft_id,
+            int(draft.league_id),
+            "nomination_revealed",
+            nomination_id=nomination_id,
+            team_id=winner,
+            metadata={"rfa_match_pending": True, "high_bid": int(winning_bid), "tie_break": True},
+        )
+        _advance_or_transition(session, draft, teams)
+        return {
+            "ok": True,
+            "result": "rfa_match_pending",
+            "nomination_id": nomination_id,
+            "winner": None,
+            "winning_bid": int(winning_bid),
+            "status": "rfa_match_pending",
+            "high_bid_team_id": winner,
+            "tie_break": {"winner": winner, "amount": int(winning_bid), "tied_teams": tied_ids},
+            "bids": bids_payload,
+        }
+
+    contract = _finalize_nomination(
+        session,
+        nomination_id=nomination_id,
+        draft_id=draft_id,
+        league_id=int(draft.league_id),
+        winning_team_id=winner,
+        winning_bid=int(winning_bid),
+        outcome={"result": "sold", "revealed": True, "tie_break_applied": True},
+    )
+    _advance_or_transition(session, draft, teams)
+    return {
+        "ok": True,
+        "result": "sold",
+        "nomination_id": nomination_id,
+        "winner": winner,
+        "winning_bid": int(winning_bid),
+        "status": "finalized",
+        "contract": contract,
+        "tie_break": {"winner": winner, "amount": int(winning_bid), "tied_teams": tied_ids},
+        "bids": bids_payload,
+    }
+
+
+def submit_tiebreak_bid(
+    session: Any,
+    *,
+    draft_id: str,
+    nomination_id: str,
+    actor_team_id: str,
+    amount: Any,
+    idempotency_key: str,
+) -> dict[str, Any]:
+    """Submit (or replace) a tied team's one sealed re-bid."""
+    draft = _load_draft(session, draft_id)
+    if str(draft.status) != DRAFT_STATUS_ACTIVE:
+        raise AuctionServiceError("Draft is not active", 409)
+    nomination = _load_nomination(session, nomination_id)
+    if nomination.status != "tie_break_bidding":
+        raise AuctionServiceError("Tie-break round is not open", 409)
+    tb = (nomination.outcome or {}).get("tie_break") or {}
+    tied = [str(t) for t in (tb.get("team_ids") or [])]
+    if actor_team_id not in tied:
+        raise AuctionServiceError("Only teams in the tie may submit a tie-break bid", 403)
+    try:
+        validated = validate_bid(int(amount)) if isinstance(amount, (int, float, str)) else validate_bid(amount)
+    except (BidValidationError, TypeError, ValueError) as exc:
+        raise AuctionServiceError("Invalid bid amount: " + str(exc), 400) from exc
+    session.execute(
+        text(
+            """
+            INSERT INTO uhhp_auction_tiebreak_bids (
+              nomination_id, draft_id, league_id, team_id, amount,
+              idempotency_key, actor_id
+            ) VALUES (
+              :nomination_id, :draft_id, :league_id, :team_id, :amount,
+              :idempotency_key, :actor_id
+            )
+            ON CONFLICT (nomination_id, team_id) DO UPDATE SET
+              amount = EXCLUDED.amount,
+              idempotency_key = EXCLUDED.idempotency_key,
+              actor_id = EXCLUDED.actor_id,
+              updated_at = NOW()
+            """
+        ),
+        {
+            "nomination_id": str(nomination_id),
+            "draft_id": str(draft_id),
+            "league_id": int(draft.league_id),
+            "team_id": str(actor_team_id),
+            "amount": validated,
+            "idempotency_key": str(idempotency_key),
+            "actor_id": str(actor_team_id),
+        },
+    )
+    _append_event(
+        session,
+        str(draft_id),
+        int(draft.league_id),
+        "tiebreak_bid_submitted",
+        nomination_id=str(nomination_id),
+        team_id=str(actor_team_id),
+        actor_type="team",
+        actor_id=str(actor_team_id),
+        idempotency_key=str(idempotency_key),
+        metadata={"amount": validated},
+    )
+    return {"ok": True, "status": "submitted", "effective_bid": validated, "responded": True}
 def reveal_nomination(
     session: Any,
     *,
@@ -921,14 +1199,13 @@ def reveal_nomination(
     actor_role: str,
     confirm_nonresponses: bool = False,
 ) -> dict[str, Any]:
-    """Commissioner reveals sealed bids and resolves a winner or No Sale.
+    """Commissioner reveals sealed bids and resolves the auction.
 
-    For a positive UFA result the winner is finalized immediately into a
-    three-year roster contract. For a positive RFA result the auction enters
-    ``rfa_match_pending`` and only the controlling team may then match/pass.
-    If every effective bid is zero the auction is a No Sale.
-    Positive ties are resolved with the rotating tie-break priority and the
-    winner is moved to the bottom of that order.
+    Phase 1 (sealed_bidding): if the top bids tie, the nomination enters a
+    tie-break re-bid round; otherwise the winner is finalized immediately.
+    Phase 2 (tie_break_bidding): the tie-break round is resolved - the
+    highest raise wins, otherwise the rotating tie-break order decides.
+    Every positive winner moves to the bottom of the tie-break order.
     """
     if actor_role not in ("admin", "commissioner"):
         raise AuctionServiceError("Only a commissioner can reveal", 403)
@@ -936,13 +1213,18 @@ def reveal_nomination(
     if str(draft.status) not in (DRAFT_STATUS_ACTIVE, "paused"):
         raise AuctionServiceError("Draft is not active", 409)
     nomination = _load_nomination(session, nomination_id)
-    if nomination.status != "sealed_bidding":
-        raise AuctionServiceError("This nomination is not accepting reveal", 409)
 
     teams = _ordered_teams(session, str(draft_id))
     tie_order = [t["team_id"] for t in sorted(teams, key=lambda t: t["tie_break_priority"])]
 
-    # Load each team's ordered bid events.
+    # Phase 2: resolve the tie-break re-bid round.
+    if nomination.status == "tie_break_bidding":
+        return _resolve_tie_break_round(session, draft, nomination, teams, tie_order)
+
+    if nomination.status != "sealed_bidding":
+        raise AuctionServiceError("This nomination is not accepting reveal", 409)
+
+    # Load each team's ordered bid events (Phase 1).
     bid_rows = session.execute(
         text(
             """
@@ -996,61 +1278,63 @@ def reveal_nomination(
     high_bid = int(result.winning_bid)
     high_bid_team = result.winner if high_bid > 0 else None
 
-    # Persist tie-break rotation and audit when a positive tie was resolved.
+    # A positive tie starts the tie-break re-bid round; nothing concludes yet.
     if result.tie_was_resolved and result.winner is not None:
-        winner = result.winner
-        order_before = list(tie_order)
-        order_after = list(result.updated_tie_order)
+        tied_ids = [str(t) for t in result.audit.tie_break.tied_teams]
         session.execute(
             text(
                 """
-                INSERT INTO uhhp_auction_tie_audits (
-                  nomination_id, draft_id, league_id, tied_amount,
-                  tied_team_ids, winning_team_id,
-                  old_tie_break_order, new_tie_break_order
-                ) VALUES (
-                  :nomination_id, :draft_id, :league_id, :tied_amount,
-                  :tied_team_ids, :winning_team_id,
-                  :old_order, :new_order
-                )
+                UPDATE uhhp_auction_nominations
+                   SET status = 'tie_break_bidding', revealed_at = :revealed_at,
+                       high_bid_team_id = NULL, high_bid_amount = :amount,
+                       winning_team_id = NULL, winning_bid_amount = NULL,
+                       outcome = CAST(:outcome AS JSONB),
+                       version = version + 1, updated_at = NOW()
+                 WHERE id = :nomination_id
                 """
             ),
             {
+                "revealed_at": _now(),
+                "amount": int(high_bid),
+                "outcome": json.dumps({
+                    "result": "tie_break_bidding",
+                    "tie_break": {"amount": int(high_bid), "team_ids": tied_ids, "round": 1},
+                }),
                 "nomination_id": str(nomination_id),
-                "draft_id": str(draft_id),
-                "league_id": int(draft.league_id),
-                "tied_amount": int(high_bid),
-                "tied_team_ids": list(result.audit.tie_break.tied_teams),
-                "winning_team_id": str(winner),
-                "old_order": order_before,
-                "new_order": order_after,
             },
         )
-        # Rotate priority: winner to bottom. Use a two-phase update so the
-        # unique (draft_id, tie_break_priority) index is never transiently
-        # violated while teams swap priorities.
-        session.execute(
-            text(
-                """
-                UPDATE uhhp_auction_draft_teams
-                   SET tie_break_priority = tie_break_priority + 1000,
-                       updated_at = NOW()
-                 WHERE draft_id = :draft_id
-                """
-            ),
-            {"draft_id": str(draft_id)},
+        _append_event(
+            session,
+            str(draft_id),
+            int(draft.league_id),
+            "nomination_tie_break",
+            nomination_id=str(nomination_id),
+            metadata={"amount": int(high_bid), "team_ids": tied_ids},
         )
-        for priority, tid in enumerate(order_after, start=1):
-            session.execute(
-                text(
-                    """
-                    UPDATE uhhp_auction_draft_teams
-                       SET tie_break_priority = :priority, updated_at = NOW()
-                     WHERE draft_id = :draft_id AND team_id = :team_id
-                    """
-                ),
-                {"priority": priority, "draft_id": str(draft_id), "team_id": str(tid)},
-            )
+        return {
+            "ok": True,
+            "result": "tie_break_bidding",
+            "nomination_id": str(nomination_id),
+            "winner": None,
+            "winning_bid": int(high_bid),
+            "status": "tie_break_bidding",
+            "tied_teams": tied_ids,
+            "tied_amount": int(high_bid),
+            "bids": bids_payload,
+        }
+
+    # Positive, no tie: conclude immediately; the winner moves to the bottom
+    # of the tie-break order.
+    _rotate_priority_winner(
+        session,
+        str(draft_id),
+        int(draft.league_id),
+        str(nomination_id),
+        str(high_bid_team),
+        tied_teams=(),
+        order_before=list(tie_order),
+        audit_amount=None,
+    )
 
     player = _load_player(session, str(draft_id), _seq_str(nomination.player_pool_id))
     is_rfa = player is not None and str(player.eligibility) == "RFA"

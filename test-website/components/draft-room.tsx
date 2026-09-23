@@ -610,6 +610,24 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     } catch { toast.error('Cancel failed') }
   }
 
+  async function submitTiebreakBid(amount: number) {
+    if (!currentAuctionId || !actionTeamId) { toast.error('No auction or team'); return }
+    try {
+      const apiBase = getApiBase()
+      const amt = Math.max(0, Math.floor(Number(amount || 0)))
+      const body: any = { nomination_id: String(currentAuctionId), amount: amt, idempotency_key: `${Date.now()}-tb-${Math.random().toString(36).slice(2, 10)}` }
+      if (actionTeamId) body.team_id = String(actionTeamId)
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/bids/tiebreak`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(body) })
+      if (!res.ok) {
+        const txt = await res.text().catch(() => '')
+        toast.error(`Tie-break bid failed ${txt ? `- ${txt}` : ''}`)
+        return
+      }
+      toast.success('Tie-break bid submitted')
+      await loadAuctionState()
+    } catch { toast.error('Tie-break bid failed') }
+  }
+
   async function decideRfa(decision: 'match' | 'pass') {
     if (!currentAuctionId) { toast.error('No open auction'); return }
     try {
@@ -2058,6 +2076,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                       })()
                     : revealResult.result === 'rfa_match_pending'
                       ? `RFA match pending — controlling team can match at $${revealResult.winning_bid || 0}`
+                      : revealResult.result === 'tie_break_bidding'
+                        ? `Tie at $${revealResult.winning_bid || 0} — one re-bid round for the tied teams`
                       : `Bids revealed (${revealResult.result || '—'})`}
                 </div>
                 <button
@@ -2086,7 +2106,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                       {nominated ? (
                         <span className="inline-flex items-center gap-1">
                           {nominated.player}
-                          {auctionState?.viewer?.is_commissioner === true && auctionState?.active_nomination?.status === 'sealed_bidding' && (
+                          {auctionState?.viewer?.is_commissioner === true && ['sealed_bidding', 'tie_break_bidding'].includes(auctionState?.active_nomination?.status || '') && (
                             <button
                               className="ml-0.5 text-slate-400 hover:text-red-500 transition-colors"
                               onClick={(e) => { e.stopPropagation(); voidNomination() }}
@@ -2115,10 +2135,21 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                         "Select a player and place your bid"
                       )}
                     </div>
+                    {(() => {
+                      const tb = auctionState?.active_nomination?.tie_break
+                      if (!tb || (auctionState?.active_nomination?.status || '') !== 'tie_break_bidding') return null
+                      const names = (Array.isArray(tb.tied_team_ids) ? tb.tied_team_ids : []).map((id: string) => nameById[id] || id).join(', ')
+                      return (
+                        <div className="mt-1 text-[11px] font-semibold text-orange-700">
+                          Tie-break round at ${tb.amount || 0} — tied: {names}
+                        </div>
+                      )
+                    })()}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {(() => {
+                    const tieBreakMode = (auctionState?.active_nomination?.status || '') === 'tie_break_bidding'
                     const rfaPending = (auctionState?.active_nomination?.status || '') === 'rfa_match_pending'
                     const canAct = rfaPending && auctionState?.actions?.can_decide_rfa === true
                     return (
@@ -2141,19 +2172,21 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                         >
                           Release
                         </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className={cn("ml-1", (!currentAuctionId) ? "opacity-50 text-slate-400 cursor-not-allowed" : undefined)}
-                          disabled={!currentAuctionId}
-                          onClick={() => {
-                            if (!currentAuctionId) { toast.message("No open auction"); return }
-                            if (revealed) return
-                            if (!!bidSubmitted[yourTeamId]) { cancelBid() } else { submitBid(0) }
-                          }}
-                        >
-                          Pass
-                        </Button>
+                        {!tieBreakMode && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className={cn("ml-1", (!currentAuctionId) ? "opacity-50 text-slate-400 cursor-not-allowed" : undefined)}
+                            disabled={!currentAuctionId}
+                            onClick={() => {
+                              if (!currentAuctionId) { toast.message("No open auction"); return }
+                              if (revealed) return
+                              if (!!bidSubmitted[yourTeamId]) { cancelBid() } else { submitBid(0) }
+                            }}
+                          >
+                            Pass
+                          </Button>
+                        )}
                       </div>
                     )
                   })()}
@@ -2181,9 +2214,14 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     />
                   </div>
                   {(() => {
+                    const tieBreakMode = (auctionState?.active_nomination?.status || '') === 'tie_break_bidding'
+                    const tiedIds: string[] = Array.isArray(auctionState?.active_nomination?.tie_break?.tied_team_ids)
+                      ? auctionState.active_nomination.tie_break.tied_team_ids
+                      : []
+                    const youInTieBreak = tieBreakMode && tiedIds.includes(String(yourTeamId || ''))
                     const isSubmitted = !!bidSubmitted[yourTeamId] && !revealed
-                    const disabled = !currentAuctionId
-                    const label = isSubmitted ? "Cancel" : "Submit Bid"
+                    const disabled = !currentAuctionId || (tieBreakMode && !youInTieBreak)
+                    const label = tieBreakMode ? "Submit Tie-Break Bid" : (isSubmitted ? "Cancel" : "Submit Bid")
                     const baseCls = "ml-2"
                     const stateCls = isSubmitted
                           ? "bg-rose-600 hover:bg-rose-700 text-white"
@@ -2194,11 +2232,15 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                         disabled={disabled}
                         onClick={() => {
                           if (!currentAuctionId) return
+                          const amt = Math.floor(Number(bidAmount || "0"))
+                          if (tieBreakMode) {
+                            submitTiebreakBid(amt)
+                            return
+                          }
                           if (isSubmitted) {
                             cancelBid()
                             return
                           }
-                          const amt = Math.floor(Number(bidAmount || "0"))
                           submitBid(amt)
                         }}
                       >
@@ -4091,7 +4133,7 @@ function DraftTopbarAuth({
               Resume
             </Button>
           )}
-          {activeNominationStatus === 'sealed_bidding' && (
+          {(['sealed_bidding', 'tie_break_bidding'] as string[]).includes(activeNominationStatus || '') && (
             <Button
               size="sm"
               variant="outline"
