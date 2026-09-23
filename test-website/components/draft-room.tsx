@@ -314,6 +314,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   const [posFilter, setPosFilter] = useState<"All" | "C" | "W" | "D" | "G">("All")
   const [faFilter, setFaFilter] = useState<"All" | "UFA" | "RFA">("All")
   const [bidAmount, setBidAmount] = useState<string>("")
+  const [revealResult, setRevealResult] = useState<any | null>(null)
   const [nominated, setNominated] = useState<any | null>(null)
   const [bidSubmitted, setBidSubmitted] = useState<Record<string, boolean>>({})
   const [submittedHover, setSubmittedHover] = useState<boolean>(false)
@@ -434,7 +435,16 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
         toast.error(`Reveal failed ${txt ? `- ${txt}` : ''}`)
         return
       }
-      toast.success('Bids revealed')
+      const body = await res.json().catch(() => ({}) as any)
+      // Show a durable result so the bid panel doesn't go blank immediately
+      setRevealResult(body)
+      if (body.result === 'sold') {
+        toast.success(`Sold to ${body.winner || ''} at $${body.winning_bid || 0}`)
+      } else if (body.result === 'rfa_match_pending') {
+        toast.success('RFA match pending')
+      } else {
+        toast.success('Bids revealed')
+      }
       await loadAuctionState()
       try { await refreshCapSummary() } catch {}
     } catch { toast.error('Reveal failed') }
@@ -634,6 +644,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
         const pid = Number(pidRaw)
         if (name) {
           setNominated({ player: name, nhl_player_id: Number.isFinite(pid) && pid > 0 ? pid : undefined, pos, type: String(p?.eligibility || '—') })
+          setRevealResult(null)
           return
         }
       }
@@ -652,6 +663,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       if (!name) name = String(a?.player_name || a?.nhl_player_id || '')
       const type = (Number.isFinite(pid) && statusById[pid]) ? statusById[pid] : '—'
       setNominated({ player: name, nhl_player_id: Number.isFinite(pid) ? pid : undefined, pos, type })
+      setRevealResult(null)
     } catch {}
   }, [auctionState, rankings, projPosById, statusById])
 
@@ -1963,6 +1975,27 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           {/* Bidding Controls */
           }
           <div className="pt-0">
+            {revealResult && !auctionState?.active_nomination && (
+              <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 mb-3 shadow-sm">
+                <div className="font-semibold text-emerald-800 text-sm">Auction Result</div>
+                <div className="text-sm mt-1 text-emerald-700">
+                  {revealResult.result === 'sold'
+                    ? (() => {
+                        const wName = (nameById as any)?.[revealResult.winner] || revealResult.winner || '—'
+                        return `Won by ${wName} at $${revealResult.winning_bid || 0} for 3 years`
+                      })()
+                    : revealResult.result === 'rfa_match_pending'
+                      ? `RFA match pending — controlling team can match at $${revealResult.winning_bid || 0}`
+                      : `Bids revealed (${revealResult.result || '—'})`}
+                </div>
+                <button
+                  className="mt-1 text-[11px] text-slate-500 underline hover:text-slate-700"
+                  onClick={() => setRevealResult(null)}
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
             <div className="rounded-lg border border-blue-200 bg-blue-50 p-3 mb-3 shadow-sm">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3 min-w-0">
