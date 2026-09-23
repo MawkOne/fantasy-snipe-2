@@ -1026,7 +1026,20 @@ def reveal_nomination(
                 "new_order": order_after,
             },
         )
-        # Rotate priority: winner to bottom.
+        # Rotate priority: winner to bottom. Use a two-phase update so the
+        # unique (draft_id, tie_break_priority) index is never transiently
+        # violated while teams swap priorities.
+        session.execute(
+            text(
+                """
+                UPDATE uhhp_auction_draft_teams
+                   SET tie_break_priority = tie_break_priority + 1000,
+                       updated_at = NOW()
+                 WHERE draft_id = :draft_id
+                """
+            ),
+            {"draft_id": str(draft_id)},
+        )
         for priority, tid in enumerate(order_after, start=1):
             session.execute(
                 text(
