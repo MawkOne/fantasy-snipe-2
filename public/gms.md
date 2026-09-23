@@ -1,7 +1,7 @@
 team name	team abbrev.	manager	manager email	
 1
 New Oilers Nation
-BARNEY
+NoN
 Mark Henderson
 markhenderson1977@gmail.com
 2
@@ -41,7 +41,7 @@ Jeremy Greene
 jtgreene@gmail.com
 9
 Jeff's Jackass's
-Jeff'sJack
+JJ
 Jeff Widynowski
 jeffwidy@hotmail.com
 10
@@ -51,7 +51,7 @@ David Foster
 dlfoster@ualberta.net
 11
 The Dook of Sook
-SookDook
+Dook
 Nathan Krentz
 ichp.commish@gmail.com
 12
