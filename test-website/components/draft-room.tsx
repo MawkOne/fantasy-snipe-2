@@ -1817,12 +1817,12 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                         <div
                           key={`${entry.kind}-${idx}`}
                           className={cn(
-                            "grid grid-cols-[28px_1fr_60px] items-start px-3 py-2 border-b hover:bg-slate-50",
+                            "grid grid-cols-[28px_1fr_60px] items-start px-2 py-1.5 border-b hover:bg-slate-50",
                             idx + 1 === currentPickNum ? "bg-blue-50 border-blue-300" : "",
                           )}
                         >
                           {/* Pick number */}
-                          <div className="flex items-center gap-1.5 text-[12px] text-slate-700 pt-0.5">
+                          <div className="flex items-center gap-1 text-[12px] text-slate-700 pt-0.5">
                             <span className="tabular-nums">{idx + 1}.</span>
                           </div>
 
@@ -1856,11 +1856,11 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                       >
                                         {playerName}
                                       </button>
-                                      <div className="mt-1 flex items-center gap-2">
+                                      <div className="mt-0.5 flex items-center gap-1.5">
                                         {pos ? (
                                           <span
                                             className={cn(
-                                              "inline-flex items-center rounded-full px-1.5 py-[2px] text-[10px] font-semibold",
+                                              "inline-flex items-center rounded-full px-1 py-[1px] text-[10px] font-semibold",
                                               posPillClass(pos),
                                             )}
                                           >
@@ -1880,10 +1880,10 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                 <div className="font-semibold leading-snug text-[13px] break-words text-left">
                                   {entry.data?.player}
                                 </div>
-                                <div className="mt-1 flex items-center gap-2">
+                                <div className="mt-0.5 flex items-center gap-1.5">
                                   <span
                                     className={cn(
-                                      "inline-flex items-center rounded-full px-1.5 py-[2px] text-[10px] font-semibold",
+                                      "inline-flex items-center rounded-full px-1 py-[1px] text-[10px] font-semibold",
                                       posPillClass(entry.data?.pos || ""),
                                     )}
                                   >
