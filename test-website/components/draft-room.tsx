@@ -393,6 +393,36 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     if (teamMembership?.team_id) return String(teamMembership.team_id)
     return teams[0]?.id || ""
   }, [selectedTeamId, auctionState?.viewer?.team_id, teamMembership?.team_id, teams])
+
+  // The team the viewer belongs to (authenticated identity), if any.
+  const viewerTeamId = useMemo(() => {
+    if (auctionState?.viewer?.team_id) return String(auctionState.viewer.team_id)
+    if (teamMembership?.team_id) return String(teamMembership.team_id)
+    return null
+  }, [auctionState?.viewer?.team_id, teamMembership?.team_id])
+
+  // Admins (commissioner role, Kinde admin, or the own-team Admin checkbox in
+  // League Settings) can act on behalf of every team; everyone else is locked
+  // to their own team in the controlling-team dropdown.
+  const canControlAnyTeam = useMemo(() => {
+    if (auctionState?.viewer?.is_commissioner) return true
+    if (teamMembership?.is_admin) return true
+    if (viewerTeamId && Array.isArray(capTeams)) {
+      const row = capTeams.find((t: any) => String(t?.team_id) === viewerTeamId)
+      if (row && row.is_admin) return true
+    }
+    return false
+  }, [auctionState?.viewer?.is_commissioner, teamMembership?.is_admin, viewerTeamId, capTeams])
+
+  // Non-admins are always clamped to their own team (a ?team= URL cannot
+  // override their identity).
+  useEffect(() => {
+    if (canControlAnyTeam) return
+    if (viewerTeamId && selectedTeamId !== viewerTeamId) {
+      setSelectedTeamId(viewerTeamId)
+    }
+  }, [canControlAnyTeam, viewerTeamId, selectedTeamId])
+
   const isYouOnClock = currentPick?.teamId === yourTeamId
 
   // All responders submitted = every team in the active nomination has a bid
@@ -1833,15 +1863,28 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           <div className="flex-1 max-w-xl mx-6">
             <div className="flex items-center gap-2">
               <span className="text-sm text-slate-300">Controlling team</span>
-              <select
-                className="h-8 bg-slate-800 border border-slate-700 text-white text-sm rounded px-2"
-                value={selectedTeamId || ''}
-                onChange={(e) => setSelectedTeamId(e.target.value || null)}
-              >
-                {(Array.isArray(capTeams) ? capTeams : []).map((t: any) => (
-                  <option key={String(t.team_id)} value={String(t.team_id)}>{String(t.team_name)}</option>
-                ))}
-              </select>
+              {canControlAnyTeam ? (
+                <select
+                  className="h-8 bg-slate-800 border border-slate-700 text-white text-sm rounded px-2"
+                  value={selectedTeamId || ''}
+                  onChange={(e) => setSelectedTeamId(e.target.value || null)}
+                >
+                  <option value="">—</option>
+                  {(Array.isArray(capTeams) ? capTeams : []).map((t: any) => (
+                    <option key={String(t.team_id)} value={String(t.team_id)}>{String(t.team_name)}</option>
+                  ))}
+                </select>
+              ) : (
+                <select
+                  disabled
+                  className="h-8 bg-slate-800 border border-slate-700 text-white text-sm rounded px-2 opacity-80"
+                  value={viewerTeamId || ''}
+                >
+                  <option value={viewerTeamId || ''}>
+                    {(Array.isArray(capTeams) ? capTeams : []).find((t: any) => String(t?.team_id) === (viewerTeamId || ''))?.team_name || viewerTeamId || '—'}
+                  </option>
+                </select>
+              )}
             </div>
           </div>
 
