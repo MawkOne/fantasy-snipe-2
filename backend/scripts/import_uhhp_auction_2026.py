@@ -1956,8 +1956,8 @@ def upsert_current_rosters(
             (
                 league_id,
                 str(roster_team_id),
-                player.get("nhl_player_id"),
                 str(cbs_player_id),
+                player.get("nhl_player_id"),
                 slot_type,
                 status,
                 salary if salary is not None else 0,
