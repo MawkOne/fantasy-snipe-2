@@ -652,6 +652,116 @@ def build_uhhp_auction_router(
                 "players": players,
             }
 
+    @router.get("/history", response_model=dict)
+    async def get_auction_history(
+        slug: str,
+        draft_year: int = 2026,
+        limit: int = 50,
+        offset: int = 0,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        """Return finalized auction results for the current draft."""
+        with get_fantasy_session() as session:
+            if not _schema_ready(session):
+                raise HTTPException(503, "UHHP auction schema is not installed")
+            league = session.execute(
+                text(
+                    "SELECT id, provider_slug, name FROM cbs_leagues WHERE provider_slug = :slug LIMIT 1"
+                ),
+                {"slug": slug},
+            ).fetchone()
+            if not league:
+                raise HTTPException(404, "League not found")
+            membership = _resolve_membership(session, int(league.id), current_user)
+            draft = session.execute(
+                text(
+                    """
+                    SELECT id, draft_year, stage, stage_round, status
+                      FROM uhhp_auction_drafts
+                     WHERE league_id = :league_id AND draft_year = :draft_year
+                     LIMIT 1
+                    """
+                ),
+                {"league_id": int(league.id), "draft_year": int(draft_year)},
+            ).fetchone()
+            if not draft:
+                raise HTTPException(404, "Auction draft not initialized")
+
+            limit = max(1, min(int(limit), 100))
+            offset = max(0, int(offset))
+
+            rows = session.execute(
+                text(
+                    """
+                    SELECT nomination.status,
+                           nomination.winning_team_id,
+                           team.team_name AS winning_team_name,
+                           team.abbrev AS winning_team_abbrev,
+                           nomination.winning_bid_amount,
+                           nomination.contract_years,
+                           nomination.outcome,
+                           pool.player_name,
+                           pool.positions,
+                           pool.nhl_team_abbrev,
+                           tie.tied_amount,
+                           tie.tied_team_ids,
+                           tie.old_tie_break_order,
+                           tie.new_tie_break_order,
+                           nomination.nominated_at,
+                           nomination.revealed_at,
+                           nomination.finalized_at
+                      FROM uhhp_auction_nominations AS nomination
+                      LEFT JOIN uhhp_auction_player_pool AS pool
+                        ON pool.id = nomination.player_pool_id
+                      LEFT JOIN cbs_teams AS team
+                        ON team.league_id = nomination.league_id
+                       AND team.team_id = nomination.winning_team_id
+                      LEFT JOIN uhhp_auction_tie_audits AS tie
+                        ON tie.nomination_id = nomination.id
+                     WHERE nomination.draft_id = :draft_id
+                       AND nomination.status IN ('finalized', 'no_sale', 'void')
+                     ORDER BY nomination.finalized_at DESC NULLS LAST,
+                              nomination.created_at DESC
+                     LIMIT :limit OFFSET :offset
+                    """
+                ),
+                {"draft_id": draft.id, "limit": limit, "offset": offset},
+            ).fetchall()
+
+            results = []
+            for row in rows:
+                result_entry: Dict[str, Any] = {
+                    "status": str(row.status),
+                    "winning_team_id": row.winning_team_id,
+                    "winning_team_name": row.winning_team_name,
+                    "winning_team_abbrev": row.winning_team_abbrev,
+                    "winning_bid": float(row.winning_bid_amount) if row.winning_bid_amount is not None else None,
+                    "contract_years": row.contract_years,
+                    "player_name": row.player_name,
+                    "positions": list(row.positions or []),
+                    "nhl_team_abbrev": row.nhl_team_abbrev,
+                    "tie_break": None,
+                    "nominated_at": _as_iso(row.nominated_at),
+                    "revealed_at": _as_iso(row.revealed_at),
+                    "finalized_at": _as_iso(row.finalized_at),
+                }
+                if row.tied_amount is not None:
+                    result_entry["tie_break"] = {
+                        "tied_amount": int(row.tied_amount),
+                        "tied_team_ids": list(row.tied_team_ids or []),
+                        "old_order": list(row.old_tie_break_order or []),
+                        "new_order": list(row.new_tie_break_order or []),
+                    }
+                results.append(result_entry)
+
+            return {
+                "draft_id": str(draft.id),
+                "stage": str(draft.stage),
+                "stage_round": int(draft.stage_round),
+                "results": results,
+                "total": len(results),
+            }
+
     @router.get("/rosters", response_model=dict)
     async def get_team_rosters(
         slug: str,

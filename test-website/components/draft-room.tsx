@@ -307,7 +307,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   }, [tieTeams, tieOrder, teams])
 
   // Left rail tabs state
-  const [leftTab, setLeftTab] = useState<"rankings" | "teams" | "queue">("rankings")
+  const [leftTab, setLeftTab] = useState<"rankings" | "teams" | "queue" | "history">("rankings")
+  const [resultsHistory, setResultsHistory] = useState<any[] | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [modalPlayer, setModalPlayer] = useState<Player | null>(null)
   const [showAvailable, setShowAvailable] = useState(false)
@@ -447,6 +448,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       }
       await loadAuctionState()
       try { await refreshCapSummary() } catch {}
+      try { await loadResultsHistory() } catch {}
     } catch { toast.error('Reveal failed') }
   }
 
@@ -769,6 +771,17 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     } catch {}
   }
 
+  // Completed auction results (team, player, amount) from the auction-2026 backend
+  async function loadResultsHistory() {
+    try {
+      const apiBase = getApiBase()
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/history?limit=100`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
+      if (!res.ok) return
+      const js = await res.json()
+      setResultsHistory(Array.isArray(js?.results) ? js.results : [])
+    } catch {}
+  }
+
   // Rehydrate picks with names/positions once projections arrive
   useEffect(() => {
     try {
@@ -796,6 +809,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
   // Load on initial mount/reconnect
   useEffect(() => {
     loadAuctionHistory().catch(() => {})
+    loadResultsHistory().catch(() => {})
   }, [])
 
   // Load saved cap hits for this team
@@ -1765,10 +1779,11 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           {/* Tabs header (Auction | Tie Break) */}
           <div className="p-3 border-b">
             <div className="flex items-center gap-2">
-              {(["rankings", "queue"] as const).map((t) => {
+              {(["rankings", "queue", "history"] as const).map((t) => {
                 const labels: Record<typeof t, string> = {
                   rankings: "Auction",
                   queue: "Tie Break",
+                  history: "Results",
                 } as const
                 const active = leftTab === t
                 return (
@@ -1980,6 +1995,24 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     ))}
                 </div>
               </div>
+              </div>
+            )}
+
+            {leftTab === "history" && (
+              <div className="p-3 space-y-3 overflow-y-auto">
+                <div className="text-sm font-semibold mb-1">Auction Results</div>
+                {(!Array.isArray(resultsHistory) || resultsHistory.length === 0) && (
+                  <div className="text-xs text-slate-500">No completed auctions yet.</div>
+                )}
+                {(resultsHistory || []).map((r: any, i: number) => (
+                  <div key={i} className="rounded border px-2 py-1.5 text-xs flex items-center justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="font-medium truncate">{r.player_name || '—'}</div>
+                      <div className="text-slate-500 truncate">{r.winning_team_name || r.winning_team_abbrev || r.winning_team_id || '—'}</div>
+                    </div>
+                    <div className="font-semibold tabular-nums shrink-0">${r.winning_bid ?? 0}</div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
