@@ -1914,6 +1914,146 @@ def finish_import_run(
     )
 
 
+def upsert_current_rosters(
+    cursor: Any,
+    extras: Any,
+    league_id: int,
+    players: Sequence[dict[str, Any]],
+    team_ids: dict[str, str],
+) -> tuple[int, int]:
+    """Populate the current-season team rosters in ``cbs_rosters``.
+
+    Only real players and rookies that are rostered in the snapshot are
+    written (entry types ``player``/``rookie`` with a roster team). Draft-pick
+    assets and cap-hit placeholders are excluded. Auction-created contract
+    rows (those with a non-null ``uhhp_auction_nomination_id``) are never
+    touched, so re-imports replace only snapshot rows.
+    """
+    rows: list[tuple[Any, ...]] = []
+    for player in players:
+        entry_type = str(player.get("entry_type") or "")
+        if entry_type not in ("player", "rookie"):
+            continue
+        roster_team_id = player.get("roster_team_id")
+        cbs_player_id = player.get("cbs_player_id")
+        if not roster_team_id or not cbs_player_id:
+            continue
+        positions = player.get("positions") or player.get("position")
+        slot_type = None
+        if isinstance(positions, list) and positions:
+            slot_type = str(positions[0])
+        elif isinstance(positions, str):
+            slot_type = positions
+        contract = player.get("contract") or {}
+        salary = contract.get("salary")
+        years = contract.get("years")
+        rookie = bool(contract.get("rookie")) or entry_type == "rookie"
+        status = player.get("source_status")
+        rows.append(
+            (
+                league_id,
+                str(roster_team_id),
+                player.get("nhl_player_id"),
+                str(cbs_player_id),
+                slot_type,
+                status,
+                salary if salary is not None else 0,
+                years if years is not None else 0,
+                rookie,
+            )
+        )
+
+    if not rows:
+        return 0, 0
+
+    # Ensure placeholder cbs_players rows exist so the FK is satisfied for any
+    # CBS IDs not already present (goalies/rookies imported from the snapshot).
+    names: dict[str, str] = {}
+    for player in players:
+        cid = player.get("cbs_player_id")
+        if cid:
+            names.setdefault(str(cid), str(player.get("name") or "Unknown"))
+    try:
+        extras.execute_batch(
+            cursor,
+            """
+            INSERT INTO public.cbs_players (cbs_player_id, full_name)
+            VALUES (%s, %s)
+            ON CONFLICT (cbs_player_id) DO NOTHING
+            """,
+            [(cid, names[cid]) for cid in names],
+            page_size=200,
+        )
+    except Exception as exc:  # pragma: no cover - defensive
+        raise ApplyError(
+            f"Could not prepare cbs_players placeholder rows ({type(exc).__name__})."
+        ) from exc
+
+    try:
+        extras.execute_batch(
+            cursor,
+            """
+            INSERT INTO public.cbs_rosters (
+              league_id, team_id, season, cbs_player_id, nhl_player_id,
+              slot_type, status, salary, years, rookie,
+              effective_from, source_url, uhhp_auction_nomination_id
+            ) VALUES (
+              %s, %s, NULL, %s, %s, %s, %s, %s, %s, %s, NOW(),
+              'uhhp-auction-import-2026', NULL
+            )
+            ON CONFLICT (league_id, team_id, cbs_player_id, effective_from)
+            DO UPDATE SET
+              nhl_player_id = EXCLUDED.nhl_player_id,
+              slot_type = EXCLUDED.slot_type,
+              status = EXCLUDED.status,
+              salary = EXCLUDED.salary,
+              years = EXCLUDED.years,
+              rookie = EXCLUDED.rookie,
+              captured_at = NOW()
+            """,
+            rows,
+            page_size=200,
+        )
+    except Exception as exc:
+        raise ApplyError(
+            f"Could not upsert cbs_rosters snapshot ({type(exc).__name__})."
+        ) from exc
+
+    # Remove snapshot roster rows for players no longer on the team (leaves
+    # auction-created rows untouched because they have a nomination reference
+    # and a different source_url).
+    pairs = [(str(r[1]), str(r[3])) for r in rows]
+    cursor.execute(
+        """
+        CREATE TEMP TABLE _uhhp_roster_snapshot (
+          team_id TEXT NOT NULL,
+          cbs_player_id TEXT NOT NULL
+        ) ON COMMIT DROP
+        """
+    )
+    extras.execute_batch(
+        cursor,
+        "INSERT INTO _uhhp_roster_snapshot (team_id, cbs_player_id) VALUES (%s, %s)",
+        pairs,
+        page_size=200,
+    )
+    cursor.execute(
+        """
+        DELETE FROM public.cbs_rosters AS r
+         WHERE r.league_id = %s
+           AND r.uhhp_auction_nomination_id IS NULL
+           AND r.source_url = 'uhhp-auction-import-2026'
+           AND NOT EXISTS (
+             SELECT 1 FROM _uhhp_roster_snapshot AS s
+              WHERE s.team_id = r.team_id AND s.cbs_player_id = r.cbs_player_id
+           )
+        """,
+        (league_id,),
+    )
+
+    return len(rows), 0
+
+
 def apply_snapshot(connection: Any, extras: Any, snapshot: dict[str, Any]) -> ApplyResult:
     if not snapshot["validation"]["valid"]:
         raise ApplyError("Refusing to apply a snapshot with validation errors.")
@@ -1940,6 +2080,13 @@ def apply_snapshot(connection: Any, extras: Any, snapshot: dict[str, Any]) -> Ap
                 snapshot["players"],
                 team_ids,
             )
+            roster_inserted, roster_updated = upsert_current_rosters(
+                cursor,
+                extras,
+                league_id,
+                snapshot["players"],
+                team_ids,
+            )
             finish_import_run(
                 cursor, extras, import_run_id, inserted, updated, snapshot
             )
@@ -1955,6 +2102,10 @@ def apply_snapshot(connection: Any, extras: Any, snapshot: dict[str, Any]) -> Ap
                         {
                             "last_import_run_id": str(import_run_id),
                             "last_source_checksum": snapshot["source_checksum"],
+                            "last_roster_upsert": {
+                                "inserted": roster_inserted,
+                                "updated": roster_updated,
+                            },
                         }
                     ),
                     draft_id,
