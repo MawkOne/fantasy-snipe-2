@@ -693,7 +693,10 @@ def build_uhhp_auction_router(
             rows = session.execute(
                 text(
                     """
-                    SELECT nomination.status,
+                    SELECT nomination.id,
+                           nomination.status,
+                           nomination.nominator_team_id,
+                           nominator.team_name AS nominator_team_name,
                            nomination.winning_team_id,
                            team.team_name AS winning_team_name,
                            team.abbrev AS winning_team_abbrev,
@@ -716,6 +719,9 @@ def build_uhhp_auction_router(
                       LEFT JOIN cbs_teams AS team
                         ON team.league_id = nomination.league_id
                        AND team.team_id = nomination.winning_team_id
+                      LEFT JOIN cbs_teams AS nominator
+                        ON nominator.league_id = nomination.league_id
+                       AND nominator.team_id = nomination.nominator_team_id
                       LEFT JOIN uhhp_auction_tie_audits AS tie
                         ON tie.nomination_id = nomination.id
                      WHERE nomination.draft_id = :draft_id
@@ -728,10 +734,31 @@ def build_uhhp_auction_router(
                 {"draft_id": draft.id, "limit": limit, "offset": offset},
             ).fetchall()
 
+            # Per-nomination, per-team effective bids for the ledger display.
+            bid_rows = session.execute(
+                text(
+                    """
+                    SELECT nomination_id, team_id, effective_amount, responded
+                      FROM uhhp_auction_latest_effective_bids
+                     WHERE draft_id = :draft_id
+                    """
+                ),
+                {"draft_id": draft.id},
+            ).fetchall()
+            bids_by_nomination: Dict[str, list] = {}
+            for b in bid_rows:
+                bids_by_nomination.setdefault(str(b.nomination_id), []).append({
+                    "team_id": str(b.team_id),
+                    "bid": int(b.effective_amount) if b.effective_amount is not None else None,
+                    "responded": bool(b.responded),
+                })
+
             results = []
             for row in rows:
                 result_entry: Dict[str, Any] = {
                     "status": str(row.status),
+                    "nominator_team_id": row.nominator_team_id,
+                    "nominator_team_name": row.nominator_team_name,
                     "winning_team_id": row.winning_team_id,
                     "winning_team_name": row.winning_team_name,
                     "winning_team_abbrev": row.winning_team_abbrev,
@@ -752,6 +779,8 @@ def build_uhhp_auction_router(
                         "old_order": list(row.old_tie_break_order or []),
                         "new_order": list(row.new_tie_break_order or []),
                     }
+                # Per-team sealed bids for the ledger
+                result_entry["bids"] = bids_by_nomination.get(str(row.id), [])
                 results.append(result_entry)
 
             return {

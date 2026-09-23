@@ -2231,7 +2231,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             </div>
           </div>
           <div className="border-b">
-            <Tabs defaultValue="myteam" onValueChange={(v)=>{ if(v==='cap'){ refreshCapSummary() } }}>
+            <Tabs defaultValue="myteam" onValueChange={(v)=>{ if(v==='cap'){ refreshCapSummary() } if(v==='history'){ loadResultsHistory() } }}>
               <div className="flex items-center justify-between">
                 <TabsList className="bg-transparent p-0">
                   {[
@@ -2256,6 +2256,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
               <TabsContent value="history" className="mt-3">
                 <div className="px-2 pb-3">
                   <h2 className="text-xl font-bold mb-3">Bid History</h2>
+                  {(!Array.isArray(resultsHistory) || resultsHistory.length === 0) && (
+                    <div className="text-sm text-slate-500 mb-2">No completed auctions yet.</div>
+                  )}
                   <div className="rounded-lg border overflow-auto">
                     <table className="min-w-full text-sm">
                       <thead className="bg-slate-50 text-slate-600">
@@ -2268,18 +2271,25 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                         </tr>
                       </thead>
                       <tbody>
-                        {(uhhpPicks || []).slice(0, 24).map((r: any, i: number) => (
+                        {(resultsHistory || []).map((r: any, i: number) => (
                           <tr key={i} className="border-t">
-                            <td className="px-3 py-2 text-slate-700">{r.team || "—"}</td>
-                            <td className="px-3 py-2 font-semibold">{r.player ? `${r.player} $${r.price}` : "—"}</td>
+                            <td className="px-3 py-2 text-slate-700">{r.nominator_team_name || r.nominator_team_id || "—"}</td>
+                            <td className="px-3 py-2 font-semibold">
+                              {r.status === 'no_sale'
+                                ? `${r.player_name || "Player"} — No Sale`
+                                : (r.player_name ? `${r.player_name} $${r.winning_bid ?? 0}` : "—")}
+                            </td>
                             {teams.map((t) => {
-                              // Render actual bids ledger when available
+                              // Each team's effective sealed bid for this nomination
                               const cellBid = Array.isArray(r?.bids)
                                 ? r.bids.find((b: any) => String(b?.team_id || '') === String(t.id))
                                 : undefined
-                              const bidVal = cellBid ? Number(cellBid.amount) : undefined
+                              const responded = !!(cellBid && cellBid.responded)
+                              const bidVal = cellBid ? Number(cellBid.bid) : undefined
                               return (
-                                <td key={t.id} className="px-2 py-2 text-right tabular-nums text-slate-600">{bidVal != null ? `$${bidVal}` : "—"}</td>
+                                <td key={t.id} className="px-2 py-2 text-right tabular-nums text-slate-600">
+                                  {responded && bidVal != null ? `$${bidVal}` : "—"}
+                                </td>
                               )
                             })}
                           </tr>
