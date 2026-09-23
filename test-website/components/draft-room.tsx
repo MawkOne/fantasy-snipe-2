@@ -3789,7 +3789,43 @@ function LeagueSettingsModal({
           </div>
           
           {tab === 'teams' && (
-            <div className="mt-3 rounded border">
+            <div className="mt-3 space-y-3">
+              {/* Team links: every GM opens their own scoped URL */}
+              <div className="rounded border">
+                <div className="px-3 py-2 border-b bg-slate-50 text-xs font-semibold text-slate-600 flex items-center justify-between gap-2">
+                  <div>Team Links — send each GM their own URL</div>
+                  <Button size="sm" variant="outline" onClick={async () => {
+                    try {
+                      const lines = (teamsLocal || []).map((t: any) =>
+                        `${t.team_name}: ${window.location.origin}/draft-room-uhhp?team=${encodeURIComponent(String(t.team_id))}`
+                      ).join('\n')
+                      await navigator.clipboard?.writeText(lines)
+                      toast.success('Copied all team links')
+                    } catch {}
+                  }}>Copy All</Button>
+                </div>
+                <div className="divide-y">
+                  {(teamsLocal || []).map((t: any) => {
+                    const url = `${window.location.origin}/draft-room-uhhp?team=${encodeURIComponent(String(t.team_id))}`
+                    return (
+                      <div key={String(t.team_id)} className="flex items-center gap-2 px-3 py-1.5">
+                        <span className="w-44 shrink-0 truncate text-sm">{t.team_name}</span>
+                        <span className="min-w-0 flex-1 truncate text-xs text-slate-500 font-mono" title={url}>{url}</span>
+                        <Button size="sm" variant="outline" onClick={async () => {
+                          try {
+                            await navigator.clipboard?.writeText(url)
+                            toast.success(`Copied ${t.team_name} link`)
+                          } catch {}
+                        }}>Copy</Button>
+                      </div>
+                    )
+                  })}
+                  {(!teamsLocal || teamsLocal.length === 0) && (
+                    <div className="px-3 py-2 text-xs text-slate-500">Loading teams…</div>
+                  )}
+                </div>
+              </div>
+            <div className="rounded border">
               <div className="grid grid-cols-[minmax(0,1fr)_220px_280px_240px_110px_140px] gap-3 items-center bg-slate-50 border-b text-xs font-semibold text-slate-600">
                 <div className="px-3 py-2">Team (drag to reorder = Pick Order)</div>
                 <div className="px-3 py-2">Assign</div>
@@ -3939,6 +3975,7 @@ function LeagueSettingsModal({
                   } catch {}
                 }}>Save Order</Button>
               </div>
+            </div>
             </div>
           )}
           {tab === 'scoring' && (
