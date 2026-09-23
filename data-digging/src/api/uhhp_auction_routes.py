@@ -634,6 +634,249 @@ def build_uhhp_auction_router(current_user_dependency: Callable[..., Any]) -> AP
                 "players": players,
             }
 
+    @router.get("/rosters", response_model=dict)
+    async def get_team_rosters(
+        slug: str,
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        """Return each league team's current CBS roster (My Team / Cap Summary).
+
+        Rows come from ``cbs_rosters`` (the imported 2026 snapshot plus any
+        auction-created contracts), enriched with positions, NHL team, birthdate
+        and UFA/RFA eligibility from ``uhhp_auction_player_pool`` / ``cbs_players``.
+        """
+
+        with get_fantasy_session() as session:
+            if not _schema_ready(session):
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    detail="UHHP auction schema is not installed",
+                )
+
+            league = session.execute(
+                text(
+                    "SELECT id, provider_slug, name FROM cbs_leagues WHERE provider_slug = :slug LIMIT 1"
+                ),
+                {"slug": slug},
+            ).fetchone()
+            if not league:
+                raise HTTPException(status_code=404, detail="League not found")
+            membership = _resolve_membership(session, int(league.id), current_user)
+
+            draft = session.execute(
+                text(
+                    """
+                    SELECT id, draft_year, stage, stage_round, status, rules_version
+                      FROM uhhp_auction_drafts
+                     WHERE league_id = :league_id AND draft_year = :draft_year
+                     LIMIT 1
+                    """
+                ),
+                {"league_id": int(league.id), "draft_year": int(draft_year)},
+            ).fetchone()
+            if not draft:
+                raise HTTPException(status_code=404, detail="Auction draft not initialized")
+
+            team_rows = session.execute(
+                text(
+                    """
+                    SELECT team.team_id, team.team_name, team.abbrev, team.logo_url,
+                           owner.display_name AS manager_name,
+                           draft_team.nomination_order
+                      FROM cbs_teams AS team
+                      LEFT JOIN cbs_owners AS owner
+                        ON owner.owner_id = team.owner_id
+                      LEFT JOIN uhhp_auction_draft_teams AS draft_team
+                        ON draft_team.draft_id = :draft_id
+                       AND draft_team.league_id = team.league_id
+                       AND draft_team.team_id = team.team_id
+                     WHERE team.league_id = :league_id
+                       AND COALESCE(team.is_active, TRUE) = TRUE
+                     ORDER BY draft_team.nomination_order NULLS LAST, team.team_name
+                    """
+                ),
+                {"league_id": int(league.id), "draft_id": draft.id},
+            ).fetchall()
+
+            # The roster snapshot stores the CBS roster position in slot_type
+            # (C/W/D/G) and CBS status ('active'/'reserve'/'injured'); auction
+            # contracts use slot_type 'A' / status 'signed'. Dedupe on
+            # (team, player), preferring auction rows then the newest snapshot.
+            roster_rows = session.execute(
+                text(
+                    """
+                    SELECT DISTINCT ON (roster.team_id, roster.cbs_player_id)
+                           roster.team_id,
+                           roster.cbs_player_id,
+                           roster.nhl_player_id,
+                           roster.slot_type,
+                           roster.salary,
+                           roster.years,
+                           roster.rookie,
+                           roster.roster_order,
+                           roster.future_fa,
+                           roster.status AS roster_status,
+                           (roster.uhhp_auction_nomination_id IS NOT NULL) AS auction_contract,
+                           pool.id AS pool_id,
+                           COALESCE(player.full_name, pool.player_name, roster.cbs_player_id) AS player_name,
+                           COALESCE(
+                             pool.positions,
+                             ARRAY[
+                               NULLIF(player.pos_primary, '')
+                             ]::TEXT[]
+                           ) AS positions,
+                           COALESCE(pool.nhl_team_abbrev, player.nhl_team_abbr) AS nhl_team_abbr,
+                           COALESCE(pool.birthdate, player.birthdate) AS birthdate,
+                           pool.eligibility AS pool_eligibility,
+                           pool.projected_fantasy_points,
+                           CASE
+                             WHEN roster.years IN (1, 2, 3) THEN NULL
+                             WHEN roster.rookie THEN 'RFA'
+                             WHEN pool.eligibility IN ('UFA', 'RFA') THEN pool.eligibility
+                             WHEN COALESCE(pool.birthdate, player.birthdate) IS NOT NULL THEN
+                               CASE
+                                 WHEN EXTRACT(YEAR FROM AGE(
+                                   MAKE_DATE(:year, 7, 1),
+                                   COALESCE(pool.birthdate, player.birthdate)
+                                 )) >= 27 THEN 'UFA'
+                                 ELSE 'RFA'
+                               END
+                             WHEN roster.uhhp_auction_nomination_id IS NOT NULL THEN NULL
+                             ELSE 'REVIEW'
+                           END AS status
+                      FROM cbs_rosters AS roster
+                      LEFT JOIN cbs_players AS player
+                        ON player.cbs_player_id = roster.cbs_player_id
+                      LEFT JOIN uhhp_auction_player_pool AS pool
+                        ON pool.draft_id = :draft_id
+                       AND pool.league_id = roster.league_id
+                       AND pool.cbs_player_id = roster.cbs_player_id
+                     WHERE roster.league_id = :league_id
+                       AND (
+                         roster.uhhp_auction_nomination_id IS NOT NULL
+                         OR roster.status IN ('active', 'reserve', 'injured', 'signed')
+                       )
+                     ORDER BY roster.team_id, roster.cbs_player_id,
+                              CASE WHEN roster.uhhp_auction_nomination_id IS NOT NULL THEN 0 ELSE 1 END,
+                              roster.effective_from DESC NULLS LAST,
+                              roster.id DESC
+                    """
+                ),
+                {"league_id": int(league.id), "draft_id": draft.id, "year": int(draft_year)},
+            ).fetchall()
+
+            cap_rows = session.execute(
+                text(
+                    """
+                    SELECT metadata ->> 'roster_team_id' AS team_id,
+                           COALESCE(SUM(salary) FILTER (
+                             WHERE eligibility IN ('PROTECTED', 'CAP_HIT')
+                           ), 0) AS committed_salary,
+                           COUNT(*) FILTER (WHERE eligibility = 'PROTECTED') AS protected_count,
+                           COUNT(*) FILTER (WHERE eligibility = 'RFA') AS rfa_count,
+                           COUNT(*) FILTER (WHERE eligibility = 'UFA') AS ufa_count,
+                           COUNT(*) FILTER (WHERE eligibility = 'REVIEW') AS review_count
+                      FROM uhhp_auction_player_pool
+                     WHERE draft_id = :draft_id
+                       AND metadata ? 'roster_team_id'
+                       AND COALESCE(metadata ->> 'roster_team_id', '') <> ''
+                     GROUP BY metadata ->> 'roster_team_id'
+                    """
+                ),
+                {"draft_id": draft.id},
+            ).fetchall()
+            cap_by_team = {str(row.team_id): row for row in cap_rows}
+
+            players_by_team: Dict[str, list] = {}
+            for row in roster_rows:
+                team_id = str(row.team_id)
+                if team_id not in players_by_team:
+                    players_by_team[team_id] = []
+                positions = list(row.positions or [])
+                primary_position = ""
+                if positions:
+                    primary_position = str(positions[0]).upper()
+                if primary_position in {"LW", "RW"}:
+                    primary_position = "W"
+                players_by_team[team_id].append({
+                    "pool_id": str(row.pool_id) if row.pool_id else None,
+                    "cbs_player_id": str(row.cbs_player_id),
+                    "nhl_player_id": row.nhl_player_id,
+                    "player_name": str(row.player_name),
+                    "position": primary_position,
+                    "positions": positions,
+                    "nhl_team_abbr": row.nhl_team_abbr,
+                    "birthdate": _as_iso(row.birthdate),
+                    "salary": float(row.salary) if row.salary is not None else None,
+                    "years": row.years,
+                    "rookie": bool(row.rookie) if row.rookie is not None else None,
+                    "future_fa": row.future_fa,
+                    "slot_type": row.slot_type,
+                    "status": row.status,
+                    "eligibility": row.pool_eligibility,
+                    "projected_fantasy_points": (
+                        float(row.projected_fantasy_points)
+                        if row.projected_fantasy_points is not None
+                        else None
+                    ),
+                    "auction_contract": bool(row.auction_contract),
+                })
+
+            teams = []
+            for team in team_rows:
+                team_id = str(team.team_id)
+                cap = cap_by_team.get(team_id)
+                committed_salary = int(cap.committed_salary or 0) if cap else 0
+                teams.append({
+                    "team_id": team_id,
+                    "team_name": str(team.team_name),
+                    "abbrev": str(team.abbrev) if team.abbrev else None,
+                    "logo_url": str(team.logo_url) if team.logo_url else None,
+                    "manager_name": (
+                        str(team.manager_name) if team.manager_name else None
+                    ),
+                    "nomination_order": (
+                        int(team.nomination_order)
+                        if team.nomination_order is not None
+                        else None
+                    ),
+                    "cap": {
+                        "salary_cap": 100,
+                        "committed_salary": committed_salary,
+                        "cap_space": max(0, 100 - committed_salary),
+                    },
+                    "roster_summary": {
+                        "protected": int(cap.protected_count or 0) if cap else 0,
+                        "rfa": int(cap.rfa_count or 0) if cap else 0,
+                        "ufa": int(cap.ufa_count or 0) if cap else 0,
+                        "review": int(cap.review_count or 0) if cap else 0,
+                    },
+                    "players": players_by_team.get(team_id, []),
+                })
+
+            return {
+                "league": {
+                    "id": int(league.id),
+                    "slug": str(league.provider_slug),
+                    "name": str(league.name),
+                },
+                "draft": {
+                    "id": str(draft.id),
+                    "draft_year": int(draft.draft_year),
+                    "rules_version": str(draft.rules_version),
+                    "stage": str(draft.stage),
+                    "stage_round": int(draft.stage_round),
+                    "status": str(draft.status),
+                },
+                "viewer": {
+                    "team_id": membership["team_id"],
+                    "role": membership["role"],
+                    "is_commissioner": membership["is_commissioner"],
+                },
+                "teams": teams,
+            }
+
     # ------------------------------------------------------------------
     # Mutations
     # ------------------------------------------------------------------

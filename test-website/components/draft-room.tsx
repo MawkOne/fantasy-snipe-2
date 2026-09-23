@@ -866,7 +866,23 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       try {
         const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
         const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { method: 'GET', cache: 'no-store' })
-        if (!res.ok) return
+        if (!res.ok) {
+          // Legacy cap_hits endpoint unavailable: use committed salary from the new rosters endpoint
+          try {
+            const rr = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/rosters`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
+            if (rr.ok) {
+              const rd = await rr.json()
+              const map: Record<string, number> = {}
+              for (const it of (Array.isArray(rd?.teams) ? rd.teams : [])) {
+                const tid = String((it as any)?.team_id ?? '')
+                const v = Number((it as any)?.cap?.committed_salary ?? 0)
+                if (tid) map[tid] = Number.isFinite(v) ? v : 0
+              }
+              if (Object.keys(map).length) setCapHitsByTeam(map)
+            }
+          } catch {}
+          return
+        }
         const data = await res.json()
         const map: Record<string, number> = {}
         const arr: any[] = Array.isArray(data) ? data : (Array.isArray(data?.cap_hits) ? data.cap_hits : [])
@@ -1296,6 +1312,24 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           if (!(tieOrder && tieOrder.length)) setTieOrder(orderIds)
         }
       } catch {}
+      // Roster rows for My Team / Cap Summary: prefer the legacy draft_state
+      // payload, otherwise load the current snapshot from auction-2026/rosters.
+      if (!rosterRows.length) {
+        try {
+          const rostersRes = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/rosters`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
+          if (rostersRes.ok) {
+            const rdata = await rostersRes.json()
+            const flat: any[] = []
+            for (const t of (Array.isArray(rdata?.teams) ? rdata.teams : [])) {
+              const tid = String((t as any)?.team_id ?? '')
+              for (const p of (Array.isArray((t as any)?.players) ? (t as any).players : [])) {
+                flat.push({ ...p, team_id: tid })
+              }
+            }
+            if (flat.length) rosterRows = flat
+          }
+        } catch {}
+      }
       // Build stage1Teams from roster payload for My Team
       const rosters = rosterRows
       const byTeam: Record<string, any[]> = {}
@@ -1363,11 +1397,12 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       const apiBase = (process.env.NEXT_PUBLIC_API_BASE && process.env.NEXT_PUBLIC_API_BASE.startsWith("http"))
         ? (process.env.NEXT_PUBLIC_API_BASE as string)
         : "http://localhost:8000"
-      // Fetch cap hits and draft_state in parallel
-      const [capRes, dsRes, teamsRes] = await Promise.all([
+      // Fetch cap hits, draft_state, teams, and rosters in parallel
+      const [capRes, dsRes, teamsRes, rostersRes] = await Promise.all([
         fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { method: 'GET', cache: 'no-store' }),
         fetch(`${apiBase}/api/public/cbs/league/uhhp/draft_state`, { cache: 'no-store' }),
         fetch(`${apiBase}/api/public/cbs/league/uhhp/teams`, { cache: 'no-store' }),
+        fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/rosters`, { cache: 'no-store', headers: { ...getAuthHeaders() } }),
       ])
       if (capRes.ok) {
         const data = await capRes.json()
@@ -1379,6 +1414,20 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           if (tid) map[tid] = Number.isFinite(v) ? v : 0
         }
         setCapHitsByTeam(map)
+      } else {
+        // Cap hits endpoint not available: fall back to committed salary from the new rosters endpoint
+        try {
+          if (rostersRes.ok) {
+            const rdata = await rostersRes.json()
+            const map: Record<string, number> = {}
+            for (const t of (Array.isArray(rdata?.teams) ? rdata.teams : [])) {
+              const tid = String((t as any)?.team_id ?? '')
+              const v = Number((t as any)?.cap?.committed_salary ?? 0)
+              if (tid) map[tid] = Number.isFinite(v) ? v : 0
+            }
+            if (Object.keys(map).length) setCapHitsByTeam(map)
+          }
+        } catch {}
       }
       if (dsRes.ok) {
         const data = await dsRes.json()
@@ -1430,6 +1479,64 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           players: byTeam[String(t.team_id)] || [],
         }))
         setStage1Teams(stageTeams)
+      } else {
+        // draft_state not available: build stage1Teams from the new rosters endpoint
+        try {
+          if (rostersRes.ok) {
+            const rdata = await rostersRes.json()
+            const teamsArr = Array.isArray(rdata?.teams) ? rdata.teams as any[] : []
+            if (teamsArr.length) {
+              if (teamsRes.ok) {
+                try {
+                  const tdata = await teamsRes.json()
+                  const enrich: Record<string, any> = {}
+                  for (const it of (Array.isArray(tdata?.teams) ? tdata.teams : [])) {
+                    const tid = String((it?.team_id ?? ''))
+                    if (tid) enrich[tid] = it
+                  }
+                  const merged = teamsArr.map((t: any) => {
+                    const tid = String((t?.team_id ?? ''))
+                    const more = enrich[tid]
+                    return more ? { ...t, attached_email: more.attached_email, login: more.login, is_admin: more.is_admin } : t
+                  })
+                  setCapTeams(merged)
+                } catch { setCapTeams(teamsArr) }
+              } else {
+                setCapTeams(teamsArr)
+              }
+              const byTeam2: Record<string, any[]> = {}
+              for (const t of teamsArr) {
+                const tid = String(t.team_id)
+                if (!byTeam2[tid]) byTeam2[tid] = []
+                for (const p of (Array.isArray(t.players) ? t.players : [])) {
+                  const salaryNum = p?.salary ? Number(p.salary) : 0
+                  const nameNorm = (p?.player_name || "").toString().trim().toLowerCase()
+                  if (nameNorm.startsWith("z-caphit") || nameNorm.includes("draft pick")) continue
+                  byTeam2[tid].push({
+                    player: (p?.player_name || String(p?.cbs_player_id || '')),
+                    pos: ((p?.position || "").toString().toUpperCase()),
+                    salary: salaryNum,
+                    price: salaryNum,
+                    years: p?.years,
+                    future_fa: p?.future_fa,
+                    team: tid,
+                    nhl_player_id: (typeof p?.nhl_player_id === 'number' ? p.nhl_player_id : undefined),
+                    status: p?.status,
+                    type: p?.status,
+                    team_abbr: p?.nhl_team_abbr || '',
+                    birthdate: p?.birthdate || null,
+                  })
+                }
+              }
+              const stageTeams = teamsArr.map((t: any) => ({
+                team_id: t.team_id,
+                team_name: t.team_name,
+                players: byTeam2[String(t.team_id)] || [],
+              }))
+              setStage1Teams(stageTeams)
+            }
+          }
+        } catch {}
       }
     } catch {}
   }
@@ -2968,28 +3075,26 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                       })
                       .map((p, i) => (
                   <div key={i} className="rounded-lg border p-3">
-                    <div className="text-[11px] text-slate-500">
-                      {(() => {
-                        const key = (p.player || "").toString().trim().toLowerCase()
-                        const pid = Number((p as any)?.nhl_player_id)
-                        const faStr = (() => {
-                          if (Number.isFinite(pid) && availableById[pid]?.status) return availableById[pid].status.toUpperCase()
-                          if (Number.isFinite(pid) && statusById[pid]) return String(statusById[pid]).toUpperCase()
-                          return (p.type || "").toString().toUpperCase() || "—"
-                        })()
+                    {(() => {
+                      const key = (p.player || "").toString().trim().toLowerCase()
+                      const pid = Number((p as any)?.nhl_player_id)
+                      let faStr = ""
+                      if (Number.isFinite(pid) && availableById[pid]?.status) faStr = availableById[pid].status.toUpperCase()
+                      else if (Number.isFinite(pid) && statusById[pid]) faStr = String(statusById[pid]).toUpperCase()
+                      if (faStr && faStr !== "—") {
                         if (faStr === "RFA") {
-                          // Find owning team from stage1Teams
                           const ownerTeam = (() => {
                             const t = (stage1Teams || []).find((tt: any) =>
                               Array.isArray(tt?.players) && tt.players.some((pl: any) => normalizeName(pl?.player) === key)
                             )
                             return t?.team_name ? ` • ${t.team_name}` : ""
                           })()
-                          return `RFA${ownerTeam}`
+                          return <div className="text-[11px] text-slate-500">RFA{ownerTeam}</div>
                         }
-                        return faStr
-                      })()}
-                    </div>
+                        return <div className="text-[11px] text-slate-500">{faStr}</div>
+                      }
+                      return null
+                    })()}
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="font-medium text-sm">{p.player}</div>
