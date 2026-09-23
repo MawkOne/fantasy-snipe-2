@@ -719,7 +719,7 @@ def build_uhhp_auction_router(
                       LEFT JOIN uhhp_auction_tie_audits AS tie
                         ON tie.nomination_id = nomination.id
                      WHERE nomination.draft_id = :draft_id
-                       AND nomination.status IN ('finalized', 'no_sale', 'void')
+                       AND nomination.status IN ('finalized', 'no_sale')
                      ORDER BY nomination.finalized_at DESC NULLS LAST,
                               nomination.created_at DESC
                      LIMIT :limit OFFSET :offset
