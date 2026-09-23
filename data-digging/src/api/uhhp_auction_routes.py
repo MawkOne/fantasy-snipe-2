@@ -720,8 +720,8 @@ def build_uhhp_auction_router(
                         ON tie.nomination_id = nomination.id
                      WHERE nomination.draft_id = :draft_id
                        AND nomination.status IN ('finalized', 'no_sale')
-                     ORDER BY nomination.finalized_at DESC NULLS LAST,
-                              nomination.created_at DESC
+                     ORDER BY nomination.nominated_at ASC NULLS FIRST,
+                              nomination.created_at ASC
                      LIMIT :limit OFFSET :offset
                     """
                 ),
