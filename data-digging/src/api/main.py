@@ -2617,7 +2617,7 @@ async def get_cbs_gm_credentials(slug: str) -> Dict[str, Any]:
                 """
                 CREATE TABLE IF NOT EXISTS cbs_gm_credentials (
                   league_id INT NOT NULL,
-                  team_id INT NOT NULL,
+                  team_id TEXT NOT NULL,
                   login TEXT,
                   password_hash TEXT,
                   salt TEXT,
@@ -2652,7 +2652,7 @@ async def set_cbs_gm_credentials(slug: str, payload: Dict[str, Any]) -> Dict[str
                 """
                 CREATE TABLE IF NOT EXISTS cbs_gm_credentials (
                   league_id INT NOT NULL,
-                  team_id INT NOT NULL,
+                  team_id TEXT NOT NULL,
                   login TEXT,
                   password_hash TEXT,
                   salt TEXT,
@@ -2664,8 +2664,10 @@ async def set_cbs_gm_credentials(slug: str, payload: Dict[str, Any]) -> Dict[str
             items = payload.get("creds") or []
             for it in items:
                 try:
-                    team_id = int(it.get("team_id"))
+                    team_id = str(it.get("team_id") or "").strip()
                 except Exception:
+                    continue
+                if not team_id:
                     continue
                 login = (it.get("login") or None)
                 is_admin = bool(it.get("is_admin") or False)
