@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogClose, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Clock, Search, Settings, Stars, Star, X, Ellipsis, Pause, Play } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -3904,8 +3904,9 @@ function LeagueSettingsModal({
     onUpdateTeamAdmin?.(String(tid), isAdmin)
   }
   return (
+    <>
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="relative max-w-[98vw] sm:max-w-none w-[2200px] max-h-[85vh] overflow-auto" style={{ maxWidth: '98vw', width: '2200px' }}>
+      <DialogContent className="max-w-[98vw] sm:max-w-none w-[2200px] max-h-[85vh] overflow-auto" style={{ maxWidth: '98vw', width: '2200px' }}>
         <div className="flex items-center justify-between">
           <div className="text-lg font-semibold">League Settings</div>
         </div>
@@ -4267,48 +4268,53 @@ function LeagueSettingsModal({
           )}
         </div>
 
-        {confirmClearOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/55 p-4">
-            <div className="w-full max-w-md rounded-lg border bg-white p-5 shadow-2xl">
-              <h3 className="text-lg font-bold text-slate-900">Are you sure?</h3>
-              <p className="mt-2 text-sm text-slate-600">
-                This permanently removes all test nominations, bids, auction results, tie-break records,
-                and awarded test players. Imported rosters, projections, team settings, and rules are preserved.
-              </p>
-              <p className="mt-2 text-sm font-semibold text-red-700">
-                The draft will return to Setup, Superstar Round, nomination #1.
-              </p>
-              <div className="mt-5 flex justify-end gap-2">
-                <Button
-                  variant="outline"
-                  disabled={clearInProgress}
-                  onClick={() => setConfirmClearOpen(false)}
-                >
-                  No
-                </Button>
-                <Button
-                  className="bg-rose-600 text-white hover:bg-rose-700"
-                  disabled={clearInProgress}
-                  onClick={async () => {
-                    if (!onClearTestData) return
-                    setClearInProgress(true)
-                    const ok = await onClearTestData()
-                    setClearInProgress(false)
-                    setClearResult(ok ? 'success' : 'error')
-                    if (ok) {
-                      setHistory([])
-                      setConfirmClearOpen(false)
-                    }
-                  }}
-                >
-                  {clearInProgress ? 'Clearing…' : 'Yes, clear test data'}
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
       </DialogContent>
     </Dialog>
+
+    <Dialog
+      open={confirmClearOpen}
+      onOpenChange={(next) => {
+        if (!clearInProgress) setConfirmClearOpen(next)
+      }}
+    >
+      <DialogContent className="max-w-md" showCloseButton={false}>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogDescription>
+          This permanently removes all test nominations, bids, auction results, tie-break records,
+          and awarded test players. Imported rosters, projections, team settings, and rules are preserved.
+        </DialogDescription>
+        <p className="text-sm font-semibold text-red-700">
+          The draft will return to Setup, Superstar Round, nomination #1.
+        </p>
+        <div className="mt-2 flex justify-end gap-2">
+          <Button
+            variant="outline"
+            disabled={clearInProgress}
+            onClick={() => setConfirmClearOpen(false)}
+          >
+            No
+          </Button>
+          <Button
+            className="bg-rose-600 text-white hover:bg-rose-700"
+            disabled={clearInProgress}
+            onClick={async () => {
+              if (!onClearTestData) return
+              setClearInProgress(true)
+              const ok = await onClearTestData()
+              setClearInProgress(false)
+              setClearResult(ok ? 'success' : 'error')
+              if (ok) {
+                setHistory([])
+                setConfirmClearOpen(false)
+              }
+            }}
+          >
+            {clearInProgress ? 'Clearing…' : 'Yes, clear test data'}
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+    </>
   )
 }
 
