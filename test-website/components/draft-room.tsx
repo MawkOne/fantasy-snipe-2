@@ -1659,37 +1659,60 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     } catch {}
   }
 
-  // When switching viewed team, load that team's local roster layout and cap hit
+  // When switching viewed teams, load the persisted DB layout. localStorage is
+  // retained only as an offline/backward-compatible fallback.
   useEffect(() => {
-    try {
-      if (!selectedTeamName || !Array.isArray(stage1Teams)) return
-      const team = (stage1Teams || []).find((t: any) => (t?.team_name || '') === selectedTeamName)
-      const tid = team && team.team_id ? String(team.team_id) : ''
-      if (!tid) return
-      // Load saved layout for this team
-      const key = `uhhp_layout_${tid}`
-      const raw = localStorage.getItem(key)
-      let loadedLocalCap = false
-      if (raw) {
-        try {
-          const data = JSON.parse(raw)
-          if (Array.isArray(data.bench)) setBenchSet(new Set<string>(data.bench))
-          if (Array.isArray(data.empty)) setEmptySlots(new Set<string>(data.empty))
-          if (data.targets && typeof data.targets === 'object') setTargets(data.targets)
-          if (typeof data.capHits === 'number') {
-            setCapHits(data.capHits)
-            setCapHitsInput(String(data.capHits))
-            loadedLocalCap = true
-          }
-        } catch {}
-      }
-      // Apply cap hits from server snapshot map if available
-      const serverCap = capHitsByTeam[tid]
-      if (!loadedLocalCap && serverCap != null && Number.isFinite(Number(serverCap))) {
-        setCapHits(Number(serverCap))
-        setCapHitsInput(String(serverCap))
-      }
-    } catch {}
+    let cancelled = false
+    const loadLayout = async () => {
+      try {
+        if (!selectedTeamName || !Array.isArray(stage1Teams)) return
+        const team = stage1Teams.find((t: any) => (t?.team_name || '') === selectedTeamName)
+        const tid = team?.team_id ? String(team.team_id) : ''
+        if (!tid) return
+
+        setBenchSet(new Set<string>())
+        setEmptySlots(new Set<string>())
+        setTargets({})
+
+        const key = `uhhp_layout_${tid}`
+        const raw = localStorage.getItem(key)
+        let loadedLocalCap = false
+        if (raw) {
+          try {
+            const data = JSON.parse(raw)
+            if (Array.isArray(data.bench)) setBenchSet(new Set<string>(data.bench))
+            if (Array.isArray(data.empty)) setEmptySlots(new Set<string>(data.empty))
+            if (data.targets && typeof data.targets === 'object') setTargets(data.targets)
+            if (typeof data.capHits === 'number') {
+              setCapHits(data.capHits)
+              setCapHitsInput(String(data.capHits))
+              loadedLocalCap = true
+            }
+          } catch {}
+        }
+
+        const apiBase = getApiBase()
+        const res = await fetch(
+          `${apiBase}/api/cbs/league/uhhp/auction-2026/layout?team_id=${encodeURIComponent(tid)}`,
+          { cache: 'no-store', headers: { ...getAuthHeaders() } },
+        )
+        if (!cancelled && res.ok) {
+          const data = await res.json()
+          const layout = data?.layout || {}
+          if (Array.isArray(layout.bench)) setBenchSet(new Set<string>(layout.bench))
+          if (Array.isArray(layout.empty)) setEmptySlots(new Set<string>(layout.empty))
+          if (layout.targets && typeof layout.targets === 'object') setTargets(layout.targets)
+        }
+
+        const serverCap = capHitsByTeam[tid]
+        if (!loadedLocalCap && serverCap != null && Number.isFinite(Number(serverCap))) {
+          setCapHits(Number(serverCap))
+          setCapHitsInput(String(serverCap))
+        }
+      } catch {}
+    }
+    loadLayout()
+    return () => { cancelled = true }
   }, [selectedTeamName, stage1Teams, capHitsByTeam])
 
   const uhhpTop50 = useMemo(() => (uhhpPicks.length ? uhhpPicks.slice(0, 50) : null), [uhhpPicks])
@@ -1823,39 +1846,37 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     return () => window.removeEventListener('uhhp:set-pick-order', onSetPickOrder as any)
   }, [])
 
-  // Persist and restore My Team layout: bench, empty slots, targets, cap hits
-  useEffect(() => {
-    try {
-      const key = `uhhp_layout_${teamMembership?.team_id || 'anon'}`
-      const raw = localStorage.getItem(key)
-      if (!raw) return
-      const data = JSON.parse(raw)
-      if (Array.isArray(data.bench)) setBenchSet(new Set<string>(data.bench))
-      if (Array.isArray(data.empty)) setEmptySlots(new Set<string>(data.empty))
-      if (data.targets && typeof data.targets === 'object') setTargets(data.targets)
-      if (typeof data.capHits === 'number') { setCapHits(data.capHits); setCapHitsInput(String(data.capHits)) }
-      setSaveDirty(false)
-    } catch {}
-  }, [teamMembership?.team_id])
   const markDirty = () => setSaveDirty(true)
   const saveLayout = async () => {
     try {
       setSaveLoading(true)
-      const key = `uhhp_layout_${teamMembership?.team_id || 'anon'}`
+      const viewedTeam = Array.isArray(stage1Teams)
+        ? stage1Teams.find((t: any) => String(t?.team_name || '') === String(selectedTeamName || ''))
+        : null
+      const tid = String(viewedTeam?.team_id || actionTeamId || '')
+      if (!tid) throw new Error('No team selected')
       const payload = {
+        team_id: tid,
         bench: Array.from(benchSet),
         empty: Array.from(emptySlots),
         targets,
         capHits,
       }
-      localStorage.setItem(key, JSON.stringify(payload))
-      // Also persist cap hits to backend
+      localStorage.setItem(`uhhp_layout_${tid}`, JSON.stringify(payload))
+      const apiBase = getApiBase()
+      const layoutRes = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/layout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+        body: JSON.stringify(payload),
+      })
+      if (!layoutRes.ok) throw new Error('Layout save failed')
+      // Cap hits retain their existing server table.
       try {
-        const tid = actionTeamId
-        if (tid) {
-          const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
-          await fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ team_id: String(tid), cap_hits: capHits }) })
-        }
+        await fetch(`${apiBase}/api/public/cbs/league/uhhp/cap_hits`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ team_id: tid, cap_hits: capHits }),
+        })
       } catch {}
       toast.success('Layout saved')
       setSaveDirty(false)

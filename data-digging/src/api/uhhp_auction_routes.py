@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import uuid as uuid_mod
 from typing import Any, Callable, Dict, Optional
@@ -1053,6 +1054,136 @@ def build_uhhp_auction_router(
                     "is_commissioner": membership["is_commissioner"],
                 },
                 "teams": teams,
+            }
+
+    @router.get("/layout", response_model=dict)
+    async def get_team_layout(
+        slug: str,
+        team_id: str = "",
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        """Return a persisted team lineup/layout for the draft room."""
+        with get_fantasy_session() as session:
+            league = session.execute(
+                text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug LIMIT 1"),
+                {"slug": slug},
+            ).fetchone()
+            if not league:
+                raise HTTPException(status_code=404, detail="League not found")
+            membership = _resolve_membership(session, int(league.id), current_user)
+            target_team = str(team_id or membership.get("team_id") or "").strip()
+            if not target_team:
+                raise HTTPException(status_code=400, detail="team_id is required")
+            if target_team != membership.get("team_id") and not membership["is_commissioner"]:
+                raise HTTPException(status_code=403, detail="Cannot read another team's layout")
+            draft = session.execute(
+                text(
+                    """
+                    SELECT id FROM uhhp_auction_drafts
+                     WHERE league_id = :league_id AND draft_year = :draft_year
+                     LIMIT 1
+                    """
+                ),
+                {"league_id": int(league.id), "draft_year": int(draft_year)},
+            ).fetchone()
+            if not draft:
+                raise HTTPException(status_code=404, detail="Auction draft not initialized")
+            row = session.execute(
+                text(
+                    """
+                    SELECT bench, empty_slots, targets, version, updated_at
+                      FROM uhhp_team_layouts
+                     WHERE draft_id = :draft_id AND team_id = :team_id
+                    """
+                ),
+                {"draft_id": draft.id, "team_id": target_team},
+            ).fetchone()
+            return {
+                "draft_id": str(draft.id),
+                "team_id": target_team,
+                "layout": {
+                    "bench": list(row.bench or []) if row else [],
+                    "empty": list(row.empty_slots or []) if row else [],
+                    "targets": dict(row.targets or {}) if row else {},
+                    "version": int(row.version) if row else 0,
+                    "updated_at": _as_iso(row.updated_at) if row else None,
+                },
+            }
+
+    @router.post("/layout", response_model=dict)
+    async def save_team_layout(
+        slug: str,
+        payload: Dict[str, Any],
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        """Persist dress/sit, empty slots, and targets for one team."""
+        bench = payload.get("bench") or []
+        empty = payload.get("empty") or []
+        targets = payload.get("targets") or {}
+        if not isinstance(bench, list) or not isinstance(empty, list) or not isinstance(targets, dict):
+            raise HTTPException(status_code=400, detail="Invalid layout payload")
+        with get_fantasy_session() as session:
+            league = session.execute(
+                text("SELECT id FROM cbs_leagues WHERE provider_slug = :slug LIMIT 1"),
+                {"slug": slug},
+            ).fetchone()
+            if not league:
+                raise HTTPException(status_code=404, detail="League not found")
+            membership = _resolve_membership(session, int(league.id), current_user)
+            target_team = _actor_team(membership, payload.get("team_id"))
+            if not target_team:
+                raise HTTPException(status_code=400, detail="team_id is required")
+            draft = session.execute(
+                text(
+                    """
+                    SELECT id FROM uhhp_auction_drafts
+                     WHERE league_id = :league_id AND draft_year = :draft_year
+                     LIMIT 1
+                    """
+                ),
+                {"league_id": int(league.id), "draft_year": int(draft_year)},
+            ).fetchone()
+            if not draft:
+                raise HTTPException(status_code=404, detail="Auction draft not initialized")
+            row = session.execute(
+                text(
+                    """
+                    INSERT INTO uhhp_team_layouts (
+                      draft_id, league_id, team_id, bench, empty_slots, targets,
+                      updated_by
+                    ) VALUES (
+                      :draft_id, :league_id, :team_id,
+                      CAST(:bench AS JSONB), CAST(:empty AS JSONB),
+                      CAST(:targets AS JSONB), :updated_by
+                    )
+                    ON CONFLICT (draft_id, team_id) DO UPDATE SET
+                      bench = EXCLUDED.bench,
+                      empty_slots = EXCLUDED.empty_slots,
+                      targets = EXCLUDED.targets,
+                      updated_by = EXCLUDED.updated_by,
+                      version = uhhp_team_layouts.version + 1,
+                      updated_at = NOW()
+                    RETURNING version, updated_at
+                    """
+                ),
+                {
+                    "draft_id": draft.id,
+                    "league_id": int(league.id),
+                    "team_id": target_team,
+                    "bench": json.dumps(bench),
+                    "empty": json.dumps(empty),
+                    "targets": json.dumps(targets),
+                    "updated_by": membership.get("email") or membership.get("subject") or membership.get("role"),
+                },
+            ).fetchone()
+            return {
+                "ok": True,
+                "draft_id": str(draft.id),
+                "team_id": target_team,
+                "version": int(row.version),
+                "updated_at": _as_iso(row.updated_at),
             }
 
     # ------------------------------------------------------------------
