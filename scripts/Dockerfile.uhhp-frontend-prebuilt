@@ -1,0 +1,8 @@
+# Runtime-only image for a locally generated Next.js standalone build.
+FROM node:20-alpine
+WORKDIR /app
+COPY .next/standalone ./
+COPY .next/static ./.next/static
+COPY public ./public
+EXPOSE 3000
+CMD ["node", "server.js"]
