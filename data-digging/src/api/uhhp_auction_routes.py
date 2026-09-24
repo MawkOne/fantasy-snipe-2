@@ -488,12 +488,20 @@ def build_uhhp_auction_router(
                 and active_nomination
                 and active_nomination.status in ("sealed_bidding", "tie_break_bidding")
             )
+            # Team-scoped links currently share the commissioner API key. Let
+            # the UI expose Match/Pass to that session; the mutation endpoint
+            # still enforces that payload.team_id equals the RFA controller.
             can_decide_rfa = bool(
-                viewer_team_id
-                and active_nomination
+                active_nomination
                 and active_nomination.status == "rfa_match_pending"
-                and str(active_nomination.controlling_team_id or "")
-                == viewer_team_id
+                and (
+                    membership["is_commissioner"]
+                    or (
+                        viewer_team_id
+                        and str(active_nomination.controlling_team_id or "")
+                        == viewer_team_id
+                    )
+                )
             )
 
             return {
