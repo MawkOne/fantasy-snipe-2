@@ -1,0 +1,25 @@
+# UHHP auction frontend — Next.js standalone build
+FROM node:20-alpine AS base
+WORKDIR /app
+
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+COPY package*.json ./
+RUN npm ci
+
+FROM base AS builder
+ENV NODE_ENV=production
+ENV NEXT_PUBLIC_API_BASE=https://uhhp-api.hendo-s-agency.vibnai.com
+ENV NEXT_PUBLIC_UHHP_API_KEY=admin-key-2026
+ENV NEXT_PUBLIC_USE_LOCAL_API=false
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+FROM base AS runner
+ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
+EXPOSE 3000
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/public ./public
+CMD ["node", "server.js"]
