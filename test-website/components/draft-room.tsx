@@ -506,6 +506,22 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     } catch { toast.error('Reveal failed') }
   }
 
+  async function clearTestData() {
+    try {
+      const apiBase = getApiBase()
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/reset`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() } })
+      if (!res.ok) {
+        const txt = await res.text().catch(() => '')
+        toast.error(`Clear failed ${txt ? `- ${txt}` : ''}`)
+        return
+      }
+      toast.success('Test data cleared')
+      await loadAuctionState()
+      try { await loadResultsHistory() } catch {}
+      try { await refreshCapSummary() } catch {}
+    } catch { toast.error('Clear failed') }
+  }
+
   async function voidNomination() {
     if (!currentAuctionId) { toast.error('No active nomination'); return }
     try {
@@ -789,15 +805,18 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     function onStart() { startDraft() }
     function onPause() { toggleDraftPause(true) }
     function onResume() { toggleDraftPause(false) }
+    function onClear() { clearTestData() }
     window.addEventListener('uhhp:reveal', onReveal)
     window.addEventListener('uhhp:start', onStart)
     window.addEventListener('uhhp:pause', onPause)
     window.addEventListener('uhhp:resume', onResume)
+    window.addEventListener('uhhp:clear-test-data', onClear)
     return () => {
       window.removeEventListener('uhhp:reveal', onReveal)
       window.removeEventListener('uhhp:start', onStart)
       window.removeEventListener('uhhp:pause', onPause)
       window.removeEventListener('uhhp:resume', onResume)
+      window.removeEventListener('uhhp:clear-test-data', onClear)
     }
   }, [currentAuctionId])
 
@@ -3461,6 +3480,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             ? prev.map((t: any) => String(t?.team_id) === String(tid) ? { ...t, is_admin: isAdmin } : t)
             : prev))
         }}
+        onClearTestData={() => {
+          clearTestData()
+        }}
       />
     </div>
   )
@@ -3748,6 +3770,7 @@ function LeagueSettingsModal({
   scoringRules,
   onRefreshCaps,
   onUpdateTeamAdmin,
+  onClearTestData,
 }: {
   open: boolean
   onOpenChange: (o: boolean) => void
@@ -3755,6 +3778,7 @@ function LeagueSettingsModal({
   scoringRules: any[]
   onRefreshCaps: () => Promise<void>
   onUpdateTeamAdmin?: (team_id: string, is_admin: boolean) => void
+  onClearTestData?: () => void
 }) {
   const [tab, setTab] = useState<'teams' | 'scoring' | 'history' | 'caps'>('teams')
   const [history, setHistory] = useState<any[]>([])
@@ -4094,6 +4118,11 @@ function LeagueSettingsModal({
                     setHistory(Array.isArray(data?.results) ? data.results : [])
                   } catch {}
                 }}>Refresh</Button>
+                {onClearTestData && (
+                  <Button size="sm" className="bg-rose-600 hover:bg-rose-700 text-white" onClick={onClearTestData}>
+                    Clear Test Data
+                  </Button>
+                )}
               </div>
               <div className="rounded border overflow-auto max-h-80">
                 <table className="min-w-full text-sm">

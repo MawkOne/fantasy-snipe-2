@@ -16,6 +16,7 @@ from src.auction.service import (
     pass_remaining_nominations,
     pause_draft,
     replace_bid,
+    reset_draft,
     resolve_rfa,
     resume_draft,
     reveal_nomination,
@@ -1261,6 +1262,24 @@ def build_uhhp_auction_router(
             ),
         )
         await _emit(slug, "nomination_voided", nomination_id=nomination_id)
+        return result
+
+    @router.post("/reset", response_model=dict)
+    async def reset_draft_endpoint(
+        slug: str,
+        draft_year: int = 2026,
+        current_user: Any = Depends(current_user_dependency),
+    ) -> Dict[str, Any]:
+        """Commissioner wipes all auction data and resets the draft to setup."""
+        result = _run_mutation(
+            slug, draft_year, current_user,
+            lambda session, draft, membership: reset_draft(
+                session,
+                draft_id=str(draft.id),
+                actor_role=membership["role"],
+            ),
+        )
+        await _emit(slug, "draft_reset")
         return result
 
     @router.post("/pass-remaining", response_model=dict)

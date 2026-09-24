@@ -594,6 +594,82 @@ def void_nomination(session: Any, draft_id: str, nomination_id: str, *, actor_ro
     )
     return {"ok": True, "status": "voided"}
 
+
+def reset_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, Any]:
+    """Wipe all test auction data and reset the draft to its initial setup state.
+
+    Commissioner only. Removes all nominations, bids, events, contracts, and
+    restores the draft status/teams to "setup" / fresh tie-break order.
+    """
+    if actor_role not in ("admin", "commissioner"):
+        raise AuctionServiceError("Only a commissioner can reset the draft", 403)
+    draft = _load_draft(session, draft_id)
+    if str(draft.status) == "setup":
+        raise AuctionServiceError("Draft is already in initial state", 409)
+
+    # The bid/event tables use append-only triggers; disable for this transaction.
+    session.execute(text("SET LOCAL session_replication_role = replica"))
+
+    # Order matters for FK constraints.
+    session.execute(
+        text("DELETE FROM uhhp_auction_tiebreak_bids WHERE draft_id = :draft_id"),
+        {"draft_id": str(draft_id)},
+    )
+    session.execute(
+        text(
+            """
+            DELETE FROM uhhp_auction_tie_audits
+             WHERE nomination_id IN (SELECT id FROM uhhp_auction_nominations WHERE draft_id = :draft_id)
+            """
+        ),
+        {"draft_id": str(draft_id)},
+    )
+    session.execute(
+        text(
+            """
+            DELETE FROM uhhp_auction_rfa_decisions
+             WHERE nomination_id IN (SELECT id FROM uhhp_auction_nominations WHERE draft_id = :draft_id)
+            """
+        ),
+        {"draft_id": str(draft_id)},
+    )
+    session.execute(
+        text("DELETE FROM uhhp_auction_events WHERE draft_id = :draft_id"),
+        {"draft_id": str(draft_id)},
+    )
+    session.execute(
+        text("DELETE FROM uhhp_auction_bid_events WHERE draft_id = :draft_id"),
+        {"draft_id": str(draft_id)},
+    )
+    # Remove auction-created synthetic player rows; FK cascade removes roster contracts.
+    session.execute(
+        text(
+            "DELETE FROM cbs_players WHERE cbs_player_id LIKE 'uhhp-auction-%%'"
+        ),
+    )
+    session.execute(
+        text("DELETE FROM uhhp_auction_nominations WHERE draft_id = :draft_id"),
+        {"draft_id": str(draft_id)},
+    )
+    # Reset each team's tie-break priority to its nomination order (1-to-1).
+    session.execute(
+        text(
+            """
+            UPDATE uhhp_auction_draft_teams
+               SET tie_break_priority = nomination_order,
+                   rfa_nominations_active = TRUE,
+                   rfa_nominations_passed_at = NULL,
+                   updated_at = NOW()
+             WHERE draft_id = :draft_id
+            """
+        ),
+        {"draft_id": str(draft_id)},
+    )
+    _append_event(
+        session, str(draft_id), int(draft.league_id),
+        "draft_reset", actor_type="user", actor_id=str(actor_role),
+    )
+    return {"ok": True, "status": "setup"}
 def resume_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, Any]:
     """Resume a paused draft. Commissioner only."""
     if actor_role not in ("admin", "commissioner"):
