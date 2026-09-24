@@ -16,7 +16,7 @@ import logging
 import uuid as uuid_mod
 from datetime import datetime, timezone
 from decimal import Decimal
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from sqlalchemy import text
 
@@ -596,21 +596,35 @@ def void_nomination(session: Any, draft_id: str, nomination_id: str, *, actor_ro
 
 
 def reset_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, Any]:
-    """Wipe all test auction data and reset the draft to its initial setup state.
+    """Remove test auctions and restore a clean pre-draft state.
 
-    Commissioner only. Removes all nominations, bids, events, contracts, and
-    restores the draft status/teams to "setup" / fresh tie-break order.
+    Commissioner only. Preserves imported rosters, player pool, projections,
+    league/team configuration, GM credentials, and rules. Removes nominations,
+    bids, audit records, awarded auction contracts, synthetic auction players,
+    and saved test layouts; then restores setup/superstar/pick-one state.
     """
     if actor_role not in ("admin", "commissioner"):
         raise AuctionServiceError("Only a commissioner can reset the draft", 403)
     draft = _load_draft(session, draft_id)
-    if str(draft.status) == "setup":
-        raise AuctionServiceError("Draft is already in initial state", 409)
 
-    # The bid/event tables use append-only triggers; disable for this transaction.
+    # Append-only tables reject DELETE. Disable triggers only for this
+    # transaction and explicitly delete every dependent row (do not rely on FK
+    # cascades while replication_role is replica).
     session.execute(text("SET LOCAL session_replication_role = replica"))
-
-    # Order matters for FK constraints.
+    session.execute(
+        text(
+            """
+            CREATE TEMP TABLE uhhp_reset_player_ids ON COMMIT DROP AS
+            SELECT DISTINCT roster.cbs_player_id
+              FROM cbs_rosters AS roster
+              JOIN uhhp_auction_nominations AS nomination
+                ON nomination.id = roster.uhhp_auction_nomination_id
+             WHERE nomination.draft_id = :draft_id
+               AND roster.cbs_player_id LIKE 'uhhp-auction-%%'
+            """
+        ),
+        {"draft_id": str(draft_id)},
+    )
     session.execute(
         text("DELETE FROM uhhp_auction_tiebreak_bids WHERE draft_id = :draft_id"),
         {"draft_id": str(draft_id)},
@@ -619,7 +633,9 @@ def reset_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, An
         text(
             """
             DELETE FROM uhhp_auction_tie_audits
-             WHERE nomination_id IN (SELECT id FROM uhhp_auction_nominations WHERE draft_id = :draft_id)
+             WHERE nomination_id IN (
+               SELECT id FROM uhhp_auction_nominations WHERE draft_id = :draft_id
+             )
             """
         ),
         {"draft_id": str(draft_id)},
@@ -628,7 +644,9 @@ def reset_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, An
         text(
             """
             DELETE FROM uhhp_auction_rfa_decisions
-             WHERE nomination_id IN (SELECT id FROM uhhp_auction_nominations WHERE draft_id = :draft_id)
+             WHERE nomination_id IN (
+               SELECT id FROM uhhp_auction_nominations WHERE draft_id = :draft_id
+             )
             """
         ),
         {"draft_id": str(draft_id)},
@@ -641,17 +659,59 @@ def reset_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, An
         text("DELETE FROM uhhp_auction_bid_events WHERE draft_id = :draft_id"),
         {"draft_id": str(draft_id)},
     )
-    # Remove auction-created synthetic player rows; FK cascade removes roster contracts.
     session.execute(
         text(
-            "DELETE FROM cbs_players WHERE cbs_player_id LIKE 'uhhp-auction-%%'"
+            """
+            DELETE FROM cbs_rosters
+             WHERE uhhp_auction_nomination_id IN (
+               SELECT id FROM uhhp_auction_nominations WHERE draft_id = :draft_id
+             )
+            """
         ),
+        {"draft_id": str(draft_id)},
+    )
+    session.execute(
+        text(
+            """
+            DELETE FROM cbs_players
+             WHERE cbs_player_id IN (SELECT cbs_player_id FROM uhhp_reset_player_ids)
+            """
+        )
     )
     session.execute(
         text("DELETE FROM uhhp_auction_nominations WHERE draft_id = :draft_id"),
         {"draft_id": str(draft_id)},
     )
-    # Reset each team's tie-break priority to its nomination order (1-to-1).
+    session.execute(
+        text("DELETE FROM uhhp_team_layouts WHERE draft_id = :draft_id"),
+        {"draft_id": str(draft_id)},
+    )
+    session.execute(
+        text(
+            """
+            UPDATE uhhp_auction_drafts
+               SET status = 'setup', stage = 'superstar', stage_round = 1,
+                   nomination_cursor = 0, started_at = NULL,
+                   completed_at = NULL, version = version + 1,
+                   updated_at = NOW()
+             WHERE id = :draft_id
+            """
+        ),
+        {"draft_id": str(draft_id)},
+    )
+    # Two-phase priority reset avoids transient collisions with the unique
+    # (draft_id, tie_break_priority) index.
+    session.execute(
+        text(
+            """
+            UPDATE uhhp_auction_draft_teams
+               SET tie_break_priority = tie_break_priority + 1000,
+                   updated_at = NOW()
+             WHERE draft_id = :draft_id
+            """
+        ),
+        {"draft_id": str(draft_id)},
+    )
     session.execute(
         text(
             """
@@ -666,10 +726,16 @@ def reset_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, An
         {"draft_id": str(draft_id)},
     )
     _append_event(
-        session, str(draft_id), int(draft.league_id),
-        "draft_reset", actor_type="user", actor_id=str(actor_role),
+        session,
+        str(draft_id),
+        int(draft.league_id),
+        "draft_reset",
+        actor_type="user",
+        actor_id=str(actor_role),
     )
     return {"ok": True, "status": "setup"}
+
+
 def resume_draft(session: Any, draft_id: str, *, actor_role: str) -> dict[str, Any]:
     """Resume a paused draft. Commissioner only."""
     if actor_role not in ("admin", "commissioner"):

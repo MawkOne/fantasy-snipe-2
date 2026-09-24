@@ -506,20 +506,32 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     } catch { toast.error('Reveal failed') }
   }
 
-  async function clearTestData() {
+  async function clearTestData(): Promise<boolean> {
     try {
       const apiBase = getApiBase()
-      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/reset`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() } })
-      if (!res.ok) {
-        const txt = await res.text().catch(() => '')
-        toast.error(`Clear failed ${txt ? `- ${txt}` : ''}`)
-        return
-      }
-      toast.success('Test data cleared')
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/reset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+      })
+      if (!res.ok) return false
+
+      setRevealResult(null)
+      setNominated(null)
+      setGmBids({})
+      setBidSubmitted({})
+      setUhhpPicks([])
+      setResultsHistory([])
+      setBenchSet(new Set<string>())
+      setEmptySlots(new Set<string>())
+      setTargets({})
+      lastAuctionFetchRef.current = 0
       await loadAuctionState()
       try { await loadResultsHistory() } catch {}
       try { await refreshCapSummary() } catch {}
-    } catch { toast.error('Clear failed') }
+      return true
+    } catch {
+      return false
+    }
   }
 
   async function voidNomination() {
@@ -3501,9 +3513,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             ? prev.map((t: any) => String(t?.team_id) === String(tid) ? { ...t, is_admin: isAdmin } : t)
             : prev))
         }}
-        onClearTestData={() => {
-          clearTestData()
-        }}
+        onClearTestData={clearTestData}
       />
     </div>
   )
@@ -3799,12 +3809,15 @@ function LeagueSettingsModal({
   scoringRules: any[]
   onRefreshCaps: () => Promise<void>
   onUpdateTeamAdmin?: (team_id: string, is_admin: boolean) => void
-  onClearTestData?: () => void
+  onClearTestData?: () => Promise<boolean>
 }) {
   const [tab, setTab] = useState<'teams' | 'scoring' | 'history' | 'caps'>('teams')
   const [history, setHistory] = useState<any[]>([])
   const [teamsLocal, setTeamsLocal] = useState<any[]>([])
   const [knownUsers, setKnownUsers] = useState<Array<{ email: string; subject: string; display_name?: string }>>([])
+  const [confirmClearOpen, setConfirmClearOpen] = useState(false)
+  const [clearInProgress, setClearInProgress] = useState(false)
+  const [clearResult, setClearResult] = useState<'success' | 'error' | null>(null)
   useEffect(() => {
     try {
       // Seed login with existing login or attached email (so Save persists it)
@@ -3899,7 +3912,7 @@ function LeagueSettingsModal({
   }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[98vw] sm:max-w-none w-[2200px] max-h-[85vh] overflow-auto" style={{ maxWidth: '98vw', width: '2200px' }}>
+      <DialogContent className="relative max-w-[98vw] sm:max-w-none w-[2200px] max-h-[85vh] overflow-auto" style={{ maxWidth: '98vw', width: '2200px' }}>
         <div className="flex items-center justify-between">
           <div className="text-lg font-semibold">League Settings</div>
         </div>
@@ -4140,9 +4153,22 @@ function LeagueSettingsModal({
                   } catch {}
                 }}>Refresh</Button>
                 {onClearTestData && (
-                  <Button size="sm" className="bg-rose-600 hover:bg-rose-700 text-white" onClick={onClearTestData}>
+                  <Button
+                    size="sm"
+                    className="bg-rose-600 hover:bg-rose-700 text-white"
+                    onClick={() => {
+                      setClearResult(null)
+                      setConfirmClearOpen(true)
+                    }}
+                  >
                     Clear Test Data
                   </Button>
+                )}
+                {clearResult === 'success' && (
+                  <span className="text-xs font-medium text-emerald-700">Test data cleared. Draft restored to setup.</span>
+                )}
+                {clearResult === 'error' && (
+                  <span className="text-xs font-medium text-red-700">Clear failed. No data was changed.</span>
                 )}
               </div>
               <div className="rounded border overflow-auto max-h-80">
@@ -4247,6 +4273,47 @@ function LeagueSettingsModal({
             </div>
           )}
         </div>
+
+        {confirmClearOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/55 p-4">
+            <div className="w-full max-w-md rounded-lg border bg-white p-5 shadow-2xl">
+              <h3 className="text-lg font-bold text-slate-900">Are you sure?</h3>
+              <p className="mt-2 text-sm text-slate-600">
+                This permanently removes all test nominations, bids, auction results, tie-break records,
+                and awarded test players. Imported rosters, projections, team settings, and rules are preserved.
+              </p>
+              <p className="mt-2 text-sm font-semibold text-red-700">
+                The draft will return to Setup, Superstar Round, nomination #1.
+              </p>
+              <div className="mt-5 flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  disabled={clearInProgress}
+                  onClick={() => setConfirmClearOpen(false)}
+                >
+                  No
+                </Button>
+                <Button
+                  className="bg-rose-600 text-white hover:bg-rose-700"
+                  disabled={clearInProgress}
+                  onClick={async () => {
+                    if (!onClearTestData) return
+                    setClearInProgress(true)
+                    const ok = await onClearTestData()
+                    setClearInProgress(false)
+                    setClearResult(ok ? 'success' : 'error')
+                    if (ok) {
+                      setHistory([])
+                      setConfirmClearOpen(false)
+                    }
+                  }}
+                >
+                  {clearInProgress ? 'Clearing…' : 'Yes, clear test data'}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   )
