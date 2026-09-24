@@ -1,7 +1,7 @@
 {
   "year": 2026,
   "period": 1,
-  "source": "CBS Sports fantasy hockey roster export supplied by user; updated with user-supplied transactions through 9/23/26 2:11 PM ET",
+  "source": "CBS Sports fantasy hockey roster export supplied by user; updated with user-supplied transactions through 9/23/26 9:51 PM ET",
   "field_notes": {
     "rank": "CBS Rankings value",
     "rostered_pct": "CBS Rostered percentage",
@@ -71,31 +71,6 @@
           "fantasy_points_3yr_avg": 159,
           "fantasy_points_proj": 192.7,
           "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2147336"
-        },
-        {
-          "cbs_player_id": 26597475,
-          "name": "Seth Jarvis",
-          "roster_position": "W",
-          "position": "W",
-          "nhl_team": "CAR",
-          "status": "active",
-          "first_opponent": "FLA",
-          "first_game": "9/29 2:00pm PT",
-          "schedule": {
-            "raw": "Home: 2 (FLA,WAS)<br>Away: 1 (@PHI)",
-            "home_games": 2,
-            "away_games": 1
-          },
-          "rank": 233,
-          "rostered_pct": 84.0,
-          "start_pct": 26.0,
-          "salary": 6,
-          "years": 1,
-          "rookie": false,
-          "fantasy_points_2025": 175.5,
-          "fantasy_points_3yr_avg": 176.5,
-          "fantasy_points_proj": 118.9,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26597475"
         },
         {
           "cbs_player_id": 2178852,
@@ -1978,36 +1953,6 @@
           "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2879779"
         },
         {
-          "cbs_player_id": 3149261,
-          "name": "Cole Caufield",
-          "roster_position": "F",
-          "position": "W",
-          "nhl_team": "MON",
-          "status": "active",
-          "first_opponent": "@TOR",
-          "first_game": "9/29 4:00pm PT",
-          "schedule": {
-            "raw": "Home: 0<br>Away: 2 (@TOR,@PIT)",
-            "home_games": 0,
-            "away_games": 2
-          },
-          "rank": 22,
-          "rostered_pct": 100.0,
-          "start_pct": 96.0,
-          "salary": 0,
-          "years": 0,
-          "rookie": false,
-          "fantasy_points_2025": 240.2,
-          "fantasy_points_3yr_avg": 195.8,
-          "fantasy_points_proj": 228.8,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3149261",
-          "nhl_player_id": 8481540,
-          "birthdate": "2001-01-02",
-          "age_at_cutoff_2026": 25,
-          "free_agent_status": "RFA",
-          "future_fa": "RFA"
-        },
-        {
           "cbs_player_id": 2879828,
           "name": "Morgan Geekie",
           "roster_position": "F",
@@ -2031,31 +1976,6 @@
           "fantasy_points_3yr_avg": 140.2,
           "fantasy_points_proj": 177.5,
           "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2879828"
-        },
-        {
-          "cbs_player_id": 26802477,
-          "name": "Kent Johnson",
-          "roster_position": "F",
-          "position": "C",
-          "nhl_team": "CLB",
-          "status": "active",
-          "first_opponent": "BUF",
-          "first_game": "10/01 4:00pm PT",
-          "schedule": {
-            "raw": "Home: 2 (BUF,UTA)<br>Away: 0",
-            "home_games": 2,
-            "away_games": 0
-          },
-          "rank": 379,
-          "rostered_pct": 13.0,
-          "start_pct": 3.0,
-          "salary": 2,
-          "years": 1,
-          "rookie": false,
-          "fantasy_points_2025": 54,
-          "fantasy_points_3yr_avg": 76.5,
-          "fantasy_points_proj": 85.2,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802477"
         },
         {
           "cbs_player_id": 2245506,
@@ -2311,6 +2231,31 @@
           "fantasy_points_3yr_avg": 8,
           "fantasy_points_proj": 99.8,
           "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29404950"
+        },
+        {
+          "cbs_player_id": 1000000832,
+          "name": "2027 Draft Pick LIP",
+          "roster_position": "C",
+          "position": "C",
+          "nhl_team": null,
+          "status": "injured",
+          "first_opponent": "",
+          "first_game": "Home: 0<br>Away: 0",
+          "schedule": {
+            "raw": "",
+            "home_games": null,
+            "away_games": null
+          },
+          "rank": 0.0,
+          "rostered_pct": 0.0,
+          "start_pct": 0,
+          "salary": 0,
+          "years": null,
+          "rookie": true,
+          "fantasy_points_2025": 0,
+          "fantasy_points_3yr_avg": 0,
+          "fantasy_points_proj": null,
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1000000832"
         }
       ],
       "goalies": [
@@ -4041,31 +3986,6 @@
           "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001112"
         },
         {
-          "cbs_player_id": 2940940,
-          "name": "Barrett Hayton",
-          "roster_position": "F",
-          "position": "C",
-          "nhl_team": "UTA",
-          "status": "reserve",
-          "first_opponent": "CHI",
-          "first_game": "10/01 6:00pm PT",
-          "schedule": {
-            "raw": "Home: 1 (CHI)<br>Away: 2 (@CLB,@NYR)",
-            "home_games": 1,
-            "away_games": 2
-          },
-          "rank": 305,
-          "rostered_pct": 4.0,
-          "start_pct": 1.0,
-          "salary": 2,
-          "years": 2,
-          "rookie": false,
-          "fantasy_points_2025": 60.8,
-          "fantasy_points_3yr_avg": 64,
-          "fantasy_points_proj": 100.7,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2940940"
-        },
-        {
           "cbs_player_id": 26603185,
           "name": "Dylan Holloway",
           "roster_position": "F",
@@ -4174,6 +4094,29 @@
           "age_at_cutoff_2026": 21,
           "free_agent_status": "RFA",
           "future_fa": "RFA"
+        },
+        {
+          "cbs_player_id": 1000000862,
+          "name": "z-CAPHIT Hayton",
+          "roster_position": "C",
+          "position": "C",
+          "nhl_team": "-",
+          "status": "active",
+          "first_opponent": null,
+          "first_game": null,
+          "schedule": null,
+          "rank": null,
+          "rostered_pct": null,
+          "start_pct": null,
+          "salary": 2,
+          "years": 2,
+          "rookie": false,
+          "fantasy_points_2025": 0,
+          "fantasy_points_3yr_avg": 0,
+          "fantasy_points_proj": 0,
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1000000862",
+          "placeholder_type": "cap_hit",
+          "note": "Added 9/23/26 after Barrett Hayton was dropped; salary/years carried forward from Hayton's prior roster contract."
         }
       ],
       "goalies": [
@@ -4631,31 +4574,6 @@
           "fantasy_points_3yr_avg": 25,
           "fantasy_points_proj": 171.2,
           "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001155"
-        },
-        {
-          "cbs_player_id": 2992029,
-          "name": "Yegor Sharangovich",
-          "roster_position": "F",
-          "position": "W",
-          "nhl_team": "CGY",
-          "status": "reserve",
-          "first_opponent": "SEA",
-          "first_game": "10/01 6:00pm PT",
-          "schedule": {
-            "raw": "Home: 1 (SEA)<br>Away: 2 (@VAN,@SEA)",
-            "home_games": 1,
-            "away_games": 2
-          },
-          "rank": 295,
-          "rostered_pct": 2.0,
-          "start_pct": 0.0,
-          "salary": 4,
-          "years": 1,
-          "rookie": false,
-          "fantasy_points_2025": 71,
-          "fantasy_points_3yr_avg": 102.5,
-          "fantasy_points_proj": 102.4,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2992029"
         },
         {
           "cbs_player_id": 26802454,
@@ -5162,31 +5080,6 @@
           "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2178632"
         },
         {
-          "cbs_player_id": 2076027,
-          "name": "Nathan MacKinnon",
-          "roster_position": "C",
-          "position": "C",
-          "nhl_team": "COL",
-          "status": "active",
-          "first_opponent": "LA",
-          "first_game": "9/30 7:00pm PT",
-          "schedule": {
-            "raw": "Home: 2 (LA,STL)<br>Away: 0",
-            "home_games": 2,
-            "away_games": 0
-          },
-          "rank": 2,
-          "rostered_pct": 100.0,
-          "start_pct": 97.0,
-          "salary": 23,
-          "years": 1,
-          "rookie": false,
-          "fantasy_points_2025": 324.2,
-          "fantasy_points_3yr_avg": 309.8,
-          "fantasy_points_proj": 334.2,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2076027"
-        },
-        {
           "cbs_player_id": 2184557,
           "name": "Mitchell Marner",
           "roster_position": "W",
@@ -5672,31 +5565,6 @@
           "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1000000830"
         },
         {
-          "cbs_player_id": 1000000832,
-          "name": "2027 Draft Pick LIP",
-          "roster_position": "C",
-          "position": "C",
-          "nhl_team": null,
-          "status": "injured",
-          "first_opponent": "",
-          "first_game": "Home: 0<br>Away: 0",
-          "schedule": {
-            "raw": "",
-            "home_games": null,
-            "away_games": null
-          },
-          "rank": 0.0,
-          "rostered_pct": 0.0,
-          "start_pct": 0,
-          "salary": 0,
-          "years": null,
-          "rookie": true,
-          "fantasy_points_2025": 0,
-          "fantasy_points_3yr_avg": 0,
-          "fantasy_points_proj": null,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1000000832"
-        },
-        {
           "cbs_player_id": 1000000837,
           "name": "2027 Draft Pick NON",
           "roster_position": "C",
@@ -5985,6 +5853,36 @@
           "fantasy_points_3yr_avg": 23.5,
           "fantasy_points_proj": 59.9,
           "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29404942"
+        },
+        {
+          "cbs_player_id": 3149261,
+          "name": "Cole Caufield",
+          "roster_position": "F",
+          "position": "W",
+          "nhl_team": "MON",
+          "status": "active",
+          "first_opponent": "@TOR",
+          "first_game": "9/29 4:00pm PT",
+          "schedule": {
+            "raw": "Home: 0<br>Away: 2 (@TOR,@PIT)",
+            "home_games": 0,
+            "away_games": 2
+          },
+          "rank": 22,
+          "rostered_pct": 100.0,
+          "start_pct": 96.0,
+          "salary": 0,
+          "years": 0,
+          "rookie": false,
+          "fantasy_points_2025": 240.2,
+          "fantasy_points_3yr_avg": 195.8,
+          "fantasy_points_proj": 228.8,
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3149261",
+          "nhl_player_id": 8481540,
+          "birthdate": "2001-01-02",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         }
       ],
       "goalies": [
@@ -6021,5 +5919,5 @@
       ]
     }
   ],
-  "transactions_applied_through": "2026-09-23 14:11 ET"
+  "transactions_applied_through": "2026-09-23 21:51 ET"
 }
