@@ -600,6 +600,7 @@ def build_uhhp_auction_router(
                     SELECT pool.id, pool.cbs_player_id, pool.nhl_player_id,
                            pool.player_name, pool.positions, pool.nhl_team_abbrev,
                            pool.birthdate, pool.age_at_cutoff, pool.eligibility,
+                           pool.free_agent_status,
                            pool.controlling_team_id, controller.team_name AS controlling_team_name,
                            controller.abbrev AS controlling_team_abbrev,
                            pool.projected_fantasy_points, pool.projection,
@@ -640,6 +641,7 @@ def build_uhhp_auction_router(
                     "birthdate": _as_iso(row.birthdate),
                     "age_on_july_1": row.age_at_cutoff,
                     "eligibility": str(row.eligibility),
+                    "free_agent_status": row.free_agent_status,
                     "controlling_team": (
                         {
                             "team_id": str(row.controlling_team_id),
@@ -904,11 +906,15 @@ def build_uhhp_auction_router(
                            COALESCE(pool.nhl_team_abbrev, player.nhl_team_abbr) AS nhl_team_abbr,
                            COALESCE(pool.birthdate, player.birthdate) AS birthdate,
                            pool.eligibility AS pool_eligibility,
+                           pool.free_agent_status,
+                           pool.age_at_cutoff,
                            pool.projected_fantasy_points,
                            pool.projection ->> 'vorp' AS vorp,
                            pool.projection ->> 'vorp_salary' AS vorp_salary,
                            CASE
                              WHEN roster.years IN (1, 2, 3) THEN NULL
+                             WHEN pool.free_agent_status IN ('UFA', 'RFA') THEN pool.free_agent_status
+                             WHEN roster.future_fa IN ('UFA', 'RFA') THEN roster.future_fa
                              WHEN roster.rookie THEN 'RFA'
                              WHEN pool.eligibility IN ('UFA', 'RFA') THEN pool.eligibility
                              WHEN COALESCE(pool.birthdate, player.birthdate) IS NOT NULL THEN
@@ -991,7 +997,9 @@ def build_uhhp_auction_router(
                     "future_fa": row.future_fa,
                     "slot_type": row.slot_type,
                     "status": row.status,
+                    "free_agent_status": row.free_agent_status or row.status,
                     "eligibility": row.pool_eligibility,
+                    "age_on_july_1": row.age_at_cutoff,
                     "projected_fantasy_points": (
                         float(row.projected_fantasy_points)
                         if row.projected_fantasy_points is not None

@@ -40,7 +40,12 @@
           "fantasy_points_2025": 218.8,
           "fantasy_points_3yr_avg": 191,
           "fantasy_points_proj": 211.6,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26799111"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26799111",
+          "nhl_player_id": 8482740,
+          "birthdate": "2003-05-14",
+          "age_at_cutoff_2026": 23,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2147336,
@@ -140,7 +145,12 @@
           "fantasy_points_2025": 125.2,
           "fantasy_points_3yr_avg": 99,
           "fantasy_points_proj": 121.6,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26799462"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26799462",
+          "nhl_player_id": 8482146,
+          "birthdate": "2002-02-21",
+          "age_at_cutoff_2026": 24,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2940934,
@@ -290,7 +300,12 @@
           "fantasy_points_2025": 194,
           "fantasy_points_3yr_avg": 174.8,
           "fantasy_points_proj": 147.5,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26603210"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26603210",
+          "nhl_player_id": 8482105,
+          "birthdate": "2002-07-08",
+          "age_at_cutoff_2026": 23,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 50001324,
@@ -315,7 +330,12 @@
           "fantasy_points_2025": 39.8,
           "fantasy_points_3yr_avg": 40,
           "fantasy_points_proj": 104.5,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001324"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/50001324",
+          "nhl_player_id": 8485702,
+          "birthdate": "2000-10-07",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29167197,
@@ -340,7 +360,12 @@
           "fantasy_points_2025": 70.5,
           "fantasy_points_3yr_avg": 70.8,
           "fantasy_points_proj": 81.2,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167197"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167197",
+          "nhl_player_id": 8484471,
+          "birthdate": "2005-06-27",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         }
       ],
       "goalies": [
@@ -367,7 +392,12 @@
           "fantasy_points_2025": 126,
           "fantasy_points_3yr_avg": 44.6,
           "fantasy_points_proj": 141.5,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802571"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802571",
+          "nhl_player_id": 8482661,
+          "birthdate": "2002-11-14",
+          "age_at_cutoff_2026": 23,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         }
       ]
     },
@@ -397,7 +427,12 @@
           "fantasy_points_2025": 242.2,
           "fantasy_points_3yr_avg": 215.5,
           "fantasy_points_proj": 241.6,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2845132"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2845132",
+          "nhl_player_id": 8480018,
+          "birthdate": "1999-08-10",
+          "age_at_cutoff_2026": 26,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2845693,
@@ -447,7 +482,12 @@
           "fantasy_points_2025": 229.5,
           "fantasy_points_3yr_avg": 193,
           "fantasy_points_proj": 252.8,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26650760"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26650760",
+          "nhl_player_id": 8481557,
+          "birthdate": "2001-04-05",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26603181,
@@ -647,7 +687,12 @@
           "fantasy_points_2025": 142.2,
           "fantasy_points_3yr_avg": 123.5,
           "fantasy_points_proj": 186,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167338"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167338",
+          "nhl_player_id": 8484227,
+          "birthdate": "2005-03-17",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29167182,
@@ -672,7 +717,12 @@
           "fantasy_points_2025": 67.8,
           "fantasy_points_3yr_avg": 68,
           "fantasy_points_proj": 102.9,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167182"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167182",
+          "nhl_player_id": 8484158,
+          "birthdate": "2005-05-20",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 28895794,
@@ -697,7 +747,12 @@
           "fantasy_points_2025": 64.2,
           "fantasy_points_3yr_avg": 64.5,
           "fantasy_points_proj": 78.1,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28895794"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28895794",
+          "nhl_player_id": 8483525,
+          "birthdate": "2003-12-22",
+          "age_at_cutoff_2026": 22,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26798991,
@@ -797,7 +852,12 @@
           "fantasy_points_2025": 73.8,
           "fantasy_points_3yr_avg": 97.5,
           "fantasy_points_proj": 102.1,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26549340"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26549340",
+          "nhl_player_id": 8482149,
+          "birthdate": "2002-01-01",
+          "age_at_cutoff_2026": 24,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 3130095,
@@ -1054,7 +1114,12 @@
           "fantasy_points_2025": 184,
           "fantasy_points_3yr_avg": 177,
           "fantasy_points_proj": 246.2,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3125731"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3125731",
+          "nhl_player_id": 8481559,
+          "birthdate": "2001-05-14",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26798907,
@@ -1079,7 +1144,12 @@
           "fantasy_points_2025": 100.2,
           "fantasy_points_3yr_avg": 108,
           "fantasy_points_proj": 123.4,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26798907"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26798907",
+          "nhl_player_id": 8482745,
+          "birthdate": "2003-01-30",
+          "age_at_cutoff_2026": 23,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2940993,
@@ -1104,7 +1174,12 @@
           "fantasy_points_2025": 130.8,
           "fantasy_points_3yr_avg": 113,
           "fantasy_points_proj": 94,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2940993"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2940993",
+          "nhl_player_id": 8480817,
+          "birthdate": "2000-01-21",
+          "age_at_cutoff_2026": 26,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29700070,
@@ -1129,7 +1204,12 @@
           "fantasy_points_2025": 127.5,
           "fantasy_points_3yr_avg": 127.5,
           "fantasy_points_proj": 76,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29700070"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29700070",
+          "nhl_player_id": 8482100,
+          "birthdate": "2001-10-02",
+          "age_at_cutoff_2026": 24,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 1000000790,
@@ -1229,7 +1309,12 @@
           "fantasy_points_2025": 53.5,
           "fantasy_points_3yr_avg": 27.5,
           "fantasy_points_proj": 69,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167189"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167189",
+          "nhl_player_id": 8484164,
+          "birthdate": "2005-06-15",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26561120,
@@ -1254,7 +1339,12 @@
           "fantasy_points_2025": 76.5,
           "fantasy_points_3yr_avg": 107,
           "fantasy_points_proj": 130.1,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26561120"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26561120",
+          "nhl_player_id": 8482079,
+          "birthdate": "2001-09-23",
+          "age_at_cutoff_2026": 24,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 50001111,
@@ -1329,7 +1419,12 @@
           "fantasy_points_2025": 54.2,
           "fantasy_points_3yr_avg": 54,
           "fantasy_points_proj": 97.6,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2858553"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2858553",
+          "nhl_player_id": 8480074,
+          "birthdate": "1999-09-13",
+          "age_at_cutoff_2026": 26,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 3030030,
@@ -1379,7 +1474,12 @@
           "fantasy_points_2025": 0.2,
           "fantasy_points_3yr_avg": 0.5,
           "fantasy_points_proj": 6.3,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167332"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167332",
+          "nhl_player_id": 8484386,
+          "birthdate": "2005-02-04",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 1000000861,
@@ -1609,7 +1709,12 @@
           "fantasy_points_2025": 116,
           "fantasy_points_3yr_avg": 137,
           "fantasy_points_proj": 102.2,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802471"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802471",
+          "nhl_player_id": 8482684,
+          "birthdate": "2003-09-09",
+          "age_at_cutoff_2026": 22,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2940939,
@@ -1684,7 +1789,12 @@
           "fantasy_points_2025": 111.5,
           "fantasy_points_3yr_avg": 59,
           "fantasy_points_proj": 129,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167257"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167257",
+          "nhl_player_id": 8484186,
+          "birthdate": "2005-01-21",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 3166626,
@@ -1890,7 +2000,12 @@
           "fantasy_points_2025": 240.2,
           "fantasy_points_3yr_avg": 195.8,
           "fantasy_points_proj": 228.8,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3149261"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3149261",
+          "nhl_player_id": 8481540,
+          "birthdate": "2001-01-02",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2879828,
@@ -2140,7 +2255,12 @@
           "fantasy_points_2025": 136.2,
           "fantasy_points_3yr_avg": 127.8,
           "fantasy_points_proj": 138.1,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26536162"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26536162",
+          "nhl_player_id": 8482109,
+          "birthdate": "2001-10-11",
+          "age_at_cutoff_2026": 24,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29404919,
@@ -2297,7 +2417,12 @@
           "fantasy_points_2025": 107.5,
           "fantasy_points_3yr_avg": 73.2,
           "fantasy_points_proj": 126.4,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26603168"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26603168",
+          "nhl_player_id": 8482475,
+          "birthdate": "2001-02-01",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26802489,
@@ -2347,7 +2472,12 @@
           "fantasy_points_2025": 128,
           "fantasy_points_3yr_avg": 90,
           "fantasy_points_proj": 127.1,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26560468"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26560468",
+          "nhl_player_id": 8482097,
+          "birthdate": "2001-09-19",
+          "age_at_cutoff_2026": 24,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26802451,
@@ -2372,7 +2502,12 @@
           "fantasy_points_2025": 128,
           "fantasy_points_3yr_avg": 64,
           "fantasy_points_proj": 134.1,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802451"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802451",
+          "nhl_player_id": 8482659,
+          "birthdate": "2002-02-01",
+          "age_at_cutoff_2026": 24,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 1771123,
@@ -2397,7 +2532,12 @@
           "fantasy_points_2025": 117.5,
           "fantasy_points_3yr_avg": 86,
           "fantasy_points_proj": 41.3,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1771123"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/1771123",
+          "nhl_player_id": 8475149,
+          "birthdate": "1990-10-06",
+          "age_at_cutoff_2026": 35,
+          "free_agent_status": "UFA",
+          "future_fa": "UFA"
         },
         {
           "cbs_player_id": 2245497,
@@ -2622,7 +2762,12 @@
           "fantasy_points_2025": 74.5,
           "fantasy_points_3yr_avg": 76.2,
           "fantasy_points_proj": 87.8,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26799414"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26799414",
+          "nhl_player_id": 8482705,
+          "birthdate": "2003-05-16",
+          "age_at_cutoff_2026": 23,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 28895747,
@@ -2647,7 +2792,12 @@
           "fantasy_points_2025": 67.5,
           "fantasy_points_3yr_avg": 65,
           "fantasy_points_proj": 92.1,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28895747"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28895747",
+          "nhl_player_id": 8483524,
+          "birthdate": "2004-01-05",
+          "age_at_cutoff_2026": 22,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2197860,
@@ -2697,7 +2847,12 @@
           "fantasy_points_2025": 56,
           "fantasy_points_3yr_avg": 28,
           "fantasy_points_proj": 43.2,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2987952"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2987952",
+          "nhl_player_id": 8481006,
+          "birthdate": "2000-03-01",
+          "age_at_cutoff_2026": 26,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         }
       ],
       "goalies": [
@@ -3011,7 +3166,12 @@
           "fantasy_points_2025": 97.5,
           "fantasy_points_3yr_avg": 34.2,
           "fantasy_points_proj": 91.4,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28895759"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28895759",
+          "nhl_player_id": 8483512,
+          "birthdate": "2004-01-01",
+          "age_at_cutoff_2026": 22,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2845321,
@@ -3111,7 +3271,12 @@
           "fantasy_points_2025": 144.2,
           "fantasy_points_3yr_avg": 123,
           "fantasy_points_proj": 149.3,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3130082"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3130082",
+          "nhl_player_id": 8481528,
+          "birthdate": "2001-02-09",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2147141,
@@ -3186,7 +3351,12 @@
           "fantasy_points_2025": 189.5,
           "fantasy_points_3yr_avg": 149.2,
           "fantasy_points_proj": 129.1,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29101182"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29101182",
+          "nhl_player_id": 8482122,
+          "birthdate": "2002-08-22",
+          "age_at_cutoff_2026": 23,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29407050,
@@ -3211,7 +3381,12 @@
           "fantasy_points_2025": 35.2,
           "fantasy_points_3yr_avg": 35.5,
           "fantasy_points_proj": 117.2,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29407050"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29407050",
+          "nhl_player_id": 8484873,
+          "birthdate": "2006-06-28",
+          "age_at_cutoff_2026": 20,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 3130090,
@@ -3286,7 +3461,12 @@
           "fantasy_points_2025": 72,
           "fantasy_points_3yr_avg": 72.2,
           "fantasy_points_proj": 64.7,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167327"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167327",
+          "nhl_player_id": 8484223,
+          "birthdate": "2005-03-11",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 28895789,
@@ -3311,7 +3491,12 @@
           "fantasy_points_2025": 48.2,
           "fantasy_points_3yr_avg": 33.5,
           "fantasy_points_proj": 53.6,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28895789"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28895789",
+          "nhl_player_id": 8483506,
+          "birthdate": "2004-06-25",
+          "age_at_cutoff_2026": 22,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26657143,
@@ -3336,7 +3521,12 @@
           "fantasy_points_2025": 87.2,
           "fantasy_points_3yr_avg": 83,
           "fantasy_points_proj": 68.3,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26657143"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26657143",
+          "nhl_player_id": 8481546,
+          "birthdate": "2001-01-05",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         }
       ],
       "goalies": [
@@ -3363,7 +3553,12 @@
           "fantasy_points_2025": 143.9,
           "fantasy_points_3yr_avg": 107.8,
           "fantasy_points_proj": 120.3,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2987948"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/2987948",
+          "nhl_player_id": 8480981,
+          "birthdate": "2000-07-30",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2831903,
@@ -3413,7 +3608,12 @@
           "fantasy_points_2025": 166.9,
           "fantasy_points_3yr_avg": 83.2,
           "fantasy_points_proj": 120.9,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26799126"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26799126",
+          "nhl_player_id": 8482982,
+          "birthdate": "2001-03-30",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         }
       ]
     },
@@ -3443,7 +3643,12 @@
           "fantasy_points_2025": 139.8,
           "fantasy_points_3yr_avg": 112.8,
           "fantasy_points_proj": 148,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167194"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167194",
+          "nhl_player_id": 8484166,
+          "birthdate": "2004-10-12",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2245519,
@@ -3493,7 +3698,12 @@
           "fantasy_points_2025": 177.5,
           "fantasy_points_3yr_avg": 155,
           "fantasy_points_proj": 172.2,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167155"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167155",
+          "nhl_player_id": 8484144,
+          "birthdate": "2005-07-17",
+          "age_at_cutoff_2026": 20,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 2147081,
@@ -3643,7 +3853,12 @@
           "fantasy_points_2025": 161.2,
           "fantasy_points_3yr_avg": 79,
           "fantasy_points_proj": 98.5,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3158655"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3158655",
+          "nhl_player_id": 8480807,
+          "birthdate": "2000-03-14",
+          "age_at_cutoff_2026": 26,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 1000000795,
@@ -3743,7 +3958,12 @@
           "fantasy_points_2025": 120,
           "fantasy_points_3yr_avg": 103.8,
           "fantasy_points_proj": 124.7,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28850890"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28850890",
+          "nhl_player_id": 8482665,
+          "birthdate": "2002-11-05",
+          "age_at_cutoff_2026": 23,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 50001127,
@@ -3868,7 +4088,12 @@
           "fantasy_points_2025": 127.2,
           "fantasy_points_3yr_avg": 102.8,
           "fantasy_points_proj": 151.5,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26603185"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26603185",
+          "nhl_player_id": 8482077,
+          "birthdate": "2001-09-23",
+          "age_at_cutoff_2026": 24,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29404909,
@@ -3943,7 +4168,12 @@
           "fantasy_points_2025": 3,
           "fantasy_points_3yr_avg": 3,
           "fantasy_points_proj": 0,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167320"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167320",
+          "nhl_player_id": 8484220,
+          "birthdate": "2004-10-25",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         }
       ],
       "goalies": [
@@ -4075,7 +4305,12 @@
           "fantasy_points_2025": 96.5,
           "fantasy_points_3yr_avg": 82.5,
           "fantasy_points_proj": 104.3,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3125671"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3125671",
+          "nhl_player_id": 8481554,
+          "birthdate": "2001-02-13",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29167273,
@@ -4150,7 +4385,12 @@
           "fantasy_points_2025": 152.8,
           "fantasy_points_3yr_avg": 133.2,
           "fantasy_points_proj": 72.7,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3130083"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/3130083",
+          "nhl_player_id": 8481524,
+          "birthdate": "2001-06-13",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 50001195,
@@ -4300,7 +4540,12 @@
           "fantasy_points_2025": 121.5,
           "fantasy_points_3yr_avg": 128.8,
           "fantasy_points_proj": 133.4,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26536165"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26536165",
+          "nhl_player_id": 8482124,
+          "birthdate": "2002-08-19",
+          "age_at_cutoff_2026": 23,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26802481,
@@ -4325,7 +4570,12 @@
           "fantasy_points_2025": 100,
           "fantasy_points_3yr_avg": 54,
           "fantasy_points_proj": 92.8,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802481"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802481",
+          "nhl_player_id": 8482775,
+          "birthdate": "2003-07-29",
+          "age_at_cutoff_2026": 22,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26799696,
@@ -4350,7 +4600,12 @@
           "fantasy_points_2025": 0,
           "fantasy_points_3yr_avg": 4.8,
           "fantasy_points_proj": 98.8,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26799696"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26799696",
+          "nhl_player_id": 8482763,
+          "birthdate": "2003-01-19",
+          "age_at_cutoff_2026": 23,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 50001155,
@@ -4502,7 +4757,12 @@
           "fantasy_points_2025": 51.1,
           "fantasy_points_3yr_avg": 51.1,
           "fantasy_points_proj": 45.3,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167203"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167203",
+          "nhl_player_id": 8484170,
+          "birthdate": "2004-11-24",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 3140747,
@@ -4807,7 +5067,12 @@
           "fantasy_points_2025": 0,
           "fantasy_points_3yr_avg": 0,
           "fantasy_points_proj": 0,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167370"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167370",
+          "nhl_player_id": 8484242,
+          "birthdate": "2005-01-03",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29237426,
@@ -4832,7 +5097,12 @@
           "fantasy_points_2025": 96.2,
           "fantasy_points_3yr_avg": 80,
           "fantasy_points_proj": 72.3,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29237426"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29237426",
+          "nhl_player_id": 8482511,
+          "birthdate": "2001-01-17",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         }
       ],
       "goalies": [
@@ -5014,7 +5284,12 @@
           "fantasy_points_2025": 132,
           "fantasy_points_3yr_avg": 73,
           "fantasy_points_proj": 150.9,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802432"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802432",
+          "nhl_player_id": 8482809,
+          "birthdate": "2003-08-03",
+          "age_at_cutoff_2026": 22,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29167168,
@@ -5064,7 +5339,12 @@
           "fantasy_points_2025": 47.5,
           "fantasy_points_3yr_avg": 47.5,
           "fantasy_points_proj": 136.2,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29406961"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29406961",
+          "nhl_player_id": 8484994,
+          "birthdate": "2005-11-30",
+          "age_at_cutoff_2026": 20,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 1685406,
@@ -5214,7 +5494,12 @@
           "fantasy_points_2025": 66,
           "fantasy_points_3yr_avg": 34,
           "fantasy_points_proj": 102.4,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167308"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167308",
+          "nhl_player_id": 8484210,
+          "birthdate": "2005-05-07",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 28895793,
@@ -5239,7 +5524,12 @@
           "fantasy_points_2025": 127,
           "fantasy_points_3yr_avg": 69,
           "fantasy_points_proj": 151,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28895793"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/28895793",
+          "nhl_player_id": 8483516,
+          "birthdate": "2004-06-01",
+          "age_at_cutoff_2026": 22,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29167167,
@@ -5264,7 +5554,12 @@
           "fantasy_points_2025": 0,
           "fantasy_points_3yr_avg": 2.8,
           "fantasy_points_proj": 43,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167167"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167167",
+          "nhl_player_id": 8484152,
+          "birthdate": "2004-12-21",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26549343,
@@ -5289,7 +5584,12 @@
           "fantasy_points_2025": 111.2,
           "fantasy_points_3yr_avg": 70.8,
           "fantasy_points_proj": 77,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26549343"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26549343",
+          "nhl_player_id": 8482142,
+          "birthdate": "2002-04-08",
+          "age_at_cutoff_2026": 24,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 26802507,
@@ -5314,7 +5614,12 @@
           "fantasy_points_2025": 46.5,
           "fantasy_points_3yr_avg": 21,
           "fantasy_points_proj": 45.7,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802507"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/26802507",
+          "nhl_player_id": 8482733,
+          "birthdate": "2003-04-15",
+          "age_at_cutoff_2026": 23,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 1000000796,
@@ -5539,7 +5844,12 @@
           "fantasy_points_2025": 107.8,
           "fantasy_points_3yr_avg": 78.8,
           "fantasy_points_proj": 118.3,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167156"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167156",
+          "nhl_player_id": 8484145,
+          "birthdate": "2005-05-12",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 29167184,
@@ -5564,7 +5874,12 @@
           "fantasy_points_2025": 14.2,
           "fantasy_points_3yr_avg": 14.5,
           "fantasy_points_proj": 16.1,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167184"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167184",
+          "nhl_player_id": 8484160,
+          "birthdate": "2004-09-27",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 28895750,
@@ -5614,7 +5929,12 @@
           "fantasy_points_2025": 40.2,
           "fantasy_points_3yr_avg": 25,
           "fantasy_points_proj": 78.2,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167281"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29167281",
+          "nhl_player_id": 8484197,
+          "birthdate": "2005-01-22",
+          "age_at_cutoff_2026": 21,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         },
         {
           "cbs_player_id": 50001174,
@@ -5691,7 +6011,12 @@
           "fantasy_points_2025": 129.8,
           "fantasy_points_3yr_avg": 89.2,
           "fantasy_points_proj": 139.9,
-          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29265357"
+          "cbs_url": "https://uhhp.hockey.cbssports.com/players/playerpage/29265357",
+          "nhl_player_id": 8482487,
+          "birthdate": "2001-05-27",
+          "age_at_cutoff_2026": 25,
+          "free_agent_status": "RFA",
+          "future_fa": "RFA"
         }
       ]
     }
