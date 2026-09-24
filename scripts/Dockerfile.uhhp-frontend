@@ -9,6 +9,7 @@ RUN npm ci
 
 FROM base AS builder
 ENV NODE_ENV=production
+ENV NODE_OPTIONS=--max-old-space-size=1536
 ENV NEXT_PUBLIC_API_BASE=https://uhhp-api.hendo-s-agency.vibnai.com
 ENV NEXT_PUBLIC_UHHP_API_KEY=admin-key-2026
 ENV NEXT_PUBLIC_USE_LOCAL_API=false

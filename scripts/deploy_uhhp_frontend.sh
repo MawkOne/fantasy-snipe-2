@@ -18,6 +18,9 @@ echo "==> Building ${IMAGE} from test-website/"
 docker build -t "${IMAGE}" -f "${REPO_DIR}/scripts/Dockerfile.uhhp-frontend" "${REPO_DIR}/test-website"
 
 echo "==> Recreating ${CONTAINER}"
+# Clean up the accidentally deployed legacy typo name too. Two containers
+# using the same Traefik router caused alternating HTML/asset builds.
+docker rm -f "uhp-auction-frontend" >/dev/null 2>&1 || true
 docker rm -f "${CONTAINER}" >/dev/null 2>&1 || true
 docker run -d --name "${CONTAINER}" \
   --network "${NETWORK}" \
