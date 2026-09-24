@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { Toaster } from "sonner"
 import AuthProviderWrapper from "@/components/auth-provider-wrapper"
 import HeaderGate from "@/components/header-gate"
 import "./globals.css"
@@ -27,7 +26,6 @@ export default function RootLayout({
           <HeaderGate />
           {children}
         </AuthProviderWrapper>
-        <Toaster richColors position="top-right" />
       </body>
     </html>
   )

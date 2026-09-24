@@ -2322,7 +2322,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     const youInTieBreak = tieBreakMode && tiedIds.includes(String(yourTeamId || ''))
                     const isSubmitted = !!bidSubmitted[yourTeamId] && !revealed
                     const disabled = !currentAuctionId || (tieBreakMode && !youInTieBreak)
-                    const label = tieBreakMode ? "Submit Tie-Break Bid" : (isSubmitted ? "Replace" : "Submit Bid")
+                    const label = tieBreakMode ? "Submit Tie-Break Bid" : (isSubmitted ? "Cancel" : "Submit Bid")
                     const baseCls = "ml-2"
                     const stateCls = isSubmitted
                           ? "bg-rose-600 hover:bg-rose-700 text-white"
@@ -2339,7 +2339,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                             return
                           }
                           if (isSubmitted) {
-                            submitBid(amt, true)
+                            cancelBid()
                             return
                           }
                           submitBid(amt)
