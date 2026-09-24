@@ -68,7 +68,29 @@ export default function Header() {
       )}
 
       <header className="h-14 border-b border-slate-800 bg-slate-900 text-white">
-        <div className="mx-auto flex h-full max-w-screen-2xl items-center justify-end gap-2 px-4">
+        <div className="mx-auto flex h-full max-w-screen-2xl items-center justify-between gap-3 px-4">
+          <nav className="flex min-w-0 items-center gap-1 overflow-x-auto whitespace-nowrap text-sm">
+            <Link href="/" className="rounded px-2.5 py-2 text-slate-200 hover:bg-slate-800 hover:text-white">
+              Home
+            </Link>
+            <Link href="/my-playbook" className="rounded px-2.5 py-2 text-slate-200 hover:bg-slate-800 hover:text-white">
+              My Playbook
+            </Link>
+            <Link href="/rankings" className="rounded px-2.5 py-2 text-slate-200 hover:bg-slate-800 hover:text-white">
+              Rankings
+            </Link>
+            <Link href="/research" className="rounded px-2.5 py-2 text-slate-200 hover:bg-slate-800 hover:text-white">
+              Research
+            </Link>
+            <Link href="/draft-room-uhhp" className="rounded px-2.5 py-2 text-slate-200 hover:bg-slate-800 hover:text-white">
+              Draft Room
+            </Link>
+            <Link href="/sync" className="rounded px-2.5 py-2 text-slate-200 hover:bg-slate-800 hover:text-white">
+              Sync League
+            </Link>
+          </nav>
+
+          <div className="flex shrink-0 items-center gap-2">
           {user ? (
             <>
               <Link href="/account">
@@ -92,6 +114,7 @@ export default function Header() {
               Login
             </Button>
           )}
+          </div>
         </div>
       </header>
 
