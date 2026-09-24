@@ -1136,7 +1136,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
         const pageSize = 500
         for (let guard = 0; guard < 8; guard++) {
           const res = await fetch(
-            `${apiBase}/api/cbs/league/uhhp/auction-2026/players?limit=${pageSize}&offset=${offset}`,
+            `${apiBase}/api/cbs/league/uhhp/auction-2026/players?eligibility=available&limit=${pageSize}&offset=${offset}`,
             { cache: "no-store", headers },
           )
           if (!res.ok) break
@@ -1212,6 +1212,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             player: name,
             pos,
             team,
+            rookie: Boolean(it?.rookie),
             fp: typeof fpVal === 'number' ? Number(fpVal) : undefined,
             vorp: Number.isFinite(vorpVal) ? vorpVal : undefined,
             vorp_salary: Number.isFinite(vorpSalVal) ? vorpSalVal : undefined,
@@ -3371,9 +3372,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                             )
                             return t?.team_name ? ` • ${t.team_name}` : ""
                           })()
-                          return <div className="text-[11px] text-slate-500">RFA{ownerTeam}</div>
+                          return <div className="text-[11px] text-slate-500">RFA{ownerTeam}{(p as any)?.rookie ? ' • Rookie' : ''}</div>
                         }
-                        return <div className="text-[11px] text-slate-500">{faStr}</div>
+                        return <div className="text-[11px] text-slate-500">{faStr}{(p as any)?.rookie ? ' • Rookie' : ''}</div>
                       }
                       return null
                     })()}

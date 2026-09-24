@@ -600,7 +600,7 @@ def build_uhhp_auction_router(
                     SELECT pool.id, pool.cbs_player_id, pool.nhl_player_id,
                            pool.player_name, pool.positions, pool.nhl_team_abbrev,
                            pool.birthdate, pool.age_at_cutoff, pool.eligibility,
-                           pool.free_agent_status,
+                           pool.free_agent_status, pool.is_rookie,
                            pool.controlling_team_id, controller.team_name AS controlling_team_name,
                            controller.abbrev AS controlling_team_abbrev,
                            pool.projected_fantasy_points, pool.projection,
@@ -642,6 +642,7 @@ def build_uhhp_auction_router(
                     "age_on_july_1": row.age_at_cutoff,
                     "eligibility": str(row.eligibility),
                     "free_agent_status": row.free_agent_status,
+                    "rookie": bool(row.is_rookie),
                     "controlling_team": (
                         {
                             "team_id": str(row.controlling_team_id),

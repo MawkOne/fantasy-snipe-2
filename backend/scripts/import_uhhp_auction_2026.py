@@ -823,23 +823,27 @@ def classify_roster_record(record: RosterRecord, rules: RulesConfig) -> Classifi
         return Classification("ASSET", "draft_pick", "draft-pick placeholder", None)
     if special_kind == "cap_hit":
         return Classification("CAP_HIT", "cap_hit", "z-CAPHIT cap obligation", None)
+    # An expired (0-year) contract is classified RFA/UFA by cutoff age even
+    # when the roster row carries the rookie flag. entry_type/is_rookie retain
+    # the rookie marker independently for display and roster rules.
+    if record.years == rules.expired_contract_years:
+        entry_type = "rookie" if record.rookie else "player"
+        if record.birthdate is None:
+            return Classification(
+                "REVIEW", entry_type, "expired contract is missing birthdate", None
+            )
+        age = age_on_date(record.birthdate, rules.cutoff_date)
+        if age < 0 or age > 150:
+            return Classification("REVIEW", entry_type, "birthdate produces invalid cutoff age", age)
+        if age <= rules.rfa_max_age:
+            return Classification("RFA", entry_type, "expired contract and cutoff age <= 26", age)
+        return Classification("UFA", entry_type, "expired contract and cutoff age >= 27", age)
     if record.rookie:
         age = age_on_date(record.birthdate, rules.cutoff_date) if record.birthdate else None
         return Classification("ROOKIE", "rookie", "roster rookie marker", age)
     if record.years is not None and record.years > rules.expired_contract_years:
         age = age_on_date(record.birthdate, rules.cutoff_date) if record.birthdate else None
         return Classification("PROTECTED", "player", "contract years greater than zero", age)
-    if record.years == rules.expired_contract_years:
-        if record.birthdate is None:
-            return Classification(
-                "REVIEW", "player", "expired contract is missing birthdate", None
-            )
-        age = age_on_date(record.birthdate, rules.cutoff_date)
-        if age < 0 or age > 150:
-            return Classification("REVIEW", "player", "birthdate produces invalid cutoff age", age)
-        if age <= rules.rfa_max_age:
-            return Classification("RFA", "player", "expired contract and cutoff age <= 26", age)
-        return Classification("UFA", "player", "expired contract and cutoff age >= 27", age)
     return Classification("REVIEW", "player", "contract years are missing", None)
 
 

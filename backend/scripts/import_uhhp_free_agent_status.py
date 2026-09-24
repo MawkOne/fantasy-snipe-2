@@ -101,10 +101,7 @@ def apply(path: Path) -> dict[str, Any]:
                            age_cutoff_date = %s,
                            age_at_cutoff = %s,
                            free_agent_status = %s,
-                           eligibility = CASE
-                             WHEN pool.entry_type = 'rookie' THEN pool.eligibility
-                             ELSE %s
-                           END,
+                           eligibility = %s,
                            controlling_team_id = CASE
                              WHEN %s = 'RFA' THEN (
                                SELECT roster.team_id
