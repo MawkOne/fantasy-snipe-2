@@ -191,6 +191,7 @@ def build_uhhp_auction_router(
     async def get_viewer_safe_state(
         slug: str,
         draft_year: int = 2026,
+        acting_team_id: str = "",
         current_user: Any = Depends(current_user_dependency),
     ) -> Dict[str, Any]:
         """Return auction state with sealed amounts redacted before reveal."""
@@ -217,6 +218,21 @@ def build_uhhp_auction_router(
                 raise HTTPException(status_code=404, detail="League not found")
 
             membership = _resolve_membership(session, int(league.id), current_user)
+            requested_team = str(acting_team_id or "").strip()
+            if requested_team and membership["is_commissioner"]:
+                valid_team = session.execute(
+                    text(
+                        """
+                        SELECT 1 FROM cbs_teams
+                         WHERE league_id = :league_id AND team_id = :team_id
+                         LIMIT 1
+                        """
+                    ),
+                    {"league_id": int(league.id), "team_id": requested_team},
+                ).fetchone()
+                if not valid_team:
+                    raise HTTPException(status_code=400, detail="Invalid acting team")
+                membership = {**membership, "team_id": requested_team}
             draft = session.execute(
                 text(
                     """

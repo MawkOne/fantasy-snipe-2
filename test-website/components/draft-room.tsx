@@ -586,7 +586,12 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       if (now - lastAuctionFetchRef.current < 750) return
       auctionStateLoadingRef.current = true
       const apiBase = getApiBase()
-      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/state`, { cache: "no-store", headers: { ...getAuthHeaders() } })
+      let actingTeam = selectedTeamId || ''
+      try {
+        if (!actingTeam) actingTeam = new URLSearchParams(window.location.search).get('team') || ''
+      } catch {}
+      const stateQuery = actingTeam ? `?acting_team_id=${encodeURIComponent(actingTeam)}` : ''
+      const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/state${stateQuery}`, { cache: "no-store", headers: { ...getAuthHeaders() } })
       if (!res.ok) return
       const json = await res.json()
       setAuctionState(json)
@@ -761,7 +766,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
       setWsConnected(false)
     }
     return () => { try { wsRef.current?.close() } catch {} ; wsRef.current = null }
-  }, [])
+  }, [selectedTeamId])
 
   // Derive/refresh the nominated banner from server state
   useEffect(() => {
@@ -809,7 +814,15 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
     if (wsConnected) return
     const id = setInterval(loadAuctionState, 5000)
     return () => clearInterval(id)
-  }, [wsConnected])
+  }, [wsConnected, selectedTeamId])
+
+  // Re-resolve viewer-safe actions and own sealed bid whenever an admin/GM
+  // changes the controlling team or opens a team-scoped URL.
+  useEffect(() => {
+    if (!selectedTeamId) return
+    lastAuctionFetchRef.current = 0
+    loadAuctionState()
+  }, [selectedTeamId])
 
   // Admin-triggered actions dispatched from the top nav
   useEffect(() => {
@@ -2289,7 +2302,11 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                   {(() => {
                     const tieBreakMode = (auctionState?.active_nomination?.status || '') === 'tie_break_bidding'
                     const rfaPending = (auctionState?.active_nomination?.status || '') === 'rfa_match_pending'
-                    const canAct = rfaPending && auctionState?.actions?.can_decide_rfa === true
+                    const controllingTeamId = String(auctionState?.active_nomination?.player?.controlling_team_id || '')
+                    const canAct = rfaPending && (
+                      auctionState?.actions?.can_decide_rfa === true
+                      || (!!controllingTeamId && controllingTeamId === String(yourTeamId || ''))
+                    )
                     return (
                       <div className="flex items-center gap-2 mr-2">
                         <Button
