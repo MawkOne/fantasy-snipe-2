@@ -2322,7 +2322,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     const youInTieBreak = tieBreakMode && tiedIds.includes(String(yourTeamId || ''))
                     const isSubmitted = !!bidSubmitted[yourTeamId] && !revealed
                     const disabled = !currentAuctionId || (tieBreakMode && !youInTieBreak)
-                    const label = tieBreakMode ? "Submit Tie-Break Bid" : (isSubmitted ? "Cancel" : "Submit Bid")
+                    const label = tieBreakMode ? "Submit Tie-Break Bid" : (isSubmitted ? "Replace" : "Submit Bid")
                     const baseCls = "ml-2"
                     const stateCls = isSubmitted
                           ? "bg-rose-600 hover:bg-rose-700 text-white"
@@ -2339,7 +2339,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                             return
                           }
                           if (isSubmitted) {
-                            cancelBid()
+                            submitBid(amt, true)
                             return
                           }
                           submitBid(amt)
@@ -4113,7 +4113,7 @@ function LeagueSettingsModal({
                 <Button size="sm" variant="outline" onClick={async () => {
                   try {
                     const apiBase = (process.env.NEXT_PUBLIC_API_BASE && (process.env.NEXT_PUBLIC_API_BASE as string).startsWith('http')) ? (process.env.NEXT_PUBLIC_API_BASE as string) : 'http://localhost:8000'
-                    const res = await fetch(`${apiBase}/api/public/cbs/league/uhhp/auction/history?limit=50`)
+                    const res = await fetch(`${apiBase}/api/cbs/league/uhhp/auction-2026/history?limit=50`, { cache: 'no-store', headers: { 'x-api-key': (typeof window !== 'undefined' ? (localStorage.getItem('uhhp_api_key') || process.env.NEXT_PUBLIC_UHHP_API_KEY || '') : '') } })
                     const data = await res.json()
                     setHistory(Array.isArray(data?.results) ? data.results : [])
                   } catch {}
