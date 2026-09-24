@@ -1475,7 +1475,8 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
           years: r?.years,
           team: String(r?.team_id),
           nhl_player_id: (typeof r?.nhl_player_id === 'number' ? r.nhl_player_id : undefined),
-          status: r?.status,
+          free_agent_status: (r as any)?.free_agent_status,
+          status: (r as any)?.free_agent_status || r?.status,
           team_abbr: (r as any)?.nhl_team_abbr || '',
           birthdate: (r as any)?.birthdate || null,
           fp: (typeof (r as any)?.projected_fantasy_points === 'number' ? (r as any).projected_fantasy_points : undefined),
@@ -1593,8 +1594,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
             future_fa: (r as any)?.future_fa,
             team: String(r?.team_id),
             nhl_player_id: (typeof r?.nhl_player_id === 'number' ? r.nhl_player_id : undefined),
-            status: (r as any)?.status,
-            type: (r as any)?.status,
+            free_agent_status: (r as any)?.free_agent_status,
+            status: (r as any)?.free_agent_status || (r as any)?.status,
+            type: (r as any)?.free_agent_status || (r as any)?.status,
             team_abbr: (r as any)?.nhl_team_abbr || '',
             birthdate: (r as any)?.birthdate || null,
             fp: (typeof (r as any)?.projected_fantasy_points === 'number' ? (r as any).projected_fantasy_points : undefined),
@@ -1649,8 +1651,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     future_fa: p?.future_fa,
                     team: tid,
                     nhl_player_id: (typeof p?.nhl_player_id === 'number' ? p.nhl_player_id : undefined),
-                    status: p?.status,
-                    type: p?.status,
+                    free_agent_status: p?.free_agent_status,
+                    status: p?.free_agent_status || p?.status,
+                    type: p?.free_agent_status || p?.status,
                     team_abbr: p?.nhl_team_abbr || '',
                     birthdate: p?.birthdate || null,
                     fp: (typeof p?.projected_fantasy_points === 'number' ? p.projected_fantasy_points : undefined),
@@ -2546,8 +2549,9 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     future_fa: p?.future_fa,
                     team: myTeamName,
                     nhl_player_id: p?.nhl_player_id,
-                    status: p?.status || p?.type,
-                    type: p?.status || p?.type,
+                    free_agent_status: p?.free_agent_status,
+                    status: p?.free_agent_status || p?.status || p?.type,
+                    type: p?.free_agent_status || p?.status || p?.type,
                     team_abbr: p?.team_abbr || p?.nhl_team_abbr || '',
                     birthdate: p?.birthdate || null,
                     fp: (typeof p?.fp === 'number' ? p.fp : (typeof p?.projected_fantasy_points === 'number' ? p.projected_fantasy_points : undefined)),
@@ -2600,7 +2604,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                     const pid = Number((rec as any)?.nhl_player_id)
                     const mapped = Number.isFinite(pid) ? statusById[pid] : undefined
                     if (mapped === 'UFA' || mapped === 'RFA') return mapped
-                    const raw = ((rec as any).status || (rec as any).type || (rec as any).fa_type || (rec as any).future_fa || "").toString().toUpperCase()
+                    const raw = ((rec as any).free_agent_status || (rec as any).status || (rec as any).type || (rec as any).fa_type || (rec as any).future_fa || "").toString().toUpperCase()
                     return raw === 'UFA' || raw === 'RFA' ? raw : '—'
                   }
                   const adjustedPrice = (rec: any) => {
@@ -2901,13 +2905,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                     }
                                   }
                                   const fpStr = fpVal != null ? fpVal.toFixed(1) : "—"
-                                  const statusStr = (() => {
-                                    const raw = ((pl as any).status || "").toString().toUpperCase()
-                                    if (raw === 'UFA' || raw === 'RFA') return raw
-                                    const pid = Number((pl as any)?.nhl_player_id)
-                                    const mapped = Number.isFinite(pid) ? statusById[pid] : undefined
-                                    return (mapped === 'UFA' || mapped === 'RFA') ? mapped : '—'
-                                  })()
+                                  const statusStr = getStatusFor(pl)
                                   const posDisp = resolveRosterPos(pl)
                                   const abbr = (pl as any)?.team_abbr ? String((pl as any).team_abbr).toUpperCase() : ''
                                   const ageStr = (() => {
@@ -3010,13 +3008,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                                 }
                               }
                               const fpStr = fpVal != null ? fpVal.toFixed(1) : "—"
-                              const statusStr = (() => {
-                                const raw = ((r as any).status || "").toString().toUpperCase()
-                                if (raw === 'UFA' || raw === 'RFA') return raw
-                                const pid = Number((r as any)?.nhl_player_id)
-                                const mapped = Number.isFinite(pid) ? statusById[pid] : undefined
-                                return (mapped === 'UFA' || mapped === 'RFA') ? mapped : '—'
-                              })()
+                              const statusStr = getStatusFor(r)
                               const posDisp = resolveRosterPos(r)
                               const abbr = (r as any)?.team_abbr ? String((r as any).team_abbr).toUpperCase() : ''
                               const ageStr = (() => {
@@ -3128,7 +3120,7 @@ export default function DraftRoom({ autoLoadUhhp = false, poolId }: { autoLoadUh
                       for (const r of players) {
                         const pid = Number((r as any)?.nhl_player_id)
                         const mapped = Number.isFinite(pid) ? statusById[pid] : undefined
-                        const raw = ((r as any)?.status || (r as any)?.type || '').toString().toUpperCase()
+                        const raw = ((r as any)?.free_agent_status || (r as any)?.status || (r as any)?.type || '').toString().toUpperCase()
                         const status = (mapped === 'UFA' || mapped === 'RFA') ? mapped : (raw === 'UFA' || raw === 'RFA' ? raw : undefined)
                         const yrs = Number((r as any)?.years)
                         if (status === 'RFA' && (yrs === 0 || Number.isNaN(yrs))) {
