@@ -3,10 +3,14 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { X } from "lucide-react"
+import { LogOut, User, X } from "lucide-react"
+import { useAuth } from "@/lib/auth-context"
+import LoginModal from "@/components/login-modal"
 
 export default function Header() {
   const [showPrivacyBanner, setShowPrivacyBanner] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const { user, logout } = useAuth()
 
   useEffect(() => {
     // Check if user has already accepted terms
@@ -62,6 +66,36 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      <header className="h-14 border-b border-slate-800 bg-slate-900 text-white">
+        <div className="mx-auto flex h-full max-w-screen-2xl items-center justify-end gap-2 px-4">
+          {user ? (
+            <>
+              <Link href="/account">
+                <Button variant="ghost" size="sm" className="text-slate-200 hover:bg-slate-800 hover:text-white">
+                  <User className="mr-2 h-4 w-4" />
+                  Account
+                </Button>
+              </Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-slate-200 hover:bg-slate-800 hover:text-white"
+                onClick={() => logout()}
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Button size="sm" className="bg-orange-500 hover:bg-orange-600" onClick={() => setShowLoginModal(true)}>
+              Login
+            </Button>
+          )}
+        </div>
+      </header>
+
+      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
     </>
   )
 }
